@@ -17,7 +17,7 @@ struct ConstBufferDataWorldTransform {
 class WorldTransform {
 public:
 	// ローカルスケール
-	Vector3 scale_ = {1, 1, 1};
+	Vector3 scale_ = {100, 100, 100};
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = {0, 0, 0};
 	// ローカル座標
