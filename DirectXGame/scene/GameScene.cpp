@@ -25,8 +25,9 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	//2Dモデル
-	textureHandle_ = TextureManager::Load("kamata.ico");//テクスチャの読み込み
-	sprite_=Sprite::Create(textureHandle_,{100, 50});//スプライトの生成
+	textureHandle2D_ = TextureManager::Load("kamata.ico");//テクスチャの読み込み
+	textureHandle3D_ = TextureManager::Load("sample.png");//テクスチャの読み込み
+	sprite_=Sprite::Create(textureHandle2D_,{100, 50});//スプライトの生成
 
 	//3Dモデル
 	model_ = Model::Create();
@@ -63,15 +64,23 @@ void GameScene::Update() {
 		}
 	}
 
+#ifdef _DEBUG
+
 	//でバックウィンドウの表示
 	ImGui::Begin("Debug1");
-	ImGui::InputFloat3("inputFloat3", inputFloat3);//float3入力ボックス
-	ImGui::SliderFloat3("SliderFloat3", inputFloat3, 0.0f, 1.0f);//float3スライダー
 	ImGui::Text("Kamata Tarou %d.%d.%d", 2050, 12, 31);//デバックテキストに表示
 	ImGui::End();
+
+	ImGui::Begin("Debug2");
+	ImGui::InputFloat3("inputFloat3", inputFloat3);               // float3入力ボックス
+	ImGui::SliderFloat3("SliderFloat3", inputFloat3, 0.0f, 1.0f); // float3スライダー
+	ImGui::End();
+
 	ImGui::ShowDemoWindow();
 
 	debugCamera_->Update();
+
+#endif // DEBUG
 
 }
 
@@ -105,7 +114,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
+	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle3D_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

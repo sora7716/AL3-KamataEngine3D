@@ -56,7 +56,8 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	uint32_t textureHandle_ = 0;//テクスチャハンドル
+	uint32_t textureHandle2D_ = 0;//テクスチャハンドル
+	uint32_t textureHandle3D_ = 0;//テクスチャハンドル
 
 	uint32_t soundDateHandle_ = 0;//サウンドハンドル
 	uint32_t voiceHandle_ = 0;//音声再生ハンドル
