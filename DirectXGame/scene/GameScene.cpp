@@ -34,8 +34,8 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();// ビュープロジェクションの初期化
 
 	//サウンド
-	soundDateHandle_ = audio_->LoadWave("mokugyo.wav");//サウンドデータの読み込み
-	audio_->PlayWave(soundDateHandle_);//音声再生
+	soundDateHandle_ = audio_->LoadWave("fanfare.wav");//サウンドデータの読み込み
+	//audio_->PlayWave(soundDateHandle_);//音声再生
 	voiceHandle_ = audio_->PlayWave(soundDateHandle_, true);//音声再生
 
 	//ライン描画
@@ -56,7 +56,11 @@ void GameScene::Update() {
 
 	//サウンドの停止
 	if (input_->TriggerKey(DIK_SPACE)) {
+		if (audio_->IsPlaying(voiceHandle_)) {
 		audio_->StopWave(voiceHandle_);//音声の停止
+		} else {
+			voiceHandle_ = audio_->PlayWave(soundDateHandle_,true);
+		}
 	}
 
 	//でバックウィンドウの表示
