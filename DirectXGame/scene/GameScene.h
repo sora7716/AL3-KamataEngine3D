@@ -61,8 +61,6 @@ private: // メンバ変数
 	uint32_t soundDateHandle_ = 0;//サウンドハンドル
 	uint32_t voiceHandle_ = 0;//音声再生ハンドル
 
-	Vector2 speed_ = {};
-
 	float inputFloat3[3] = {};//ImGuiで値を入力する変数
 
 	Vector2 screenSize = {32, 32};

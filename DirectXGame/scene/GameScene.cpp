@@ -50,16 +50,8 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	//2Dのオブジェクトの移動
 	Vector2 position = sprite_->GetPosition();
-	if (input_->PushKey(DIK_W)) {
-		speed_.y = -5.0f;
-	}
-	else if (input_->PushKey(DIK_S)) {
-		speed_.y = 5.0f;
-	} else {
-		speed_.y = 0;
-	}
 	position.x += 2.0f;
-	position.y += speed_.y;
+	position.y += 1.0f;
 	sprite_->SetPosition(position);//位置を書き換え
 
 	//サウンドの停止
