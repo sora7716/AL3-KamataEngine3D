@@ -64,7 +64,7 @@ private: // メンバ変数
 
 	float inputFloat3[3] = {};//ImGuiで値を入力する変数
 
-	Vector2 screenSize = {32, 32};
+	Vector2 screenSize = {1280, 720};
 
 
 	/// <summary>
