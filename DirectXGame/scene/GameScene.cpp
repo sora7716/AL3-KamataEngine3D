@@ -6,6 +6,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
 	delete player_; 
+	delete model_;
 }
 
 void GameScene::Initialize() {
@@ -14,11 +15,17 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	player_ = new Player;
+	textureHandle_ = TextureManager::Load("uvChecker.png");//2Dモデルのロード
+	model_ = Model::Create();// モデルクラス
+	viewProjection_.Initialize();
+	// 包含↓
+	player_ = new Player; // プレイヤークラス
+	// 包含↑
+	player_->Initialize(model_,textureHandle_,&viewProjection_);
 }
 
 void GameScene::Update() { 
-	player_->Initialize();
+	player_->Update(); 
 }
 
 void GameScene::Draw() {
@@ -48,6 +55,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw();
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

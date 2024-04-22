@@ -8,7 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-#include "Object/Player.h"
+#include "object/character/player/Player.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -49,4 +49,7 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	Player* player_ = nullptr;
+	Model* model_ = nullptr;
+	uint32_t textureHandle_ = 0;
+	ViewProjection viewProjection_;
 };
