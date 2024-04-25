@@ -35,7 +35,7 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();// ビュープロジェクションの初期化
 
 	//サウンド
-	soundDateHandle_ = audio_->LoadWave("fanfare.wav");//サウンドデータの読み込み
+	soundDateHandle_ = audio_->LoadWave("mokugyo.wav");//サウンドデータの読み込み
 	//audio_->PlayWave(soundDateHandle_);//音声再生
 	voiceHandle_ = audio_->PlayWave(soundDateHandle_, true);//音声再生
 
