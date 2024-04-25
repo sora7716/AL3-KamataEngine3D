@@ -4,13 +4,24 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { 
+	delete modelBlock_;//Blockの3Dモデルの削除
+
+	//拡張for分
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		delete worldTransformBlock;	//配列の中身を削除
+	}
+	worldTransformBlocks_.clear();//配列の箱自体を削除
+
+}
 
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	modelBlock_ = Model::Create();//Blockの3Dモデルの生成
 }
 
 void GameScene::Update() {}
