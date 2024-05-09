@@ -50,5 +50,7 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	Model* modelBlock_ = nullptr;//Blockの3Dモデル
-	std::vector<WorldTransform*> worldTransformBlocks_;
+	uint32_t blockTextureHandle_= 0;//ブロックのテクスチャ
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;//ブロックの可変個配列
+	ViewProjection viewprojection_;//ビュープロジェクション
 };

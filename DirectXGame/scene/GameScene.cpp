@@ -1,15 +1,18 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "func/Math.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
 	delete modelBlock_;//Blockの3Dモデルの削除
 
-	//拡張for分
-	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
-		delete worldTransformBlock;	//配列の中身を削除
+	//拡張for文
+	for (std::vector<WorldTransform*> &worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			delete worldTransformBlock;//配列の中身を削除
+		}
 	}
 	worldTransformBlocks_.clear();//配列の箱自体を削除
 
@@ -22,9 +25,38 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	modelBlock_ = Model::Create();//Blockの3Dモデルの生成
+	blockTextureHandle_ = TextureManager::Load("kamata.ico");
+	viewprojection_.Initialize();
+
+	//要素数
+	const uint32_t kNumBlockVirtical   = 10;
+	const uint32_t kNumBlockHorizontal = 20;
+	//ブロック1個分の横幅
+	const float kBlockHeight = 2.0f;
+	const float kBlockWidth  = 2.0f;
+	//要素数の変更
+	worldTransformBlocks_.resize(kNumBlockVirtical);//縦の行(配列)
+	//キューブの生成
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);//上で決めた行を横に伸ばす(配列)
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			//初期化↓
+			worldTransformBlocks_[i][j] = new WorldTransform();
+			worldTransformBlocks_[i][j]->Initialize();
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth  * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+			//初期化↑
+		}
+	}
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	for (std::vector<WorldTransform*>&worldTransformBlockLine:worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+		worldTransformBlock->UpdateMatrix();
+		}
+	}
+}
 
 void GameScene::Draw() {
 
@@ -52,6 +84,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	for (std::vector<WorldTransform*>& worldTransformBlockLine:worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			modelBlock_->Draw(*worldTransformBlock, viewprojection_, blockTextureHandle_);
+		}
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
