@@ -64,10 +64,12 @@ void GameScene::Update() {
 	}
 	debugCamera_->Update();
 	#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_SPACE)&&!isDebugCameraActive_) {
-		isDebugCameraActive_ = true;
-	} else if (input_->TriggerKey(DIK_SPACE)&&isDebugCameraActive_) {
-		isDebugCameraActive_ = false;
+	if (input_->TriggerKey(DIK_BACK)) {
+		if (isDebugCameraActive_) {
+			isDebugCameraActive_ = false;
+		} else {
+			isDebugCameraActive_ = true;
+		}
 	}
 	#endif
 	//カメラの処理
@@ -111,7 +113,7 @@ void GameScene::Draw() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine:worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock) { continue; }
-			modelBlock_->Draw(*worldTransformBlock, viewprojection_/*, blockTextureHandle_*/);//ブロックの描画
+			modelBlock_->Draw(*worldTransformBlock, viewprojection_, blockTextureHandle_);//ブロックの描画
 		}
 	}
 
