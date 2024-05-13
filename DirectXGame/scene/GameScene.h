@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 
 #include <vector>
+#include "DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -53,4 +54,7 @@ private: // メンバ変数
 	uint32_t blockTextureHandle_= 0;//ブロックのテクスチャ
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;//ブロックの可変個配列
 	ViewProjection viewprojection_;//ビュープロジェクション
+
+	bool isDebugCameraActive_ = false;//デバックカメラを切り替えるフラグ
+	DebugCamera* debugCamera_ = nullptr;//デバックカメラ
 };
