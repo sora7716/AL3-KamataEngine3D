@@ -5,7 +5,7 @@
 #include <d3d12.h>
 #include <type_traits>
 #include <wrl.h>
-#include "func/Math.h"
+#include "calculate/Math.h"
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {

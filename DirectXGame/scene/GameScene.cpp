@@ -1,7 +1,8 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
-#include "func/Math.h"
+
+#include "calculate/Math.h"
 
 GameScene::GameScene() {}
 
@@ -9,15 +10,18 @@ GameScene::~GameScene() {
 	delete modelBlock_;//Blockの3Dモデルの削除
 
 	//拡張for文
-	for (std::vector<WorldTransform*> &worldTransformBlockLine : worldTransformBlocks_) {//&を付けることで値を参照して使えるようにしている(&を付けないと値がコピーされたものしか取り出せなくなるのでオリジナルをdeleteできない)
+	for (std::vector<WorldTransform*> &worldTransformBlockLine : blocks_->GetBlocks()) {//&を付けることで値を参照して使えるようにしている(&を付けないと値がコピーされたものしか取り出せなくなるのでオリジナルをdeleteできない)
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;//配列の中身を削除
 		}
 	}
-	worldTransformBlocks_.clear();//配列の箱自体を削除
+	blocks_->GetBlocks().clear(); // 配列の箱自体を削除
 
-	delete debugCamera_;
+	delete debugCamera_;//デバックカメラの削除
 
+	delete skydome;//スカイドームの削除
+
+	delete player_;
 }
 
 void GameScene::Initialize() {
@@ -26,42 +30,27 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	modelBlock_ = Model::Create();//Blockの3Dモデルの生成
-	blockTextureHandle_ = TextureManager::Load("kamata.ico");
-	viewprojection_.Initialize();
+	modelBlock_ = Model::Create();//ブロックのモデル生成
+	blockTextureHandle_ = TextureManager::Load("kamata.ico");//ブロックのテクスチャ
+	viewProjection_.Initialize();//ブロックの初期化
 
-	//要素数
-	const uint32_t kNumBlockVirtical   = 10;
-	const uint32_t kNumBlockHorizontal = 20;
-	//ブロック1個分の横幅
-	const float kBlockHeight = 2.0f;
-	const float kBlockWidth  = 2.0f;
-	//要素数の変更
-	worldTransformBlocks_.resize(kNumBlockVirtical);//縦の行(配列)
-	//キューブの生成
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-		worldTransformBlocks_[i].resize(kNumBlockHorizontal);//上で決めた行を横に伸ばす(配列)
-		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
-			//初期化↓
-			if (i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0) {
-				worldTransformBlocks_[i][j] = new WorldTransform();//ブロックの生成
-				worldTransformBlocks_[i][j]->Initialize();//ブロックの初期化
-				worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;//横にj分ずらす
-				worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;//縦にi分ずらす
-			}
-			//初期化↑
-		}
-	}
+	blocks_ = new Blocks;//ブロックの生成
+	blocks_->Initialize(modelBlock_,blockTextureHandle_,&viewProjection_);//ブロックの初期化
+
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
+
+	skydome = new Skydome();//スカイドームクラスの生成
+	
+	playerModel_ = Model::Create();//プレイヤーのモデルの生成
+	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");//プレイヤーのテクスチャ
+	//playerViewProjection_.Initialize();
+	player_ = new Player;//プレイヤークラスの生成
+	player_->Initialize(playerModel_, playerTextureHandle_, &viewProjection_);//プレイヤーの初期化
 }
 
 void GameScene::Update() {
-	for (std::vector<WorldTransform*>&worldTransformBlockLine:worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock) { continue; }
-			worldTransformBlock->UpdateMatrix();//アフィン変換
-		}
-	}
+	blocks_->Update();//ブロック
+
 	debugCamera_->Update();
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
@@ -70,14 +59,16 @@ void GameScene::Update() {
 	#endif
 	//カメラの処理
 	if (isDebugCameraActive_) {
-		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
-		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		//ビュープロジェクション行列の転送
-		viewprojection_.TransferMatrix();
+		viewProjection_.TransferMatrix();
 	} else {
 		//ビュープロジェクション行列の更新と転送
-		viewprojection_.UpdateMatrix();
+		viewProjection_.UpdateMatrix();
 	}
+
+	player_->Update();
 }
 
 void GameScene::Draw() {
@@ -106,12 +97,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (std::vector<WorldTransform*>& worldTransformBlockLine:worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock) { continue; }
-			modelBlock_->Draw(*worldTransformBlock, viewprojection_, blockTextureHandle_);//ブロックの描画
-		}
-	}
+	player_->Draw();//プレイヤー
+
+	blocks_->Draw();//ブロック
+
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

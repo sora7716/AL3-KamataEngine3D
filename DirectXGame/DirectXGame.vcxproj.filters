@@ -52,6 +52,12 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\scene\gameObject">
+      <UniqueIdentifier>{4436578d-9235-4c56-8f34-80c50726f548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scene\gameObject">
+      <UniqueIdentifier>{bfa71594-e43d-4794-a6d7-868e1dea545f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -69,10 +75,16 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="scene\func\Math.cpp">
+    <ClCompile Include="3d\WorldTransform.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="WorldTransform.cpp">
+    <ClCompile Include="scene\calculate\Math.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\gameObject\player\Player.cpp">
+      <Filter>ソース ファイル\scene\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\gameObject\blocks\Blocks.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,8 +176,17 @@
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="scene\func\Math.h">
+    <ClInclude Include="scene\calculate\Math.h">
       <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\player\Player.h">
+      <Filter>ヘッダー ファイル\scene\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\scene\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\blocks\Blocks.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

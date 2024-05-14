@@ -10,7 +10,9 @@
 
 #include <vector>
 #include "DebugCamera.h"
-
+#include "gameObject/skydome/Skydome.h"
+#include "gameObject/player/Player.h"
+#include"gameObject/blocks/Blocks.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -50,11 +52,18 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	Model* modelBlock_ = nullptr;//Blockの3Dモデル
+	Model* modelBlock_ = nullptr;//ブロックのモデル
 	uint32_t blockTextureHandle_= 0;//ブロックのテクスチャ
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;//ブロックの可変個配列
-	ViewProjection viewprojection_;//ビュープロジェクション
+	Blocks* blocks_ = nullptr;//ブロック
+	ViewProjection viewProjection_;//ビュープロジェクション
 
 	bool isDebugCameraActive_ = false;//デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr;//デバックカメラ
+
+	Skydome* skydome = nullptr;//スカイドーム
+
+	Player* player_ = nullptr;//プレイヤー
+	Model* playerModel_ = nullptr;//プレイヤーモデル
+	uint32_t playerTextureHandle_ = 0;//プレイヤーのテクスチャ
+	//ViewProjection playerViewProjection_;
 };
