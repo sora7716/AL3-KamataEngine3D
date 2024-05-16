@@ -114,6 +114,7 @@
     <ClCompile Include="scene\calculate\Math.cpp" />
     <ClCompile Include="scene\gameObject\blocks\Blocks.cpp" />
     <ClCompile Include="scene\gameObject\player\Player.cpp" />
+    <ClCompile Include="scene\gameObject\skydome\Skydome.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>

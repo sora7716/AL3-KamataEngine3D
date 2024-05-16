@@ -60,10 +60,10 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;//デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr;//デバックカメラ
 
-	Skydome* skydome = nullptr;//スカイドーム
-
 	Player* player_ = nullptr;//プレイヤー
-	Model* playerModel_ = nullptr;//プレイヤーモデル
+	Model* modelPlayer_ = nullptr;     // プレイヤーモデル
 	uint32_t playerTextureHandle_ = 0;//プレイヤーのテクスチャ
-	//ViewProjection playerViewProjection_;
+	
+	Skydome* skydome_ = nullptr;//スカイドーム
+	Model* modelSkydome_ = nullptr;//スカイドームモデル
 };

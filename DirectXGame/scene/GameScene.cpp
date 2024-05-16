@@ -19,9 +19,12 @@ GameScene::~GameScene() {
 
 	delete debugCamera_;//デバックカメラの削除
 
-	delete skydome;//スカイドームの削除
+	delete skydome_;//スカイドームの削除
+	delete modelSkydome_;//スカイドームモデルの削除
 
-	delete player_;
+	delete player_;//プレイヤーの削除
+	delete modelPlayer_;//プレイヤーのモデルの削除
+
 }
 
 void GameScene::Initialize() {
@@ -38,14 +41,17 @@ void GameScene::Initialize() {
 	blocks_->Initialize(modelBlock_,blockTextureHandle_,&viewProjection_);//ブロックの初期化
 
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
-
-	skydome = new Skydome();//スカイドームクラスの生成
+	debugCamera_->SetFarZ(2000);//farClipの変更
 	
-	playerModel_ = Model::Create();//プレイヤーのモデルの生成
+	modelPlayer_ = Model::Create();//プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");//プレイヤーのテクスチャ
-	//playerViewProjection_.Initialize();
+
 	player_ = new Player;//プレイヤークラスの生成
-	player_->Initialize(playerModel_, playerTextureHandle_, &viewProjection_);//プレイヤーの初期化
+	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_);//プレイヤーの初期化
+
+	skydome_ = new Skydome;//スカイドームの生成
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);//モデルの読み込み(obj)
+	skydome_->Initialize(modelSkydome_, &viewProjection_);//スカイドームの初期化
 }
 
 void GameScene::Update() {
@@ -68,7 +74,7 @@ void GameScene::Update() {
 		viewProjection_.UpdateMatrix();
 	}
 
-	player_->Update();
+	player_->Update();//プレイヤー
 }
 
 void GameScene::Draw() {
@@ -101,6 +107,7 @@ void GameScene::Draw() {
 
 	blocks_->Draw();//ブロック
 
+	skydome_->Draw();//スカイドーム
 	
 
 	// 3Dオブジェクト描画後処理

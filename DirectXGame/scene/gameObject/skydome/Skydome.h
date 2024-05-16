@@ -8,7 +8,7 @@ class Skydome {
 
 public://メンバ関数
 
-	void Initialize();
+	void Initialize(Model* model, ViewProjection* viewProjection);
 
 	void Update();
 
@@ -19,6 +19,7 @@ private://メンバ変数
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル
-	Model* model = nullptr;
+	Model* model_ = nullptr;
+	ViewProjection* viewProjection_;
 
 };
