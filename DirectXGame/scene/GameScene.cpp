@@ -36,7 +36,7 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::Create();//ブロックのモデル生成
 	blockTextureHandle_ = TextureManager::Load("kamata.ico");//ブロックのテクスチャ
 	viewProjection_.Initialize();//ブロックの初期化
-
+	viewProjection_.farZ = 2000;
 	blocks_ = new Blocks;//ブロックの生成
 	blocks_->Initialize(modelBlock_,blockTextureHandle_,&viewProjection_);//ブロックの初期化
 
