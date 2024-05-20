@@ -2,23 +2,33 @@
 #include <cassert>
 #include "calculate/Math.h"
 
-void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProjection) {
+//ブロックの初期化
+void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProjection, MapChipField* mapChipField) {
 	assert(model);
 	model_ = model;
 	texture_ = texture;
 	viewProjection_ = viewProjection;
+	assert(mapChipField);
+	mapChipField_ = mapChipField;
 	// 要素数
-	const uint32_t kNumBlockVirtical = 10;
-	const uint32_t kNumBlockHorizontal = 20;
+	uint32_t numBlockVertical   = mapChipField_->GetNumBlockVertical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 	// ブロック1個分の横幅
-	const float kBlockHeight = 2.0f;
-	const float kBlockWidth = 2.0f;
-	// 要素数の変更
-	worldTransformBlocks_.resize(kNumBlockVirtical); // 縦の行(配列)
+	const float kBlockHeight = mapChipField_->GetBlockHeight();
+	const float kBlockWidth  = mapChipField_->GetBlockWidth();
+	worldTransformBlocks_.resize(numBlockVertical);
+	for (uint32_t i = 0; i < numBlockVertical; ++i) {
+		worldTransformBlocks_[i].resize(numBlockHorizontal);
+	}
 	// キューブの生成
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-		worldTransformBlocks_[i].resize(kNumBlockHorizontal); // 上で決めた行を横に伸ばす(配列)
-		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+	for (uint32_t i = 0; i < numBlockVertical; ++i) {
+		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j] = worldTransform;
+				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+			}
 			// 初期化↓
 			if (i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0) {
 				worldTransformBlocks_[i][j] = new WorldTransform();             // ブロックの生成
@@ -31,6 +41,7 @@ void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProj
 	}
 }
 
+//ブロックの更新処理
 void Blocks::Update() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -42,6 +53,7 @@ void Blocks::Update() {
 	}
 }
 
+//ブロックの描画
 void Blocks::Draw() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

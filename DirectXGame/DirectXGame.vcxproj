@@ -113,6 +113,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\calculate\Math.cpp" />
     <ClCompile Include="scene\gameObject\blocks\Blocks.cpp" />
+    <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp" />
     <ClCompile Include="scene\gameObject\player\Player.cpp" />
     <ClCompile Include="scene\gameObject\skydome\Skydome.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="scene\calculate\Math.h" />
     <ClInclude Include="scene\gameObject\blocks\Blocks.h" />
+    <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h" />
     <ClInclude Include="scene\gameObject\player\Player.h" />
     <ClInclude Include="scene\gameObject\skydome\Skydome.h" />
     <ClInclude Include="scene\GameScene.h" />

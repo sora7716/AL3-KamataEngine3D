@@ -25,6 +25,8 @@ GameScene::~GameScene() {
 	delete player_;//プレイヤーの削除
 	delete modelPlayer_;//プレイヤーのモデルの削除
 
+	delete mapChipField_;
+
 }
 
 void GameScene::Initialize() {
@@ -32,13 +34,6 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
-	modelBlock_ = Model::Create();//ブロックのモデル生成
-	blockTextureHandle_ = TextureManager::Load("kamata.ico");//ブロックのテクスチャ
-	viewProjection_.Initialize();//ブロックの初期化
-	viewProjection_.farZ = 2000;
-	blocks_ = new Blocks;//ブロックの生成
-	blocks_->Initialize(modelBlock_,blockTextureHandle_,&viewProjection_);//ブロックの初期化
 
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
 	debugCamera_->SetFarZ(2000);//farClipの変更
@@ -52,6 +47,10 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome;//スカイドームの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);//モデルの読み込み(obj)
 	skydome_->Initialize(modelSkydome_, &viewProjection_);//スカイドームの初期化
+
+    mapChipField_ = new MapChipField();
+	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
+	GenerateBlocks();
 }
 
 void GameScene::Update() {
@@ -126,4 +125,13 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::GenerateBlocks() {
+	modelBlock_ = Model::Create();                            // ブロックのモデル生成
+	blockTextureHandle_ = TextureManager::Load("kamata.ico"); // ブロックのテクスチャ
+	viewProjection_.Initialize();                             // ブロックの初期化
+	viewProjection_.farZ = 2000;
+	blocks_ = new Blocks;                                                    // ブロックの生成
+	blocks_->Initialize(modelBlock_, blockTextureHandle_, &viewProjection_,mapChipField_); // ブロックの初期化
 }

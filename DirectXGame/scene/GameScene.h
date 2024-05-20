@@ -13,6 +13,7 @@
 #include "gameObject/skydome/Skydome.h"
 #include "gameObject/player/Player.h"
 #include"gameObject/blocks/Blocks.h"
+#include"gameObject/mapChipField/MapChipField.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -44,6 +45,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void GenerateBlocks();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -66,4 +69,6 @@ private: // メンバ変数
 	
 	Skydome* skydome_ = nullptr;//スカイドーム
 	Model* modelSkydome_ = nullptr;//スカイドームモデル
+
+	MapChipField* mapChipField_ = nullptr;
 };
