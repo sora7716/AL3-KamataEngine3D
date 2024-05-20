@@ -1,10 +1,6 @@
 #include "Player.h"
 #include <cassert>
-
-Player::Player() {}
-
-Player::~Player() {}
-
+//プレイヤーの初期化
 void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection) { 
 
 	assert(model);
@@ -15,12 +11,14 @@ void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vi
 
 }
 
+//プレイヤーの更新処理
 void Player::Update() {
 
 	worldTransform_.TransferMatrix();
 
 }
 
+//プレイヤーの描画処理
 void Player::Draw() { 
 
 	model_->Draw(worldTransform_,*(viewProjection_),textureHandle_); 

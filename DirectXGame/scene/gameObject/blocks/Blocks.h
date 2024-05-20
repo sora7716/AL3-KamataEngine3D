@@ -6,15 +6,8 @@
 #include "gameObject/mapChipField/MapChipField.h"
 using namespace std;
 class Blocks {
-private:
-	Model* model_ = nullptr;//モデル
-	MapChipField* mapChipField_ = nullptr;//マップチップフィールド
-	uint32_t texture_ = 0u;//テクスチャ
-	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
-	vector<vector<WorldTransform*>> worldTransformBlocks_;//ワールドトランスフォーム
 
-
-public:
+public://メンバ関数
 	/// <summary>
 	/// ブロックの初期化
 	/// </summary>
@@ -39,5 +32,14 @@ public:
 	/// </summary>
 	/// <returns>worldTransformBlocks_</returns>
 	vector<vector<WorldTransform*>> GetBlocks() { return worldTransformBlocks_; };
+
+private://メンバ変数
+	Model* model_ = nullptr;                               // モデル
+	MapChipField* mapChipField_ = nullptr;                 // マップチップフィールド
+	uint32_t texture_ = 0u;                                // テクスチャ
+	ViewProjection* viewProjection_ = nullptr;             // ビュープロジェクション
+	vector<vector<WorldTransform*>> worldTransformBlocks_; // ワールドトランスフォーム
+
+
 
 };

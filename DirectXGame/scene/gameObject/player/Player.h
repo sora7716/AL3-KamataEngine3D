@@ -3,28 +3,7 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 class Player {
-private://メンバ変数
-
-	WorldTransform worldTransform_;
-
-	Model* model_ = nullptr;
-
-	uint32_t textureHandle_ = 0u;
-
-	ViewProjection* viewProjection_ = nullptr;
-
-
 public://メンバ関数
-	
-  /// <summary>
-  /// コンストラクター
-  /// </summary>
-	Player();
-
-  /// <summary>
-  /// デストラクター
-  /// </summary>
-	~Player();
 
   /// <summary>
   /// 初期化
@@ -43,5 +22,14 @@ public://メンバ関数
   /// 描画	
   /// </summary>
   void Draw();
+
+  private: // メンバ変数
+  WorldTransform worldTransform_;//ワールドトランスフォーム
+
+  Model* model_ = nullptr;//3Dモデル
+
+  uint32_t textureHandle_ = 0u;//プレイヤーのテクスチャ
+
+  ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
 
 };

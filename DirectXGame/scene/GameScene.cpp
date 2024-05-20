@@ -10,7 +10,7 @@ GameScene::~GameScene() {
 	delete modelBlock_;//Blockの3Dモデルの削除
 
 	//拡張for文
-	for (std::vector<WorldTransform*> &worldTransformBlockLine : blocks_->GetBlocks()) {//&を付けることで値を参照して使えるようにしている(&を付けないと値がコピーされたものしか取り出せなくなるのでオリジナルをdeleteできない)
+	for (std::vector<WorldTransform*> &worldTransformBlockLine :blocks_->GetBlocks()) {//&を付けることで値を参照して使えるようにしている(&を付けないと値がコピーされたものしか取り出せなくなるのでオリジナルをdeleteできない)
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;//配列の中身を削除
 		}
@@ -55,7 +55,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	blocks_->Update();//ブロック
-
 	debugCamera_->Update();
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
@@ -131,7 +130,7 @@ void GameScene::GenerateBlocks() {
 	modelBlock_ = Model::Create();                            // ブロックのモデル生成
 	blockTextureHandle_ = TextureManager::Load("kamata.ico"); // ブロックのテクスチャ
 	viewProjection_.Initialize();                             // ブロックの初期化
-	viewProjection_.farZ = 2000;
+	//viewProjection_.farZ = 2000;
 	blocks_ = new Blocks;                                                    // ブロックの生成
 	blocks_->Initialize(modelBlock_, blockTextureHandle_, &viewProjection_,mapChipField_); // ブロックの初期化
 }

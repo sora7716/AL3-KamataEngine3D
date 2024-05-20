@@ -13,9 +13,6 @@ void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProj
 	// 要素数
 	uint32_t numBlockVertical   = mapChipField_->GetNumBlockVertical();
 	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
-	// ブロック1個分の横幅
-	const float kBlockHeight = mapChipField_->GetBlockHeight();
-	const float kBlockWidth  = mapChipField_->GetBlockWidth();
 	worldTransformBlocks_.resize(numBlockVertical);
 	for (uint32_t i = 0; i < numBlockVertical; ++i) {
 		worldTransformBlocks_[i].resize(numBlockHorizontal);
@@ -29,14 +26,6 @@ void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProj
 				worldTransformBlocks_[i][j] = worldTransform;
 				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
 			}
-			// 初期化↓
-			if (i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0) {
-				worldTransformBlocks_[i][j] = new WorldTransform();             // ブロックの生成
-				worldTransformBlocks_[i][j]->Initialize();                      // ブロックの初期化
-				worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;  // 横にj分ずらす
-				worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i; // 縦にi分ずらす
-			}
-			// 初期化↑
 		}
 	}
 }

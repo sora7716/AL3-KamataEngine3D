@@ -57,7 +57,7 @@ namespace {
   //マップチップ種別の取得
   MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex) {
 	  //配列外参照された場合に空白を返すことで安全性を高めてる
-      if (xIndex || kNumBlockHorizontal - 1 < xIndex) {
+      if (xIndex< 0 || kNumBlockHorizontal - 1 < xIndex) {
 		  return MapChipType ::kBlank;
       }
 	  if (yIndex < 0 || kNumBlockVertical - 1 < yIndex) {
