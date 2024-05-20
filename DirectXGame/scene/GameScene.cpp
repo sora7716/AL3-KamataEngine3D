@@ -40,7 +40,6 @@ void GameScene::Initialize() {
 	
 	modelPlayer_ = Model::Create();//プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");//プレイヤーのテクスチャ
-
 	player_ = new Player;//プレイヤークラスの生成
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_);//プレイヤーの初期化
 
