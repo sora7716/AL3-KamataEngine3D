@@ -11,15 +11,13 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textuerhundle_ = TextureManager::Load("kamata.ico");
-    model_ =  Model::Create();
-	worldtransform_.Initialize();
-	viewprojection_.Initialize();
-	player_ = new Player();
-	player_ ->Initialize(model_,textuerhundle_,&viewprojection_);
-
-
-
+	textureHandle_ = TextureManager::Load("uvChecker.png"); // 2Dモデルのロード
+	model_ = Model::Create();                               // モデルクラス
+	viewProjection_.Initialize();
+	// 包含↓
+	player_ = new Player; // プレイヤークラス
+	// 包含↑
+	player_->Initialize(model_, textureHandle_, &viewProjection_);
 
 }
 
