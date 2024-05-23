@@ -147,6 +147,7 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="scene\calculate\Aithmetic.h" />
     <ClInclude Include="scene\calculate\Math.h" />
     <ClInclude Include="scene\gameObject\blocks\Blocks.h" />
     <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h" />

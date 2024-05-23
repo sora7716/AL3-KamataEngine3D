@@ -37,19 +37,21 @@ void GameScene::Initialize() {
 
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
 	debugCamera_->SetFarZ(2000);//farClipの変更
-	
-	modelPlayer_ = Model::Create();//プレイヤーのモデルの生成
-	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");//プレイヤーのテクスチャ
-	player_ = new Player;//プレイヤークラスの生成
-	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_);//プレイヤーの初期化
 
 	skydome_ = new Skydome;//スカイドームの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);//モデルの読み込み(obj)
 	skydome_->Initialize(modelSkydome_, &viewProjection_);//スカイドームの初期化
 
-    mapChipField_ = new MapChipField();
-	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
-	GenerateBlocks();
+    mapChipField_ = new MapChipField();//マップチップフィールドの生成
+	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");//マップチップフィールドのロード
+	GenerateBlocks();//ブロックの生成
+
+	modelPlayer_ = Model::CreateFromOBJ("player", true);          // プレイヤーのモデルの生成
+	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg"); // プレイヤーのテクスチャ
+	player_ = new Player;                                         // プレイヤークラスの生成
+	Vector2Int playerIndex = {1,18};
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x,playerIndex.y);
+	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
 }
 
 void GameScene::Update() {

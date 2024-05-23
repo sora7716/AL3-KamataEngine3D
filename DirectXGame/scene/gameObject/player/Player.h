@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "Input.h"
 class Player {
 public://メンバ関数
 
@@ -23,7 +24,8 @@ public://メンバ関数
   /// </summary>
   void Draw();
 
-  private: // メンバ変数
+private: // メンバ変数
+
   WorldTransform worldTransform_;//ワールドトランスフォーム
 
   Model* model_ = nullptr;//3Dモデル
@@ -32,4 +34,7 @@ public://メンバ関数
 
   ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
 
+  MyVector3 velocity_ = {};//プレイヤーの速度
+
+  static inline const float kAttenuation = 0.01f;
 };
