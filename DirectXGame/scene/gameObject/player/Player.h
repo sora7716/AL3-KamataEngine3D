@@ -11,7 +11,7 @@ public://メンバ関数
   /// <param name="model">モデルクラス</param>
   /// <param name="textureHandle">テクスチャ</param>
   /// <param name="viewProjection">ビュープロジェクション</param>
-  void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+  void Initialize(Model* model, const uint32_t &textureHandle, ViewProjection* viewProjection,const Vector3& position);
 
   /// <summary>
   /// 更新処理

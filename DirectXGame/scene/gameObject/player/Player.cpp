@@ -1,12 +1,16 @@
 #include "Player.h"
 #include <cassert>
+#include <numbers>
+using namespace std;
 //プレイヤーの初期化
-void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection) { 
+void Player::Initialize(Model* model, const uint32_t &textureHandle, ViewProjection* viewProjection, const Vector3& position) { 
 
 	assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = position;
+	worldTransform_.rotation_.y = 0;
 	viewProjection_ = viewProjection;
 
 }
