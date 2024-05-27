@@ -190,6 +190,20 @@ public:
 	}
 
 	/// <summary>
+	/// 減算(複合)
+	/// </summary>
+	/// <param name="num"></param>
+	/// <returns></returns>
+	MyMatrix4x4& operator-=(const MyMatrix4x4& num) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+			 matrix4x4.m[i][j] -= num.matrix4x4.m[i][j];
+			}
+		}
+		return *this;
+	}
+
+	/// <summary>
 	/// 掛け算
 	/// </summary>
 	/// <param name="num"></param>

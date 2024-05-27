@@ -71,4 +71,5 @@ private: // メンバ変数
 	Player* player_ = nullptr;         // プレイヤー
 	Model* modelPlayer_ = nullptr;     // プレイヤーモデル
 	uint32_t playerTextureHandle_ = 0; // プレイヤーのテクスチャ
+
 };

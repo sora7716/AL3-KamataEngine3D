@@ -94,7 +94,7 @@
       <Filter>ソース ファイル\scene\cpp ファイル</Filter>
     </ClCompile>
     <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,11 +197,11 @@
     <ClInclude Include="scene\gameObject\blocks\Blocks.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="scene\calculate\Aithmetic.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

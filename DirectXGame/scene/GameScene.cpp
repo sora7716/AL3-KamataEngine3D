@@ -132,6 +132,6 @@ void GameScene::GenerateBlocks() {
 	blockTextureHandle_ = TextureManager::Load("kamata.ico"); // ブロックのテクスチャ
 	viewProjection_.Initialize();                             // ブロックの初期化
 	//viewProjection_.farZ = 2000;
-	blocks_ = new Blocks;                                                    // ブロックの生成
+	blocks_ = new Blocks();// ブロックの生成
 	blocks_->Initialize(modelBlock_, blockTextureHandle_, &viewProjection_,mapChipField_); // ブロックの初期化
 }
