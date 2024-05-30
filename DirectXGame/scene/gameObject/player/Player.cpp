@@ -47,29 +47,8 @@ float Player::Deceleration() {
 
 //プレイヤーの行動
 void Player::Action() {
-	worldTransform_.translation_ += velocity_; // translate_にvelocity_を加算
-	//プレイヤーが地上にいるとき
-	if (onGround_) {
-		OnGround();
-		if (velocity_.GetVector().y > 0.0f) {
-			onGround_ = false;
-		}
-	} else {
-		velocity_ += Vector3(0.0f, -kGravityAcceleration, 0.0f);//落下速度
-		velocity_.SetVector({velocity_.GetVector().x, max(velocity_.GetVector().y, -kLimitFallSpeed), velocity_.GetVector().z});//落下速度制限
-		bool landing = false;//着陸したかどうか
-		if (velocity_.GetVector().y < 0.0f) {
-			if (worldTransform_.translation_.GetVector().y <= 1.0f) {
-				landing = true;
-			}
-		}
-		if (landing) {
-			worldTransform_.translation_.SetVector({worldTransform_.translation_.GetVector().x, 2.0f, worldTransform_.translation_.GetVector().z});
-		
-			velocity_.SetVector({velocity_.GetVector().x * (1.0f - kAttenuationLading), 0.0f, velocity_.GetVector().z});
-			onGround_ = true;
-		}
-	}
+	
+	Place();//プレイヤーのいる場所
 
 	Brake(isBrake_); // プレイヤーが振り向くときの急ブレーキ
 
@@ -142,7 +121,34 @@ void Player::OnGround() {
 		velocity_.SetVector({Deceleration(), velocity_.GetVector().y, velocity_.GetVector().z}); // 減速した値を代入
 	}
 	if (Input::GetInstance()->PushKey(DIK_UP)) {
-		velocity_ += Vector3(0.0f, kJumpAcceleration, 0.0f);
+		velocity_ += Vector3(velocity_.GetVector().x, kJumpAcceleration, velocity_.GetVector().z);
+	}
+}
+
+//プレイヤーのいる位置
+void Player::Place() {
+	worldTransform_.translation_ += velocity_; // translate_にvelocity_を加算
+	// プレイヤーが地上にいるとき
+	if (onGround_) {
+		OnGround();
+		if (velocity_.GetVector().y > 0.0f) {
+			onGround_ = false;
+		}
+	} else {                                                                                                                     // プレイヤーが地上にいないとき
+		velocity_ += Vector3(0.0f, -kGravityAcceleration, 0.0f);                                                                 // 落下速度
+		velocity_.SetVector({velocity_.GetVector().x, max(velocity_.GetVector().y, -kLimitFallSpeed), velocity_.GetVector().z}); // 落下速度制限
+		bool landing = false;                                                                                                    // 着陸したかどうか
+		if (velocity_.GetVector().y < 0.0f) {
+			if (worldTransform_.translation_.GetVector().y <= 1.0f) {
+				landing = true;
+			}
+		}
+		if (landing) {
+			worldTransform_.translation_.SetVector({worldTransform_.translation_.GetVector().x, 2.0f, worldTransform_.translation_.GetVector().z});
+
+			velocity_.SetVector({velocity_.GetVector().x * (1.0f - kAttenuationLading), 0.0f, velocity_.GetVector().z});
+			onGround_ = true;
+		}
 	}
 }
 

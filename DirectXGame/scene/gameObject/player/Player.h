@@ -83,6 +83,11 @@ public://メンバ関数
   void OnGround();
 
   /// <summary>
+  /// プレイヤーのいる位置
+  /// </summary>
+  void Place();
+
+  /// <summary>
   /// 描画	
   /// </summary>
   void Draw();
@@ -119,11 +124,11 @@ private: // メンバ変数
   
   static inline const float kLimitRunSpeed = 0.5f;//走る速さの上限
 
-  static inline const float kGravityAcceleration = 0.8f;//重力加速度(下方向)
+  static inline const float kGravityAcceleration = 0.9f;//重力加速度(下方向)
 
   static inline const float kLimitFallSpeed = 0.9f;//最大落下速度(下方向)
 
-  static inline const float kJumpAcceleration = 2.0f;//ジャンプの初速度(上方向)
+  static inline const float kJumpAcceleration = 5.0f;//ジャンプの初速度(上方向)
   
   static inline const float kAttenuationLading = 0.01f;//着地時の減衰
 };
