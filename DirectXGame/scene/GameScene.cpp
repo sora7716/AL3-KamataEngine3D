@@ -3,6 +3,8 @@
 #include <cassert>
 
 #include "calculate/Math.h"
+#include "DebugCamera.h"
+#include "ImGuiManager.h"
 
 GameScene::GameScene() {}
 
@@ -25,7 +27,9 @@ GameScene::~GameScene() {
 	delete player_;//プレイヤーの削除
 	delete modelPlayer_;//プレイヤーのモデルの削除
 
-	delete mapChipField_;
+	delete mapChipField_;//マップチップフィールドの削除
+
+	delete cameraController_;//カメラコントロールの削除
 
 }
 
@@ -38,7 +42,7 @@ void GameScene::Initialize() {
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
 	debugCamera_->SetFarZ(2000);//farClipの変更
 
-	skydome_ = new Skydome;//スカイドームの生成
+	skydome_ = new Skydome();//スカイドームの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);//モデルの読み込み(obj)
 	skydome_->Initialize(modelSkydome_, &viewProjection_);//スカイドームの初期化
 
@@ -48,20 +52,32 @@ void GameScene::Initialize() {
 
 	modelPlayer_ = Model::CreateFromOBJ("player", true);          // プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg"); // プレイヤーのテクスチャ
-	player_ = new Player;                                         // プレイヤークラスの生成
-	Vector2Int playerIndex = {1,18};
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x,playerIndex.y);
+	player_ = new Player();                                         // プレイヤークラスの生成
+	Vector2Int playerIndex = {1,18};//プレイヤーの位置を設定する変数
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x,playerIndex.y);//プレイヤーの表示される位置
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
+
+	cameraController_ = new CameraController();//カメラコントロールの生成
+    cameraController_->Initialize();           //カメラコントロールの初期化
+	cameraController_->SetTarget(player_);     //ターゲットのセット
+	cameraController_->Reset();                //リセット
+	cameraController_->SetMovableArea({20, 180, 0, 20});//カメラの追従範囲
 }
 
 void GameScene::Update() {
-	blocks_->Update();//ブロック
-	debugCamera_->Update();
-	#ifdef _DEBUG
+	blocks_->Update();//ブロックの更新処理
+	debugCamera_->Update();//デバックカメラの更新処理
+	cameraController_->Update(); // カメラコントロールの更新処理
+	
+#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
 		isDebugCameraActive_ ^= true;
 	}
-	#endif
+	
+	ImGui::Begin("Debug2");
+	ImGui::Text("%f", player_->GetWorldTransform().translation_.vector.x);
+	ImGui::End();
+#endif
 	//カメラの処理
 	if (isDebugCameraActive_) {
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
@@ -69,11 +85,13 @@ void GameScene::Update() {
 		//ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		//ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView       = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
 
-	player_->Update();//プレイヤー
+	player_->Update();//プレイヤーの更新処理
 }
 
 void GameScene::Draw() {
@@ -107,8 +125,6 @@ void GameScene::Draw() {
 	blocks_->Draw();//ブロック
 
 	skydome_->Draw();//スカイドーム
-	
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

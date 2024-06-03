@@ -92,6 +92,8 @@ public://メンバ関数
   /// </summary>
   void Draw();
 
+  WorldTransform& GetWorldTransform() { return worldTransform_; };
+
 private: // メンバ変数
 
   WorldTransform worldTransform_;//ワールドトランスフォーム
@@ -118,11 +120,11 @@ private: // メンバ変数
 
   static inline const float kTimeTurn = 0.3f;//旋回時間<秒>
 
-  static inline const float kAcceleration = 0.01f;//加速度
+  static inline const float kAcceleration = 0.1f;//加速度
   
-  static inline const float kAttenuation = 0.01f;//減速
+  static inline const float kAttenuation = 0.1f;//減速
   
-  static inline const float kLimitRunSpeed = 0.5f;//走る速さの上限
+  static inline const float kLimitRunSpeed = 1.0f;//走る速さの上限
 
   static inline const float kGravityAcceleration = 0.9f;//重力加速度(下方向)
 

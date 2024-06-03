@@ -9,11 +9,14 @@
 #include "WorldTransform.h"
 
 #include <vector>
-#include "DebugCamera.h"
 #include "gameObject/skydome/Skydome.h"
 #include "gameObject/player/Player.h"
 #include"gameObject/blocks/Blocks.h"
 #include"gameObject/mapChipField/MapChipField.h"
+#include "gameObject/camera/CameraController.h"
+
+class DebugCamera;
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -55,21 +58,35 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+
+#pragma region 
 	Model* modelBlock_ = nullptr;//ブロックのモデル
 	uint32_t blockTextureHandle_= 0;//ブロックのテクスチャ
 	Blocks* blocks_ = nullptr;//ブロック
 	ViewProjection viewProjection_;//ビュープロジェクション
+#pragma endregion ブロック
 
+#pragma region
 	bool isDebugCameraActive_ = false;//デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr;//デバックカメラ
-	
+#pragma endregion デバックカメラ
+
+#pragma region 
 	Skydome* skydome_ = nullptr;//スカイドーム
 	Model* modelSkydome_ = nullptr;//スカイドームモデル
+#pragma endregion スカイドーム
 
+#pragma region 
 	MapChipField* mapChipField_ = nullptr;//マップチップフィールド
+#pragma endregion マップチップフィールド
 
+#pragma region
 	Player* player_ = nullptr;         // プレイヤー
 	Model* modelPlayer_ = nullptr;     // プレイヤーモデル
 	uint32_t playerTextureHandle_ = 0; // プレイヤーのテクスチャ
+#pragma endregion プレイヤー
 
+#pragma region
+	CameraController* cameraController_ = nullptr;//カメラコントロール
+#pragma endregion カメラコントロール
 };

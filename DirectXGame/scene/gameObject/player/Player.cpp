@@ -3,8 +3,10 @@
 #include <cassert>
 #include <numbers>
 #include <algorithm>
-#define oneFrame 1.0f / 60.0f
+#define OneFrame 1.0f / 60.0f
 using namespace std;
+#include "ImGuiManager.h"
+
 //プレイヤーの初期化
 void Player::Initialize(Model* model, const uint32_t &textureHandle, ViewProjection* viewProjection, const Vector3& position) { 
 
@@ -85,7 +87,7 @@ float Player::TurnAround(float *destinationRotationYTable) {
 //プレイヤーの向き
 void Player::Angle() {
 	if (turnTimer_ > 0.0f) {
-		turnTimer_ -= oneFrame;//1フレームを加算
+		turnTimer_ -= OneFrame;//1フレームを加算
 		float destinationRotationYTable[] = {std::numbers::pi_v<float> * 5.0f / 2.0f, std::numbers::pi_v<float> * 3.0f / 2.0f};//向いてほしい角度の代入
 		worldTransform_.rotation_.y = TurnAround(destinationRotationYTable);//最終的な向いている角度を代入
 	}

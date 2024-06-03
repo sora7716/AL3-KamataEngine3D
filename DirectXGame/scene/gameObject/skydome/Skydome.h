@@ -32,6 +32,6 @@ private://メンバ変数
 	
 	Model* model_ = nullptr;//モデル
 	
-	ViewProjection* viewProjection_;//ビュープロジェクション
+	ViewProjection* viewProjection_ = {}; // ビュープロジェクション
 
 };
