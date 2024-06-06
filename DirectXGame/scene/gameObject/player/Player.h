@@ -92,7 +92,17 @@ public://メンバ関数
   /// </summary>
   void Draw();
 
-  WorldTransform& GetWorldTransform() { return worldTransform_; };
+  /// <summary>
+  /// ワールドトランスフォームのゲッター
+  /// </summary>
+  /// <returns></returns>
+  WorldTransform& GetWorldTransform();
+
+  /// <summary>
+  /// velocityのゲッター
+  /// </summary>
+  /// <returns></returns>
+  const Vector3& GetVelocity();
 
 private: // メンバ変数
 

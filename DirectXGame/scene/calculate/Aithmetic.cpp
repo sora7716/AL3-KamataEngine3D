@@ -69,6 +69,22 @@ Vector3 MyVector3::GetVector() { return vector; }
 
 void MyVector3::SetVector(Vector3 num) { vector = num; }
 
+Vector3 operator+(const MyVector3& num1, const MyVector3& num2) {
+	Vector3 result{};
+	result.x = num1.vector.x + num2.vector.x;
+	result.y = num1.vector.y + num2.vector.y;
+	result.z = num1.vector.z + num2.vector.z;
+	return result;
+}
+
+Vector3 operator*(const Vector3& vector, const float& num) { 
+	Vector3 result = {};
+	result.x = vector.x * num;
+	result.y = vector.y * num;
+	result.z = vector.z * num;
+	return result;
+}
+
 MyMatrix4x4::MyMatrix4x4() { matrix4x4 = {}; }
 
 MyMatrix4x4::MyMatrix4x4(Matrix4x4 num) { matrix4x4 = num; }
@@ -233,15 +249,6 @@ MyMatrix4x4 MyMatrix4x4::operator~() {
 Matrix4x4 MyMatrix4x4::GetMatrix4x4() { return matrix4x4; }
 
 void MyMatrix4x4::SetMatrix4x4(Matrix4x4 num) { matrix4x4 = num; }
-
-
-MyVector3 operator+(const MyVector3& num1, const MyVector3& num2) {
-	MyVector3 result{};
-	result.vector.x = num1.vector.x + num2.vector.x;
-	result.vector.y = num1.vector.y + num2.vector.y;
-	result.vector.z = num1.vector.z + num2.vector.z;
-	return result;
-}
 
 Vector3 Lerp(Vector3 translate, MyVector3 goal, float time) { 
 	Vector3 result = {};

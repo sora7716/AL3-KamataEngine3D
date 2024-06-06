@@ -4,7 +4,6 @@
 
 #include "calculate/Math.h"
 #include "DebugCamera.h"
-#include "ImGuiManager.h"
 
 GameScene::GameScene() {}
 
@@ -61,7 +60,7 @@ void GameScene::Initialize() {
     cameraController_->Initialize();           //カメラコントロールの初期化
 	cameraController_->SetTarget(player_);     //ターゲットのセット
 	cameraController_->Reset();                //リセット
-	cameraController_->SetMovableArea({20, 180, 0, 20});//カメラの追従範囲
+	cameraController_->SetMovableArea({20, 175, 10, 20});//カメラの追従範囲
 }
 
 void GameScene::Update() {
@@ -74,9 +73,6 @@ void GameScene::Update() {
 		isDebugCameraActive_ ^= true;
 	}
 	
-	ImGui::Begin("Debug2");
-	ImGui::Text("%f", player_->GetWorldTransform().translation_.vector.x);
-	ImGui::End();
 #endif
 	//カメラの処理
 	if (isDebugCameraActive_) {

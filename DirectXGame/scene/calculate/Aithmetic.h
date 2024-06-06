@@ -80,6 +80,21 @@ public:
 	Vector3 vector;
 };
 
+/// <summary>
+/// 足し算(二つの場合)
+/// </summary>
+/// <param name="num"></param>
+/// <returns></returns>
+Vector3 operator+(const MyVector3& num1, const MyVector3& num2);
+
+/// <summary>
+/// スカラー倍
+/// </summary>
+/// <param name="vector"></param>
+/// <param name="num"></param>
+/// <returns></returns>
+Vector3 operator*(const Vector3& vector, const float& num);
+
 class MyMatrix4x4 {
 public:
 
@@ -152,12 +167,5 @@ public:
 	Matrix4x4 matrix4x4;
 };
 
-
-/// <summary>
-/// 足し算(二つの場合)
-/// </summary>
-/// <param name="num"></param>
-/// <returns></returns>
-MyVector3 operator+(const MyVector3& num1, const MyVector3& num2);
 
 Vector3 Lerp(Vector3 translate, MyVector3 goal, float time);

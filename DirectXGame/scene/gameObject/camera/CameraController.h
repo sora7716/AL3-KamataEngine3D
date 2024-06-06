@@ -44,13 +44,15 @@ public:
 	/// <param name="target">追従したい対象</param>
 	void SetTarget(Player* target);
 
-	/// <summary>
+	/// <summary>m
 	/// MovableAreaのセッター
 	/// </summary>
 	/// <param name="area"></param>
 	void SetMovableArea(Rect area);
 
 	static inline const float kInterpolationRate = 0.9f;//カメラの追従を少し遅くする(0～1で判定)
+	static inline const float kVelocityBias = 20.0f;
+	static inline const Rect margin = {5.0f, 10.0f, 5.0f, 10.0f};
 
 private:
 	ViewProjection viewProjection_;//ビュープロジェクション
@@ -58,7 +60,7 @@ private:
 
 	MyVector3 targetOffset_ = {};//ターゲットから少し離す
 
-	MyVector3 goalPosition_;//ターゲットが最終的にいる場所
+	MyVector3 goalPosition_;//目標ポジション
 
 	Rect movableArea_ = {0, 100, 0, 100};//追従する範囲
 };

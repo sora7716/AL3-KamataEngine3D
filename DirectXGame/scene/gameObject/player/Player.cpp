@@ -156,4 +156,14 @@ void Player::Place() {
 
 
 //プレイヤーの描画処理
-void Player::Draw() { model_->Draw(worldTransform_,*(viewProjection_),textureHandle_); }
+void Player::Draw() { model_->Draw(worldTransform_, *(viewProjection_), textureHandle_); }
+
+WorldTransform& Player::GetWorldTransform() {
+	// TODO: return ステートメントをここに挿入します
+	return worldTransform_;
+}
+
+const Vector3& Player::GetVelocity() {
+	// TODO: return ステートメントをここに挿入します
+	return velocity_.vector;
+}
