@@ -65,6 +65,7 @@ MyVector3& MyVector3::operator/=(float len) {
 		return *this;
 }
 
+
 Vector3 MyVector3::GetVector() { return vector; }
 
 void MyVector3::SetVector(Vector3 num) { vector = num; }

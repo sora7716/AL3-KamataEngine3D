@@ -10,6 +10,7 @@ typedef struct Rect {
 	float top   = 1.0f;
 } Rect;
 
+
 //前方宣言
 class Player;//#include "Player.h"の代わり(この宣言の方法の場合インスタンスをポインタにしないといけない)
 
@@ -51,7 +52,7 @@ public:
 	void SetMovableArea(Rect area);
 
 	static inline const float kInterpolationRate = 0.9f;//カメラの追従を少し遅くする(0～1で判定)
-	static inline const float kVelocityBias = 20.0f;
+	static inline const float kVelocityBias = 100.0f;
 	static inline const Rect margin = {5.0f, 10.0f, 5.0f, 10.0f};
 
 private:

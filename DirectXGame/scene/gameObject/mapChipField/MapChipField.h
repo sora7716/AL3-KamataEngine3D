@@ -11,12 +11,19 @@ enum class MapChipType {
 	kBlock  // ブロック
 };
 
+
+
 typedef struct MapChipData {
 	vector<vector<MapChipType>> data;
 } MapChipData;
 
 class MapChipField {
 public:
+
+	typedef struct IndexSet {
+		uint32_t xIndex;
+		uint32_t yIndex;
+	} IndexSet;
 
 	/// <summary>
 	/// マップチップのリセット
@@ -56,6 +63,8 @@ public:
 	/// </summary>
 	/// <returns>kNumBlockHorizontal</returns>
 	uint32_t GetNumBlockHorizontal() { return kNumBlockHorizontal; };
+
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
 
 private:
 	// 1ブロックのサイズ

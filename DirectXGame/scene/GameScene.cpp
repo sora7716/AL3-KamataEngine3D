@@ -55,6 +55,7 @@ void GameScene::Initialize() {
 	Vector2Int playerIndex = {1,18};//プレイヤーの位置を設定する変数
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x,playerIndex.y);//プレイヤーの表示される位置
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
+	player_->SetMapChipField(mapChipField_);
 
 	cameraController_ = new CameraController();//カメラコントロールの生成
     cameraController_->Initialize();           //カメラコントロールの初期化
@@ -67,7 +68,6 @@ void GameScene::Update() {
 	blocks_->Update();//ブロックの更新処理
 	debugCamera_->Update();//デバックカメラの更新処理
 	cameraController_->Update(); // カメラコントロールの更新処理
-	
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
 		isDebugCameraActive_ ^= true;

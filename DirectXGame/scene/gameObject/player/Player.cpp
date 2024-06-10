@@ -3,9 +3,10 @@
 #include <cassert>
 #include <numbers>
 #include <algorithm>
+#include "ImGuiManager.h"
+#include "scene/gameObject/mapChipField/MapChipField.h"
 #define OneFrame 1.0f / 60.0f
 using namespace std;
-#include "ImGuiManager.h"
 
 //プレイヤーの初期化
 void Player::Initialize(Model* model, const uint32_t &textureHandle, ViewProjection* viewProjection, const Vector3& position) { 
@@ -152,6 +153,10 @@ void Player::Place() {
 			onGround_ = true;
 		}
 	}
+
+	CollisionMapInfo collisionMapInfo;
+	collisionMapInfo.move = velocity_.vector;
+	CollisionMap(collisionMapInfo);
 }
 
 
@@ -166,4 +171,56 @@ WorldTransform& Player::GetWorldTransform() {
 const Vector3& Player::GetVelocity() {
 	// TODO: return ステートメントをここに挿入します
 	return velocity_.vector;
+}
+
+//マップチップフィールドのセッター
+void Player::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+void Player::CollisionMap(CollisionMapInfo& mapInfo) { 
+	CollisionTop(mapInfo); 
+	/*CollisionBottom(mapInfo); 
+	CollisionLeft(mapInfo); 
+	CollisionRight(mapInfo); */
+}
+
+void Player::CollisionTop(CollisionMapInfo& info) { 
+	if (info.move.y >= 0) {
+		return;
+	}
+	std::array<Vector3, static_cast<uint32_t>(Corner::kNumCorner)> positionNew;
+	for (uint32_t i = 0; i < positionNew.size(); ++i) {
+		positionNew[i] = CornerPosition(worldTransform_.translation_.vector + info.move, static_cast<Corner>(i));
+	}
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+	indexSet    = mapChipField_->GetMapChipIndexSetByPosition(positionNew[static_cast<uint32_t>(Corner::kLeftTop)]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	indexSet    = mapChipField_->GetMapChipIndexSetByPosition(positionNew[static_cast<uint32_t>(Corner::kRightTop)]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+}
+
+//void Player::CollisionBottom(CollisionMapInfo& info) {
+//
+//}
+//
+//void Player::CollisionLeft(CollisionMapInfo& info) {
+//
+//}
+//
+//void Player::CollisionRight(CollisionMapInfo& info) {
+//
+//}
+
+Vector3 Player::CornerPosition(const Vector3& center, Corner corner) { 
+	Vector3 offsetTable[static_cast<int>(Corner::kNumCorner)] = {
+	    {+kWidth / 2.0f, -kHeight / 2.0f}, //  kRightBottom
+	    {-kWidth / 2.0f, -kHeight / 2.0f}, //  kLeftBottom
+	    {+kWidth / 2.0f, +kHeight / 2.0f}, //  kRightTop
+	    {-kWidth / 2.0f, +kHeight / 2.0f}, //  kLeftTop
+	};
+	return center + offsetTable[static_cast<uint32_t>(corner)];
 }

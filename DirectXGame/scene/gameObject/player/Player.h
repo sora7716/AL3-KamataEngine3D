@@ -1,12 +1,29 @@
 #pragma once
-#include "Model.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
 #include "Input.h"
+#include "Model.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
+
+
+typedef struct CollisionMapInfo {
+	bool Ceiling = false;
+	bool landing = false;
+	bool hiWall  = false;
+	Vector3 move;
+} CollisionMapInfo;
+
+enum class Corner {
+	kRightBottom,//右下
+	kLeftBottom,//左下
+	kRightTop,//右上
+	kLeftTop,//左上
+	kNumCorner//要素数(enumの個数)
+};
+
+class MapChipField;
 
 class Player {
-public://メンバ関数
-
+public:// メンバ関数
 	/// <summary>
 	/// 向きのenum
 	/// </summary>
@@ -15,132 +32,152 @@ public://メンバ関数
 		kLeft,
 	};
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデルクラス</param>
+	/// <param name="textureHandle">テクスチャ</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, const uint32_t& textureHandle, ViewProjection* viewProjection, const Vector3& position);
 
-  /// <summary>
-  /// 初期化
-  /// </summary>
-  /// <param name="model">モデルクラス</param>
-  /// <param name="textureHandle">テクスチャ</param>
-  /// <param name="viewProjection">ビュープロジェクション</param>
-  void Initialize(Model* model, const uint32_t &textureHandle, ViewProjection* viewProjection,const Vector3& position);
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
 
-  /// <summary>
-  /// 更新処理
-  /// </summary>
-  void Update();
+	/// <summary>
+	/// プレイヤーの急ブレーキ
+	/// </summary>
+	void Brake(bool isBrake);
 
-  /// <summary>
-  /// プレイヤーの急ブレーキ
-  /// </summary>
-  void Brake(bool isBrake);
+	/// <summary>
+	/// プレイヤーの速度
+	/// </summary>
+	void Velocity(Vector3 acceleration);
 
-  /// <summary>
-  /// プレイヤーの速度
-  /// </summary>
-  void Velocity(Vector3 acceleration);
+	/// <summary>
+	/// キー入力していないとの減速
+	/// </summary>
+	/// <returns>X方向の速度</returns>
+	float Deceleration();
 
-  /// <summary>
-  /// キー入力していないとの減速
-  /// </summary>
-  /// <returns>X方向の速度</returns>
-  float Deceleration();
+	/// <summary>
+	/// プレイヤーの行動
+	/// </summary>
+	void Action();
 
-  /// <summary>
-  /// プレイヤーの行動
-  /// </summary>
-  void Action();
+	/// <summary>
+	/// プレイヤーの向いている向き
+	/// </summary>
+	/// <param name="direction">向かせたい向き</param>
+	void Direction(LRDirection direction);
 
-  /// <summary>
-  /// プレイヤーの向いている向き
-  /// </summary>
-  /// <param name="direction">向かせたい向き</param>
-  void Direction(LRDirection direction);
+	/// <summary>
+	/// アングルとタイマーの記録
+	/// </summary>
+	void RecordAngleAndTime();
 
-  /// <summary>
-  /// アングルとタイマーの記録
-  /// </summary>
-  void RecordAngleAndTime();
+	/// <summary>
+	/// 振り向きアニメーション
+	/// </summary>
+	float TurnAround(float* destinationRotationYTable);
 
-  /// <summary>
-  /// 振り向きアニメーション
-  /// </summary>
-  float TurnAround(float* destinationRotationYTable);
+	/// <summary>
+	/// プレイヤーの向き
+	/// </summary>
+	void Angle();
 
-  /// <summary>
-  /// プレイヤーの向き
-  /// </summary>
-  void Angle();
+	/// <summary>
+	/// プレイヤーのブレーキと向く方向
+	/// </summary>
+	/// <param name="direction">向いてほしい向き</param>
+	void Movement(LRDirection direction);
 
-  /// <summary>
-  /// プレイヤーのブレーキと向く方向
-  /// </summary>
-  /// <param name="direction">向いてほしい向き</param>
-  void Movement(LRDirection direction);
+	/// <summary>
+	/// プレイヤーが地上にいるときの行動
+	/// </summary>
+	void OnGround();
 
-  /// <summary>
-  /// プレイヤーが地上にいるときの行動
-  /// </summary>
-  void OnGround();
+	/// <summary>
+	/// プレイヤーのいる位置
+	/// </summary>
+	void Place();
 
-  /// <summary>
-  /// プレイヤーのいる位置
-  /// </summary>
-  void Place();
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
 
-  /// <summary>
-  /// 描画	
-  /// </summary>
-  void Draw();
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform& GetWorldTransform();
 
-  /// <summary>
-  /// ワールドトランスフォームのゲッター
-  /// </summary>
-  /// <returns></returns>
-  WorldTransform& GetWorldTransform();
+	/// <summary>
+	/// velocityのゲッター
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetVelocity();
 
-  /// <summary>
-  /// velocityのゲッター
-  /// </summary>
-  /// <returns></returns>
-  const Vector3& GetVelocity();
+	/// <summary>
+	/// マップチップフィールドのセッター
+	/// </summary>
+	/// <param name="mapChipField">マップチップフィールド</param>
+	void SetMapChipField(MapChipField*mapChipField);
 
-private: // メンバ変数
+private:// メンバ変数
 
-  WorldTransform worldTransform_;//ワールドトランスフォーム
+	MapChipField* mapChipField_ = nullptr;//マップチップフィールド
 
-  Model* model_ = nullptr;//3Dモデル
+	WorldTransform worldTransform_; // ワールドトランスフォーム
 
-  uint32_t textureHandle_ = 0u;//プレイヤーのテクスチャ
+	Model* model_ = nullptr; // 3Dモデル
 
-  ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
+	uint32_t textureHandle_ = 0u; // プレイヤーのテクスチャ
 
-  MyVector3 velocity_ = {};//プレイヤーの速度
+	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
 
-  bool isBrake_ = false;//ブレーキしているかのフラグ
+	MyVector3 velocity_ = {}; // プレイヤーの速度
 
-  LRDirection lrDirection_ = LRDirection::kRight;//プレイヤーの向き
+	bool isBrake_ = false; // ブレーキしているかのフラグ
 
-  float turnFirstRotationY_ = 0.0f;//旋回開始時間の角度
-  
-  float turnTimer_ = 0.0f;//旋回タイマー
+	LRDirection lrDirection_ = LRDirection::kRight; // プレイヤーの向き
 
-  bool onGround_ = true;
+	float turnFirstRotationY_ = 0.0f; // 旋回開始時間の角度
 
-  private://静的メンバ変数
+	float turnTimer_ = 0.0f; // 旋回タイマー
 
-  static inline const float kTimeTurn = 0.3f;//旋回時間<秒>
+	bool onGround_ = true;
 
-  static inline const float kAcceleration = 0.1f;//加速度
-  
-  static inline const float kAttenuation = 0.1f;//減速
-  
-  static inline const float kLimitRunSpeed = 1.0f;//走る速さの上限
+private:// 静的メンバ変数
+	static inline const float kTimeTurn = 0.3f; // 旋回時間<秒>
 
-  static inline const float kGravityAcceleration = 0.9f;//重力加速度(下方向)
+	static inline const float kAcceleration = 0.1f; // 加速度
 
-  static inline const float kLimitFallSpeed = 0.9f;//最大落下速度(下方向)
+	static inline const float kAttenuation = 0.1f; // 減速
 
-  static inline const float kJumpAcceleration = 5.0f;//ジャンプの初速度(上方向)
-  
-  static inline const float kAttenuationLading = 0.01f;//着地時の減衰
+	static inline const float kLimitRunSpeed = 1.0f; // 走る速さの上限
+
+	static inline const float kGravityAcceleration = 0.4f; // 重力加速度(下方向)
+
+	static inline const float kLimitFallSpeed = 0.9f; // 最大落下速度(下方向)
+
+	static inline const float kJumpAcceleration = 2.0f; // ジャンプの初速度(上方向)
+
+	static inline const float kAttenuationLading = 0.01f; // 着地時の減衰
+	
+	//キャラクターの当たり判定
+	static inline const float kWidth = 0.8f;//横幅
+	static inline const float kHeight = 0.8f;//縦幅
+
+private://メンバ関数
+	void CollisionMap(CollisionMapInfo& mapInfo);
+
+	void CollisionTop(CollisionMapInfo& info);
+	/*void CollisionBottom(CollisionMapInfo& unfo);
+	void CollisionLeft(CollisionMapInfo& info);
+	void CollisionRight(CollisionMapInfo& info);*/
+
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
 };

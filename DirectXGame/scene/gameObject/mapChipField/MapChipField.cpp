@@ -70,3 +70,16 @@ namespace {
   Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex) { 
   return Vector3(kBlockWidth * xIndex, kBlockHeight * (kNumBlockVertical - 1 - yIndex), 0);
   }//(kNumBlockVirtical - 1 - yIndex)をすることで2次元配列の上下を反転させている
+
+  MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position) {
+	  IndexSet result;
+	  result.xIndex = static_cast<uint32_t>(
+		  (position.x + kBlockWidth / 2.0f) / kBlockWidth
+		  );
+	  uint32_t yIndex=static_cast<uint32_t>(
+		  (position.y + kBlockHeight / 2.0f) / kBlockHeight
+		  );
+	  int mapIndexY = kNumBlockVertical - 1;
+	  result.yIndex = static_cast<uint32_t>(mapIndexY - yIndex);
+	  return result;
+  }

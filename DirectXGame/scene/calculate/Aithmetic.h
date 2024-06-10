@@ -95,6 +95,7 @@ Vector3 operator+(const MyVector3& num1, const MyVector3& num2);
 /// <returns></returns>
 Vector3 operator*(const Vector3& vector, const float& num);
 
+
 class MyMatrix4x4 {
 public:
 
