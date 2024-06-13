@@ -71,6 +71,7 @@ namespace {
   return Vector3(kBlockWidth * xIndex, kBlockHeight * (kNumBlockVertical - 1 - yIndex), 0);
   }//(kNumBlockVirtical - 1 - yIndex)をすることで2次元配列の上下を反転させている
 
+  //マップチップのポジションの取得
   MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position) {
 	  IndexSet result;
 	  result.xIndex = static_cast<uint32_t>(
@@ -83,3 +84,16 @@ namespace {
 	  result.yIndex = static_cast<uint32_t>(mapIndexY - yIndex);
 	  return result;
   }
+
+  MapChipField::Rect MapChipField::GetRectByIndex(const IndexSet& index) { 
+	  Vector3 center = GetMapChipPositionByIndex(index.xIndex, index.yIndex);
+	  Rect rect;
+	  rect.left   = center.x - kBlockWidth  / 2.0f;
+	  rect.right  = center.x + kBlockWidth  / 2.0f;
+	  rect.top    = center.y + kBlockHeight / 2.0f;
+	  rect.bottom = center.y - kBlockHeight / 2.0f;
+
+	  return rect;
+  }
+
+

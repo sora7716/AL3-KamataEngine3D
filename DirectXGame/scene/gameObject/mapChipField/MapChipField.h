@@ -25,6 +25,14 @@ public:
 		uint32_t yIndex;
 	} IndexSet;
 
+	// 範囲矩形
+	typedef struct Rect {
+		float left;
+		float right;
+		float bottom;
+		float top;
+	} Rect;
+
 	/// <summary>
 	/// マップチップのリセット
 	/// </summary>
@@ -64,7 +72,19 @@ public:
 	/// <returns>kNumBlockHorizontal</returns>
 	uint32_t GetNumBlockHorizontal() { return kNumBlockHorizontal; };
 
+	/// <summary>
+	/// マップチップのポジションのゲッター
+	/// </summary>
+	/// <param name="position">プレイヤーのポジション</param>
+	/// <returns>マップチップの番号</returns>
 	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
+
+	/// <summary>
+	/// 各頂点のゲッター
+	/// </summary>
+	/// <param name="index">x,yの座標</param>
+	/// <returns>矩形の頂点</returns>
+	Rect GetRectByIndex(const IndexSet& index);
 
 private:
 	// 1ブロックのサイズ

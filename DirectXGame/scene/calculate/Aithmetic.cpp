@@ -86,6 +86,22 @@ Vector3 operator*(const Vector3& vector, const float& num) {
 	return result;
 }
 
+Vector3 operator+(const MyVector3& vector, const float& num) { 
+	Vector3 result;
+	result.x = vector.vector.x + num;
+	result.y = vector.vector.y + num;
+	result.z = vector.vector.z + num;
+	return result;
+}
+
+Vector3 operator-(const MyVector3& vector1, const MyVector3& vector2) {
+	Vector3 result;
+	result.x = vector1.vector.x - vector2.vector.x;
+	result.y = vector1.vector.y - vector2.vector.y;
+	result.z = vector1.vector.z - vector2.vector.z;
+	return result;
+}
+
 MyMatrix4x4::MyMatrix4x4() { matrix4x4 = {}; }
 
 MyMatrix4x4::MyMatrix4x4(Matrix4x4 num) { matrix4x4 = num; }

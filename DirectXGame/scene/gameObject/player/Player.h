@@ -9,7 +9,7 @@ typedef struct CollisionMapInfo {
 	bool Ceiling = false;
 	bool landing = false;
 	bool hiWall  = false;
-	Vector3 move;
+	Vector3 veclocity;
 } CollisionMapInfo;
 
 enum class Corner {
@@ -168,16 +168,18 @@ private:// 静的メンバ変数
 	static inline const float kAttenuationLading = 0.01f; // 着地時の減衰
 	
 	//キャラクターの当たり判定
-	static inline const float kWidth = 0.8f;//横幅
+	static inline const float kWidth  = 0.8f;//横幅
 	static inline const float kHeight = 0.8f;//縦幅
 
 private://メンバ関数
 	void CollisionMap(CollisionMapInfo& mapInfo);
 
 	void CollisionTop(CollisionMapInfo& info);
-	/*void CollisionBottom(CollisionMapInfo& unfo);
+	void CollisionBottom(CollisionMapInfo& unfo);
 	void CollisionLeft(CollisionMapInfo& info);
-	void CollisionRight(CollisionMapInfo& info);*/
+	void CollisionRight(CollisionMapInfo& info);
 
+	void MovePosition(CollisionMapInfo& info);
+	void IsCollisionTop(const CollisionMapInfo& info);
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 };

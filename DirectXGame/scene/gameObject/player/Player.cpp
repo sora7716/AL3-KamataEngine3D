@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "ImGuiManager.h"
 #include "scene/gameObject/mapChipField/MapChipField.h"
+#include "DebugText.h"
 #define OneFrame 1.0f / 60.0f
 using namespace std;
 
@@ -155,7 +156,7 @@ void Player::Place() {
 	}
 
 	CollisionMapInfo collisionMapInfo;
-	collisionMapInfo.move = velocity_.vector;
+	collisionMapInfo.veclocity = velocity_.vector;
 	CollisionMap(collisionMapInfo);
 }
 
@@ -184,12 +185,12 @@ void Player::CollisionMap(CollisionMapInfo& mapInfo) {
 }
 
 void Player::CollisionTop(CollisionMapInfo& info) { 
-	if (info.move.y >= 0) {
+	if (info.veclocity.y <= 0) {
 		return;
 	}
 	std::array<Vector3, static_cast<uint32_t>(Corner::kNumCorner)> positionNew;
 	for (uint32_t i = 0; i < positionNew.size(); ++i) {
-		positionNew[i] = CornerPosition(worldTransform_.translation_.vector + info.move, static_cast<Corner>(i));
+		positionNew[i] = CornerPosition(worldTransform_.translation_.vector + info.veclocity, static_cast<Corner>(i));
 	}
 	MapChipType mapChipType;
 	bool hit = false;
@@ -201,19 +202,44 @@ void Player::CollisionTop(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
+	if (hit) {
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition((worldTransform_.translation_.vector + kHeight) + velocity_);
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet);
+		info.veclocity.y = std::max(0.0f, velocity_.vector.y);
+
+		info.Ceiling = true;
+	}
+	MovePosition(info);
+	IsCollisionTop(info);
 }
 
-//void Player::CollisionBottom(CollisionMapInfo& info) {
-//
-//}
-//
-//void Player::CollisionLeft(CollisionMapInfo& info) {
-//
-//}
-//
-//void Player::CollisionRight(CollisionMapInfo& info) {
-//
-//}
+#pragma warning(push)
+#pragma warning(disable : 4100)//一時的にエラーをなかったことにする(4100のエラーコード)
+void Player::CollisionBottom(CollisionMapInfo& info) {
+
+}
+
+void Player::CollisionLeft(CollisionMapInfo& info) {
+
+}
+
+void Player::CollisionRight(CollisionMapInfo& info) {
+
+}
+
+void Player::MovePosition(CollisionMapInfo& info) {
+	if (info.Ceiling) {
+		velocity_.vector.y= 0.0f;
+	}
+	worldTransform_.translation_ += velocity_;
+}
+
+void Player::IsCollisionTop(const CollisionMapInfo& info) {
+	if (info.Ceiling) {
+		DebugText::GetInstance()->ConsolePrintf("hit celling\n");
+		velocity_.vector.y = 0;
+	}
+}
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner) { 
 	Vector3 offsetTable[static_cast<int>(Corner::kNumCorner)] = {
