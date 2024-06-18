@@ -47,14 +47,14 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);//モデルの読み込み(obj)
 	skydome_->Initialize(modelSkydome_, &viewProjection_);//スカイドームの初期化
 
-    mapChipField_ = new MapChipField();
-	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
-	GenerateBlocks();
+    mapChipField_ = new MapChipField();//マップチップの生成
+	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");//マップチップの読み込み
+	GenerateBlocks();//ブロックの生成
 }
 
 void GameScene::Update() {
 	blocks_->Update();//ブロック
-	debugCamera_->Update();
+	debugCamera_->Update();//デバックカメラ
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
 		isDebugCameraActive_ ^= true;

@@ -8,10 +8,11 @@ public://メンバ関数
   /// <summary>
   /// 初期化
   /// </summary>
-  /// <param name="model">モデルクラス</param>
+  /// <param name="model">モデル</param>
   /// <param name="textureHandle">テクスチャ</param>
   /// <param name="viewProjection">ビュープロジェクション</param>
-  void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+  /// <param name="position">ポジション</param>
+  void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection,const Vector3&position);
 
   /// <summary>
   /// 更新処理

@@ -70,5 +70,5 @@ private: // メンバ変数
 	Skydome* skydome_ = nullptr;//スカイドーム
 	Model* modelSkydome_ = nullptr;//スカイドームモデル
 
-	MapChipField* mapChipField_ = nullptr;
+	MapChipField* mapChipField_ = nullptr;//マップチップ
 };
