@@ -147,5 +147,5 @@ public:
 	/// <param name="end">最後のポジション</param>
 	/// <param name="easing">タイマー</param>
 	/// <returns>現在のポジション</returns>
-	static float Larp(const float& begin,const float& end,const float& easing);
+	static Vector3 Lerp(const Vector3& begin, const Vector3& end, const float& easing);
 };

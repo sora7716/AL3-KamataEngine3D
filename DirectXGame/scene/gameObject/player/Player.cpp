@@ -140,12 +140,18 @@ void Player::Draw() {
 }
 
 //ワールドトランスフォームのゲッター
-const WorldTransform& Player::GetWorldTransform() {
+WorldTransform& Player::GetWorldTransform() {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
 
 //ベロシティのゲッター
 const Vector3 Player::GetVelocity() { 
-	return velocity_;
+	return velocity_; 
+}
+
+//どの向きを向いているのかのゲッター
+const Player::LRDirection& Player::GetLRDirection() {
+	// TODO: return ステートメントをここに挿入します
+	return lrDirection_;
 }

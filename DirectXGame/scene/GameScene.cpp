@@ -35,12 +35,6 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	cameraController_ = new CameraController();          // カメラコントロールの生成
-	cameraController_->Initialize();                     // カメラコントロールの初期化
-	cameraController_->SetTarget(player_);               // ターゲットのセット
-	cameraController_->Reset();                          // リセット
-	cameraController_->SetMovableArea({20, 175, 10, 20}); // カメラの追従範囲
-
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
 	debugCamera_->SetFarZ(2000);//farClipの変更
 	
@@ -58,11 +52,18 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y);//プレイヤーのいるポジション
 	player_ = new Player;//プレイヤークラスの生成
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
+
+	cameraController_ = new CameraController();           // カメラコントロールの生成
+	cameraController_->Initialize();                      // カメラコントロールの初期化
+	cameraController_->SetTarget(player_);                // ターゲットのセット
+	cameraController_->Reset();                           // リセット
+	cameraController_->SetMovableArea({20, 175, 10, 20}); // カメラの追従範囲
 }
 
 void GameScene::Update() {
 	blocks_->Update();//ブロック
 	debugCamera_->Update();//デバックカメラ
+	cameraController_->Update();
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
 		isDebugCameraActive_ ^= true;
@@ -75,8 +76,10 @@ void GameScene::Update() {
 		//ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		//ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
 
 	player_->Update();//プレイヤー

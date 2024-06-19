@@ -176,8 +176,11 @@ Vector3 Math::Normalize(Vector3& v) {
 }
 
 //線形補間
-float Math::Larp(const float& begin, const float& end, const float& easing) {
-	float result = begin * easing + (1.0f - easing) * end;
+Vector3 Math::Lerp(const Vector3& begin, const Vector3& end, const float& easing) {
+	Vector3 result = {};
+	result.x = (begin.x * easing) + end.x * (1.0f - easing);
+	result.y = (begin.y * easing) + end.y * (1.0f - easing);
+	result.z = (begin.z * easing) + end.z * (1.0f - easing);
 	return result;
 }
 

@@ -13,8 +13,9 @@ void CameraController::Initialize() {
 //更新処理
 void CameraController::Update() {
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
-	goalPosition_ = targetWorldTransform.translation_ + targetOffset_ + target_->GetVelocity()* kVelocityBias;//ターゲットの速度から目標ポジションを算出
-	viewProjection_.translation_  = Lerp(viewProjection_.translation_,goalPosition_,kInterpolationRate);//線形補完で少し遅らせる
+	Vector3 vecolity = target_->GetVelocity();
+	goalPosition_ = targetWorldTransform.translation_ + targetOffset_ + vecolity * kVelocityBias;               // ターゲットの速度から目標ポジションを算出
+	viewProjection_.translation_  = Math::Lerp(viewProjection_.translation_,goalPosition_,kInterpolationRate);//線形補完で少し遅らせる
 	//プレイヤーにどこまで追従するか↓
 	viewProjection_.translation_.x = std::clamp(
 		viewProjection_.translation_.x, 

@@ -1,4 +1,4 @@
-﻿#include "Aithmetic.h"
+#include "Aithmetic.h"
 
 const Vector3 operator+(const Vector3& num1,const Vector3& num2){
 	Vector3 result{};

@@ -34,13 +34,19 @@ public://メンバ関数
   /// ワールドトランスフォームのゲッター
   /// </summary>
   /// <returns></returns>
-  const WorldTransform& GetWorldTransform();
+  WorldTransform& GetWorldTransform();
 
   /// <summary>
   /// ベロシティのゲッター
   /// </summary>
   /// <returns></returns>
   const Vector3 GetVelocity();
+
+  /// <summary>
+  /// 向いている向きのゲッター
+  /// </summary>
+  /// <returns></returns>
+  const LRDirection& GetLRDirection();
 
   private: // メンバ変数
 
