@@ -139,4 +139,13 @@ public:
 	/// <param name="v">vector</param>
 	/// <returns></returns>
 	static Vector3 Normalize(Vector3& v);
+
+	/// <summary>
+	/// 線形補間
+	/// </summary>
+	/// <param name="begin">最初のポジション</param>
+	/// <param name="end">最後のポジション</param>
+	/// <param name="easing">タイマー</param>
+	/// <returns>現在のポジション</returns>
+	static float Larp(const float& begin,const float& end,const float& easing);
 };

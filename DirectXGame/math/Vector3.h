@@ -8,3 +8,9 @@ struct Vector3 final {
 	float y;
 	float z;
 };
+
+struct Vector3Int final {
+	int x;
+	int y;
+	int z;
+};

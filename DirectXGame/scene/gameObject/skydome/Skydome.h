@@ -6,8 +6,7 @@
 /// </summary>
 class Skydome {
 
-public://メンバ関数
-
+public: // メンバ関数
 	/// <summary>
 	/// スカイドームの初期化処理
 	/// </summary>
@@ -25,13 +24,11 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
-private://メンバ変数
+private:                            // メンバ変数
+	WorldTransform worldTransform_; // ワールド変換データ
 
-	
-	WorldTransform worldTransform_;//ワールド変換データ
-	
-	Model* model_ = nullptr;//モデル
-	
-	ViewProjection* viewProjection_;//ビュープロジェクション
+	Model* model_ = nullptr; // モデル
+
+	ViewProjection* viewProjection_ = {}; // ビュープロジェクション
 
 };
