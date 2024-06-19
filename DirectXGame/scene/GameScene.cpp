@@ -25,7 +25,7 @@ GameScene::~GameScene() {
 	delete player_;//プレイヤーの削除
 	delete modelPlayer_;//プレイヤーのモデルの削除
 
-	delete mapChipField_;
+	delete mapChipField_;//マップチップの削除
 
 }
 
@@ -34,6 +34,12 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	cameraController_ = new CameraController();          // カメラコントロールの生成
+	cameraController_->Initialize();                     // カメラコントロールの初期化
+	cameraController_->SetTarget(player_);               // ターゲットのセット
+	cameraController_->Reset();                          // リセット
+	cameraController_->SetMovableArea({20, 175, 10, 20}); // カメラの追従範囲
 
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);//デバックカメラの生成
 	debugCamera_->SetFarZ(2000);//farClipの変更
@@ -48,8 +54,8 @@ void GameScene::Initialize() {
 
 	modelPlayer_ = Model::CreateFromOBJ("player", true); // プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");//プレイヤーのテクスチャ
-	Vector3Int playerIndex = {1,18};
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y);
+	Vector3Int playerIndex = {1,18};//プレイヤーのいる場所の検索
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y);//プレイヤーのいるポジション
 	player_ = new Player;//プレイヤークラスの生成
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
 }

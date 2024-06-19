@@ -30,6 +30,18 @@ public://メンバ関数
   /// </summary>
   void Draw();
 
+  /// <summary>
+  /// ワールドトランスフォームのゲッター
+  /// </summary>
+  /// <returns></returns>
+  const WorldTransform& GetWorldTransform();
+
+  /// <summary>
+  /// ベロシティのゲッター
+  /// </summary>
+  /// <returns></returns>
+  const Vector3 GetVelocity();
+
   private: // メンバ変数
 
   WorldTransform worldTransform_;//ワールドトランスフォーム

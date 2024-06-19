@@ -138,3 +138,14 @@ void Player::Draw() {
 	model_->Draw(worldTransform_,*(viewProjection_),textureHandle_); 
 
 }
+
+//ワールドトランスフォームのゲッター
+const WorldTransform& Player::GetWorldTransform() {
+	// TODO: return ステートメントをここに挿入します
+	return worldTransform_;
+}
+
+//ベロシティのゲッター
+const Vector3 Player::GetVelocity() { 
+	return velocity_;
+}
