@@ -69,6 +69,11 @@ Vector3 operator*=(Vector3& num1, const Vector3& num2);
 /// <returns></returns>
 Vector3& operator/=(Vector3& num, const float& len);
 
+const Vector3 operator+(const Vector3& vector, const float& num);
+
+const Vector3 operator-(const Vector3& vector, const float& num);
+
+const Vector3 operator/(const Vector3& vector1, const float& num);
 
 /// <summary>
 /// 加算

@@ -52,6 +52,7 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y);//プレイヤーのいるポジション
 	player_ = new Player;//プレイヤークラスの生成
 	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition); // プレイヤーの初期化
+	player_->SetMapChipField(mapChipField_);
 
 	cameraController_ = new CameraController();           // カメラコントロールの生成
 	cameraController_->Initialize();                      // カメラコントロールの初期化

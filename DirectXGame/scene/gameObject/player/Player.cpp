@@ -1,9 +1,11 @@
 #define NOMINMAX
 #include "Player.h"
 #include "input/Input.h"
+#include "gameObject/mapChipField/MapChipField.h"
 #include <cassert>
 #include <algorithm>
 #include <numbers>
+#include <array>
 #define OneFrame 1.0f/60.0f
 using namespace std;
 //プレイヤーの初期化
@@ -43,7 +45,7 @@ void Player::Update() {
 		// 着地
 		if (landing) {
 			// めり込み排斥
-			worldTransform_.translation_.y = 2.0f;
+			worldTransform_.translation_.y = kAcceleration / (kAcceleration / 2.0f);
 			// 摩擦で横方向速度が減衰する
 			velocity_.x *= (1.0f - kAttenuation);
 			// 下方向速度をリセット
@@ -98,7 +100,8 @@ void Player::Update() {
 		}
 		if (upPush) {
 			//ジャンプの初速
-			velocity_ += Vector3(0.0f, kJumpAcceleration, 0.0f);
+			Vector3 velocity = {0.0f, kJumpAcceleration, 0.0f};
+			velocity_ += velocity;
 		}
 
 	}
@@ -128,6 +131,13 @@ void Player::Update() {
 		worldTransform_.rotation_.y = nowPosition;
 	}
 
+	//衝突判定の初期化
+	CollisionMapChipInfo collisionMapChipInfo;
+	//移動量のコピー
+	collisionMapChipInfo.velocity = velocity_;
+	//マップ衝突チェック
+	CollisionMapChip(collisionMapChipInfo);
+
 	// アフィン変換
 	worldTransform_.UpdateMatrix();
 }
@@ -154,4 +164,148 @@ const Vector3 Player::GetVelocity() {
 const Player::LRDirection& Player::GetLRDirection() {
 	// TODO: return ステートメントをここに挿入します
 	return lrDirection_;
+}
+
+//マップチップのセッター
+void Player::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+#pragma warning(push)
+#pragma warning(disable : 4100) // 一時的にエラーをなかったことにする(4100のエラーコード)
+void Player::CollisionMapChip(CollisionMapChipInfo& info) { 
+	MapChipTop(info); 
+	MapChipBottom(info); 
+	MapChipRight(info); 
+	MapChipLeft(info); 
+
+	IsCollision(info);
+
+	CollisionMoveMent(info);
+}
+
+void Player::MapChipTop(CollisionMapChipInfo& info) { 
+	array<Vector3, kNumCorner> positionNew; 
+	for (uint32_t i = 0; i < positionNew.size(); i++) {
+		positionNew[i] = CornerPosition(worldTransform_.translation_+info.velocity, static_cast<Corner>(i));
+	}
+	if (info.velocity.y <= 0.0f) {
+		return;
+	}
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+	indexSet    = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftTop]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+	if (hit) {
+
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition((worldTransform_.translation_ - kHeight) + velocity_);
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+		info.velocity.y = max(0.0f, velocity_.y);
+		info.celling = true;
+	}
+}
+
+void Player::MapChipBottom(CollisionMapChipInfo& info) {
+	array<Vector3, kNumCorner> positionNew;
+	for (uint32_t i = 0; i < positionNew.size(); i++) {
+		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
+	}
+	if (info.velocity.y >= 0.0f) {
+		return;
+	}
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftBottom]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+	if (hit) {
+
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition((worldTransform_.translation_ + kHeight) + velocity_);
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+		info.velocity.y = min(0.0f, velocity_.y);
+		info.landing = true;
+	}
+}
+
+void Player::MapChipRight(CollisionMapChipInfo& info) {
+	array<Vector3, kNumCorner> positionNew;
+	for (uint32_t i = 0; i < positionNew.size(); i++) {
+		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
+	}
+	if (info.velocity.x >= 0.0f) {
+		return;
+	}
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightTop]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+	if (hit) {
+
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition((worldTransform_.translation_ + kWidth) + velocity_);
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+		info.velocity.y = min(0.0f, velocity_.x);
+		info.hitWall = true;
+	}
+}
+
+void Player::MapChipLeft(CollisionMapChipInfo& info) {
+	array<Vector3, kNumCorner> positionNew;
+	for (uint32_t i = 0; i < positionNew.size(); i++) {
+		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
+	}
+	if (info.velocity.x <= 0.0f) {
+		return;
+	}
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftBottom]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+	if (hit) {
+
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition((worldTransform_.translation_ - kWidth) + velocity_);
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+		info.velocity.y = max(0.0f, velocity_.x);
+		info.hitWall = true;
+	}
+}
+
+void Player::CollisionMoveMent(CollisionMapChipInfo& info) {
+	info.velocity = velocity_;
+	worldTransform_.translation_ += info.velocity; 
+}
+
+void Player::IsCollision(const CollisionMapChipInfo& info) {
+	if (info.celling) {
+		velocity_.y = 0.0f;
+	}
+	if (info.landing) {
+		velocity_.y = 0.0f;
+		worldTransform_.translation_.y = kAcceleration / (kAcceleration / 2.0f);
+	}
+	if (info.hitWall) {
+		velocity_.x *= (1.0f-kAttenuationWall);
+	}
+}
+
+Vector3 Player::CornerPosition(const Vector3& center, Corner corner) { 
+	Vector3 offsetTable[kNumCorner] = {
+	    {+kWidth / 2.0f, -kHeight / 2.0f, 0.0f}, //  kRightBottom
+	    {-kWidth / 2.0f, -kHeight / 2.0f, 0.0f}, //  kLeftBottom
+	    {+kWidth / 2.0f, +kHeight / 2.0f, 0.0f}, //  kRightTop
+	    {-kWidth / 2.0f, +kHeight / 2.0f, 0.0f}, //  kLeftBottom
+	};
+	return center + offsetTable[static_cast<uint32_t>(corner)];
 }
