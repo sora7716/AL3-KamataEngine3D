@@ -122,9 +122,9 @@ void Player::Update() {
 	// アフィン変換
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("Player");
+	/*ImGui::Begin("Player");
 	ImGui::Text("%d", onGround_);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 // プレイヤーの描画処理
@@ -151,13 +151,20 @@ void Player::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapCh
 // #pragma warning(push)
 // #pragma warning(disable : 4100) // 一時的にエラーをなかったことにする(4100のエラーコード)
 void Player::CollisionMapChip(CollisionMapChipInfo& info, const bool& landing) {
+	//上
 	MapChipTop(info);
+	//下
 	MapChipBottom(info);
+	//右
 	MapChipRight(info);
+	//左
 	MapChipLeft(info); 
 
+	//上に当たった場合
 	IsCollisionTop(info);
+	//壁に当たった場合
 	IsHitWall(info);
+	//着地状態と空中状態の切り替え
 	SwitchOnGround(info,landing);
 }
 
