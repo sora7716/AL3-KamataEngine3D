@@ -112,12 +112,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw();//プレイヤー
-
-	blocks_->Draw();//ブロック
 
 	skydome_->Draw();//スカイドーム
+
+	blocks_->Draw();//ブロック
 	
+	player_->Draw();//プレイヤー
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
