@@ -3,11 +3,10 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-// 前方宣言
 class MapChipField;
+class Enemy {
 
-class Player {
-public: // メンバ関数
+public:
 	// 左右
 	enum class LRDirection {
 		kLeft,
@@ -32,13 +31,24 @@ public: // メンバ関数
 		kNumCorner, // 要素数
 	};
 
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Enemy();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Enemy();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="model">モデル</param>
-	/// <param name="textureHandle">テクスチャ</param>
+	/// <param name="texture">テクスチャ</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	/// <param name="position">ポジション</param>
+	/// <param name="position">今いるポジション</param>
 	void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection, const Vector3& position);
 
 	/// <summary>
@@ -47,27 +57,9 @@ public: // メンバ関数
 	void Update();
 
 	/// <summary>
-	/// 描画
+	/// 描画処理
 	/// </summary>
 	void Draw();
-
-	/// <summary>
-	/// ワールドトランスフォームのゲッター
-	/// </summary>
-	/// <returns></returns>
-	WorldTransform& GetWorldTransform();
-
-	/// <summary>
-	/// ベロシティのゲッター
-	/// </summary>
-	/// <returns></returns>
-	const Vector3 GetVelocity();
-
-	/// <summary>
-	/// 向いている向きのゲッター
-	/// </summary>
-	/// <returns></returns>
-	const LRDirection& GetLRDirection();
 
 	/// <summary>
 	/// マップチップのセッター
@@ -134,29 +126,29 @@ private: // メンバ関数
 
 	void IsHitWall(const CollisionMapChipInfo& info);
 
-private:                                                   // メンバ変数
-	WorldTransform worldTransform_;                        // ワールドトランスフォーム
-	Model* model_ = nullptr;                               // 3Dモデル
-	uint32_t textureHandle_ = 0u;                          // プレイヤーのテクスチャ
-	ViewProjection* viewProjection_ = nullptr;             // ビュープロジェクション
-	Vector3 velocity_ = {};                                // 速度
-	LRDirection lrDirection_ = LRDirection::kLeft;         // どちらを向いているのか
-	float turnFirstRotationY_ = 0.0f;                      // 旋回開始時の角度
-	float turnTimer_ = 0.0f;                               // 旋回開始タイマー
-	bool onGround_ = true;                                 // 接地状態フラグ
-	MapChipField* mapChipField_ = nullptr;                 // マップチップフィールド
+private:                             // メンバ変数
+	Model* model_;                   // モデル
+	ViewProjection* viewProjection_; // ビュープロジェクション
+	uint32_t textureHandle_;         // テクスチャ
+	WorldTransform worldTransform_;  // ワールドトランスフォーム
+	Vector3 velocity_;               // 速度
+	MapChipField* mapChipField_;     // マップチップフィールド
+	bool onGround_;                  // 地上にいるかどうかのフラグ
+	float walkTimer_;//経過時間
+
 private:                                                   // 静的メンバ変数
-	static inline const float kAcceleration = 0.05f;       // 加速
-	static inline const float kAttenuation = 0.2f;         // 減速
-	static inline const float kLimitRunSpeed = 0.9f;       // 移動速度の上限
-	static inline const float kTimeTurn = 0.3f;            // 旋回時間<秒>
+	static inline const float kWalkSpeed = 0.1f;           // 歩行の速さ
 	static inline const float kGravityAcceleration = 0.2f; // 重力加速度
 	static inline const float kLimitFallSpeed = 0.8f;      // 最大落下速度
-	static inline const float kJumpAcceleration = 2.0f;    // ジャンプの初速
+	static inline const float kAttenuation = 0.2f;         // 減速
 	static inline const float Blanc = 0.8f;                // 微小な余白
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.0f;
 	static inline const float kHeight = 1.0f;
 	static inline const float kAttenuationLanding = 0.99999f;
 	static inline const float kAttenuationWall = 2.0f;
+	// アニメーション
+	static inline const float kWalkMotionAngleStart = -45.0f; // 最初の角度(度数法)
+	static inline const float kWalkMotionAngleEnd = 90.0f; // 最後の角度(度数法)
+	static inline const float kWalkMotionTime = 30.0f;      // アニメーションの周期となるタイマー
 };

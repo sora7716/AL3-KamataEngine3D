@@ -102,6 +102,9 @@
     <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="scene\gameObject\enemy\Enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -210,6 +213,9 @@
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="scene\gameObject\camera\CameraController.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\enemy\Enemy.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -115,6 +115,7 @@
     <ClCompile Include="scene\calculate\Math.cpp" />
     <ClCompile Include="scene\gameObject\blocks\Blocks.cpp" />
     <ClCompile Include="scene\gameObject\camera\CameraController.cpp" />
+    <ClCompile Include="scene\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp" />
     <ClCompile Include="scene\gameObject\player\Player.cpp" />
     <ClCompile Include="scene\gameObject\skydome\Skydome.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="scene\calculate\Math.h" />
     <ClInclude Include="scene\gameObject\blocks\Blocks.h" />
     <ClInclude Include="scene\gameObject\camera\CameraController.h" />
+    <ClInclude Include="scene\gameObject\enemy\Enemy.h" />
     <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h" />
     <ClInclude Include="scene\gameObject\player\Player.h" />
     <ClInclude Include="scene\gameObject\skydome\Skydome.h" />
