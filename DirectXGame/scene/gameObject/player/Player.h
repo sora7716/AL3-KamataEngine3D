@@ -149,7 +149,7 @@ private: // メンバ変数
   bool onGround_ = true;//接地状態フラグ
   MapChipField* mapChipField_;//マップチップフィールド
   private://静的メンバ変数
-  static inline const float kAcceleration   = 0.2f;//加速
+  static inline const float kAcceleration   = 0.05f;//加速
   static inline const float kAttenuation    = 0.2f;//減速
   static inline const float kLimitRunSpeed  = 0.9f;//移動速度の上限
   static inline const float kTimeTurn      = 0.3f;//旋回時間<秒>
