@@ -103,7 +103,7 @@
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="scene\gameObject\enemy\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +216,7 @@
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="scene\gameObject\enemy\Enemy.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

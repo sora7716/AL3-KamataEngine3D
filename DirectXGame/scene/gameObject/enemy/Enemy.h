@@ -72,7 +72,7 @@ private: // メンバ関数
 	/// 当たり判定をまとめる
 	/// </summary>
 	/// <param name="info"></param>
-	void CollisionMapChip(CollisionMapChipInfo& info, const bool& landing);
+	void CollisionMapChip(CollisionMapChipInfo& info);
 
 	/// <summary>
 	/// 上の当たり判定
@@ -122,7 +122,7 @@ private: // メンバ関数
 	/// 着地状態と空中状態の切り替え
 	/// </summary>
 	/// <param name="info"></param>
-	void SwitchOnGround(CollisionMapChipInfo& info, const bool& landing);
+	void SwitchOnGround(CollisionMapChipInfo& info);
 
 	void IsHitWall(const CollisionMapChipInfo& info);
 

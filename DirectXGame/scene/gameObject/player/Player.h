@@ -7,7 +7,7 @@
 class MapChipField;
 
 class Player {
-public: // メンバ関数
+public: // 構造体
 	// 左右
 	enum class LRDirection {
 		kLeft,
@@ -31,6 +31,8 @@ public: // メンバ関数
 
 		kNumCorner, // 要素数
 	};
+
+public://メンバ関数
 
 	/// <summary>
 	/// 初期化
@@ -75,12 +77,14 @@ public: // メンバ関数
 	/// <param name="mapChipField"></param>
 	void SetMapChipField(MapChipField* mapChipField);
 
+	Vector3 GetWorldPosition();
+
 private: // メンバ関数
 	/// <summary>
 	/// 当たり判定をまとめる
 	/// </summary>
 	/// <param name="info"></param>
-	void CollisionMapChip(CollisionMapChipInfo& info, const bool& landing);
+	void CollisionMapChip(CollisionMapChipInfo& info);
 
 	/// <summary>
 	/// 上の当たり判定
@@ -130,8 +134,12 @@ private: // メンバ関数
 	/// 着地状態と空中状態の切り替え
 	/// </summary>
 	/// <param name="info"></param>
-	void SwitchOnGround(CollisionMapChipInfo& info, const bool& landing);
+	void SwitchOnGround(CollisionMapChipInfo& info);
 
+	/// <summary>
+	/// 壁にあたったときの判定
+	/// </summary>
+	/// <param name="info"></param>
 	void IsHitWall(const CollisionMapChipInfo& info);
 
 private:                                                   // メンバ変数
@@ -153,7 +161,7 @@ private:                                                   // 静的メンバ変
 	static inline const float kGravityAcceleration = 0.2f; // 重力加速度
 	static inline const float kLimitFallSpeed = 0.8f;      // 最大落下速度
 	static inline const float kJumpAcceleration = 2.0f;    // ジャンプの初速
-	static inline const float Blanc = 0.8f;                // 微小な余白
+	static inline const float Blanc = 0.1f;                // 微小な余白
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.0f;
 	static inline const float kHeight = 1.0f;

@@ -2,12 +2,13 @@
 #include "Enemy.h"
 #include <algorithm>
 #include <cassert>
-#include <numbers>
 #include <cmath>
-#define pi_f numbers::pi_v<float>
-#define oneFream 1.0f/60.0f
-#define Radian(theta) theta*(1.0f/180.0f)*pi_f
+#include <numbers>
+#define pi_f          numbers::pi_v<float>
+#define oneFream      1.0f / 60.0f
+#define Radian(theta) theta * (1.0f / 180.0f) * pi_f
 #include "gameObject/mapChipField/MapChipField.h"
+#include "calculate/Aithmetic.h"
 using namespace std;
 
 // コンストラクタ
@@ -40,21 +41,11 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vie
 
 // 更新処理
 void Enemy::Update() {
-	//アニメーション
-	walkTimer_ += oneFream;//経過時間
-	float param = sin(kWalkMotionAngleEnd * walkTimer_ / kWalkMotionTime);//角度を計算
-	float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f;//線形補間
-	worldTransform_.rotation_.x = Radian(theta);//弧度法に直す
-	// 着地フラグ
-	bool landing = false;
-	// 地面との当たり判定
-	// 降下中?
-	if (velocity_.y < 0.0f) {
-		// Y座標が地面いかになったら着地
-		if (worldTransform_.translation_.y <= 1.0f) {
-			landing = true;
-		}
-	}
+	// アニメーション
+	walkTimer_ += oneFream;                                                            // 経過時間
+	float param = sin(kWalkMotionAngleEnd * walkTimer_ / kWalkMotionTime);             // 角度を計算
+	float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f; // 線形補間
+	worldTransform_.rotation_.x = Radian(theta);                                       // 弧度法に直す
 	// 歩行
 	worldTransform_.translation_ += velocity_;
 
@@ -72,7 +63,7 @@ void Enemy::Update() {
 	// 移動量のコピー
 	collisionMapChipInfo.velocity = velocity_;
 	// マップ衝突チェック
-	CollisionMapChip(collisionMapChipInfo, landing);
+	CollisionMapChip(collisionMapChipInfo);
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
@@ -84,7 +75,7 @@ void Enemy::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChi
 
 // #pragma warning(push)
 // #pragma warning(disable : 4100) // 一時的にエラーをなかったことにする(4100のエラーコード)
-void Enemy::CollisionMapChip(CollisionMapChipInfo& info, const bool& landing) {
+void Enemy::CollisionMapChip(CollisionMapChipInfo& info) {
 	// 上
 	MapChipTop(info);
 	// 下
@@ -99,7 +90,7 @@ void Enemy::CollisionMapChip(CollisionMapChipInfo& info, const bool& landing) {
 	// 壁に当たった場合
 	IsHitWall(info);
 	// 着地状態と空中状態の切り替え
-	SwitchOnGround(info, landing);
+	SwitchOnGround(info);
 }
 
 void Enemy::MapChipTop(CollisionMapChipInfo& info) {
@@ -265,7 +256,17 @@ Vector3 Enemy::CornerPosition(const Vector3& center, Corner corner) {
 	return center + offsetTable[static_cast<uint32_t>(corner)];
 }
 
-void Enemy::SwitchOnGround(CollisionMapChipInfo& info, const bool& landing) {
+void Enemy::SwitchOnGround(CollisionMapChipInfo& info) {
+	// 着地フラグ
+	bool landing = false;
+	// 地面との当たり判定
+	// 降下中?
+	if (velocity_.y < 0.0f) {
+		// Y座標が地面いかになったら着地
+		if (worldTransform_.translation_.y <= 1.0f) {
+			landing = true;
+		}
+	}
 	if (onGround_) {
 		// ジャンプ開始
 		if (velocity_.y > 0.0f) {

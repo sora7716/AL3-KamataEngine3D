@@ -134,3 +134,5 @@ Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2);
 /// <returns></returns>
 Matrix4x4 operator~(const Matrix4x4& num);
 
+
+
