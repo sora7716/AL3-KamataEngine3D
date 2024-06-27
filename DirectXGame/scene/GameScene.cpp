@@ -95,6 +95,7 @@ void GameScene::Update() {
 	enemy_->Update(); // エネミー
 
 	player_->Update(); // プレイヤー
+	CheckAllCollision();
 }
 
 void GameScene::Draw() {
@@ -156,4 +157,19 @@ void GameScene::GenerateBlocks() {
 	// viewProjection_.farZ = 2000;
 	blocks_ = new Blocks;                                                                   // ブロックの生成
 	blocks_->Initialize(modelBlock_, blockTextureHandle_, &viewProjection_, mapChipField_); // ブロックの初期化
+}
+
+void GameScene::CheckAllCollision() {
+	#pragma region 自キャラと敵キャラの当たり判定
+	// 自キャラと敵キャラの当たり判定
+	AABB aabb1, aabb2;
+	aabb1 = player_->GetAABB();
+	aabb2 = enemy_->GetAABB();
+	if (IsHit(aabb1, aabb2)) {
+		player_->OnCollision(enemy_);
+		enemy_->OnCollision(player_);
+	}
+	
+
+#pragma endregion
 }

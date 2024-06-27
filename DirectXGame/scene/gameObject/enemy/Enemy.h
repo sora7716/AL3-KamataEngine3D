@@ -2,8 +2,12 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "calculate/collision/Collision.h"
 
+//前方宣言
 class MapChipField;
+class Player;
+
 class Enemy {
 
 public:
@@ -67,6 +71,24 @@ public: // メンバ関数
 	/// <param name="mapChipField"></param>
 	void SetMapChipField(MapChipField* mapChipField);
 
+	/// <summary>
+	/// ワールド座標のゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB();
+
+	/// <summary>
+	/// 当たったら
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(const Player* player);
+
 private: // メンバ関数
 	/// <summary>
 	/// 当たり判定をまとめる
@@ -124,6 +146,10 @@ private: // メンバ関数
 	/// <param name="info"></param>
 	void SwitchOnGround(CollisionMapChipInfo& info);
 
+	/// <summary>
+	/// 壁に当たった場合
+	/// </summary>
+	/// <param name="info"></param>
 	void IsHitWall(const CollisionMapChipInfo& info);
 
 private:                             // メンバ変数
@@ -145,7 +171,7 @@ private:                                                   // 静的メンバ変
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.0f;
 	static inline const float kHeight = 1.0f;
-	static inline const float kAttenuationLanding = 0.99999f;
+	static inline const float kAttenuationLanding = 0.9f;
 	static inline const float kAttenuationWall = 2.0f;
 	// アニメーション
 	static inline const float kWalkMotionAngleStart = -45.0f; // 最初の角度(度数法)

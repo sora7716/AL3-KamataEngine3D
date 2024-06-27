@@ -26,9 +26,9 @@ void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vi
 // プレイヤーの更新処理
 void Player::Update() {
 	// キー入力を受け取る箱
-	bool leftPush = Input::GetInstance()->PushKey(DIK_LEFT);
+	bool leftPush  = Input::GetInstance()->PushKey(DIK_LEFT);
 	bool rightPush = Input::GetInstance()->PushKey(DIK_RIGHT);
-	bool upPush = Input::GetInstance()->PushKey(DIK_UP);
+	bool upPush    = Input::GetInstance()->PushKey(DIK_UP);
 	// 速度の加算
 	if (onGround_) {
 		// キー入力
@@ -139,7 +139,28 @@ const Player::LRDirection& Player::GetLRDirection() {
 // マップチップのセッター
 void Player::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
+//ワールド座標のゲッター
 Vector3 Player::GetWorldPosition() { return Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]); }
+
+//AABBのゲッター
+AABB Player::GetAABB() { 
+	Vector3 worldPosition = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kWidth / 2.0f, worldPosition.z - kWidth / 2.0f};
+	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kWidth / 2.0f, worldPosition.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+//当たったら
+void Player::OnCollision(const Enemy* enemy) { 
+	(void)enemy;
+	//衝突したらの判定
+	/*ImGui::Begin("test");
+	ImGui::Text("当たった");
+	ImGui::End();*/
+	worldTransform_.rotation_.y += 1.0f;
+}
 
 // #pragma warning(push)
 // #pragma warning(disable : 4100) // 一時的にエラーをなかったことにする(4100のエラーコード)

@@ -2,9 +2,11 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "calculate/collision/Collision.h"
 
 // 前方宣言
 class MapChipField;
+class Enemy;
 
 class Player {
 public: // 構造体
@@ -19,7 +21,7 @@ public: // 構造体
 		bool landing = false;
 		bool hitWallLeft = false;
 		bool hitWallRight = false;
-		Vector3 velocity;
+		Vector3 velocity = {};
 	} CollisionMapChipInfo;
 
 	// 角
@@ -77,7 +79,23 @@ public://メンバ関数
 	/// <param name="mapChipField"></param>
 	void SetMapChipField(MapChipField* mapChipField);
 
+	/// <summary>
+	/// ワールド座標のゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
 	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB();
+
+	/// <summary>
+	/// 当たったら
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(const Enemy* enemy);
 
 private: // メンバ関数
 	/// <summary>
@@ -165,6 +183,6 @@ private:                                                   // 静的メンバ変
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.0f;
 	static inline const float kHeight = 1.0f;
-	static inline const float kAttenuationLanding = 0.99999f;
+	static inline const float kAttenuationLanding = 0.8f;
 	static inline const float kAttenuationWall = 2.0f;
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 
 /// <summary>
 /// 3次元ベクトル

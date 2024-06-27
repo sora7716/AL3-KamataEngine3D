@@ -9,6 +9,7 @@
 #define Radian(theta) theta * (1.0f / 180.0f) * pi_f
 #include "gameObject/mapChipField/MapChipField.h"
 #include "calculate/Aithmetic.h"
+#include "gameObject/player/Player.h"
 using namespace std;
 
 // コンストラクタ
@@ -71,10 +72,24 @@ void Enemy::Update() {
 // 描画処理
 void Enemy::Draw() { model_->Draw(worldTransform_, *(viewProjection_), textureHandle_); }
 
-void Enemy::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; };
+void Enemy::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+// ワールド座標のゲッター
+Vector3 Enemy::GetWorldPosition() { return Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]); }
 
-// #pragma warning(push)
-// #pragma warning(disable : 4100) // 一時的にエラーをなかったことにする(4100のエラーコード)
+// AABBのゲッター
+AABB Enemy::GetAABB() {
+	Vector3 worldPosition = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kWidth / 2.0f, worldPosition.z - kWidth / 2.0f};
+	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kWidth / 2.0f, worldPosition.z + kWidth / 2.0f};
+	return aabb;
+}
+
+//当たったら
+void Enemy::OnCollision(const Player* player) { 
+	(void) player; 
+}
+
 void Enemy::CollisionMapChip(CollisionMapChipInfo& info) {
 	// 上
 	MapChipTop(info);
