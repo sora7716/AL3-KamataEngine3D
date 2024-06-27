@@ -21,14 +21,17 @@ GameScene::~GameScene() {
 	delete debugCamera_; // デバックカメラの削除
 
 	delete skydome_;      // スカイドームの削除
-	delete modelSkydome_; // スカイドームモデルの削除
+	delete skydomeModel_; // スカイドームモデルの削除
 
 	delete player_;      // プレイヤーの削除
-	delete modelPlayer_; // プレイヤーのモデルの削除
+	delete playerModel_; // プレイヤーのモデルの削除
 
 	delete mapChipField_; // マップチップの削除
 
-	delete enemy_; // エネミーの削除
+	for (Enemy* enemy : enemies_) {
+		delete enemy; // エネミー
+	}
+	enemies_.clear();
 }
 
 void GameScene::Initialize() {
@@ -45,24 +48,27 @@ void GameScene::Initialize() {
 	GenerateBlocks();                                       // ブロックの生成
 
 	skydome_ = new Skydome;                                // スカイドームの生成
-	modelSkydome_ = Model::CreateFromOBJ("skydome", true); // モデルの読み込み(obj)
-	skydome_->Initialize(modelSkydome_, &viewProjection_); // スカイドームの初期化
+	skydomeModel_ = Model::CreateFromOBJ("skydome", true); // モデルの読み込み(obj)
+	skydome_->Initialize(skydomeModel_, &viewProjection_); // スカイドームの初期化
 
-	modelPlayer_ = Model::CreateFromOBJ("player", true);                                             // プレイヤーのモデルの生成
+	playerModel_ = Model::CreateFromOBJ("player", true);                                             // プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");                                    // プレイヤーのテクスチャ
 	Vector3Int playerIndex = {1, 18};                                                                // プレイヤーのいる場所の検索
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y); // プレイヤーのいるポジション
 	player_ = new Player;                                                                            // プレイヤークラスの生成
-	player_->Initialize(modelPlayer_, playerTextureHandle_, &viewProjection_, playerPosition);       // プレイヤーの初期化
+	player_->Initialize(playerModel_, playerTextureHandle_, &viewProjection_, playerPosition);       // プレイヤーの初期化
 	player_->SetMapChipField(mapChipField_);
 
-	enemy_ = new Enemy();                                                   // エネミーの生成
-	modelEnemy_ = Model::CreateFromOBJ("player", true);                     // エネミーのモデルの生成
-	enemyTextureHandle_ = TextureManager::Load("uvChecker.png");            // エネミーのテクスチャの読み込み
-	Vector3Int enemyIndex = {20, 14};                                       // エネミーのいる場所の検索
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(enemyIndex.x, enemyIndex.y); // エネミーのいるポジション
-	enemy_->Initialize(modelEnemy_, enemyTextureHandle_, &viewProjection_,enemyPosition); // エネミーの初期化
-	enemy_->SetMapChipField(mapChipField_);
+	enemyModel_ = Model::CreateFromOBJ("player", true);          // エネミーのモデルの生成
+	enemyTextureHandle_ = TextureManager::Load("uvChecker.png"); // エネミーのテクスチャの読み込み
+	for (int i = 0; i < kEnemyNum; ++i) {
+		Enemy* newEnemy = new Enemy();                                                                // エネミーの生成
+		Vector3Int enemyIndex = {10 + 1 * i, 17};                                                     // エネミーのいる場所の検索
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(enemyIndex.x, enemyIndex.y); // エネミーのいるポジション
+		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
+		newEnemy->SetMapChipField(mapChipField_);
+		enemies_.push_back(newEnemy);
+	}
 
 	cameraController_ = new CameraController();           // カメラコントロールの生成
 	cameraController_->Initialize();                      // カメラコントロールの初期化
@@ -92,7 +98,10 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	}
-	enemy_->Update(); // エネミー
+
+	for (Enemy* enemy : enemies_) {
+		enemy->Update(); // エネミー
+	}
 
 	player_->Update(); // プレイヤー
 	CheckAllCollision();
@@ -131,7 +140,9 @@ void GameScene::Draw() {
 
 	player_->Draw(); // プレイヤー
 
-	enemy_->Draw(); // エネミー
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw(); // エネミー
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -160,16 +171,17 @@ void GameScene::GenerateBlocks() {
 }
 
 void GameScene::CheckAllCollision() {
-	#pragma region 自キャラと敵キャラの当たり判定
+#pragma region 自キャラと敵キャラの当たり判定
 	// 自キャラと敵キャラの当たり判定
 	AABB aabb1, aabb2;
 	aabb1 = player_->GetAABB();
-	aabb2 = enemy_->GetAABB();
-	if (IsHit(aabb1, aabb2)) {
-		player_->OnCollision(enemy_);
-		enemy_->OnCollision(player_);
+	for (Enemy* enemy : enemies_) {
+		aabb2 = enemy->GetAABB();
+		if (IsHit(aabb1, aabb2)) {
+			player_->OnCollision(enemy);
+			enemy->OnCollision(player_);
+		}
 	}
-	
 
 #pragma endregion
 }

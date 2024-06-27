@@ -63,7 +63,7 @@ private: // メンバ変数
 	CameraController* cameraController_ = nullptr; // カメラコントロール
 
 	Skydome* skydome_ = nullptr;    // スカイドーム
-	Model* modelSkydome_ = nullptr; // スカイドームモデル
+	Model* skydomeModel_ = nullptr; // スカイドームモデル
 
 	MapChipField* mapChipField_ = nullptr; // マップチップ
 
@@ -73,12 +73,13 @@ private: // メンバ変数
 	ViewProjection viewProjection_;    // ビュープロジェクション
 
 	Player* player_ = nullptr;          // プレイヤー
-	Model* modelPlayer_ = nullptr;      // プレイヤーモデル
+	Model* playerModel_ = nullptr;      // プレイヤーモデル
 	uint32_t playerTextureHandle_ = 0u; // プレイヤーのテクスチャ
 
-	Enemy* enemy_ = nullptr;           // エネミー
-	Model* modelEnemy_ = nullptr;      // エネミーのモデル
+	std::list<Enemy*> enemies_;           // エネミー
+	Model* enemyModel_ = nullptr;      // エネミーのモデル
 	uint32_t enemyTextureHandle_ = 0u; // エネミーのテクスチャ
+	static inline const int kEnemyNum = 3;
 
 	bool isDebugCameraActive_ = false;   // デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr; // デバックカメラ

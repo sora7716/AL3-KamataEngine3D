@@ -162,8 +162,8 @@ private:                             // メンバ変数
 	bool onGround_;                  // 地上にいるかどうかのフラグ
 	float walkTimer_;//経過時間
 
-private:                                                   // 静的メンバ変数
-	static inline const float kWalkSpeed = 0.1f;           // 歩行の速さ
+private:// 静的メンバ変数
+	static inline const float kWalkSpeed = 0.2f;           // 歩行の速さ
 	static inline const float kGravityAcceleration = 0.2f; // 重力加速度
 	static inline const float kLimitFallSpeed = 0.8f;      // 最大落下速度
 	static inline const float kAttenuation = 0.2f;         // 減速
