@@ -26,15 +26,15 @@ void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vi
 // プレイヤーの更新処理
 void Player::Update() {
 	// キー入力を受け取る箱
-	bool leftPush  = Input::GetInstance()->PushKey(DIK_LEFT);
-	bool rightPush = Input::GetInstance()->PushKey(DIK_RIGHT);
-	bool upPush    = Input::GetInstance()->PushKey(DIK_UP);
+	bool isLeftPush  = Input::GetInstance()->PushKey(DIK_LEFT);
+	bool isRightPush = Input::GetInstance()->PushKey(DIK_RIGHT);
+	bool isUpPush    = Input::GetInstance()->PushKey(DIK_UP);
 	// 速度の加算
 	if (onGround_) {
 		// キー入力
-		if (leftPush || rightPush) {
+		if (isLeftPush || isRightPush) {
 			Vector3 acceleration = {}; // 加速度
-			if (rightPush) {
+			if (isRightPush) {
 				acceleration.x += kAcceleration;
 				// 左移動中の右入力
 				if (velocity_.x < 0.0f) {
@@ -48,7 +48,7 @@ void Player::Update() {
 					// 旋回タイマーの設定
 					turnTimer_ = kTimeTurn;
 				}
-			} else if (leftPush) {
+			} else if (isLeftPush) {
 				acceleration.x -= kAcceleration;
 				// 右移動中の左入力
 				if (velocity_.x > 0.0f) {
@@ -72,7 +72,7 @@ void Player::Update() {
 			// 徐々に減速していって止まる
 			velocity_.x *= (1.0f - kAttenuation);
 		}
-		if (upPush) {
+		if (isUpPush) {
 			// ジャンプの初速
 			Vector3 velocity = {0.0f, kJumpAcceleration, 0.0f};
 			velocity_ += velocity;
@@ -112,10 +112,6 @@ void Player::Update() {
 	worldTransform_.translation_ += velocity_;
 	// アフィン変換
 	worldTransform_.UpdateMatrix();
-
-	ImGui::Begin("Player");
-	ImGui::Text("%d", onGround_);
-	ImGui::End();
 }
 
 // プレイヤーの描画処理

@@ -50,7 +50,7 @@ public:
 	void SetMovableArea(Rect area);
 
 	static inline const float kInterpolationRate = 0.9f; // カメラの追従を少し遅くする(0～1で判定)
-	static inline const float kVelocityBias = 100.0f;
+	static inline const float kVelocityBias = -2.0f;
 	static inline const Rect margin = {5.0f, 10.0f, 5.0f, 10.0f};
 
 private:
