@@ -118,6 +118,7 @@
     <ClCompile Include="scene\gameObject\camera\CameraController.cpp" />
     <ClCompile Include="scene\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp" />
+    <ClCompile Include="scene\gameObject\particle\DeathParticles.cpp" />
     <ClCompile Include="scene\gameObject\player\Player.cpp" />
     <ClCompile Include="scene\gameObject\skydome\Skydome.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="scene\gameObject\camera\CameraController.h" />
     <ClInclude Include="scene\gameObject\enemy\Enemy.h" />
     <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h" />
+    <ClInclude Include="scene\gameObject\particle\DeathParticles.h" />
     <ClInclude Include="scene\gameObject\player\Player.h" />
     <ClInclude Include="scene\gameObject\skydome\Skydome.h" />
     <ClInclude Include="scene\GameScene.h" />

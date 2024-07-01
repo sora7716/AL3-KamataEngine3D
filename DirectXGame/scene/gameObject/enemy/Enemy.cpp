@@ -74,11 +74,11 @@ void Enemy::Draw() { model_->Draw(worldTransform_, *(viewProjection_), textureHa
 
 void Enemy::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 // ワールド座標のゲッター
-Vector3 Enemy::GetWorldPosition() { return Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]); }
+Vector3 Enemy::GetMatWorldPosition() { return Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]); }
 
 // AABBのゲッター
 AABB Enemy::GetAABB() {
-	Vector3 worldPosition = GetWorldPosition();
+	Vector3 worldPosition = GetMatWorldPosition();
 	AABB aabb;
 	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kWidth / 2.0f, worldPosition.z - kWidth / 2.0f};
 	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kWidth / 2.0f, worldPosition.z + kWidth / 2.0f};

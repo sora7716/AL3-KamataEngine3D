@@ -1,8 +1,10 @@
 #include "Blocks.h"
-#include <cassert>
+#include "Model.h"
 #include "calculate/Math.h"
+#include "gameObject/mapChipField/MapChipField.h"
+#include <cassert>
 
-//ブロックの初期化
+// ブロックの初期化
 void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProjection, MapChipField* mapChipField) {
 	assert(model);
 	model_ = model;
@@ -11,7 +13,7 @@ void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProj
 	assert(mapChipField);
 	mapChipField_ = mapChipField;
 	// 要素数
-	uint32_t numBlockVertical   = mapChipField_->GetNumBlockVertical();
+	uint32_t numBlockVertical = mapChipField_->GetNumBlockVertical();
 	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 	worldTransformBlocks_.resize(numBlockVertical);
 	for (uint32_t i = 0; i < numBlockVertical; ++i) {
@@ -30,7 +32,7 @@ void Blocks::Initialize(Model* model, uint32_t texture, ViewProjection* viewProj
 	}
 }
 
-//ブロックの更新処理
+// ブロックの更新処理
 void Blocks::Update() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -42,7 +44,7 @@ void Blocks::Update() {
 	}
 }
 
-//ブロックの描画
+// ブロックの描画
 void Blocks::Draw() {
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -53,5 +55,3 @@ void Blocks::Draw() {
 		}
 	}
 }
-
-

@@ -106,6 +106,9 @@
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="scene\calculate\collision\Collision.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\gameObject\particle\DeathParticles.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -222,6 +225,9 @@
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="scene\calculate\collision\Collision.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameObject\particle\DeathParticles.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

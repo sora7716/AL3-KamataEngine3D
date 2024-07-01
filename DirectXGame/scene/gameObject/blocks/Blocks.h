@@ -1,10 +1,13 @@
 #pragma once
 #include <vector>
-#include "Model.h"
 #include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "gameObject/mapChipField/MapChipField.h"
 using namespace std;
+
+//前方宣言
+class ViewProjection;
+class Model;
+class MapChipField;
+
 class Blocks {
 
 public://メンバ関数

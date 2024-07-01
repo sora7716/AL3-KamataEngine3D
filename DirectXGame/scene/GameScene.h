@@ -15,6 +15,7 @@
 #include "gameObject/mapChipField/MapChipField.h"
 #include "gameObject/player/Player.h"
 #include "gameObject/skydome/Skydome.h"
+#include "gameObject/particle/DeathParticles.h"
 #include <vector>
 /// <summary>
 /// ゲームシーン
@@ -79,8 +80,12 @@ private: // メンバ変数
 	std::list<Enemy*> enemies_;           // エネミー
 	Model* enemyModel_ = nullptr;      // エネミーのモデル
 	uint32_t enemyTextureHandle_ = 0u; // エネミーのテクスチャ
-	static inline const int kEnemyNum = 3;
+	static inline const int kEnemyNum = 1;//エネミーの数
 
 	bool isDebugCameraActive_ = false;   // デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr; // デバックカメラ
+
+	DeathParticles *deathParticles_ = nullptr;//死んだときのパーティクル
+	Model* particleModel_ = nullptr;//パーティクルのモデル
+	uint32_t particleTextureHandle_ = 0u;
 };

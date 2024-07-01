@@ -32,6 +32,8 @@ GameScene::~GameScene() {
 		delete enemy; // エネミー
 	}
 	enemies_.clear();
+
+	delete deathParticles_; // 死んだときのパーティクルの削除
 }
 
 void GameScene::Initialize() {
@@ -53,7 +55,7 @@ void GameScene::Initialize() {
 
 	playerModel_ = Model::CreateFromOBJ("player", true);                                             // プレイヤーのモデルの生成
 	playerTextureHandle_ = TextureManager::Load("cube/cube.jpg");                                    // プレイヤーのテクスチャ
-	Vector3Int playerIndex = {1, 18};                                                                // プレイヤーのいる場所の検索
+	Vector3Int playerIndex = {1, 13};                                                                // プレイヤーのいる場所の検索
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(playerIndex.x, playerIndex.y); // プレイヤーのいるポジション
 	player_ = new Player;                                                                            // プレイヤークラスの生成
 	player_->Initialize(playerModel_, playerTextureHandle_, &viewProjection_, playerPosition);       // プレイヤーの初期化
@@ -65,9 +67,9 @@ void GameScene::Initialize() {
 		Enemy* newEnemy = new Enemy();                                                                // エネミーの生成
 		Vector3Int enemyIndex = {10 + 1 * i, 17};                                                     // エネミーのいる場所の検索
 		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(enemyIndex.x, enemyIndex.y); // エネミーのいるポジション
-		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
-		newEnemy->SetMapChipField(mapChipField_);
-		enemies_.push_back(newEnemy);
+		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);      // エネミーの初期化
+		newEnemy->SetMapChipField(mapChipField_);                                                     // マップチップフィールドをセット
+		enemies_.push_back(newEnemy);                                                                 // 値の追加
 	}
 
 	cameraController_ = new CameraController();           // カメラコントロールの生成
@@ -75,6 +77,11 @@ void GameScene::Initialize() {
 	cameraController_->SetTarget(player_);                // ターゲットのセット
 	cameraController_->Reset();                           // リセット
 	cameraController_->SetMovableArea({20, 175, 10, 20}); // カメラの追従範囲
+
+	deathParticles_ = new DeathParticles();                                                                // 死んだときのパーティクルの生成
+	particleModel_ = Model::CreateFromOBJ("particle", true);                                              // パーティクルモデルの生成
+	particleTextureHandle_ = TextureManager::Load("white1x1.png");                                         // テクスチャのロード
+	deathParticles_->Initialize(particleModel_, &viewProjection_, playerPosition, particleTextureHandle_); // 死んだときのパーティクルの初期化
 }
 
 void GameScene::Update() {
@@ -105,6 +112,9 @@ void GameScene::Update() {
 
 	player_->Update(); // プレイヤー
 	CheckAllCollision();
+	if (deathParticles_ != nullptr) {
+		deathParticles_->Update();
+	}
 }
 
 void GameScene::Draw() {
@@ -143,6 +153,10 @@ void GameScene::Draw() {
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw(); // エネミー
 	}
+
+	if (deathParticles_ != nullptr) {
+		deathParticles_->Draw();
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -175,6 +189,7 @@ void GameScene::CheckAllCollision() {
 	// 自キャラと敵キャラの当たり判定
 	AABB aabb1, aabb2;
 	aabb1 = player_->GetAABB();
+	// 複数の敵の当たり判定
 	for (Enemy* enemy : enemies_) {
 		aabb2 = enemy->GetAABB();
 		if (IsHit(aabb1, aabb2)) {
@@ -182,6 +197,5 @@ void GameScene::CheckAllCollision() {
 			enemy->OnCollision(player_);
 		}
 	}
-
 #pragma endregion
 }

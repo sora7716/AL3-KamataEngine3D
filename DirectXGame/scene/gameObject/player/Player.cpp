@@ -156,9 +156,6 @@ AABB Player::GetAABB() {
 void Player::OnCollision(const Enemy* enemy) { 
 	(void)enemy;
 	//衝突したらの判定
-	/*ImGui::Begin("test");
-	ImGui::Text("当たった");
-	ImGui::End();*/
 	worldTransform_.rotation_.y += 1.0f;
 	//velocity_ += Vector3(0.0f, kJumpAcceleration, 0.0f);
 }

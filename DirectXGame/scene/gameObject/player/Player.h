@@ -181,8 +181,8 @@ private:                                                   // 静的メンバ変
 	static inline const float kJumpAcceleration = 2.0f;    // ジャンプの初速
 	static inline const float Blanc = 0.1f;                // 微小な余白
 	// キャラクターの当たり判定のサイズ
-	static inline const float kWidth = 1.0f;
-	static inline const float kHeight = 1.0f;
+	static inline const float kWidth = 1.0f;//横幅
+	static inline const float kHeight = 1.0f;//縦幅
 	static inline const float kAttenuationLanding = 0.8f;
 	static inline const float kAttenuationWall = 2.0f;
 };

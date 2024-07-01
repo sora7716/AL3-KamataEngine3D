@@ -1,7 +1,8 @@
 #include "Collision.h"
 
 bool IsHit(const AABB& aabb1, const AABB& aabb2) {
-	//X座標
+
+	//X座標の当たってない判定
 	if (aabb1.min.x < aabb2.max.x && aabb1.max.x < aabb2.min.x) {
 		return false;
 	}
@@ -9,7 +10,7 @@ bool IsHit(const AABB& aabb1, const AABB& aabb2) {
 		return false;
 	}
 
-	// Y座標
+	// Y座標の当たってない判定
 	if (aabb1.max.y > aabb2.min.y && aabb1.min.y > aabb2.max.y) {
 		return false;
 	}
@@ -17,12 +18,13 @@ bool IsHit(const AABB& aabb1, const AABB& aabb2) {
 		return false;
 	}
 
-	// Z座標
+	// Z座標の当たってない判定
 	if (aabb1.min.z < aabb2.max.z && aabb1.max.z < aabb2.min.z) {
 		return false;
 	}
 	if (aabb2.max.z < aabb1.min.z && aabb2.min.z < aabb1.max.z) {
 		return false;
 	}
+
 	return true;
 }

@@ -22,7 +22,7 @@ public:
 		bool landing = false;
 		bool hitWallLeft = false;
 		bool hitWallRight = false;
-		Vector3 velocity;
+		Vector3 velocity = {};
 	} CollisionMapChipInfo;
 
 	// 角
@@ -75,7 +75,7 @@ public: // メンバ関数
 	/// ワールド座標のゲッター
 	/// </summary>
 	/// <returns>ワールド座標</returns>
-	Vector3 GetWorldPosition();
+	Vector3 GetMatWorldPosition();
 
 	/// <summary>
 	/// AABBのゲッター
