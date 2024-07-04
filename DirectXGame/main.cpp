@@ -21,18 +21,25 @@ TitleScene* titleScene = nullptr;
 void ChangeScene() {
 	switch (scene) {
 	case Scene::kTitle:
+
 		if (titleScene->IsFinished()) {
-			//シーンの切り替え
+			// シーンの切り替え
 			scene = Scene::kGame;
-			//旧シーンの削除
+			// 旧シーンの削除
 			delete titleScene;
 			titleScene = nullptr;
-			//新シーンの生成と初期化
+			// 新シーンの生成と初期化
 			gameScene = new GameScene();
 			gameScene->Initialize();
+			gameScene->SetIsFinished(false);
+		}
+		if (titleScene == nullptr) {
+			titleScene = new TitleScene();
+			titleScene->Initialize();
 		}
 		break;
 	case Scene::kGame:
+
 		if (gameScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kTitle;
@@ -42,6 +49,11 @@ void ChangeScene() {
 			// 新シーンの生成と初期化
 			titleScene = new TitleScene();
 			titleScene->Initialize();
+			titleScene->SetIsFinished(false);
+		}
+		if (gameScene == nullptr) {
+			gameScene = new GameScene();
+			gameScene->Initialize();
 		}
 		break;
 	}
@@ -72,7 +84,7 @@ void DrawScene() {
 		break;
 	}
 }
-    // Windowsアプリでのエントリーポイント(main関数)
+// Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
 	DirectXCommon* dxCommon = nullptr;

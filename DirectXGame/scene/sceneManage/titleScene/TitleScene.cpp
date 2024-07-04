@@ -24,3 +24,6 @@ void TitleScene::Draw() {}
 
 //終了フラグのゲッター
 bool TitleScene::IsFinished() const { return finished_; }
+
+//終了フラグのセッター
+void TitleScene::SetIsFinished(const bool& isFinished) { finished_ = isFinished; }

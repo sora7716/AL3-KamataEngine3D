@@ -269,3 +269,6 @@ bool GameScene::IsDeath() const { return isDeath_; }
 
 //終了フラグのゲッター
 bool GameScene::IsFinished() const { return finished_; }
+
+//終了フラグのセッター
+void GameScene::SetIsFinished(const bool& isFinished) { finished_ = isFinished; }

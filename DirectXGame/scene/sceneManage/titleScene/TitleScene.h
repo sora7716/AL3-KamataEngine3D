@@ -36,6 +36,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	bool IsFinished() const;
 
+	/// <summary>
+	/// 終了フラグのセッター
+	/// </summary>
+	/// <param name="isFinished"></param>
+	void SetIsFinished(const bool& isFinished);
+
 private:
 	bool finished_;//終了フラグ
 };
