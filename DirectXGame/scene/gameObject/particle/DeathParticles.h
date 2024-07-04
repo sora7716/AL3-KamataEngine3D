@@ -39,6 +39,18 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 終了フラグのゲッター
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const;
+
+	/// <summary>
+	/// ポジションのセッター
+	/// </summary>
+	/// <param name="position"></param>
+	void SetPosition(const Vector3& position);
+
 private: // メンバ関数
 	/// <summary>
 	/// パーティクルが消えるまでの時間を計測

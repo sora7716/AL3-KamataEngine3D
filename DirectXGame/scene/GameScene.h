@@ -48,9 +48,50 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ブロックを出す初期化処理をまとめた
+	/// </summary>
 	void GenerateBlocks();
 
+	/// <summary>
+	/// カメラの更新
+	/// </summary>
+	void CameraUpdate();
+
+	/// <summary>
+	/// 敵とプレイヤーが当たっているかどうかの関数
+	/// </summary>
 	void CheckAllCollision();
+
+	/// <summary>
+	/// フェーズの変更
+	/// </summary>
+	void ChangePhaseUpdate();
+
+	
+	/// <summary>
+	/// フェーズの変更
+	/// </summary>
+	void ChangePhaseDraw();
+
+	/// <summary>
+	/// デスフラグのゲッター
+	/// </summary>
+	/// <returns></returns>
+	bool IsDeath()const;
+
+	/// <summary>
+	/// 終了フラグのゲッター
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const;
+
+	//ゲームフェーズの型
+	enum class Phase { 
+		kPlay, //ゲームプレイ
+		kDeath,//死亡演出
+	};
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -87,5 +128,10 @@ private: // メンバ変数
 
 	DeathParticles *deathParticles_ = nullptr;//死んだときのパーティクル
 	Model* particleModel_ = nullptr;//パーティクルのモデル
-	uint32_t particleTextureHandle_ = 0u;
+	uint32_t particleTextureHandle_ = 0u;//パーティクルのテクスチャ
+
+	Phase phase_=Phase::kPlay;//ゲームの現在のフェーズ
+	bool isDeath_ = false;//デスフラグ
+
+	bool finished_ = false;//終了フラグ
 };

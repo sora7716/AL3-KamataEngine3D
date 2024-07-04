@@ -95,7 +95,7 @@ public://メンバ関数
 	/// 当たったら
 	/// </summary>
 	/// <param name="enemy"></param>
-	void OnCollision(const Enemy* enemy);
+	bool OnCollision(const Enemy* enemy);
 
 private: // メンバ関数
 	/// <summary>

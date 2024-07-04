@@ -61,6 +61,18 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\math">
       <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\scene\cpp ファイル\process">
+      <UniqueIdentifier>{f81c64db-ffe5-401f-a357-94c86907b04d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\scene\process">
+      <UniqueIdentifier>{f1cd6001-efce-4622-9575-69980ce8d55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\scene\cpp ファイル\gameScene">
+      <UniqueIdentifier>{4337d05c-c744-4813-9443-0b9252495c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\scene\gameScene">
+      <UniqueIdentifier>{95a58460-d4ce-4cd5-af0a-137f8811b868}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -81,17 +93,8 @@
     <ClCompile Include="scene\gameObject\blocks\Blocks.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="scene\calculate\Math.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\WorldTransform.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="scene\gameObject\camera\CameraController.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="scene\calculate\Aithmetic.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
     </ClCompile>
     <ClCompile Include="scene\gameObject\mapChipField\MapChipField.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
@@ -99,17 +102,29 @@
     <ClCompile Include="scene\gameObject\enemy\Enemy.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="scene\calculate\collision\Collision.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="scene\gameObject\particle\DeathParticles.cpp">
       <Filter>ソース ファイル\scene\cpp ファイル\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
+    <ClCompile Include="scene\calculate\Aithmetic.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\calculate\collision\Collision.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameScene.cpp">
-      <Filter>ソース ファイル\scene\cpp ファイル</Filter>
+      <Filter>ソース ファイル\scene\cpp ファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\WorldTransform.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\sceneManage\titleScene\TitleScene.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル\gameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\calculate\Math.cpp">
+      <Filter>ソース ファイル\scene\cpp ファイル\gameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +212,6 @@
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>ソース ファイル\ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="scene\calculate\Math.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
-    </ClInclude>
     <ClInclude Include="scene\gameObject\player\Player.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
@@ -215,20 +227,26 @@
     <ClInclude Include="scene\gameObject\particle\DeathParticles.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="scene\calculate\Aithmetic.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\calculate\collision\Collision.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\scene</Filter>
-    </ClInclude>
     <ClInclude Include="scene\gameObject\mapChipField\MapChipField.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="scene\GameScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="scene\gameObject\camera\CameraController.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\calculate\Aithmetic.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\process</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\calculate\collision\Collision.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\process</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\calculate\Math.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\process</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\GameScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\gameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\sceneManage\titleScene\TitleScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\scene\gameScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

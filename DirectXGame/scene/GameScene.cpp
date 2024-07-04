@@ -79,42 +79,22 @@ void GameScene::Initialize() {
 	cameraController_->SetMovableArea({20, 175, 10, 20}); // カメラの追従範囲
 
 	deathParticles_ = new DeathParticles();                                                                // 死んだときのパーティクルの生成
-	particleModel_ = Model::CreateFromOBJ("particle", true);                                              // パーティクルモデルの生成
+	particleModel_ = Model::CreateFromOBJ("particle", true);                                               // パーティクルモデルの生成
 	particleTextureHandle_ = TextureManager::Load("white1x1.png");                                         // テクスチャのロード
 	deathParticles_->Initialize(particleModel_, &viewProjection_, playerPosition, particleTextureHandle_); // 死んだときのパーティクルの初期化
+
+	phase_ = Phase::kPlay;
 }
 
 void GameScene::Update() {
-	blocks_->Update();           // ブロック
-	debugCamera_->Update();      // デバックカメラ
-	cameraController_->Update(); // 追従カメラ
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_BACK)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif
-	// カメラの処理
-	if (isDebugCameraActive_) {
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.matView = cameraController_->GetViewProjection().matView;
-		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	}
-
-	for (Enemy* enemy : enemies_) {
-		enemy->Update(); // エネミー
-	}
-
-	player_->Update(); // プレイヤー
-	CheckAllCollision();
-	if (deathParticles_ != nullptr) {
-		deathParticles_->Update();
-	}
+	//フェーズ
+	ChangePhaseUpdate();
 }
 
 void GameScene::Draw() {
@@ -144,19 +124,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	skydome_->Draw(); // スカイドーム
+	//フェーズ
+	ChangePhaseDraw();
 
-	blocks_->Draw(); // ブロック
-
-	player_->Draw(); // プレイヤー
-
-	for (Enemy* enemy : enemies_) {
-		enemy->Draw(); // エネミー
-	}
-
-	if (deathParticles_ != nullptr) {
-		deathParticles_->Draw();
-	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -175,6 +145,7 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
+// ブロックを出す初期化処理をまとめた
 void GameScene::GenerateBlocks() {
 	modelBlock_ = Model::Create();                            // ブロックのモデル生成
 	blockTextureHandle_ = TextureManager::Load("kamata.ico"); // ブロックのテクスチャ
@@ -184,6 +155,23 @@ void GameScene::GenerateBlocks() {
 	blocks_->Initialize(modelBlock_, blockTextureHandle_, &viewProjection_, mapChipField_); // ブロックの初期化
 }
 
+// カメラの更新
+void GameScene::CameraUpdate() {
+	// カメラの処理
+	if (isDebugCameraActive_) {
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	}
+}
+
+// 敵とプレイヤーが当たっているかどうかの関数
 void GameScene::CheckAllCollision() {
 #pragma region 自キャラと敵キャラの当たり判定
 	// 自キャラと敵キャラの当たり判定
@@ -193,9 +181,91 @@ void GameScene::CheckAllCollision() {
 	for (Enemy* enemy : enemies_) {
 		aabb2 = enemy->GetAABB();
 		if (IsHit(aabb1, aabb2)) {
-			player_->OnCollision(enemy);
+			isDeath_ = player_->OnCollision(enemy);
 			enemy->OnCollision(player_);
 		}
 	}
 #pragma endregion
 }
+
+void GameScene::ChangePhaseUpdate() {
+	switch (phase_) {
+
+	case Phase::kPlay:
+		blocks_->Update();           // ブロック
+		debugCamera_->Update();      // デバックカメラ
+		cameraController_->Update(); // 追従カメラ
+
+		// カメラの更新
+		CameraUpdate();
+
+		for (Enemy* enemy : enemies_) {
+			enemy->Update(); // エネミー
+		}
+
+		player_->Update(); // プレイヤー
+		CheckAllCollision();
+		if (isDeath_) {
+			phase_ = Phase::kDeath; // 死亡演出に切り替え
+			// 自キャラの座標を取得
+			const Vector3& deathParticlePosition = player_->GetWorldPosition();
+			// 自キャラの座標にデスパーティクルを発生
+			deathParticles_->SetPosition(deathParticlePosition);
+		}
+		if (deathParticles_ && deathParticles_->IsFinished()) {
+			finished_ = true;
+		}
+		break;
+
+	case Phase::kDeath:
+		blocks_->Update(); // ブロック
+		//for (Enemy* enemy : enemies_) {
+		//	enemy->Update(); // エネミー
+		//}
+		if (deathParticles_ != nullptr) {
+			deathParticles_->Update(); // パーティクル
+		}
+		// カメラの更新
+		CameraUpdate();
+		break;
+	}
+}
+
+void GameScene::ChangePhaseDraw() {
+
+	switch (phase_) {
+
+	case Phase::kPlay:
+		skydome_->Draw(); // スカイドーム
+
+		blocks_->Draw(); // ブロック
+
+		player_->Draw(); // プレイヤー
+
+		for (Enemy* enemy : enemies_) {
+			enemy->Draw(); // エネミー
+		}
+
+		break;
+
+	case Phase::kDeath:
+
+		skydome_->Draw(); // スカイドーム
+
+		blocks_->Draw(); // ブロック
+
+		for (Enemy* enemy : enemies_) {
+			enemy->Draw(); // エネミー
+		}
+
+		deathParticles_->Draw(); // パーティクル
+
+		break;
+	}
+}
+
+// デスフラグのゲッター
+bool GameScene::IsDeath() const { return isDeath_; }
+
+//終了フラグのゲッター
+bool GameScene::IsFinished() const { return finished_; }

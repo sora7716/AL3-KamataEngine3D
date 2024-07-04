@@ -61,6 +61,16 @@ void DeathParticles::Draw() {
 	}
 }
 
+//終了フラグのゲッター
+bool DeathParticles::IsFinished() const { return isFinished_; }
+
+//ポジションのセッター
+void DeathParticles::SetPosition(const Vector3& position) {
+	for (auto& worldTransform : worldTransforms_) {
+		worldTransform.translation_ = position;
+	}
+}
+
 // パーティクルが消えるまでの時間を計測
 void DeathParticles::DestoryCount() {
 	// 1フレーム分秒数を進める
