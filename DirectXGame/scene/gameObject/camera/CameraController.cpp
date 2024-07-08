@@ -33,11 +33,14 @@ void CameraController::Update() {
 
 	viewProjection_.UpdateMatrix(); // マトリックスの更新
 
+#ifdef _DEBUG
 	ImGui::Begin("debug");
 	ImGui::DragFloat("targetOffset.x", &targetOffset_.x);
 	ImGui::DragFloat("targetOffset.y", &targetOffset_.y);
 	ImGui::DragFloat("targetOffset.z", &targetOffset_.z);
 	ImGui::End();
+#endif // _DEBUG
+
 }
 
 // リセット

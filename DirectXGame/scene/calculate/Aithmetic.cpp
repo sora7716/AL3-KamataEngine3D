@@ -74,7 +74,7 @@ Vector3& operator/=(Vector3& num, const float& len){
 }
 
 const Vector3 operator+(const Vector3& vector, const float& num) {
-	Vector3 result;
+	Vector3 result{};
 	result.x = vector.x + num;
 	result.y = vector.y + num;
 	result.z = vector.z + num;
@@ -82,7 +82,7 @@ const Vector3 operator+(const Vector3& vector, const float& num) {
 }
 
 const Vector3 operator-(const Vector3& vector, const float& num) { 
-	Vector3 result;
+	Vector3 result{};
 	result.x = vector.x - num;
 	result.y = vector.y - num;
 	result.z = vector.z - num;
@@ -90,7 +90,7 @@ const Vector3 operator-(const Vector3& vector, const float& num) {
 }
 
 const Vector3 operator/(const Vector3& vector1, const float& num) { 
-	Vector3 result;
+	Vector3 result{};
 	result.x = vector1.x - num;
 	result.y = vector1.y - num;
 	result.z = vector1.z - num;
@@ -138,7 +138,7 @@ Matrix4x4& operator-=(Matrix4x4& num1, const Matrix4x4& num2){
 }
 
 Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2){
-	Matrix4x4 result;
+	Matrix4x4 result{};
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			result.m[i][j] = 0;

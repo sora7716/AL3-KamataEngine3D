@@ -2,7 +2,9 @@
 #include "Player.h"
 #include "calculate/Aithmetic.h"
 #include "gameObject/mapChipField/MapChipField.h"
+#ifdef _DEBUG
 #include "imgui.h"
+#endif // DEBUG
 #include "input/Input.h"
 #include <algorithm>
 #include <array>
@@ -26,9 +28,9 @@ void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vi
 // プレイヤーの更新処理
 void Player::Update() {
 	// キー入力を受け取る箱
-	bool isLeftPush  = Input::GetInstance()->PushKey(DIK_LEFT);
+	bool isLeftPush = Input::GetInstance()->PushKey(DIK_LEFT);
 	bool isRightPush = Input::GetInstance()->PushKey(DIK_RIGHT);
-	bool isUpPush    = Input::GetInstance()->PushKey(DIK_UP);
+	bool isUpPush = Input::GetInstance()->PushKey(DIK_UP);
 	// 速度の加算
 	if (onGround_) {
 		// キー入力
@@ -124,10 +126,10 @@ WorldTransform& Player::GetWorldTransform() {
 }
 
 // ベロシティのゲッター
-const Vector3 Player::GetVelocity() { return velocity_; }
+const Vector3 Player::GetVelocity() const { return velocity_; }
 
 // どの向きを向いているのかのゲッター
-const Player::LRDirection& Player::GetLRDirection() {
+const Player::LRDirection& Player::GetLRDirection()const {
 	// TODO: return ステートメントをここに挿入します
 	return lrDirection_;
 }
@@ -135,26 +137,26 @@ const Player::LRDirection& Player::GetLRDirection() {
 // マップチップのセッター
 void Player::SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
-//ワールド座標のゲッター
+// ワールド座標のゲッター
 Vector3 Player::GetWorldPosition() { return Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]); }
 
-//AABBのゲッター
-AABB Player::GetAABB() { 
+// AABBのゲッター
+AABB Player::GetAABB() {
 	Vector3 worldPosition = GetWorldPosition();
-	AABB aabb;
+	AABB aabb{};
 	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kWidth / 2.0f, worldPosition.z - kWidth / 2.0f};
 	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kWidth / 2.0f, worldPosition.z + kWidth / 2.0f};
 
 	return aabb;
 }
 
-//当たったら
-bool Player::OnCollision(const Enemy* enemy) { 
+// 当たったら
+bool Player::OnCollision(const Enemy* enemy) {
 	(void)enemy;
-	//衝突したらの判定
+	// 衝突したらの判定
 	bool isHit = true;
-	//worldTransform_.rotation_.y += 1.0f;
-	//velocity_ += Vector3(0.0f, kJumpAcceleration, 0.0f);
+	// worldTransform_.rotation_.y += 1.0f;
+	// velocity_ += Vector3(0.0f, kJumpAcceleration, 0.0f);
 	return isHit;
 }
 
@@ -180,7 +182,7 @@ void Player::CollisionMapChip(CollisionMapChipInfo& info) {
 
 // 上の当たり判定
 void Player::MapChipTop(CollisionMapChipInfo& info) {
-	array<Vector3, kNumCorner> positionNew;
+	array<Vector3, kNumCorner> positionNew{};
 	for (uint32_t i = 0; i < positionNew.size(); i++) {
 		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
 	}
@@ -209,7 +211,7 @@ void Player::MapChipTop(CollisionMapChipInfo& info) {
 }
 // 下の当たり判定
 void Player::MapChipBottom(CollisionMapChipInfo& info) {
-	array<Vector3, kNumCorner> positionNew;
+	array<Vector3, kNumCorner> positionNew{};
 	for (uint32_t i = 0; i < positionNew.size(); i++) {
 		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
 	}
@@ -243,7 +245,7 @@ void Player::MapChipBottom(CollisionMapChipInfo& info) {
 // 右の当たり判定
 void Player::MapChipRight(CollisionMapChipInfo& info) {
 	// プレイヤーの最終的にいる場所
-	array<Vector3, kNumCorner> positionNew;
+	array<Vector3, kNumCorner> positionNew{};
 	for (uint32_t i = 0; i < positionNew.size(); i++) {
 		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
 	}
@@ -284,7 +286,7 @@ void Player::MapChipRight(CollisionMapChipInfo& info) {
 // 左の当たり判定
 void Player::MapChipLeft(CollisionMapChipInfo& info) {
 	// プレイヤーが最終的にいるポジション
-	array<Vector3, kNumCorner> positionNew;
+	array<Vector3, kNumCorner> positionNew{};
 	for (uint32_t i = 0; i < positionNew.size(); i++) {
 		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
 	}
@@ -354,7 +356,7 @@ void Player::SwitchOnGround(CollisionMapChipInfo& info) {
 			onGround_ = false;
 		} else {
 			// プレイヤーのポジション
-			array<Vector3, kNumCorner> positionNew;
+			array<Vector3, kNumCorner> positionNew{};
 			for (uint32_t i = 0; i < positionNew.size(); i++) {
 				positionNew[i] = CornerPosition(worldTransform_.translation_ + info.velocity, static_cast<Corner>(i));
 			}

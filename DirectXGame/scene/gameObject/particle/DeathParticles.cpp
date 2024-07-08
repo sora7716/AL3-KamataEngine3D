@@ -33,6 +33,7 @@ void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, Ve
 	}
 	objectColor_.Initialize();
 	color_ = {1.0f, 1.0f, 1.0f, 1.0f};
+
 }
 
 // 更新処理

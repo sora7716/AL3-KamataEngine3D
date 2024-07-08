@@ -1,4 +1,11 @@
 #pragma once
+#include "Audio.h"
+#include "DirectXCommon.h"
+#include "Input.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 
 /// <summary>
 /// タイトルシーン
@@ -43,5 +50,18 @@ public: // メンバ関数
 	void SetIsFinished(const bool& isFinished);
 
 private:
-	bool finished_;//終了フラグ
+
+	DirectXCommon* dxCommon_ = nullptr;
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+
+	/// <summary>
+	/// ゲームシーン用
+	/// </summary>
+	bool finished_; // 終了フラグ
+
+	Model* titleFontModel_ = nullptr;
+	WorldTransform titleFontWorldTransform_;
+	ViewProjection viewProjection_;
+	uint32_t titleFontTextureHandle_ = 0u;
 };

@@ -65,13 +65,13 @@ public://メンバ関数
 	/// ベロシティのゲッター
 	/// </summary>
 	/// <returns></returns>
-	const Vector3 GetVelocity();
+	const Vector3 GetVelocity()const ;
 
 	/// <summary>
 	/// 向いている向きのゲッター
 	/// </summary>
 	/// <returns></returns>
-	const LRDirection& GetLRDirection();
+	const LRDirection& GetLRDirection()const ;
 
 	/// <summary>
 	/// マップチップのセッター

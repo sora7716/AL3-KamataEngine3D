@@ -83,7 +83,9 @@ void GameScene::Initialize() {
 	particleTextureHandle_ = TextureManager::Load("white1x1.png");                                         // テクスチャのロード
 	deathParticles_->Initialize(particleModel_, &viewProjection_, playerPosition, particleTextureHandle_); // 死んだときのパーティクルの初期化
 
-	phase_ = Phase::kPlay;
+	phase_ = Phase::kPlay; // プレイヤーの状態
+	isDeath_ = false;      // デスフラグ
+	finished_ = false;     // 終了フラグ
 }
 
 void GameScene::Update() {
@@ -93,7 +95,7 @@ void GameScene::Update() {
 		isDebugCameraActive_ ^= true;
 	}
 #endif
-	//フェーズ
+	// フェーズ
 	ChangePhaseUpdate();
 }
 
@@ -124,7 +126,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	//フェーズ
+	// フェーズ
 	ChangePhaseDraw();
 
 	// 3Dオブジェクト描画後処理
@@ -189,15 +191,15 @@ void GameScene::CheckAllCollision() {
 }
 
 void GameScene::ChangePhaseUpdate() {
+	blocks_->Update(); // ブロック
+	// カメラの更新
+	CameraUpdate();
 	switch (phase_) {
 
 	case Phase::kPlay:
-		blocks_->Update();           // ブロック
+
 		debugCamera_->Update();      // デバックカメラ
 		cameraController_->Update(); // 追従カメラ
-
-		// カメラの更新
-		CameraUpdate();
 
 		for (Enemy* enemy : enemies_) {
 			enemy->Update(); // エネミー
@@ -212,51 +214,44 @@ void GameScene::ChangePhaseUpdate() {
 			// 自キャラの座標にデスパーティクルを発生
 			deathParticles_->SetPosition(deathParticlePosition);
 		}
-		if (deathParticles_ && deathParticles_->IsFinished()) {
-			finished_ = true;
-		}
+
 		break;
 
 	case Phase::kDeath:
-		blocks_->Update(); // ブロック
-		//for (Enemy* enemy : enemies_) {
+		// for (Enemy* enemy : enemies_) {
 		//	enemy->Update(); // エネミー
-		//}
+		// }
 		if (deathParticles_ != nullptr) {
 			deathParticles_->Update(); // パーティクル
 		}
-		// カメラの更新
-		CameraUpdate();
+
+		// デスパーティクルが出きった時に終了するフラグ
+		if (deathParticles_->IsFinished()) {
+			finished_ = true;
+		}
 		break;
 	}
 }
 
 void GameScene::ChangePhaseDraw() {
 
+	skydome_->Draw(); // スカイドーム
+
+	blocks_->Draw(); // ブロック
+
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw(); // エネミー
+	}
+
 	switch (phase_) {
 
 	case Phase::kPlay:
-		skydome_->Draw(); // スカイドーム
-
-		blocks_->Draw(); // ブロック
 
 		player_->Draw(); // プレイヤー
-
-		for (Enemy* enemy : enemies_) {
-			enemy->Draw(); // エネミー
-		}
 
 		break;
 
 	case Phase::kDeath:
-
-		skydome_->Draw(); // スカイドーム
-
-		blocks_->Draw(); // ブロック
-
-		for (Enemy* enemy : enemies_) {
-			enemy->Draw(); // エネミー
-		}
 
 		deathParticles_->Draw(); // パーティクル
 
@@ -267,8 +262,8 @@ void GameScene::ChangePhaseDraw() {
 // デスフラグのゲッター
 bool GameScene::IsDeath() const { return isDeath_; }
 
-//終了フラグのゲッター
+// 終了フラグのゲッター
 bool GameScene::IsFinished() const { return finished_; }
 
-//終了フラグのセッター
+// 終了フラグのセッター
 void GameScene::SetIsFinished(const bool& isFinished) { finished_ = isFinished; }
