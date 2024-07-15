@@ -58,7 +58,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(bool isFadeFinished);
 
 	/// <summary>
 	/// 描画処理
@@ -176,5 +176,5 @@ private:// 静的メンバ変数
 	// アニメーション
 	static inline const float kWalkMotionAngleStart = -45.0f; // 最初の角度(度数法)
 	static inline const float kWalkMotionAngleEnd = 90.0f; // 最後の角度(度数法)
-	static inline const float kWalkMotionTime = 30.0f;      // アニメーションの周期となるタイマー
+	static inline const float kWalkMotionTime = 1.0f;      // アニメーションの周期となるタイマー
 };

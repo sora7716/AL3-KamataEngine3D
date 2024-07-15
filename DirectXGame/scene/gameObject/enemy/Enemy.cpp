@@ -41,14 +41,16 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vie
 }
 
 // 更新処理
-void Enemy::Update() {
+void Enemy::Update(bool isFadeFinished) {
 	// アニメーション
-	walkTimer_ += oneFream;                                                            // 経過時間
-	float param = sin(kWalkMotionAngleEnd * walkTimer_ / kWalkMotionTime);             // 角度を計算
-	float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f; // 線形補間
-	worldTransform_.rotation_.x = Radian(theta);                                       // 弧度法に直す
-	// 歩行
-	worldTransform_.translation_ += velocity_;
+	if (isFadeFinished) {
+		walkTimer_ += oneFream;                                                            // 経過時間
+		float param = sin(2.0f * pi_f * walkTimer_ / kWalkMotionTime);                     // 角度を計算
+		float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f; // 線形補間
+		worldTransform_.rotation_.x = Radian(theta);                                       // 弧度法に直す
+		// 歩行
+		worldTransform_.translation_ += velocity_;
+	}
 
 	if (onGround_) {
 		// 速度代入

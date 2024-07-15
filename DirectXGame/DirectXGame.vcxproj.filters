@@ -126,6 +126,9 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
+    <ClCompile Include="scene\sceneManage\fade\Fade.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="scene\sceneManage\titleScene\TitleScene.h">
       <Filter>ソース ファイル\ヘッダー ファイル\scene\gameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\sceneManage\fade\Fade.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

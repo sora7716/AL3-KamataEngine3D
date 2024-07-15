@@ -65,6 +65,9 @@ void DeathParticles::Draw() {
 //終了フラグのゲッター
 bool DeathParticles::IsFinished() const { return isFinished_; }
 
+//終了フラグのセッター」
+void DeathParticles::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
+
 //ポジションのセッター
 void DeathParticles::SetPosition(const Vector3& position) {
 	for (auto& worldTransform : worldTransforms_) {

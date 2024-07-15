@@ -122,6 +122,7 @@
     <ClCompile Include="scene\gameObject\player\Player.cpp" />
     <ClCompile Include="scene\gameObject\skydome\Skydome.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\sceneManage\fade\Fade.cpp" />
     <ClCompile Include="scene\sceneManage\titleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="scene\gameObject\player\Player.h" />
     <ClInclude Include="scene\gameObject\skydome\Skydome.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\sceneManage\fade\Fade.h" />
     <ClInclude Include="scene\sceneManage\titleScene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>

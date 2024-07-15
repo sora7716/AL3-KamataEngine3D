@@ -65,7 +65,7 @@ void GameScene::Initialize() {
 	enemyTextureHandle_ = TextureManager::Load("uvChecker.png"); // エネミーのテクスチャの読み込み
 	for (int i = 0; i < kEnemyNum; ++i) {
 		Enemy* newEnemy = new Enemy();                                                                // エネミーの生成
-		Vector3Int enemyIndex = {10 + 1 * i, 17};                                                     // エネミーのいる場所の検索
+		Vector3Int enemyIndex = {20 + 1 * i, 18};                                                     // エネミーのいる場所の検索
 		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(enemyIndex.x, enemyIndex.y); // エネミーのいるポジション
 		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);      // エネミーの初期化
 		newEnemy->SetMapChipField(mapChipField_);                                                     // マップチップフィールドをセット
@@ -86,6 +86,9 @@ void GameScene::Initialize() {
 	phase_ = Phase::kPlay; // プレイヤーの状態
 	isDeath_ = false;      // デスフラグ
 	finished_ = false;     // 終了フラグ
+	fade_ = new Fade();
+	fade_->Initialize();
+	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime);
 }
 
 void GameScene::Update() {
@@ -96,7 +99,7 @@ void GameScene::Update() {
 	}
 #endif
 	// フェーズ
-	ChangePhaseUpdate();
+	ChangeFadePhaseUpdate();
 }
 
 void GameScene::Draw() {
@@ -128,6 +131,8 @@ void GameScene::Draw() {
 
 	// フェーズ
 	ChangePhaseDraw();
+
+	fade_->Draw(commandList);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -202,10 +207,10 @@ void GameScene::ChangePhaseUpdate() {
 		cameraController_->Update(); // 追従カメラ
 
 		for (Enemy* enemy : enemies_) {
-			enemy->Update(); // エネミー
+			enemy->Update(fade_->IsFinished()); // エネミー
 		}
 
-		player_->Update(); // プレイヤー
+		player_->Update(fade_->IsFinished()); // プレイヤー
 		CheckAllCollision();
 		if (isDeath_) {
 			phase_ = Phase::kDeath; // 死亡演出に切り替え
@@ -221,18 +226,50 @@ void GameScene::ChangePhaseUpdate() {
 		// for (Enemy* enemy : enemies_) {
 		//	enemy->Update(); // エネミー
 		// }
-		if (deathParticles_ != nullptr) {
+		if (deathParticles_ != nullptr&&!deathParticles_->IsFinished()) {
 			deathParticles_->Update(); // パーティクル
 		}
-
+	
 		// デスパーティクルが出きった時に終了するフラグ
 		if (deathParticles_->IsFinished()) {
+			fadePhase_ = FadePhase::kFadeOut;
+			if (isFadeIni) {
+			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
+			}
+			isFadeIni = false;
+			deathParticles_->SetIsFinished(false);
+		}
+		break;
+	}
+}
+
+// フェードを入れたフェーズの変更
+void GameScene::ChangeFadePhaseUpdate() {
+	switch (fadePhase_) {
+	case FadePhase::kFadeIn:
+		// フェードイン
+		fade_->Update();
+		ChangePhaseUpdate();
+		if (fade_->IsFinished()) {
+			fadePhase_ = FadePhase::kMain;
+		}
+		break;
+	case FadePhase::kMain:
+		// メイン部
+		ChangePhaseUpdate();
+		break;
+	case FadePhase::kFadeOut:
+		// フェードアウト
+		fade_->Update();
+		ChangePhaseUpdate();
+		if (fade_->IsFinished()) {
 			finished_ = true;
 		}
 		break;
 	}
 }
 
+// フェーズの変更
 void GameScene::ChangePhaseDraw() {
 
 	skydome_->Draw(); // スカイドーム
