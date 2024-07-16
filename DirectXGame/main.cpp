@@ -142,7 +142,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene->Initialize();
 
 #ifdef _DEBUG
-	 scene = Scene::kGame;
+	// scene = Scene::kGame;
 #endif // ゲームシーンからスタート
 
 	// メインループ
@@ -169,7 +169,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画開始
 		dxCommon->PreDraw();
 		// タイトルシーン描画
-		// titleScene->Draw();
 		DrawScene();
 		// 軸表示の描画
 		axisIndicator->Draw();
