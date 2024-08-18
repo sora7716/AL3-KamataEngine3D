@@ -8,6 +8,11 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include "DebugCamera.h"
+#include "asset/create/Create.h"
+#include "asset/gameObject/player/Player.h"
+#include <memory>
+using namespace std;
 
 /// <summary>
 /// ゲームシーン
@@ -48,6 +53,10 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-
 public:
+	unique_ptr<Create> create_ = nullptr; // テクスチャやモデルを生成
+	unique_ptr<Player> player_ = nullptr; // プレイヤー
+	ViewProjection viewProjection_;       // ビュープロジェクション
+	bool isDebugCameraActive_ = false;    // デバックカメラをオンにするか
+	unique_ptr<DebugCamera> debugCamera_ = nullptr;//デバックカメラ
 };
