@@ -22,29 +22,11 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t t
 
 // 更新
 void Player::Update() {
+	// デバックテキスト
 	DebugText();
-	// キャラクターの移動ベクトル
-	Vector3 move = {};
-
-	// キャラクターの移動速度
-	const float kCharacterSpeed = 0.2f;
-
-	// 押した方向でベクトルを変更(左右)
-	if (input_->PushKey(DIK_LEFT)) {
-		move.x -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_RIGHT)) {
-		move.x += kCharacterSpeed;
-	}
-
-	// 押した方向でベクトルを変更(上下)
-	if (input_->PushKey(DIK_DOWN)) {
-		move.y -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_UP)) {
-		move.y += kCharacterSpeed;
-	}
 
 	// 座標移動(ベクトルの加算)
-	worldTransform_.translation_ += move;
+	worldTransform_.translation_ += velocity_;
 
 	// マトリックスの更新
 	worldTransform_.UpdateMatrix();
@@ -52,6 +34,9 @@ void Player::Update() {
 
 // 描画
 void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_, texture_); }
+
+//速度
+void Player::SetVelocity(Vector3 velocity) { velocity_ = velocity; }
 
 #ifdef _DEBUG
 #include "imgui.h"
@@ -61,3 +46,22 @@ void Player::DebugText() {
 	ImGui::End();
 }
 #endif // _DEBUG
+
+
+//左へ移動
+void Player::MoveLeft() { velocity_.x -= kCharacterSpeed; }
+
+//右へ移動
+void Player::MoveRight() { velocity_.x += kCharacterSpeed; }
+
+//下へ移動
+void Player::MoveDown() { velocity_.y -= kCharacterSpeed; }
+
+//上へ移動
+void Player::MoveUp() { velocity_.y += kCharacterSpeed; }
+
+//右回り
+void Player::RotateRight() { worldTransform_.rotation_.y -= kRotSpeed; }
+
+//左回り
+void Player::RotateLeft() { worldTransform_.rotation_.y += kRotSpeed; }

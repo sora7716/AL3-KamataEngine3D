@@ -4,10 +4,13 @@
 #include "WinApp.h"
 #include <cassert>
 
+//コンストラクタ
 GameScene::GameScene() {}
 
+//デストラクタ
 GameScene::~GameScene() {}
 
+//初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -26,6 +29,9 @@ void GameScene::Initialize() {
 	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer));
 
+	//キー入力のコマンドの初期化
+	InputCommandInitialize();
+
 	// デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -36,30 +42,19 @@ void GameScene::Initialize() {
 #endif // _DEBUG
 }
 
+//更新
 void GameScene::Update() {
 
 	// プレイヤー
-	player_->Update();
+	player_->Update();   // 更新処理
+	PlayerActionCommand(); // 移動のコマンド
 
 	// デバックカメラ
-	debugCamera_->Update();
-
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_BACKSPACE)) {
-		isDebugCameraActive_ ^= true;
-	}
-#endif // _DEBUG
-	if (isDebugCameraActive_) {
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	} else {
-		// 行列の更新
-		viewProjection_.UpdateMatrix();
-	}
+	debugCamera_->Update(); // 更新処理
+	DebugCameraMove();      // デバックカメラの動き
 }
 
+//描画
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -105,4 +100,55 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+//キー入力のコマンドの初期化
+void GameScene::InputCommandInitialize() {
+	inputHandle_ = make_unique<InputHandle>();
+	inputHandle_->Initialize(input_);
+	inputHandle_->AssingMoveLeftCommand2PressKeysLeft();   // 左へ
+	inputHandle_->AssingMoveRightCommand2PressKeysRight(); // 右へ
+	inputHandle_->AssingMoveDownCommand2PressKeysDown();   // 下へ
+	inputHandle_->AssingMoveUpCommand2PressKeysUp();       // 上へ
+	inputHandle_->AssingRotateLeftCommand2PressKeyA();     // 左回転
+	inputHandle_->AssingRotateRightCommand2PressKeyD();    // 右回転
+}
+
+// プレイヤーのコマンドをまとめた
+void GameScene::PlayerActionCommand() {
+	//移動
+	player_->SetVelocity({});//速度の初期化
+	iPlayerCommandBeside_ = inputHandle_->PlayerBesideMoveInput();     // 横移動
+	iPlayerCommandVertical_ = inputHandle_->PlayerVerticalMoveInput(); // 縦移動
+	if (iPlayerCommandBeside_) {
+		iPlayerCommandBeside_->Exec(*player_);//横移動
+	}
+	if (iPlayerCommandVertical_) {
+		iPlayerCommandVertical_->Exec(*player_);//縦移動
+	}
+
+	//旋回
+	iPlayerCommandRotate_ = inputHandle_->PlayerRotateInput();//旋回
+	if (iPlayerCommandRotate_) {
+		iPlayerCommandRotate_->Exec(*player_);//旋回
+	}
+}
+
+// デバックカメラ
+void GameScene::DebugCameraMove() {
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_BACKSPACE)) {
+		isDebugCameraActive_ ^= true;
+	}
+#endif // _DEBUG
+
+	if (isDebugCameraActive_) {
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		// 行列の更新
+		viewProjection_.UpdateMatrix();
+	}
 }

@@ -52,22 +52,70 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset">
+      <UniqueIdentifier>{39d37126-0442-4d37-8b63-43ad8e3c610b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ヘッダーファイル">
+      <UniqueIdentifier>{49ef5949-25a7-43eb-92fc-3af8d7ae403e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ヘッダーファイル\gameObject">
+      <UniqueIdentifier>{896688c8-20eb-46cb-8d0a-ee0143cc8b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ヘッダーファイル\scene">
+      <UniqueIdentifier>{d807bd9a-3c1b-4dbd-870e-5275542b3088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ヘッダーファイル\process">
+      <UniqueIdentifier>{1a9466d0-e79c-4b2f-b1d7-6f1025d7169b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ソースファイル">
+      <UniqueIdentifier>{42871650-b7f8-4744-84bb-b93cb10b52cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ソースファイル\gameObject">
+      <UniqueIdentifier>{1242eef0-5c43-4423-acc8-cc6fe4ff8526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ソースファイル\scene">
+      <UniqueIdentifier>{cbc4b06e-4b9d-4247-aba5-aeb6b1671806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ソースファイル\process">
+      <UniqueIdentifier>{5dbd1fdd-bd67-4118-b100-060408f25b14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="base\DirectXCommon.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="base\WinApp.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="scene\GameScene.cpp">
-      <Filter>ソース ファイル\scene</Filter>
-    </ClCompile>
     <ClCompile Include="2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Aithmetic.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\command\Command.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\create\Create.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\scene\GameScene.cpp">
+      <Filter>asset\ソースファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\command\InputHandle.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>asset</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Math.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\Player.cpp">
+      <Filter>asset\ソースファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\WorldTransform.cpp">
+      <Filter>asset\ソースファイル\process</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +167,6 @@
     <ClInclude Include="base\WinApp.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="scene\GameScene.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
-    </ClInclude>
     <ClInclude Include="input\Input.h">
       <Filter>ヘッダー ファイル\input</Filter>
     </ClInclude>
@@ -157,6 +202,30 @@
     </ClInclude>
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>ヘッダー ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Aithmetic.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\command\Command.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\create\Create.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\GameScene.h">
+      <Filter>asset\ヘッダーファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\command\ICommand.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\command\InputHandle.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Math.h">
+      <Filter>asset\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\Player.h">
+      <Filter>asset\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

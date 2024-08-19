@@ -1,7 +1,7 @@
 #include "Audio.h"
 #include "AxisIndicator.h"
 #include "DirectXCommon.h"
-#include "GameScene.h"
+#include "asset/scene/GameScene.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
