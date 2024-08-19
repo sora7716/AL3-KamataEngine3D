@@ -8,7 +8,7 @@
 Player::Player() {}
 
 // デストラクタ
-Player::~Player() {}
+Player::~Player() { delete bullet_; }
 
 // 初期化
 void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture) {
@@ -25,6 +25,13 @@ void Player::Update() {
 	// デバックテキスト
 	DebugText();
 
+	//攻撃
+	Attack();
+
+	//弾の更新
+	if (bullet_) {//bullet_!=nullptrと同じ意味
+		bullet_->Update();
+	}
 	// 座標移動(ベクトルの加算)
 	worldTransform_.translation_ += velocity_;
 
@@ -33,7 +40,15 @@ void Player::Update() {
 }
 
 // 描画
-void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_, texture_); }
+void Player::Draw() { 
+	model_->Draw(worldTransform_, *viewProjection_, texture_); //プレイヤー
+
+	//弾
+	if (bullet_) {
+		bullet_->Draw(*viewProjection_);
+	}
+
+}
 
 //速度
 void Player::SetVelocity(Vector3 velocity) { velocity_ = velocity; }
@@ -47,6 +62,15 @@ void Player::DebugText() {
 }
 #endif // _DEBUG
 
+//攻撃
+void Player::Attack() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+		PlayerBullet* newBullet = new PlayerBullet();//生成
+		newBullet->Initialize(model_,worldTransform_.translation_);//初期化
+		//弾を登録する
+		bullet_ = newBullet;
+	}
+}
 
 //左へ移動
 void Player::MoveLeft() { velocity_.x -= kCharacterSpeed; }

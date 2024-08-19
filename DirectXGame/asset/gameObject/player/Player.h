@@ -1,6 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
-#include <memory>
+#include "asset/gameObject/player/bullet/PlayerBullet.h"
 using namespace std;
 
 // 前方宣言
@@ -86,6 +86,16 @@ private: // メンバ関数
 	void DebugText();
 #endif // _DEBUG
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
+public:// 静的メンバ変数
+
+	static inline const float kCharacterSpeed = 0.2f; // キャラクターの移動量
+	static inline const float kRotSpeed = 0.02f;      // 回転の速さ[ラジアン/frame]
+
 private:                                               // メンバ変数
 	Model* model_ = nullptr;                           // モデル
 	ViewProjection* viewProjection_ = nullptr;         // ビュープロジェクション
@@ -93,8 +103,5 @@ private:                                               // メンバ変数
 	uint32_t texture_ = 0u;                            // テクスチャ
 	Input* input_ = nullptr;                           // キー入力
 	Vector3 velocity_ = {};                            // キャラクターの移動速度
-
-public:                                               // 静的メンバ変数
-	static inline const float kCharacterSpeed = 0.2f; // キャラクターの移動量
-	static inline const float kRotSpeed = 0.02f;      //回転の速さ[ラジアン/frame]
+	PlayerBullet* bullet_ = nullptr;       // 弾
 };

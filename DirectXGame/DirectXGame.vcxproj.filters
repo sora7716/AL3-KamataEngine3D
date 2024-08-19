@@ -117,6 +117,9 @@
     <ClCompile Include="3d\WorldTransform.cpp">
       <Filter>asset\ソースファイル\process</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp">
+      <Filter>asset\ソースファイル\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -225,6 +228,9 @@
       <Filter>asset\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\player\Player.h">
+      <Filter>asset\ヘッダーファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h">
       <Filter>asset\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
