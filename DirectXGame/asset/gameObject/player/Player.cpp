@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Model.h"
-#include "asset/math/Aithmetic.h"
+#include "asset/math/Math.h"
 #include "input/Input.h"
 #include <cassert>
 
@@ -40,6 +40,17 @@ void Player::Update() {
 		}
 	}
 
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
+				return true;
+			}
+		}
+		return false;
+	});
+
 	// 座標移動(ベクトルの加算)
 	worldTransform_.translation_ += velocity_;
 
@@ -74,8 +85,14 @@ void Player::DebugText() {
 // 攻撃
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
-		PlayerBullet* newBullet = new PlayerBullet();                // 生成
-		newBullet->Initialize(model_, worldTransform_.translation_); // 初期化
+		// 弾の速度
+		Vector3 velocity{0, 0, kBulletSpeed};
+		// 速度ベクトルを自機の向きに合わせて回転させる
+		velocity = Math::TransformNormal(velocity, worldTransform_.matWorld_);
+		// 生成
+		PlayerBullet* newBullet = new PlayerBullet();
+		// 初期化
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 		// 弾を登録する
 		bullets_.push_back(newBullet);
 	}

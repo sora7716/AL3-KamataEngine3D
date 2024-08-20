@@ -15,6 +15,7 @@ class Input;
 class Player {
 
 public: // メンバ関数
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -48,7 +49,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="velocity">速度</param>
 	void SetVelocity(Vector3 velocity);
-
 
 #pragma region コマンド
 	/// <summary>
@@ -92,18 +92,17 @@ private: // メンバ関数
 	/// </summary>
 	void Attack();
 
-public:// 静的メンバ変数
-
+public: // 静的メンバ変数
 	static inline const float kCharacterSpeed = 0.2f; // キャラクターの移動量
 	static inline const float kRotSpeed = 0.02f;      // 回転の速さ[ラジアン/frame]
+	static inline const float kBulletSpeed = 1.0f;    // 弾の速度
 
-private:// メンバ変数
-	
-	Model* model_ = nullptr;                           // モデル
-	ViewProjection* viewProjection_ = nullptr;         // ビュープロジェクション
-	WorldTransform worldTransform_;                    // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                            // テクスチャ
-	Input* input_ = nullptr;                           // キー入力
-	Vector3 velocity_ = {};                            // キャラクターの移動速度
-	list<PlayerBullet*> bullets_ = {nullptr};          // 弾
+private: // メンバ変数
+	Model* model_ = nullptr;                   // モデル
+	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
+	WorldTransform worldTransform_;            // ワールドトランスフォーム
+	uint32_t texture_ = 0u;                    // テクスチャ
+	Input* input_ = nullptr;                   // キー入力
+	Vector3 velocity_ = {};                    // キャラクターの移動速度
+	list<PlayerBullet*> bullets_ = {nullptr};  // 弾
 };

@@ -155,4 +155,12 @@ public:
 	/// <param name="num">数字</param>
 	/// <returns></returns>
 	static float Normalize(const float& num);
+
+	/// <summary>
+	/// トランスフォームノーマル
+	/// </summary>
+	/// <param name="v">ベクトル</param>
+	/// <param name="m">マトリックス</param>
+	/// <returns></returns>
+	static Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 };
