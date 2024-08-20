@@ -21,7 +21,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy();
+	~Enemy() = default;
 
 	/// <summary>
 	/// 初期化
@@ -42,12 +42,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-private: // メンバ変数
-	Model* model_ = nullptr;                                            // モデル
-	ViewProjection* viewProjection_ = nullptr;                          // ビュープロジェクション
-	WorldTransform worldTransform_;                                     // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                                             // テクスチャハンドル
-	IEnemyState* action_[(int)IEnemyState::kPhaseNum] = {nullptr};               // 行動パターン
-	int phase_ = 0;//現在の行動パターンの番号
-
+private:                                                           // メンバ変数
+	Model* model_ = nullptr;                                       // モデル
+	ViewProjection* viewProjection_ = nullptr;                     // ビュープロジェクション
+	WorldTransform worldTransform_;                                // ワールドトランスフォーム
+	uint32_t texture_ = 0u;                                        // テクスチャハンドル
+	IEnemyState* action_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
+	int phase_ = 0;                                                // 現在の行動パターンの番号
 };

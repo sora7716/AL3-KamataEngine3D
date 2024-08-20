@@ -12,7 +12,6 @@ class ViewProjection;
 class PlayerBullet {
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -21,7 +20,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~PlayerBullet();
+	~PlayerBullet() = default;
 
 	/// <summary>
 	/// 初期化
@@ -29,7 +28,7 @@ public: // メンバ関数
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initialize(Model* model, const Vector3& position,const Vector3& velocity);
+	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新処理
@@ -46,18 +45,16 @@ public: // メンバ関数
 	/// デスフラグのゲッター
 	/// </summary>
 	/// <returns>isDead</returns>
-	bool IsDead()const;
+	bool IsDead() const;
 
 public:                                      // 静的メンバ変数
+	static const int32_t kLifeTime = 60 * 5; // 寿命<frm>
 
- static const int32_t kLifeTime = 60 * 5;//寿命<frm>
-
-private: // メンバ変数
-
-	Model* model_ = nullptr;        // モデル
-	WorldTransform worldTransform_; // ワールドトランスフォーム
-	uint32_t texture_ = 0u;         // テクスチャ
-	Vector3 velocity_ = {};         // 速度
-	int32_t deathTimer_ = kLifeTime;//デスタイマー
-	bool isDead_ = false;           //デスフラグ
+private:                             // メンバ変数
+	Model* model_ = nullptr;         // モデル
+	WorldTransform worldTransform_;  // ワールドトランスフォーム
+	uint32_t texture_ = 0u;          // テクスチャ
+	Vector3 velocity_ = {};          // 速度
+	int32_t deathTimer_ = kLifeTime; // デスタイマー
+	bool isDead_ = false;            // デスフラグ
 };

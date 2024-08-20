@@ -3,11 +3,6 @@
 #include "TextureManager.h"
 #include <cassert>
 
-PlayerBullet::~PlayerBullet() {
-//削除
-	delete model_;
-}
-
 // 初期化
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model); // NUllポインタチェック

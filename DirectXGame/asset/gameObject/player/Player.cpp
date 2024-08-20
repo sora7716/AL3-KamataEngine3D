@@ -13,7 +13,6 @@ Player::~Player() {
 		delete bullet; // 弾の削除
 	}
 	bullets_.clear(); // 弾の配列の箱も削除
-	delete model_;//モデルの削除
 }
 
 // 初期化
@@ -46,6 +45,7 @@ void Player::Update() {
 		if (bullet) {
 			if (bullet->IsDead()) {
 				delete bullet;
+				bullet = nullptr;
 				return true;
 			}
 		}

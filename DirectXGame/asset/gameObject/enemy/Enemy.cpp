@@ -4,12 +4,6 @@
 #include "asset/math/Aithmetic.h"
 #include <cassert>
 
-// デストラクタ
-Enemy::~Enemy() {
-	// 削除
-	delete model_;
-}
-
 // 初期化
 void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint32_t& texture, const Vector3& position) {
 
