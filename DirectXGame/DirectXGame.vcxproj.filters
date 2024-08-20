@@ -120,6 +120,9 @@
     <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp">
       <Filter>asset\ソースファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\Enemy.cpp">
+      <Filter>asset\ソースファイル\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -231,6 +234,9 @@
       <Filter>asset\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h">
+      <Filter>asset\ヘッダーファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\Enemy.h">
       <Filter>asset\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,13 +4,13 @@
 #include "WinApp.h"
 #include <cassert>
 
-//コンストラクタ
+// コンストラクタ
 GameScene::GameScene() {}
 
-//デストラクタ
+// デストラクタ
 GameScene::~GameScene() {}
 
-//初期化
+// 初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -29,10 +29,15 @@ void GameScene::Initialize() {
 	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer));
 
-	//キー入力のコマンドの初期化
+	//敵のクラス
+	Create::ObjectType typeEnemy = Create::Type::kEnemy;
+	enemy_ = make_unique<Enemy>();
+	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {0,3,100});
+
+	// キー入力のコマンドの初期化
 	InputCommandInitialize();
 
-	// デバックカメラ
+#pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
 	// 軸方向表示の表示を有効にする
@@ -40,21 +45,25 @@ void GameScene::Initialize() {
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 #endif // _DEBUG
+#pragma endregion
 }
 
-//更新
+// 更新
 void GameScene::Update() {
 
 	// プレイヤー
-	player_->Update();   // 更新処理
+	player_->Update();     // 更新処理
 	PlayerActionCommand(); // 移動のコマンド
+
+	//敵
+	enemy_->Update();
 
 	// デバックカメラ
 	debugCamera_->Update(); // 更新処理
 	DebugCameraMove();      // デバックカメラの動き
 }
 
-//描画
+// 描画
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -82,7 +91,14 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	//プレイヤー
 	player_->Draw();
+
+	//敵
+	if (enemy_) {
+		enemy_->Draw();
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -102,7 +118,7 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-//キー入力のコマンドの初期化
+// キー入力のコマンドの初期化
 void GameScene::InputCommandInitialize() {
 	inputHandle_ = make_unique<InputHandle>();
 	inputHandle_->Initialize(input_);
@@ -116,21 +132,21 @@ void GameScene::InputCommandInitialize() {
 
 // プレイヤーのコマンドをまとめた
 void GameScene::PlayerActionCommand() {
-	//移動
-	player_->SetVelocity({});//速度の初期化
+	// 移動
+	player_->SetVelocity({});                                          // 速度の初期化
 	iPlayerCommandBeside_ = inputHandle_->PlayerBesideMoveInput();     // 横移動
 	iPlayerCommandVertical_ = inputHandle_->PlayerVerticalMoveInput(); // 縦移動
 	if (iPlayerCommandBeside_) {
-		iPlayerCommandBeside_->Exec(*player_);//横移動
+		iPlayerCommandBeside_->Exec(*player_); // 横移動
 	}
 	if (iPlayerCommandVertical_) {
-		iPlayerCommandVertical_->Exec(*player_);//縦移動
+		iPlayerCommandVertical_->Exec(*player_); // 縦移動
 	}
 
-	//旋回
-	iPlayerCommandRotate_ = inputHandle_->PlayerRotateInput();//旋回
+	// 旋回
+	iPlayerCommandRotate_ = inputHandle_->PlayerRotateInput(); // 旋回
 	if (iPlayerCommandRotate_) {
-		iPlayerCommandRotate_->Exec(*player_);//旋回
+		iPlayerCommandRotate_->Exec(*player_); // 旋回
 	}
 }
 

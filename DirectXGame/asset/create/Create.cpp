@@ -15,13 +15,17 @@ Create::~Create() {
 // モデルをクリエイト
 void Create::ModelCreate() { 
 	//プレイヤー
-	models_[(int)playerType] = Model::Create();
+	models_[(int)typePlayer] = Model::Create();
+	//敵
+	models_[(int)typeEnemy] = Model::Create();
 }
 
 // テクスチャをクリエイト
 void Create::TextureCreate() { 
 	//プレイヤー
-	textureHandle_[(int)playerType] = TextureManager::Load("test/player.png"); 
+	textureHandle_[(int)typePlayer] = TextureManager::Load("test/player.png"); 
+	//敵
+	textureHandle_[(int)typeEnemy] = TextureManager::Load("test/enemy.png");
 }
 
 // モデルのゲッター

@@ -21,7 +21,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~PlayerBullet() = default;
+	~PlayerBullet();
 
 	/// <summary>
 	/// 初期化

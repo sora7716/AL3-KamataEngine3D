@@ -11,6 +11,7 @@
 #include "DebugCamera.h"
 #include "asset/command/InputHandle.h"
 #include "asset/create/Create.h"
+#include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/player/Player.h"
 #include <memory>
 using namespace std;
@@ -70,11 +71,12 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-public://メンバ変数
+
+public: // メンバ変数
 
 	unique_ptr<Create> create_ = nullptr;              // テクスチャやモデルを生成
 	unique_ptr<Player> player_ = nullptr;              // プレイヤー
+	unique_ptr<Enemy> enemy_ = nullptr;                // 敵
 	ViewProjection viewProjection_;                    // ビュープロジェクション
 	bool isDebugCameraActive_ = false;                 // デバックカメラをオンにするか
 	unique_ptr<DebugCamera> debugCamera_ = nullptr;    // デバックカメラ

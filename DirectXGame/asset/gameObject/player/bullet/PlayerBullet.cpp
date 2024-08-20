@@ -3,11 +3,16 @@
 #include "TextureManager.h"
 #include <cassert>
 
+PlayerBullet::~PlayerBullet() {
+//削除
+	delete model_;
+}
+
 // 初期化
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model); // NUllポインタチェック
 	model_ = model;
-	texture_ = TextureManager::Load("bullet.png"); // テクスチャの読み込み
+	texture_ = TextureManager::Load("test/bullet.png"); // テクスチャの読み込み
 	worldTransform_.Initialize();                  // ワールドトランスフォームを初期化
 	worldTransform_.translation_ = position;       // 引数で受け取った初期座標をセット
 	velocity_ = velocity;//引数で受け取った速度をメンバ変数に代入

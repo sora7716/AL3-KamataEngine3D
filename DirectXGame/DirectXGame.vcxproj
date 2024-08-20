@@ -111,6 +111,7 @@
     <ClCompile Include="asset\command\Command.cpp" />
     <ClCompile Include="asset\command\InputHandle.cpp" />
     <ClCompile Include="asset\create\Create.cpp" />
+    <ClCompile Include="asset\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp" />
     <ClCompile Include="asset\gameObject\player\Player.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="asset\command\ICommand.h" />
     <ClInclude Include="asset\command\InputHandle.h" />
     <ClInclude Include="asset\create\Create.h" />
+    <ClInclude Include="asset\gameObject\enemy\Enemy.h" />
     <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h" />
     <ClInclude Include="asset\gameObject\player\Player.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
