@@ -21,17 +21,17 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 	texture_ = texture;                      // テクスチャハンドル
 }
 
+// staticで宣言したメンバ関数ポインタテーブルの実態
+void (Enemy::*Enemy::EnemyPhaseTable[])() = {
+    &Enemy::ApproachUpdate, // 要素番号0_接近
+    &Enemy::LeaveUpdate,    // 要素番号1_離脱
+};
+
 // 更新
 void Enemy::Update() {
-	switch (phase_) {
-	case Phase::Approach:
-	default:
-		ApproachUpdate();
-		break;
-	case Phase::Leave:
-		LeaveUpdate();
-		break;
-	}
+	
+	//現在のフェーズの関数を実行
+	(this->*EnemyPhaseTable[static_cast<size_t>(phase_)])();
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();

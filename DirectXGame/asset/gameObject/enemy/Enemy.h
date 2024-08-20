@@ -69,4 +69,11 @@ private: // メンバ変数
 	WorldTransform worldTransform_;            // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                    // テクスチャハンドル
 	Phase phase_ = Phase::Approach;            //フェーズ 
+
+private: //メンバ関数ポインタ
+
+	/// <summary>
+	/// エネミーの行動パターン
+	/// </summary>
+	static void (Enemy::*EnemyPhaseTable[])();
 };
