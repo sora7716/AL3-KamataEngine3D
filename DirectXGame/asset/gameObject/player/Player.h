@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "asset/gameObject/player/bullet/PlayerBullet.h"
+#include <list>
 using namespace std;
 
 // 前方宣言
@@ -96,12 +97,13 @@ public:// 静的メンバ変数
 	static inline const float kCharacterSpeed = 0.2f; // キャラクターの移動量
 	static inline const float kRotSpeed = 0.02f;      // 回転の速さ[ラジアン/frame]
 
-private:                                               // メンバ変数
+private:// メンバ変数
+	
 	Model* model_ = nullptr;                           // モデル
 	ViewProjection* viewProjection_ = nullptr;         // ビュープロジェクション
 	WorldTransform worldTransform_;                    // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                            // テクスチャ
 	Input* input_ = nullptr;                           // キー入力
 	Vector3 velocity_ = {};                            // キャラクターの移動速度
-	PlayerBullet* bullet_ = nullptr;       // 弾
+	list<PlayerBullet*> bullets_ = {nullptr};          // 弾
 };
