@@ -1,5 +1,8 @@
 #pragma once
 #include "WorldTransform.h"
+#include "asset/gameObject/enemy/statePattern/IEnemyState.h"
+#include "asset/gameObject/enemy/statePattern/state/EnemyState.h"
+
 // 前方宣言
 class Model;
 class ViewProjection;
@@ -8,13 +11,6 @@ class ViewProjection;
 /// 敵のクラス
 /// </summary>
 class Enemy {
-
-public://列挙型や構造体
-
-	enum class Phase {
-		Approach, //接近する
-		Leave,    //離脱する
-	};
 
 public: // メンバ関数
 	/// <summary>
@@ -46,34 +42,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-private://メンバ関数
-
-	/// <summary>
-	/// 接近中の更新
-	/// </summary>
-	void ApproachUpdate();
-
-	/// <summary>
-	/// 離脱中の更新
-	/// </summary>
-	void LeaveUpdate();
-
-public: // 静的メンバ変数
-
-	static inline const float kCharacterSpeed = 0.2f; //敵の進むスピード
-
 private: // メンバ変数
+	Model* model_ = nullptr;                                            // モデル
+	ViewProjection* viewProjection_ = nullptr;                          // ビュープロジェクション
+	WorldTransform worldTransform_;                                     // ワールドトランスフォーム
+	uint32_t texture_ = 0u;                                             // テクスチャハンドル
+	IEnemyState* action_[(int)IEnemyState::kPhaseNum] = {nullptr};               // 行動パターン
+	int phase_ = 0;//現在の行動パターンの番号
 
-	Model* model_ = nullptr;                   // モデル
-	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
-	WorldTransform worldTransform_;            // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                    // テクスチャハンドル
-	Phase phase_ = Phase::Approach;            //フェーズ 
-
-private: //メンバ関数ポインタ
-
-	/// <summary>
-	/// エネミーの行動パターン
-	/// </summary>
-	static void (Enemy::*EnemyPhaseTable[])();
 };

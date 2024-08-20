@@ -1,292 +1,315 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="シェーダー ファイル">
-      <UniqueIdentifier>{718c7f4c-fc51-40ad-a221-b9456a7a1a3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\3d">
-      <UniqueIdentifier>{8ccef709-d514-43f7-ad35-629a9edd5057}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\2d">
-      <UniqueIdentifier>{96135050-efba-425e-a9fe-8881bd7caad8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\audo">
-      <UniqueIdentifier>{3a0044cc-1b7d-4ed5-a1a6-9074ed1b1769}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\base">
-      <UniqueIdentifier>{551d5cf3-f4a6-49b9-832f-076a33cef817}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\base">
-      <UniqueIdentifier>{74394124-7d35-4440-8404-7b478262b455}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\scene">
-      <UniqueIdentifier>{e2d0b4b8-24a1-4854-8e5b-bb6ed09f1add}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\scene">
-      <UniqueIdentifier>{8f83101b-6ce3-4c73-a4d3-5052382dedab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\input">
-      <UniqueIdentifier>{337d978c-44b1-4af3-811b-c5f6f355f7de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\input">
-      <UniqueIdentifier>{d461f61e-3cc4-4b11-b521-37a61c927ae5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\math">
-      <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\math">
-      <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\2d">
-      <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="asset">
       <UniqueIdentifier>{39d37126-0442-4d37-8b63-43ad8e3c610b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ヘッダーファイル">
+    <Filter Include="asset\デフォルトのプログラム">
+      <UniqueIdentifier>{e8058305-6275-4f3f-9a96-f293c2cef119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\3d">
+      <UniqueIdentifier>{8ccef709-d514-43f7-ad35-629a9edd5057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\2d">
+      <UniqueIdentifier>{96135050-efba-425e-a9fe-8881bd7caad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\audo">
+      <UniqueIdentifier>{3a0044cc-1b7d-4ed5-a1a6-9074ed1b1769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\base">
+      <UniqueIdentifier>{74394124-7d35-4440-8404-7b478262b455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\scene">
+      <UniqueIdentifier>{8f83101b-6ce3-4c73-a4d3-5052382dedab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\input">
+      <UniqueIdentifier>{d461f61e-3cc4-4b11-b521-37a61c927ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ヘッダー ファイル\math">
+      <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル\base">
+      <UniqueIdentifier>{551d5cf3-f4a6-49b9-832f-076a33cef817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル\scene">
+      <UniqueIdentifier>{e2d0b4b8-24a1-4854-8e5b-bb6ed09f1add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル\input">
+      <UniqueIdentifier>{337d978c-44b1-4af3-811b-c5f6f355f7de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル\math">
+      <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\デフォルトのプログラム\ソース ファイル\2d">
+      <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\シェーダー ファイル">
+      <UniqueIdentifier>{718c7f4c-fc51-40ad-a221-b9456a7a1a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game">
+      <UniqueIdentifier>{b41c11a0-9a75-4e80-8e4e-fdcfb32d246e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル">
       <UniqueIdentifier>{49ef5949-25a7-43eb-92fc-3af8d7ae403e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ヘッダーファイル\gameObject">
-      <UniqueIdentifier>{896688c8-20eb-46cb-8d0a-ee0143cc8b8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="asset\ヘッダーファイル\scene">
+    <Filter Include="asset\Game\ヘッダーファイル\scene">
       <UniqueIdentifier>{d807bd9a-3c1b-4dbd-870e-5275542b3088}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ヘッダーファイル\process">
+    <Filter Include="asset\Game\ヘッダーファイル\process">
       <UniqueIdentifier>{1a9466d0-e79c-4b2f-b1d7-6f1025d7169b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ソースファイル">
+    <Filter Include="asset\Game\ソースファイル">
       <UniqueIdentifier>{42871650-b7f8-4744-84bb-b93cb10b52cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ソースファイル\gameObject">
+    <Filter Include="asset\Game\ソースファイル\gameObject">
       <UniqueIdentifier>{1242eef0-5c43-4423-acc8-cc6fe4ff8526}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ソースファイル\scene">
+    <Filter Include="asset\Game\ソースファイル\gameObject\enemy">
+      <UniqueIdentifier>{9df6e5cd-0921-4dfb-b1d5-b42f17337656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ソースファイル\gameObject\player">
+      <UniqueIdentifier>{881a036b-f5c5-47fb-ad6f-b4bcb4e58ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ソースファイル\scene">
       <UniqueIdentifier>{cbc4b06e-4b9d-4247-aba5-aeb6b1671806}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asset\ソースファイル\process">
+    <Filter Include="asset\Game\ソースファイル\process">
       <UniqueIdentifier>{5dbd1fdd-bd67-4118-b100-060408f25b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject">
+      <UniqueIdentifier>{896688c8-20eb-46cb-8d0a-ee0143cc8b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject\enemy">
+      <UniqueIdentifier>{434b2fb2-fd9a-4d64-9d03-2494d0ab83c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject\player">
+      <UniqueIdentifier>{c598756d-d463-42d5-bedd-a9a0aa94bc55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>ソース ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="base\WinApp.cpp">
-      <Filter>ソース ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="2d\ImGuiManager.cpp">
-      <Filter>ソース ファイル\2d</Filter>
+      <Filter>asset\デフォルトのプログラム\ソース ファイル\2d</Filter>
     </ClCompile>
     <ClCompile Include="asset\math\Aithmetic.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="asset\command\Command.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="asset\create\Create.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="asset\scene\GameScene.cpp">
-      <Filter>asset\ソースファイル\scene</Filter>
+      <Filter>asset\Game\ソースファイル\scene</Filter>
     </ClCompile>
     <ClCompile Include="asset\command\InputHandle.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>asset</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="asset\math\Math.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
-    </ClCompile>
-    <ClCompile Include="asset\gameObject\player\Player.cpp">
-      <Filter>asset\ソースファイル\gameObject</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="3d\WorldTransform.cpp">
-      <Filter>asset\ソースファイル\process</Filter>
-    </ClCompile>
-    <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp">
-      <Filter>asset\ソースファイル\gameObject</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
     </ClCompile>
     <ClCompile Include="asset\gameObject\enemy\Enemy.cpp">
-      <Filter>asset\ソースファイル\gameObject</Filter>
+      <Filter>asset\Game\ソースファイル\gameObject\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\Player.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\player</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\player</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>asset\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\WorldTransform.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\CircleShadow.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\DebugCamera.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\DirectionalLight.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\LightGroup.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Material.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Model.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Mesh.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\PointLight.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\SpotLight.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="2d\Sprite.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\2d</Filter>
     </ClInclude>
     <ClInclude Include="audio\Audio.h">
-      <Filter>ヘッダー ファイル\audo</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\audo</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="base\TextureManager.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="base\WinApp.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>ヘッダー ファイル\input</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\input</Filter>
     </ClInclude>
     <ClInclude Include="math\Matrix4x4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector3.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector2.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="3d\AxisIndicator.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\PrimitiveDrawer.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Terrain.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\TerrainCommon.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="2d\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\2d</Filter>
     </ClInclude>
     <ClInclude Include="base\StringUtility.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="3d\ObjectColor.h">
-      <Filter>ヘッダー ファイル\3d</Filter>
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="asset\math\Aithmetic.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\command\Command.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\create\Create.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\scene\GameScene.h">
-      <Filter>asset\ヘッダーファイル\scene</Filter>
+      <Filter>asset\Game\ヘッダーファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="asset\command\ICommand.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\command\InputHandle.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\math\Math.h">
-      <Filter>asset\ヘッダーファイル\process</Filter>
-    </ClInclude>
-    <ClInclude Include="asset\gameObject\player\Player.h">
-      <Filter>asset\ヘッダーファイル\gameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h">
-      <Filter>asset\ヘッダーファイル\gameObject</Filter>
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\enemy\Enemy.h">
-      <Filter>asset\ヘッダーファイル\gameObject</Filter>
+      <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\Player.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\statePattern\state\EnemyState.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ShapeVS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ShapePS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ObjPS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ObjVS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\PrimitivePS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\PrimitiveVS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\TerrainVS.hlsl">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </None>
     <None Include="Resources\shaders\Shape.hlsli">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </None>
     <None Include="Resources\shaders\Obj.hlsli">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </None>
     <None Include="Resources\shaders\Primitive.hlsli">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </None>
     <None Include="Resources\shaders\Terrain.hlsli">
-      <Filter>シェーダー ファイル</Filter>
+      <Filter>asset\シェーダー ファイル</Filter>
     </None>
   </ItemGroup>
 </Project>
