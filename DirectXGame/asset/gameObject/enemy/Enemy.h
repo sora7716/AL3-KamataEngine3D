@@ -9,6 +9,13 @@ class ViewProjection;
 /// </summary>
 class Enemy {
 
+public://列挙型や構造体
+
+	enum class Phase {
+		Approach, //接近する
+		Leave,    //離脱する
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -39,6 +46,18 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+private://メンバ関数
+
+	/// <summary>
+	/// 接近中の更新
+	/// </summary>
+	void ApproachUpdate();
+
+	/// <summary>
+	/// 離脱中の更新
+	/// </summary>
+	void LeaveUpdate();
+
 public: // 静的メンバ変数
 
 	static inline const float kCharacterSpeed = 0.2f; //敵の進むスピード
@@ -49,4 +68,5 @@ private: // メンバ変数
 	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
 	WorldTransform worldTransform_;            // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                    // テクスチャハンドル
+	Phase phase_ = Phase::Approach;            //フェーズ 
 };
