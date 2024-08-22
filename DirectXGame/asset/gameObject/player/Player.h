@@ -10,7 +10,7 @@ class ViewProjection;
 class Input;
 
 /// <summary>
-/// プレイヤークラス
+/// プレイヤー
 /// </summary>
 class Player {
 
@@ -99,6 +99,7 @@ public: // 静的メンバ変数
 
 private: // メンバ変数
 	Model* model_ = nullptr;                   // モデル
+	Model* bulletModel_ = nullptr;             //弾のモデル
 	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
 	WorldTransform worldTransform_;            // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                    // テクスチャ

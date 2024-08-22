@@ -13,6 +13,7 @@ Player::~Player() {
 		delete bullet; // 弾の削除
 	}
 	bullets_.clear(); // 弾の配列の箱も削除
+	delete bulletModel_;//弾のモデルの削除
 }
 
 // 初期化
@@ -23,6 +24,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t t
 	texture_ = texture;               // テクスチャ
 	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
 	input_ = Input::GetInstance();    // シングルインスタンス
+	bulletModel_ = Model::Create();   //弾のモデルの生成
 }
 
 // 更新
@@ -93,7 +95,7 @@ void Player::Attack() {
 		// 生成
 		PlayerBullet* newBullet = new PlayerBullet();
 		// 初期化
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(bulletModel_, worldTransform_.translation_, velocity);
 		// 弾を登録する
 		bullets_.push_back(newBullet);
 	}

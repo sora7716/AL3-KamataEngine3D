@@ -1,14 +1,17 @@
 #pragma once
 #include "WorldTransform.h"
-#include "asset/gameObject/enemy/statePattern/IEnemyState.h"
-#include "asset/gameObject/enemy/statePattern/state/EnemyState.h"
+#include "bullet/EnemyBullet.h"
+#include "statePattern/IEnemyState.h"
+#include "statePattern/state/EnemyState.h"
+#include <list>
+using namespace std;
 
 // 前方宣言
 class Model;
 class ViewProjection;
 
 /// <summary>
-/// 敵のクラス
+/// 敵
 /// </summary>
 class Enemy {
 
@@ -21,7 +24,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy() = default;
+	~Enemy();
 
 	/// <summary>
 	/// 初期化
@@ -42,11 +45,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-private:                                                           // メンバ変数
+private: // メンバ変数
+
 	Model* model_ = nullptr;                                       // モデル
 	ViewProjection* viewProjection_ = nullptr;                     // ビュープロジェクション
 	WorldTransform worldTransform_;                                // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                                        // テクスチャハンドル
-	IEnemyState* action_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
-	int phase_ = 0;                                                // 現在の行動パターンの番号
+	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
+	int32_t phase_ = 0;                                            // 現在の行動パターンの番号
 };

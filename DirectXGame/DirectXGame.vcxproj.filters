@@ -140,6 +140,9 @@
     <ClCompile Include="main.cpp">
       <Filter>asset\Game</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\bullet\EnemyBullet.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -260,6 +263,9 @@
       <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\bullet\EnemyBullet.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
     </ClInclude>
   </ItemGroup>
