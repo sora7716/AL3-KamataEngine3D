@@ -17,12 +17,20 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 	action_[1] = new EnemeyLeave();
 }
 
+//メンバ関数ポンインタの初期化
+void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
+    static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyApproach::Exce), 
+	static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyLeave::Exce)
+};
+
 // 更新
 void Enemy::Update() {
+
 	// 現在のフェーズを算出
 	phase_ = action_[phase_]->GetPhase();
 	//現在のフェーズを実行
-	action_[phase_]->Exce(worldTransform_);
+	(action_[phase_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(phase_)])(worldTransform_);
+
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
@@ -32,3 +40,4 @@ void Enemy::Draw() {
 	// 敵
 	model_->Draw(worldTransform_, *viewProjection_, texture_);
 }
+

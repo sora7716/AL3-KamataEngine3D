@@ -32,14 +32,17 @@ public://メンバ関数
 	/// <returns>現在のフェーズ</returns>
 	int GetPhase() { return static_cast<int>(phase_); }
 
-public:// 静的メンバ変数
+public:// 静的メンバ変数と関数ポインタ
 
 	static inline const float kCharacterSpeed = 0.2f; // 敵の進むスピード
 
 	static inline const int kPhaseNum = (int)Phase::phaseNum;//フェーズの数
 
+	static void (IEnemyState::*EnemyPhaseTable[])(WorldTransform &worldTransform);//フェーズの関数ポインタ
+
 
 protected: // メンバ変数
 
 	Phase phase_ = Phase::Approach; // フェーズ
+
 };
