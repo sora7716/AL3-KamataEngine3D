@@ -7,7 +7,6 @@
 class EnemeyApproach : public IEnemyState {
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

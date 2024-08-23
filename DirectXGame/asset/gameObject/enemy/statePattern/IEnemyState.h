@@ -28,7 +28,6 @@ public: // メンバ関数
 	virtual void ChangePhase() = 0;
 	virtual void Exce(WorldTransform& worldTransform) = 0;
 	virtual void Fire(WorldTransform& worldTransform) = 0;
-	//virtual void BulletUpdate();
 
 public: // メンバ関数
 
@@ -44,7 +43,8 @@ public: // メンバ関数
 	/// <returns></returns>
 	list<EnemyBullet*> GetBullet() { return bullets_; }
 
-public:                                               // 静的メンバ変数と関数ポインタ
+public: // 静的メンバ変数と関数ポインタ
+
 	static inline const float kCharacterSpeed = 0.2f; // 敵の進むスピード
 
 	static inline const int kPhaseNum = (int)Phase::phaseNum; // フェーズの数
@@ -55,8 +55,9 @@ public:                                               // 静的メンバ変数�
 
 	static inline const int kFireInterval = 60; // 発射間隔
 
-protected:                          // メンバ変数
-	Phase phase_ = Phase::Approach; // フェーズ
+protected: // メンバ変数
+
+	Phase phase_ = Phase::phaseNum; // フェーズ
 
 	list<EnemyBullet*> bullets_ = {nullptr}; // 弾
 	Model* bulletModel_ = nullptr;           // 弾のモデル

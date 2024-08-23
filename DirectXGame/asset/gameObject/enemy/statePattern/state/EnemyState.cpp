@@ -5,11 +5,13 @@
 
 //デストラクタ
 EnemeyApproach::~EnemeyApproach() { 
-	delete bulletModel_;//モデルの削除 
+
 }
 
 // 初期化
 void EnemeyApproach::Initialize() {
+	//接近に初期化
+	phase_ = Phase::Approach;
 	// 弾のモデルを生成
 	bulletModel_ = Model::Create();
 	// 発射タイマーを初期化
@@ -27,7 +29,7 @@ void EnemeyApproach::Exce(WorldTransform& worldTransform) {
 	worldTransform.translation_ += velocity;
 	// 規定の位置に到達したら離脱
 	if (worldTransform.translation_.z < 0.0f) {
-		//ChangePhase();
+		ChangePhase();
 	}
 	//発射タイマーカウントダウン
 	fireTimer_--;
@@ -38,6 +40,17 @@ void EnemeyApproach::Exce(WorldTransform& worldTransform) {
 		//発射タイマーを初期化
 		fireTimer_ = kFireInterval;
 	}
+
+	// デスフラグが立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
+				return true;
+			}
+		}
+		return false;
+	});
 }
 
 // 攻撃
@@ -58,13 +71,20 @@ void EnemeyApproach::Fire(WorldTransform& worldTransform) {
 }
 
 //初期化
-void EnemeyLeave::Initialize() {}
+void EnemeyLeave::Initialize() { 
+	//離脱に初期化
+	phase_ = Phase::Leave; 
+}
 
 // 状態を遷移(離脱状態から)
-void EnemeyLeave::ChangePhase() { phase_ = Phase::Approach; }
+void EnemeyLeave::ChangePhase() {}
 
 // 離脱を実行
 void EnemeyLeave::Exce(WorldTransform& worldTransform) {
+	//フェーズがLeaveじゃなかった場合
+	if (phase_ == Phase::phaseNum) {
+		Initialize();//初期化する
+	}
 	// 敵の動くスピード
 	Vector3 velocity{-kCharacterSpeed, kCharacterSpeed, -kCharacterSpeed};
 	// 移動(ベクトル加算)

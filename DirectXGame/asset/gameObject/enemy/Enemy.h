@@ -53,4 +53,5 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;                                        // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                            // 現在の行動パターンの番号
+	int32_t prePhase_ = phase_;                                     // 前の行動パターンの番号
 };

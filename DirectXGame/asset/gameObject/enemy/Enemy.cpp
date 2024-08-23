@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "asset/math/Math.h"
+#include "imgui.h"
 #include <cassert>
 
 /// <summary>
@@ -25,10 +26,7 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 	texture_ = texture;                      // テクスチャハンドル
 	actions_[0] = new EnemeyApproach();       // 接近
 	actions_[1] = new EnemeyLeave();          // 離脱
-	//初期化
-	for (auto action : actions_) {
-		action->Initialize();
-	}
+	actions_[0]->Initialize();                // 接近の初期化
 }
 
 // メンバ関数ポンインタの初期化
@@ -39,9 +37,9 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
 
 // 更新
 void Enemy::Update() {
-
 	// 現在のフェーズを算出
 	phase_ = actions_[phase_]->GetPhase();
+	prePhase_ = phase_;
 	// 現在のフェーズを実行
 	(actions_[phase_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(phase_)])(worldTransform_);
 
@@ -52,16 +50,7 @@ void Enemy::Update() {
 		}
 	}
 
-	//デスフラグが立った弾を削除
-	actions_[phase_]->GetBullet().remove_if([](EnemyBullet* bullet) {
-		if (bullet) {
-			if (bullet->IsDead()) {
-				delete bullet;
-				return true;
-			}
-		}
-		return false;
-	});
+	ImGui::Text("%d",phase_);
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
