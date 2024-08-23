@@ -5,7 +5,10 @@
 
 //デストラクタ
 EnemeyApproach::~EnemeyApproach() { 
-
+	for (auto timeCall : timeCalls_) {
+		delete timeCall;	//コールバック関数の削除
+	}
+	timeCalls_.clear();//箱ごと消す
 }
 
 // 初期化
@@ -34,13 +37,27 @@ void EnemeyApproach::Exce(WorldTransform& worldTransform) {
 	//発射タイマーカウントダウン
 	fireTimer_--;
 	//指定時間に達した
-	if (fireTimer_ <= 0) {
-		// 弾を発射
-		Fire(worldTransform);
-		//発射タイマーを初期化
-		fireTimer_ = kFireInterval;
+	//if (fireTimer_ <= 0) {
+	//	// 弾を発射
+	//	Fire(worldTransform);
+	//	//発射タイマーを初期化
+	//	fireTimer_ = kFireInterval;
+	//}
+
+	// 指定時間に達した
+	BulletTimeReset(worldTransform, 60);
+
+	//終了したタイマーを削除
+	for (auto timeCall : timeCalls_) {
+		if (timeCall->IsFinished()) {
+			delete timeCall;
+		}
 	}
 
+	//リストの全要素について回す
+	for (auto timeCall : timeCalls_) {
+		timeCall->Update(worldTransform);
+	}
 	// デスフラグが立った弾を削除
 	bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet) {
@@ -51,8 +68,8 @@ void EnemeyApproach::Exce(WorldTransform& worldTransform) {
 		}
 		return false;
 	});
-}
 
+}
 // 攻撃
 void EnemeyApproach::Fire(WorldTransform& worldTransform) {
 

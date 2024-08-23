@@ -1,5 +1,6 @@
 #pragma once
 #include "asset/gameObject/enemy/bullet/EnemyBullet.h"
+#include "asset/math/TimedCall.h"
 #include <list>
 using namespace std;
 
@@ -32,6 +33,13 @@ public: // メンバ関数
 public: // メンバ関数
 
 	/// <summary>
+	/// 弾を発射し、タイマーをリセットするコールバック関数
+	/// </summary>
+	/// <param name="worldTransform">ワールドトランスフォーム</param>
+	/// <param name="timer">どれくらいの時間で発射したいか</param>
+	void BulletTimeReset(WorldTransform& worldTransform,uint32_t timer);
+
+	/// <summary>
 	/// フェーズのゲッター
 	/// </summary>
 	/// <returns>現在のフェーズ</returns>
@@ -40,7 +48,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 弾のゲッター
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>弾たち</returns>
 	list<EnemyBullet*> GetBullet() { return bullets_; }
 
 public: // 静的メンバ変数と関数ポインタ
@@ -62,4 +70,5 @@ protected: // メンバ変数
 	list<EnemyBullet*> bullets_ = {nullptr}; // 弾
 	Model* bulletModel_ = nullptr;           // 弾のモデル
 	int32_t fireTimer_ = 0;                  // 発射タイマー
+	list<TimedCall*> timeCalls_;             // 時限発動のリスト
 };
