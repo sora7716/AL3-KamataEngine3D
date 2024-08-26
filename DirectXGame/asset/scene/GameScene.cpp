@@ -32,7 +32,7 @@ void GameScene::Initialize() {
 	//敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
 	enemy_ = make_unique<Enemy>();
-	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {0,3,100});
+	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30,3,100});
 	enemy_->SetPlayer(player_.get());
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();

@@ -152,7 +152,7 @@ Vector3 Math::Normalize(const Vector3& v) {
 	float len = Length(v);
 	Vector3 result{};
 	result = v / len;
-	return v;
+	return result;
 }
 
 // 正規化
