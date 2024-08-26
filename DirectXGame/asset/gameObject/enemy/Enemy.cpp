@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "asset/math/Math.h"
-#include "imgui.h"
+//#include "imgui.h"
 #include <cassert>
 
 /// <summary>
@@ -39,7 +39,6 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
 void Enemy::Update() {
 	// 現在のフェーズを算出
 	phase_ = actions_[phase_]->GetPhase();
-	prePhase_ = phase_;
 	// 現在のフェーズを実行
 	(actions_[phase_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(phase_)])(worldTransform_);
 
@@ -50,7 +49,7 @@ void Enemy::Update() {
 		}
 	}
 
-	ImGui::Text("%d",phase_);
+	//ImGui::Text("%d",phase_);
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -67,4 +66,19 @@ void Enemy::Draw() {
 			bullet->Draw(*viewProjection_);
 		}
 	}
+}
+
+
+//プレイヤーのセッター
+void Enemy::SetPlayer(Player* player, IEnemyState::Phase phase) { actions_[static_cast<int>(phase)]->player_ = player; }
+
+// ワールドポジションのゲッター
+Vector3 Enemy::GetWorldPosition() {
+//ワールド座標を入れる変数
+	Vector3 worldPos;
+//ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
 }

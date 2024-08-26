@@ -2,6 +2,8 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "asset/math/Math.h"
+#include "asset/gameObject/player/Player.h"
+
 
 //デストラクタ
 EnemeyApproach::~EnemeyApproach() { 

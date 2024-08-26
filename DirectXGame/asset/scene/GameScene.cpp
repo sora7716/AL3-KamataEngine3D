@@ -33,7 +33,7 @@ void GameScene::Initialize() {
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
 	enemy_ = make_unique<Enemy>();
 	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {0,3,100});
-
+	enemy_->SetPlayer(player_.get(),IEnemyState::Phase::Approach);
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();
 

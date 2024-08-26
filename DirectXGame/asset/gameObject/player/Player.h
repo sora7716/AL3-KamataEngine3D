@@ -50,6 +50,12 @@ public: // メンバ関数
 	/// <param name="velocity">速度</param>
 	void SetVelocity(Vector3 velocity);
 
+	/// <summary>
+	/// ワールドポジションのゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
+	Vector3 GetWorldPosition();
+
 #pragma region コマンド
 	/// <summary>
 	/// 左へ移動

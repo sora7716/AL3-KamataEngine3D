@@ -9,6 +9,7 @@ using namespace std;
 // 前方宣言
 class Model;
 class ViewProjection;
+class Player;
 
 /// <summary>
 /// 敵
@@ -45,6 +46,19 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// プレイヤーのセッター
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	/// <param name="phase">どの状態のとき</param>
+	void SetPlayer(Player*player,IEnemyState::Phase phase);
+
+	/// <summary>
+	/// ワールドポジションのゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
+	Vector3 GetWorldPosition();
+
 private: // メンバ変数
 
 	Model* model_ = nullptr;                                       // モデル
@@ -53,5 +67,4 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;                                        // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                            // 現在の行動パターンの番号
-	int32_t prePhase_ = phase_;                                     // 前の行動パターンの番号
 };

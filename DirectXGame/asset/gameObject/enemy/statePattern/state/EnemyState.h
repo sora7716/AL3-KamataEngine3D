@@ -1,6 +1,7 @@
 #pragma once
 #include "asset/gameObject/enemy/statePattern/IEnemyState.h"
 
+
 /// <summary>
 /// 接近状態のフェーズ
 /// </summary>

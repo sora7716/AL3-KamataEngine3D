@@ -5,6 +5,7 @@ using namespace std;
 
 // 前方宣言
 class WorldTransform;
+class Player;
 
 /// <summary>
 /// 敵のステートパターンのインターフェース
@@ -62,4 +63,7 @@ protected: // メンバ変数
 	list<EnemyBullet*> bullets_ = {nullptr}; // 弾
 	Model* bulletModel_ = nullptr;           // 弾のモデル
 	int32_t fireTimer_ = 0;                  // 発射タイマー
+
+public: // メンバ変数
+	Player* player_ = nullptr;               // プレイヤー
 };
