@@ -3,6 +3,7 @@
 #include "bullet/EnemyBullet.h"
 #include "statePattern/IEnemyState.h"
 #include "statePattern/state/EnemyState.h"
+#include "asset/gameObject/enemy/bullet/EnemyBullet.h"
 #include <list>
 using namespace std;
 
@@ -47,11 +48,16 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Fire();
+
+	/// <summary>
 	/// プレイヤーのセッター
 	/// </summary>
 	/// <param name="player">プレイヤー</param>
 	/// <param name="phase">どの状態のとき</param>
-	void SetPlayer(Player*player,IEnemyState::Phase phase);
+	void SetPlayer(Player*player);
 
 	/// <summary>
 	/// ワールドポジションのゲッター
@@ -59,12 +65,21 @@ public: // メンバ関数
 	/// <returns>ワールド座標</returns>
 	Vector3 GetWorldPosition();
 
+public:  // 静的メンバ変数
+
+	static inline const float kBulletSpeed = 1.0f; // 弾の速度
+	static inline const int kFireInterval = 60; // 発射間隔
+
 private: // メンバ変数
 
-	Model* model_ = nullptr;                                       // モデル
-	ViewProjection* viewProjection_ = nullptr;                     // ビュープロジェクション
-	WorldTransform worldTransform_;                                // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                                        // テクスチャハンドル
+	Model* model_ = nullptr;                                        // モデル
+	ViewProjection* viewProjection_ = nullptr;                      // ビュープロジェクション
+	WorldTransform worldTransform_;                                 // ワールドトランスフォーム
+	uint32_t texture_ = 0u;                                         // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
-	int32_t phase_ = 0;                                            // 現在の行動パターンの番号
+	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
+	list<EnemyBullet*> bullets_ = {nullptr};                        // 弾
+	Model* bulletModel_ = nullptr;                                  // 弾のモデル
+	int32_t fireTimer_ = 0;                                         // 発射タイマー
+	Player* player_ = nullptr;                                      // プレイヤー
 };

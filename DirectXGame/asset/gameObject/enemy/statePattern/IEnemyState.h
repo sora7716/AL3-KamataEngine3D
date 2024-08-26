@@ -1,11 +1,7 @@
 #pragma once
-#include "asset/gameObject/enemy/bullet/EnemyBullet.h"
-#include <list>
-using namespace std;
 
 // 前方宣言
 class WorldTransform;
-class Player;
 
 /// <summary>
 /// 敵のステートパターンのインターフェース
@@ -28,7 +24,6 @@ public: // メンバ関数
 	virtual void Initialize() = 0;
 	virtual void ChangePhase() = 0;
 	virtual void Exce(WorldTransform& worldTransform) = 0;
-	virtual void Fire(WorldTransform& worldTransform) = 0;
 
 public: // メンバ関数
 
@@ -38,11 +33,6 @@ public: // メンバ関数
 	/// <returns>現在のフェーズ</returns>
 	int GetPhase() { return static_cast<int>(phase_); }
 
-	/// <summary>
-	/// 弾のゲッター
-	/// </summary>
-	/// <returns></returns>
-	list<EnemyBullet*> GetBullet() { return bullets_; }
 
 public: // 静的メンバ変数と関数ポインタ
 
@@ -52,18 +42,6 @@ public: // 静的メンバ変数と関数ポインタ
 
 	static void (IEnemyState::*EnemyPhaseTable[])(WorldTransform& worldTransform); // フェーズの関数ポインタ
 
-	static inline const float kBulletSpeed = 1.0f; // 弾の速度
-
-	static inline const int kFireInterval = 60; // 発射間隔
-
 protected: // メンバ変数
-
 	Phase phase_ = Phase::phaseNum; // フェーズ
-
-	list<EnemyBullet*> bullets_ = {nullptr}; // 弾
-	Model* bulletModel_ = nullptr;           // 弾のモデル
-	int32_t fireTimer_ = 0;                  // 発射タイマー
-
-public: // メンバ変数
-	Player* player_ = nullptr;               // プレイヤー
 };

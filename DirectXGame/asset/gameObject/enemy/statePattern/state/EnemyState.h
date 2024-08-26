@@ -34,11 +34,6 @@ public: // メンバ関数
 	/// <param name="worldTransform">ワールドトランスフォーム</param>
 	void Exce(WorldTransform& worldTransform);
 
-	/// <summary>
-	/// 攻撃
-	/// </summary>
-	/// <param name="worldTransform">ワールドトランスフォーム</param>
-	void Fire(WorldTransform& worldTransform) override;
 };
 
 /// <summary>
@@ -72,10 +67,4 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="worldTransform">ワールドトランスフォーム</param>
 	void Exce(WorldTransform& worldTransform);
-
-	/// <summary>
-	/// 攻撃
-	/// </summary>
-	/// <param name="worldTransform">ワールドトランスフォーム</param>
-	void Fire(WorldTransform& worldTransform) override;
 };
