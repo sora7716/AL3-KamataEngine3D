@@ -2,8 +2,8 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include "WinApp.h"
-#include "asset/math/Math.h"
-#include "imgui.h"
+//#include "asset/math/Math.h"
+//#include "imgui.h"
 #include <cassert>
 
 // コンストラクタ
@@ -63,14 +63,14 @@ void GameScene::Update() {
 	// デバックカメラ
 	debugCamera_->Update(); // 更新処理
 	DebugCameraMove();      // デバックカメラの動き
-	if (t < 1) {
-		t += 0.01f;
-	}
-	Vector3 s = {10, 10, 10};
-	Vector3 e = {20, 20, 20};
-	Vector3 result = Math::SLerp(s, e, t);
-	ImGui::Text("t%f", t);
-	ImGui::Text("x%f,y%f,z%f", result.x, result.y, result.z);
+	//if (t < 1) {
+	//	t += 0.01f;
+	//}
+	//Vector3 s = {10, 10, 10};
+	//Vector3 e = {20, 20, 20};
+	//Vector3 result = Math::SLerp(s, e, t);
+	//ImGui::Text("t%f", t);
+	//ImGui::Text("x%f,y%f,z%f", result.x, result.y, result.z);
 }
 
 // 描画

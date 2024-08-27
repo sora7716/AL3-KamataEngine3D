@@ -172,4 +172,22 @@ public:
 	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
 	static Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
+
+	/// <summary>
+	/// 線形補間
+	/// </summary>
+	/// <param name="num1"></param>
+	/// <param name="num2"></param>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	static float Lerp(const float& num1, const float& num2, float t);
+
+	/// <summary>
+	/// えｎ
+	/// </summary>
+	/// <param name="v1"></param>
+	/// <param name="v2"></param>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	static Vector3 SLerp(const Vector3& v1, const Vector3& v2, float t);
 };
