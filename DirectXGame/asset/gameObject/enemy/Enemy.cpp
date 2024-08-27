@@ -35,7 +35,9 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 
 // メンバ関数ポンインタの初期化
 void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
-    static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyApproach::Exce), static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyLeave::Exce)};
+    static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyApproach::Exce), 
+	static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyLeave::Exce)
+};
 
 // 更新
 void Enemy::Update() {
@@ -68,6 +70,7 @@ void Enemy::Update() {
 	// 弾の更新
 	for (auto bullet : bullets_) {
 		if (bullet) {
+			bullet->SetPlayer(player_);
 			bullet->Update();
 		}
 	}

@@ -2,6 +2,8 @@
 #include "Model.h"
 #include "TextureManager.h"
 #include "ViewProjection.h"
+#include "asset/gameObject/enemy/Enemy.h"
+#include "asset/gameObject/player/Player.h"
 #include "asset/math/Math.h"
 
 // 初期化
@@ -20,21 +22,46 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 
 	// Y軸周りの角度(θy)
 	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	float velocityXZ = Math::Length({velocity.x, 0.0f, velocity.z});
+	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
 	// X軸周りの角度(θx)
-	worldTransform_.rotation_.x = atan2(-velocity.y, velocityXZ);
+	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
 }
 
 // 更新
 void EnemyBullet::Update() {
 
-	//経過時間でデス
+	// 経過時間でデス
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 	}
 
 	// 速度分トランスレイションに加算
 	worldTransform_.translation_ += velocity_;
+
+	if (t < 1.0f) {
+		t+=0.01f/60.0f;
+	} else {
+		t =1.0f;
+	}
+	// ワールド座標
+	Vector3 worldPos;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	// 敵弾から自キャラへのベクトルを計算
+	Vector3 toPlayer = player_->GetWorldPosition() - worldPos;
+	// ベクトルを正規化する
+	toPlayer = Math::Normalize(toPlayer);
+	velocity_ = Math::Normalize(velocity_);
+	// 球面線形補間により、今の速度と自キャラへのベクトルを内挿し、新たな速度とする
+	velocity_ = Math::SLerp(velocity_, toPlayer, t) * Enemy::kBulletSpeed;
+	// Y軸周りの角度(θy)
+	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
+	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	// X軸周りの角度(θx)
+	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
@@ -45,5 +72,8 @@ void EnemyBullet::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, texture_);
 }
 
-//デスフラグのゲッター
+// デスフラグのゲッター
 bool EnemyBullet::IsDead() const { return isDead_; }
+
+// プレイヤーのセッター
+void EnemyBullet::SetPlayer(Player* player) { player_ = player; }

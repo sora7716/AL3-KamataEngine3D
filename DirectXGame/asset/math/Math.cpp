@@ -192,35 +192,33 @@ float Math::Lerp(const float& num1, const float& num2, float t) {
 }
 
 Vector3 Math::SLerp(const Vector3& v1, const Vector3& v2, float t) { 
-	//v1の正規化ベクトル
-	Vector3 nv1 = Normalize(v1); 
-	//v2の正規化ベクトルを求める
-	Vector3 nv2 = Normalize(v2);
-	//内積を求める
-	float dot = Dot(v1, v2);
-	//誤差により1.0fを超えるのを防ぐ
-	dot = clamp(dot, -1.0f, 1.0f);
-	//アークコサインでθの角度を求める
-	float theta = acos(dot);
-	//θの角度からsinθを求める
-	float sinTheta = sin(theta);
-	//サイン(θ(1-t))を求める
-	float sinThetaFrom = sin((1 - t) * theta);
-	//サインθtを求める
-	float sinThetaTo = sin(t + theta);
+ Vector3 nv1 = Normalize(v1); // v1 の正規化ベクトル
+	Vector3 nv2 = Normalize(v2); // v2 の正規化ベクトル
+	float dot = Dot(nv1, nv2);    // 正規化されたベクトル同士の内積
+
+	// 誤差により1.0fを超えるのを防ぐ
+	dot = std::clamp(dot, -1.0f, 1.0f);
+
+	// アークコサインでθの角度を求める
+	float theta = std::acos(dot);
+	float sinTheta = std::sin(theta);
 
 	Vector3 normalizeVector;
-	//ゼロ除算を防ぐ
+	// ゼロ除算を防ぐ
 	if (sinTheta < 1.0e-5) {
-		normalizeVector = v1;
+		normalizeVector = nv1;
 	} else {
-	//球面線形保管したベクトル(単位ベクトル)
-		normalizeVector = sinThetaFrom / sinTheta * nv1 + sinThetaTo / sinTheta * v2;
+		// 球面線形補間したベクトル(単位ベクトル)
+		float sinThetaFrom = std::sin((1 - t) * theta);
+		float sinThetaTo = std::sin(t * theta);
+		normalizeVector = (sinThetaFrom * nv1 + sinThetaTo * nv2) / sinTheta;
 	}
-	//ベクトルの長さはv1とv2の長さを線形補間
+
+	// ベクトルの長さはv1とv2の長さを線形補間
 	float length1 = Length(v1);
 	float length2 = Length(v2);
-	//Lerpで補間ベクトルの長さを求める
+	// Lerpで補間ベクトルの長さを求める
 	float length = Lerp(length1, length2, t);
-	return length * normalizeVector;
+
+	return normalizeVector * length;
 }

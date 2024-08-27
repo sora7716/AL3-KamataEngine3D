@@ -4,6 +4,7 @@
 // 前方宣言
 class Model;
 class ViewProjection;
+class Player;
 
 /// <summary>
 /// 敵の弾
@@ -46,6 +47,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	bool IsDead() const;
 
+	/// <summary>
+	/// プレイヤーのセッター
+	/// </summary>
+	/// <param name="player"></param>
+	void SetPlayer(Player*player);
+
 public: // 静的メンバ変数
 	static inline const int32_t kLifeTime = 60 * 5; // 寿命
 
@@ -57,4 +64,6 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;          // 弾のテクスチャハンドル
 	int32_t deathTimer_ = kLifeTime; // デスタイマー
 	bool isDead_ = false;            // デスフラグ
+	Player* player_ = nullptr;       // プレイヤー
+	float t = 0.0f;                  // 補間割合
 };
