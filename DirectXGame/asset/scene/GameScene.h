@@ -84,4 +84,6 @@ public: // メンバ変数
 	IPlayerCommand* iPlayerCommandVertical_ = nullptr; // 縦移動の入力を受け取る
 	IPlayerCommand* iPlayerCommandRotate_ = nullptr;   // 旋回
 	unique_ptr<InputHandle> inputHandle_ = nullptr;    // プレイヤーのコマンド
+
+	float t = 0;
 };

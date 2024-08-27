@@ -1,6 +1,7 @@
 #include "Math.h"
 #include <cassert>
 #include <cmath>
+#include <algorithm>
 #define cont(theta) (1.0f / tanf(theta))
 using namespace std;
 
@@ -133,10 +134,7 @@ Vector3 Math::Cross(const Vector3& v1, const Vector3& v2) {
 
 // 内積
 float Math::Dot(const Vector3& v1, const Vector3& v2) {
-	Vector3 result = {};
-	result = v1 * v2;
-	float dot = result.x + result.y + result.z;
-	return dot;
+ return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
 // ノルム
@@ -150,9 +148,10 @@ float Math::Length(const Vector3& v) {
 // 単位ベクトル
 Vector3 Math::Normalize(const Vector3& v) {
 	float len = Length(v);
-	Vector3 result{};
-	result = v / len;
-	return result;
+	if (len != 0.0f) {
+		return v / len;
+	}
+	return Vector3{0.0f, 0.0f, 0.0f}; // 長さが0の場合
 }
 
 // 正規化
@@ -172,5 +171,15 @@ Vector3 Math::TransformNormal(const Vector3& v, const Matrix4x4& m) {
 	    v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1],
 	    v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2],
 	};
+	return result;
+}
+
+//線形補間
+Vector3 Math::Lerp(const Vector3& v1, const Vector3& v2, float t) {
+	Vector3 result;
+	result.x = v1.x + t * (v2.x - v1.x);
+	result.y = v1.y + t * (v2.y - v1.y);
+	result.z = v1.z + t * (v2.z - v1.z);
+
 	return result;
 }

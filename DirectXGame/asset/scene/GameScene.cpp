@@ -2,6 +2,8 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include "WinApp.h"
+#include "asset/math/Math.h"
+#include "imgui.h"
 #include <cassert>
 
 // コンストラクタ
@@ -29,10 +31,10 @@ void GameScene::Initialize() {
 	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer));
 
-	//敵のクラス
+	// 敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
 	enemy_ = make_unique<Enemy>();
-	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30,3,100});
+	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100});
 	enemy_->SetPlayer(player_.get());
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();
@@ -55,12 +57,20 @@ void GameScene::Update() {
 	player_->Update();     // 更新処理
 	PlayerActionCommand(); // 移動のコマンド
 
-	//敵
+	// 敵
 	enemy_->Update();
 
 	// デバックカメラ
 	debugCamera_->Update(); // 更新処理
 	DebugCameraMove();      // デバックカメラの動き
+	if (t < 1) {
+		t += 0.01f;
+	}
+	Vector3 s = {10, 10, 10};
+	Vector3 e = {20, 20, 20};
+	Vector3 result = Math::SLerp(s, e, t);
+	ImGui::Text("t%f", t);
+	ImGui::Text("x%f,y%f,z%f", result.x, result.y, result.z);
 }
 
 // 描画
@@ -91,11 +101,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	//プレイヤー
+
+	// プレイヤー
 	player_->Draw();
 
-	//敵
+	// 敵
 	if (enemy_) {
 		enemy_->Draw();
 	}

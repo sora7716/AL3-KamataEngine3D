@@ -163,4 +163,13 @@ public:
 	/// <param name="m">マトリックス</param>
 	/// <returns></returns>
 	static Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
+
+	/// <summary>
+	/// 線形補間
+	/// </summary>
+	/// <param name="v1">ベクトル1</param>
+	/// <param name="v2">ベクトル2</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns></returns>
+	static Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 };
