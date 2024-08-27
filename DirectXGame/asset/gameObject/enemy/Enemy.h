@@ -78,7 +78,7 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;                                         // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
-	list<EnemyBullet*> bullets_ = {nullptr};                        // 弾
+	list<EnemyBullet*> bullets_;                                    // 弾
 	Model* bulletModel_ = nullptr;                                  // 弾のモデル
 	int32_t fireTimer_ = 0;                                         // 発射タイマー
 	Player* player_ = nullptr;                                      // プレイヤー
