@@ -46,7 +46,8 @@ void EnemeyLeave::Exce(WorldTransform& worldTransform) {
 		Initialize();//初期化する
 	}
 	// 敵の動くスピード
-	Vector3 velocity{-kCharacterSpeed, kCharacterSpeed, -kCharacterSpeed};
+	//Vector3 velocity{-kCharacterSpeed, kCharacterSpeed, -kCharacterSpeed};
+	Vector3 velocity{};
 	// 移動(ベクトル加算)
 	worldTransform.translation_ += velocity;
 }

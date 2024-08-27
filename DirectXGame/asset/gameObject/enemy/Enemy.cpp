@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "asset/math/Math.h"
-// #include "imgui.h"
+#include "imgui.h"
 #include "asset/gameObject/player/Player.h"
 #include <cassert>
 
@@ -14,6 +14,11 @@ Enemy::~Enemy() {
 		delete bullet; // 弾を削除
 	}
 	bullets_.clear(); // 弾のあった配列も削除
+
+	for (auto timedCall : timedCalls_) {
+		delete timedCall; // タイマーを削除
+	}
+	timedCalls_.clear(); // タイマーのあった配列も削除
 }
 
 // 初期化
@@ -44,14 +49,26 @@ void Enemy::Update() {
 	// 現在のフェーズを実行
 	(actions_[phase_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(phase_)])(worldTransform_);
 
-	// 発射タイマーカウントダウン
-	fireTimer_--;
-	// 指定時間に達した
-	if (fireTimer_ <= 0 && phase_ == static_cast<int>(IEnemyState::Phase::Approach)) {
-		// 弾を発射
-		Fire();
-		// 発射タイマーを初期化
-		fireTimer_ = kFireInterval;
+	// 発射タイマー
+	if (phase_ == static_cast<int>(IEnemyState::Phase::Approach)&&!isTimeReset_) {
+		FireTimeReset();
+		isTimeReset_ = true;
+	}
+
+	// 終了したタイマーを削除
+	if (timedCalls_.back()->IsFinished()) {
+		TimedCall* call = timedCalls_.back();
+		delete call;
+		timedCalls_.pop_back();
+		isTimeReset_ = false;
+	}
+
+	// 範囲forでリストの全要素について回す
+	for (auto timedCall : timedCalls_) {
+		if (timedCall) {
+			timedCall->Update();
+			isTimeReset_ = !timedCall->IsFinished();
+		}
 	}
 
 	// デスフラグが立った弾を削除
@@ -72,7 +89,8 @@ void Enemy::Update() {
 		}
 	}
 
-	// ImGui::Text("%d",phase_);
+	ImGui::Text("%d",phase_);
+	ImGui::Text("%d", isTimeReset_);
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -95,12 +113,12 @@ void Enemy::Draw() {
 void Enemy::Fire() {
 	// Nullチェック
 	assert(player_);
-	Vector3 playerWorldPos = player_->GetWorldPosition();//プレイヤーのワールド座標
-	Vector3 enemyWorldPos = GetWorldPosition();//敵のワールド座標
-	Vector3 subtractVector = playerWorldPos - enemyWorldPos; // 差分ベクトルを求める( ゴールポジション - スタートポジション )
-	Vector3 normalizeVector = Math::Normalize(subtractVector);//ベクトルを正規化
+	Vector3 playerWorldPos = player_->GetWorldPosition();      // プレイヤーのワールド座標
+	Vector3 enemyWorldPos = GetWorldPosition();                // 敵のワールド座標
+	Vector3 subtractVector = playerWorldPos - enemyWorldPos;   // 差分ベクトルを求める( ゴールポジション - スタートポジション )
+	Vector3 normalizeVector = Math::Normalize(subtractVector); // ベクトルを正規化
 	// 弾の速度
-	Vector3 velocity(normalizeVector * kBulletSpeed);//ベクトルの長さを、速さに合わせる
+	Vector3 velocity(normalizeVector * kBulletSpeed); // ベクトルの長さを、速さに合わせる
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = Math::TransformNormal(velocity, worldTransform_.matWorld_);
@@ -111,6 +129,13 @@ void Enemy::Fire() {
 
 	// 弾を登録
 	bullets_.push_back(newBullet);
+}
+
+// 弾を発射し、タイマーをリセットするコールバック関数
+void Enemy::FireTimeReset() {
+	Fire();
+	// 発射タイマーをセットする
+	timedCalls_.push_back(new TimedCall(bind(&Enemy::FireTimeReset, this), kFireInterval));
 }
 
 // プレイヤーのセッター

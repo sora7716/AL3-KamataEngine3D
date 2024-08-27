@@ -4,6 +4,7 @@
 #include "statePattern/IEnemyState.h"
 #include "statePattern/state/EnemyState.h"
 #include "asset/gameObject/enemy/bullet/EnemyBullet.h"
+#include "asset/math/TimedCall.h"
 #include <list>
 using namespace std;
 
@@ -53,6 +54,11 @@ public: // メンバ関数
 	void Fire();
 
 	/// <summary>
+	/// 弾を発射し、タイマーをリセットするコールバック関数
+	/// </summary>
+	void FireTimeReset();
+
+	/// <summary>
 	/// プレイヤーのセッター
 	/// </summary>
 	/// <param name="player">プレイヤー</param>
@@ -78,8 +84,10 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;                                         // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
-	list<EnemyBullet*> bullets_ = {nullptr};                        // 弾
+	list<EnemyBullet*> bullets_;                                    // 弾
 	Model* bulletModel_ = nullptr;                                  // 弾のモデル
 	int32_t fireTimer_ = 0;                                         // 発射タイマー
 	Player* player_ = nullptr;                                      // プレイヤー
+	list<TimedCall*> timedCalls_;                                   // 時限発動リスト
+	bool isTimeReset_ = false;                                      // 時限発動のフラグ
 };
