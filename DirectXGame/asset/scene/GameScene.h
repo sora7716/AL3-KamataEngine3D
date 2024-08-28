@@ -14,6 +14,7 @@
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/player/Player.h"
 #include "asset/math/collision/Collision.h"
+#include "asset/gameObject/skydome/Skydome.h"
 #include <memory>
 using namespace std;
 
@@ -90,4 +91,5 @@ public: // メンバ変数
 	IPlayerCommand* iPlayerCommandVertical_ = nullptr; // 縦移動の入力を受け取る
 	IPlayerCommand* iPlayerCommandRotate_ = nullptr;   // 旋回
 	unique_ptr<InputHandle> inputHandle_ = nullptr;    // プレイヤーのコマンド
+	unique_ptr<Skydome> skydome_ = nullptr;            // スカイドーム
 };

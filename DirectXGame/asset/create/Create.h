@@ -12,11 +12,13 @@ public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
 		kEnemy,
+		kSkydome,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
 	ObjectType typePlayer = Type::kPlayer;
 	ObjectType typeEnemy = Type::kEnemy;
+	ObjectType typeSkydome = Type::kSkydome;
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

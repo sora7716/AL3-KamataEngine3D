@@ -18,6 +18,8 @@ void Create::ModelCreate() {
 	models_[(int)typePlayer] = Model::Create();
 	//敵
 	models_[(int)typeEnemy] = Model::Create();
+
+	models_[(int)typeSkydome] = Model::CreateFromOBJ("skydome",true);
 }
 
 // テクスチャをクリエイト

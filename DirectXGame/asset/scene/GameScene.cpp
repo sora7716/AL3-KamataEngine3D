@@ -28,14 +28,19 @@ void GameScene::Initialize() {
 	Create::ObjectType typePlayer = Create::Type::kPlayer;
 	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer));
+	// キー入力のコマンドの初期化
+	InputCommandInitialize();
 
 	// 敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
 	enemy_ = make_unique<Enemy>();
 	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100});
 	enemy_->SetPlayer(player_.get());
-	// キー入力のコマンドの初期化
-	InputCommandInitialize();
+
+	//スカイドームクラス
+	Create::ObjectType typeSkydome = Create::Type::kSkydome;
+	skydome_ = make_unique<Skydome>();
+	skydome_->Initialize(create_->GetModel(typeSkydome),&viewProjection_);
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -57,6 +62,9 @@ void GameScene::Update() {
 
 	// 敵
 	enemy_->Update();
+
+	//スカイドーム
+	skydome_->Update();
 
 	// デバックカメラ
 	debugCamera_->Update(); // 更新処理
@@ -102,6 +110,9 @@ void GameScene::Draw() {
 	if (enemy_) {
 		enemy_->Draw();
 	}
+	
+	//スカイドーム
+	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

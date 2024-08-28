@@ -93,6 +93,12 @@
     <Filter Include="asset\Game\ヘッダーファイル\gameObject\player">
       <UniqueIdentifier>{c598756d-d463-42d5-bedd-a9a0aa94bc55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\Game\ソースファイル\gameObject\skydome">
+      <UniqueIdentifier>{0e87ea72-8b03-4a9f-a721-06c4fc74b207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject\skydome">
+      <UniqueIdentifier>{ebdbc000-e284-4432-923b-67a6763e3e71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -144,7 +150,10 @@
       <Filter>asset\Game\ソースファイル\gameObject\enemy</Filter>
     </ClCompile>
     <ClCompile Include="asset\math\collision\Collision.cpp">
-      <Filter>asset\デフォルトのプログラム\ソース ファイル</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\skydome\Skydome.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,7 +281,10 @@
       <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
     </ClInclude>
     <ClInclude Include="asset\math\collision\Collision.h">
-      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル</Filter>
+      <Filter>asset\Game\ソースファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\skydome\Skydome.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
