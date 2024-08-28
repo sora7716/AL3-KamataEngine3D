@@ -61,6 +61,9 @@ void GameScene::Update() {
 	// デバックカメラ
 	debugCamera_->Update(); // 更新処理
 	DebugCameraMove();      // デバックカメラの動き
+
+	// 衝突しているかどうか
+	CheckAllCollision();
 }
 
 // 描画
@@ -167,4 +170,68 @@ void GameScene::DebugCameraMove() {
 		// 行列の更新
 		viewProjection_.UpdateMatrix();
 	}
+}
+
+// 衝突判定の応答
+void GameScene::CheckAllCollision() {
+
+	// 判定対象AとBの座標
+	AABB posA, posB;
+	// 自弾リストの取得
+	const list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	// 敵弾リストの取得
+	const list<EnemyBullet*>& enemyBullets = enemy_->GetBullet();
+
+#pragma region 自キャラと敵弾の当たり判定
+	// 自キャラ
+	posA = player_->GetAABB();
+	for (auto enemyBullet : enemyBullets) {
+		// 敵弾
+		posB = enemyBullet->GetAABB();
+		if (Collision::IsCollision(posA, posB)) {
+			// 自キャラの衝突時のコールバックを呼び出す
+			player_->OnCollision();
+			// 敵弾の衝突時のコールバックを呼び出す
+			enemyBullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	// 敵キャラ
+	posB = enemy_->GetAABB();
+	for (auto playerBullet : playerBullets) {
+		if (playerBullet) {
+			// 自弾
+			posA = playerBullet->GetAABB();
+			if (Collision::IsCollision(posA, posB)) {
+				// 自弾の衝突時のコールバックを呼び出す
+				playerBullet->OnCollision();
+				// 敵キャラの衝突時のコールバックを呼び出す
+				enemy_->OnCollision();
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+	for (auto playerBullet : playerBullets) {
+		if (playerBullet) {
+			for (auto enemyBullet : enemyBullets) {
+
+				// 自弾
+				posA = playerBullet->GetAABB();
+				// 敵弾
+				posB = enemyBullet->GetAABB();
+				if (Collision::IsCollision(posA, posB)) {
+					// 自弾の衝突時のコールバックを呼び出す
+					playerBullet->OnCollision();
+					// 敵弾の衝突時のコールバックを呼び出す
+					enemyBullet->OnCollision();
+				}
+			}
+		}
+	}
+#pragma endregion
+
 }

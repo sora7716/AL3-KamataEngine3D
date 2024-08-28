@@ -48,6 +48,11 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 衝突を検出したら呼び出されるコールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// 攻撃
 	/// </summary>
 	void Fire();
@@ -60,15 +65,31 @@ public: // メンバ関数
 	void SetPlayer(Player*player);
 
 	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
+	/// <summary>
 	/// ワールドポジションのゲッター
 	/// </summary>
 	/// <returns>ワールド座標</returns>
 	Vector3 GetWorldPosition();
 
+	/// <summary>
+	/// 弾のリストを取得
+	/// </summary>
+	/// <returns></returns>
+	const list<EnemyBullet*>& GetBullet() const;
+
 public:  // 静的メンバ変数
 
 	static inline const float kBulletSpeed = 1.0f; // 弾の速度
 	static inline const int kFireInterval = 60; // 発射間隔
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 1.0f;  // 深さ
+
 
 private: // メンバ変数
 

@@ -13,7 +13,8 @@ Enemy::~Enemy() {
 	for (auto bullet : bullets_) {
 		delete bullet; // 弾を削除
 	}
-	bullets_.clear(); // 弾のあった配列も削除
+	bullets_.clear();    // 弾のあった配列も削除
+	delete bulletModel_; // 弾のモデルの削除
 }
 
 // 初期化
@@ -35,9 +36,7 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 
 // メンバ関数ポンインタの初期化
 void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
-    static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyApproach::Exce), 
-	static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyLeave::Exce)
-};
+    static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyApproach::Exce), static_cast<void (IEnemyState::*)(WorldTransform&)>(&EnemeyLeave::Exce)};
 
 // 更新
 void Enemy::Update() {
@@ -94,16 +93,19 @@ void Enemy::Draw() {
 	}
 }
 
+// 衝突を検出したら呼び出されるコールバック関数
+void Enemy::OnCollision() {}
+
 // 攻撃
 void Enemy::Fire() {
 	// Nullチェック
 	assert(player_);
-	Vector3 playerWorldPos = player_->GetWorldPosition();//プレイヤーのワールド座標
-	Vector3 enemyWorldPos = GetWorldPosition();//敵のワールド座標
-	Vector3 subtractVector = playerWorldPos - enemyWorldPos; // 差分ベクトルを求める( ゴールポジション - スタートポジション )
-	Vector3 normalizeVector = Math::Normalize(subtractVector);//ベクトルを正規化
+	Vector3 playerWorldPos = player_->GetWorldPosition();      // プレイヤーのワールド座標
+	Vector3 enemyWorldPos = GetWorldPosition();                // 敵のワールド座標
+	Vector3 subtractVector = playerWorldPos - enemyWorldPos;   // 差分ベクトルを求める( ゴールポジション - スタートポジション )
+	Vector3 normalizeVector = Math::Normalize(subtractVector); // ベクトルを正規化
 	// 弾の速度
-	Vector3 velocity(normalizeVector * kBulletSpeed);//ベクトルの長さを、速さに合わせる
+	Vector3 velocity(normalizeVector * kBulletSpeed); // ベクトルの長さを、速さに合わせる
 
 	// 速度ベクトルを自機の向きに合わせて回転させる
 	velocity = Math::TransformNormal(velocity, worldTransform_.matWorld_);
@@ -119,6 +121,16 @@ void Enemy::Fire() {
 // プレイヤーのセッター
 void Enemy::SetPlayer(Player* player) { player_ = player; }
 
+//AABBのゲッター
+AABB Enemy::GetAABB(){
+	Vector3 worldPosition = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kHeight / 2.0f, worldPosition.z - kDepth / 2.0f};
+	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
+	return aabb;
+}
+
+
 // ワールドポジションのゲッター
 Vector3 Enemy::GetWorldPosition() {
 	// ワールド座標を入れる変数
@@ -128,4 +140,10 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+// 弾のリストを取得
+const list<EnemyBullet*>& Enemy::GetBullet() const {
+	// TODO: return ステートメントをここに挿入します
+	return bullets_;
 }

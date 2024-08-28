@@ -12,8 +12,8 @@ Player::~Player() {
 	for (auto bullet : bullets_) {
 		delete bullet; // 弾の削除
 	}
-	bullets_.clear(); // 弾の配列の箱も削除
-	delete bulletModel_;//弾のモデルの削除
+	bullets_.clear();    // 弾の配列の箱も削除
+	delete bulletModel_; // 弾のモデルの削除
 }
 
 // 初期化
@@ -24,7 +24,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t t
 	texture_ = texture;               // テクスチャ
 	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
 	input_ = Input::GetInstance();    // シングルインスタンス
-	bulletModel_ = Model::Create();   //弾のモデルの生成
+	bulletModel_ = Model::Create();   // 弾のモデルの生成
 }
 
 // 更新
@@ -73,18 +73,36 @@ void Player::Draw() {
 	}
 }
 
+// 衝突を検出したら呼び出されるコールバック関数
+void Player::OnCollision() {}
+
 // 速度
 void Player::SetVelocity(Vector3 velocity) { velocity_ = velocity; }
 
-//ワールドポジションのゲッター
+// ワールドポジションのゲッター
 Vector3 Player::GetWorldPosition() {
-//ワールド座標を入れる変数
+	// ワールド座標を入れる変数
 	Vector3 worldPos;
-// ワールド行列の平行移動成分を取得(ワールド座標)
+	// ワールド行列の平行移動成分を取得(ワールド座標)
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+// 弾のリストを取得
+const list<PlayerBullet*>& Player::GetBullets() const {
+	// TODO: return ステートメントをここに挿入します
+	return bullets_;
+}
+
+//AABBのゲッター
+AABB Player::GetAABB() {
+	Vector3 worldPosition = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kHeight / 2.0f, worldPosition.z - kDepth / 2.0f};
+	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
+	return aabb;
 }
 
 #ifdef _DEBUG

@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "asset/math/collision/Collision.h"
 
 // 前方宣言
 class Model;
@@ -42,6 +43,11 @@ public: // メンバ関数
 	void Draw(const ViewProjection& viewProjection);
 
 	/// <summary>
+	/// 衝突を検出したら呼び出されるコールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// デスフラグのゲッター
 	/// </summary>
 	/// <returns></returns>
@@ -53,8 +59,36 @@ public: // メンバ関数
 	/// <param name="player"></param>
 	void SetPlayer(Player*player);
 
+	/// <summary>
+	/// ワールドポジションのゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
+private: // メンバ関数
+
+	/// <summary>
+	/// 追跡する弾
+	/// </summary>
+	void Tracking();
+
+	/// <summary>
+	/// 弾の向き
+	/// </summary>
+	void Direction();
+
 public: // 静的メンバ変数
-	static inline const int32_t kLifeTime = 60 * 5; // 寿命
+
+	static inline const int32_t kLifeTime = 60 * 10; // 寿命
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 3.0f;  // 深さ
 
 private: // メンバ変数
 

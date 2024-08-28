@@ -117,6 +117,7 @@
     <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp" />
     <ClCompile Include="asset\gameObject\player\Player.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
+    <ClCompile Include="asset\math\collision\Collision.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
     <ClCompile Include="asset\scene\GameScene.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h" />
     <ClInclude Include="asset\gameObject\player\Player.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
+    <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />
     <ClInclude Include="asset\scene\GameScene.h" />
     <ClInclude Include="audio\Audio.h" />

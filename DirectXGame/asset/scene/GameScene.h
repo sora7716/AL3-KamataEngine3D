@@ -13,6 +13,7 @@
 #include "asset/create/Create.h"
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/player/Player.h"
+#include "asset/math/collision/Collision.h"
 #include <memory>
 using namespace std;
 
@@ -62,6 +63,11 @@ private: // メンバ関数
 	/// デバックカメラ
 	/// </summary>
 	void DebugCameraMove();
+
+	/// <summary>
+	/// 衝突判定の応答
+	/// </summary>
+	void CheckAllCollision();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

@@ -143,6 +143,9 @@
     <ClCompile Include="asset\gameObject\enemy\bullet\EnemyBullet.cpp">
       <Filter>asset\Game\ソースファイル\gameObject\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="asset\math\collision\Collision.cpp">
+      <Filter>asset\デフォルトのプログラム\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -267,6 +270,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\enemy\bullet\EnemyBullet.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\collision\Collision.h">
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

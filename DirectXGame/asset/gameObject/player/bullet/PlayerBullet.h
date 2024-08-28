@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "asset/math/Aithmetic.h"
+#include"asset/math/collision/Collision.h"
 
 // 前方宣言
 class Model;
@@ -12,6 +13,7 @@ class ViewProjection;
 class PlayerBullet {
 
 public: // メンバ関数
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -42,13 +44,34 @@ public: // メンバ関数
 	void Draw(const ViewProjection& viewProjection);
 
 	/// <summary>
+	/// 衝突を検出したら呼び出されるコールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// デスフラグのゲッター
 	/// </summary>
 	/// <returns>isDead</returns>
 	bool IsDead() const;
 
-public:                                      // 静的メンバ変数
+	/// <summary>
+	/// ワールドポジションのゲッター
+	/// </summary>
+	/// <returns>ワールド座標</returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
+public: // 静的メンバ変数
+
 	static const int32_t kLifeTime = 60 * 5; // 寿命<frm>
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 1.0f;  // 深さ
 
 private:                             // メンバ変数
 	Model* model_ = nullptr;         // モデル
