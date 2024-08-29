@@ -43,6 +43,18 @@ public: // メンバ関数
 	/// <returns>ワールドトランスフォーム</returns>
 	const WorldTransform& GetWorldTransform() const;
 
+	/// <summary>
+	/// トランスレイションのセッター
+	/// </summary>
+	/// <param name="translation">セットしたいtranslation</param>
+	void SetTranslation(Vector3 translation);
+
+	/// <summary>
+	/// ローテションのセッター
+	/// </summary>
+	/// <param name="rotation">セットしたいrotation</param>
+	void SetRotation(Vector3 rotation);
+
 private: // メンバ変数
 
 	WorldTransform worldTransform_;  // ワールド変換データ

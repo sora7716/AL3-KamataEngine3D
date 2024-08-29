@@ -79,6 +79,18 @@ public: // メンバ関数
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// ペアレントのトランスレイションのゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetParentTranslation();
+
+	/// <summary>
+	/// ペアレントのローテションのゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetParentRotation();
+
 #pragma region コマンド
 	/// <summary>
 	/// 左へ移動
@@ -140,4 +152,6 @@ private: // メンバ変数
 	Input* input_ = nullptr;                   // キー入力
 	Vector3 velocity_ = {};                    // キャラクターの移動速度
 	list<PlayerBullet*> bullets_ = {nullptr};  // 弾
+	Vector3 parentRotation_ = {};
+	Vector3 parentTranslation_{};
 };

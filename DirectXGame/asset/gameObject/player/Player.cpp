@@ -17,15 +17,15 @@ Player::~Player() {
 }
 
 // 初期化
-void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture,Vector3 position) {
+void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture, Vector3 position) {
 	assert(model);
-	model_ = model;                   // モデル
-	viewProjection_ = viewProjection; // ビュープロジェクション
-	texture_ = texture;               // テクスチャ
-	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
-	worldTransform_.translation_ = position;//初期位置
-	input_ = Input::GetInstance();    // シングルインスタンス
-	bulletModel_ = Model::Create();   // 弾のモデルの生成
+	model_ = model;                          // モデル
+	viewProjection_ = viewProjection;        // ビュープロジェクション
+	texture_ = texture;                      // テクスチャ
+	worldTransform_.Initialize();            // ワールドトランスフォームの初期化
+	worldTransform_.translation_ = position; // 初期位置
+	input_ = Input::GetInstance();           // シングルインスタンス
+	bulletModel_ = Model::Create();          // 弾のモデルの生成
 }
 
 // 更新
@@ -56,7 +56,7 @@ void Player::Update() {
 	});
 
 	// 座標移動(ベクトルの加算)
-	worldTransform_.translation_ += velocity_;
+	parentTranslation_ +=velocity_;
 
 	// マトリックスの更新
 	worldTransform_.UpdateMatrix();
@@ -108,9 +108,15 @@ AABB Player::GetAABB() {
 
 // 親となるワールドトランスフォームをセット
 void Player::SetParent(const WorldTransform* parent) {
-	//親子関係を結ぶ
+	// 親子関係を結ぶ
 	worldTransform_.parent_ = parent;
 }
+
+// ペアレントのトランスレイションのゲッター
+Vector3 Player::GetParentTranslation() { return parentTranslation_; }
+
+// ペアレントのローテションのゲッター
+Vector3 Player::GetParentRotation() { return parentRotation_; }
 
 #ifdef _DEBUG
 #include "imgui.h"
@@ -150,7 +156,7 @@ void Player::MoveDown() { velocity_.y -= kCharacterSpeed; }
 void Player::MoveUp() { velocity_.y += kCharacterSpeed; }
 
 // 右回り
-void Player::RotateRight() { worldTransform_.rotation_.y -= kRotSpeed; }
+void Player::RotateRight() { parentRotation_.y -= kRotSpeed; }
 
 // 左回り
-void Player::RotateLeft() { worldTransform_.rotation_.y += kRotSpeed; }
+void Player::RotateLeft() { parentRotation_.y += kRotSpeed; }

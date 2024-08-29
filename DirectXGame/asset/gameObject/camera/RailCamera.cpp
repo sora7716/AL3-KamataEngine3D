@@ -6,8 +6,8 @@
 void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian) {
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	worldTransform_.matWorld_ = matWorld;                          // ワールド座標を設定
-	worldTransform_.rotation_ = radian;                            // 回転角を設定
+	worldTransform_.matWorld_ = matWorld;                       // ワールド座標を設定
+	worldTransform_.rotation_ = radian;                         // 回転角を設定
 	worldTransform_.translation_ = Vector3({0.0f, 0.0f, 0.0f}); // カメラの初期位置を設定
 	// ビュープロジェクションの初期化
 	viewProjection_.farZ = 2000;
@@ -41,3 +41,9 @@ const WorldTransform& RailCamera::GetWorldTransform() const {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
+
+// トランスレイションのセッター
+void RailCamera::SetTranslation(Vector3 translation) { worldTransform_.translation_ = translation; }
+
+// ローテションのセッター
+void RailCamera::SetRotation(Vector3 rotation) { worldTransform_.rotation_ = rotation; }

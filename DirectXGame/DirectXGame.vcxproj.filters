@@ -99,6 +99,12 @@
     <Filter Include="asset\Game\ヘッダーファイル\gameObject\skydome">
       <UniqueIdentifier>{ebdbc000-e284-4432-923b-67a6763e3e71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\Game\ソースファイル\gameObject\camera">
+      <UniqueIdentifier>{aa223780-e965-4d5c-8bf2-d03228d7b102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject\camera">
+      <UniqueIdentifier>{dda7896b-5c8c-4139-8f43-74f2beac9c8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -154,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="asset\gameObject\skydome\Skydome.cpp">
       <Filter>asset\Game\ソースファイル\gameObject\skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\camera\RailCamera.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,11 +289,14 @@
     <ClInclude Include="asset\gameObject\enemy\bullet\EnemyBullet.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="asset\math\collision\Collision.h">
-      <Filter>asset\Game\ソースファイル\process</Filter>
-    </ClInclude>
     <ClInclude Include="asset\gameObject\skydome\Skydome.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject\skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\camera\RailCamera.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\collision\Collision.h">
+      <Filter>asset\Game\ヘッダーファイル\process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

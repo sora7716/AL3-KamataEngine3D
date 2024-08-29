@@ -70,6 +70,8 @@ void GameScene::Update() {
 	// プレイヤー
 	player_->Update();     // 更新
 	PlayerActionCommand(); // 移動のコマンド
+	railCamera_->SetRotation(player_->GetParentRotation());//角度をセット
+	railCamera_->SetTranslation(player_->GetParentTranslation());//座標をセット
 
 	// 敵
 	enemy_->Update();
