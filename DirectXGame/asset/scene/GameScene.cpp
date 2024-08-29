@@ -24,23 +24,30 @@ void GameScene::Initialize() {
 	create_->ModelCreate();          // モデルを生成
 	create_->TextureCreate();        // テクスチャを生成
 
+	// レールカメラ
+	railCameraWorldTransform_.Initialize();
+	railCamera_ = make_unique<RailCamera>();// 生成
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_); // 初期化
+
 	// プレイヤークラス
 	Create::ObjectType typePlayer = Create::Type::kPlayer;
 	player_ = make_unique<Player>(); // 生成
-	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer));
+	Vector3 playerPosition = {0.0f, 0.0f, 100.0f};
+	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer), playerPosition); // 初期化
+	player_->SetParent(&railCamera_->GetWorldTransform());//自キャラとレールカメラの親子関係を結ぶ
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();
 
 	// 敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
-	enemy_ = make_unique<Enemy>();
-	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100});
-	enemy_->SetPlayer(player_.get());
+	enemy_ = make_unique<Enemy>();//生成
+	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100});//初期化
+	enemy_->SetPlayer(player_.get());//プレイヤーをセット
 
 	//スカイドームクラス
 	Create::ObjectType typeSkydome = Create::Type::kSkydome;
-	skydome_ = make_unique<Skydome>();
-	skydome_->Initialize(create_->GetModel(typeSkydome),&viewProjection_);
+	skydome_ = make_unique<Skydome>();//生成
+	skydome_->Initialize(create_->GetModel(typeSkydome),&viewProjection_);//初期化
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -56,8 +63,12 @@ void GameScene::Initialize() {
 // 更新
 void GameScene::Update() {
 
+	
+	// レールカメラ
+	railCamera_->Update(); // 更新
+
 	// プレイヤー
-	player_->Update();     // 更新処理
+	player_->Update();     // 更新
 	PlayerActionCommand(); // 移動のコマンド
 
 	// 敵
@@ -67,7 +78,7 @@ void GameScene::Update() {
 	skydome_->Update();
 
 	// デバックカメラ
-	debugCamera_->Update(); // 更新処理
+	debugCamera_->Update(); // 更新
 	DebugCameraMove();      // デバックカメラの動き
 
 	// 衝突しているかどうか
@@ -178,8 +189,10 @@ void GameScene::DebugCameraMove() {
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		// 行列の更新
-		viewProjection_.UpdateMatrix();
+		viewProjection_.TransferMatrix();
 	}
 }
 

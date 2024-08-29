@@ -32,7 +32,8 @@ public: // メンバ関数
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="texture">テクスチャ</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture);
+	/// <param name="position">ポジション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture, Vector3 position);
 
 	/// <summary>
 	/// 更新
@@ -71,6 +72,12 @@ public: // メンバ関数
 	/// AABBのゲッター
 	/// </summary>
 	AABB GetAABB();
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
 
 #pragma region コマンド
 	/// <summary>

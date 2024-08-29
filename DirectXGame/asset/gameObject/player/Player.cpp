@@ -17,12 +17,13 @@ Player::~Player() {
 }
 
 // 初期化
-void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture) {
+void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture,Vector3 position) {
 	assert(model);
 	model_ = model;                   // モデル
 	viewProjection_ = viewProjection; // ビュープロジェクション
 	texture_ = texture;               // テクスチャ
 	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
+	worldTransform_.translation_ = position;//初期位置
 	input_ = Input::GetInstance();    // シングルインスタンス
 	bulletModel_ = Model::Create();   // 弾のモデルの生成
 }
@@ -96,13 +97,19 @@ const list<PlayerBullet*>& Player::GetBullets() const {
 	return bullets_;
 }
 
-//AABBのゲッター
+// AABBのゲッター
 AABB Player::GetAABB() {
 	Vector3 worldPosition = GetWorldPosition();
 	AABB aabb;
 	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kHeight / 2.0f, worldPosition.z - kDepth / 2.0f};
 	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
 	return aabb;
+}
+
+// 親となるワールドトランスフォームをセット
+void Player::SetParent(const WorldTransform* parent) {
+	//親子関係を結ぶ
+	worldTransform_.parent_ = parent;
 }
 
 #ifdef _DEBUG
@@ -124,7 +131,7 @@ void Player::Attack() {
 		// 生成
 		PlayerBullet* newBullet = new PlayerBullet();
 		// 初期化
-		newBullet->Initialize(bulletModel_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(bulletModel_, GetWorldPosition(), velocity);
 		// 弾を登録する
 		bullets_.push_back(newBullet);
 	}

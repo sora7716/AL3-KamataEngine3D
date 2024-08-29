@@ -15,6 +15,7 @@
 #include "asset/gameObject/player/Player.h"
 #include "asset/math/collision/Collision.h"
 #include "asset/gameObject/skydome/Skydome.h"
+#include "asset/gameObject/camera/RailCamera.h"
 #include <memory>
 using namespace std;
 
@@ -92,4 +93,6 @@ public: // メンバ変数
 	IPlayerCommand* iPlayerCommandRotate_ = nullptr;   // 旋回
 	unique_ptr<InputHandle> inputHandle_ = nullptr;    // プレイヤーのコマンド
 	unique_ptr<Skydome> skydome_ = nullptr;            // スカイドーム
+	unique_ptr<RailCamera> railCamera_ = nullptr;      // レールカメラ
+	WorldTransform railCameraWorldTransform_;           // レールカメラのワールドトランスフォーム
 };

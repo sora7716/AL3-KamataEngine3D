@@ -1,4 +1,4 @@
-﻿#include "Aithmetic.h"
+#include "Aithmetic.h"
 
 const Vector3 operator+(const Vector3& num1,const Vector3& num2){
 	Vector3 result{};
@@ -154,7 +154,9 @@ const Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2){
 	return result;
 }
 
-const Matrix4x4 operator~(const Matrix4x4& num){
+const Matrix4x4 operator*=(const Matrix4x4& num1, const Matrix4x4& num2) { return num1 * num2; }
+
+const Matrix4x4 operator~(const Matrix4x4& num) {
 	Matrix4x4 result{};
 	float determinant = num.m[0][0] * (num.m[1][1] * num.m[2][2] * num.m[3][3] +
 		num.m[2][1] * num.m[3][2] * num.m[1][3] +

@@ -1,40 +1,52 @@
 #pragma once
 #include "WorldTransform.h"
-
-//‘O•ûéŒ¾
-class ViewProjection;
+#include "ViewProjection.h"
 
 /// <summary>
-/// ƒŒ[ƒ‹ƒJƒƒ‰
+/// ãƒ¬ãƒ¼ãƒ«ã‚«ãƒ¡ãƒ©
 /// </summary> 
 class RailCamera {
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	RailCamera() = default;
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~RailCamera() = default;
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	void Initialize();
+	/// <param name="matWorld">ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™</param>
+	/// <param name="radian">å›è»¢è§’[ãƒ©ã‚¸ã‚¢ãƒ³]</param>
+	void Initialize(const Matrix4x4& matWorld,const Vector3& radian);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
-private: // ƒƒ“ƒo•Ï”
+	/// <summary>
+	/// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚²ãƒƒã‚¿ãƒ¼
+	/// </summary>
+	/// <returns>ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³</returns>
+	const ViewProjection& GetViewProjection() const;
 
-	WorldTransform worldTransform_;  // ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
+	/// <summary>
+	/// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ã‚²ãƒƒã‚¿ãƒ¼
+	/// </summary>
+	/// <returns>ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ </returns>
+	const WorldTransform& GetWorldTransform() const;
 
-	ViewProjection* viewProjection_; // ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+
+	WorldTransform worldTransform_;  // ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
+
+	ViewProjection viewProjection_; // ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 
 };

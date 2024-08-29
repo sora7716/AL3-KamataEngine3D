@@ -124,6 +124,13 @@ const Matrix4x4& operator-=(Matrix4x4& num1, const Matrix4x4& num2);
 const Matrix4x4 operator*(const Matrix4x4& num1, const Matrix4x4& num2);
 
 /// <summary>
+/// 掛け算(*=)
+/// </summary>
+/// <param name="num"></param>
+/// <returns></returns>
+const Matrix4x4 operator*=(const Matrix4x4& num1, const Matrix4x4& num2);
+
+/// <summary>
 /// 逆行列
 /// </summary>
 /// <returns></returns>
