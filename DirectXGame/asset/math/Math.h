@@ -1,5 +1,6 @@
 #pragma once
 #include "Aithmetic.h"
+#include <vector>
 
 class Math {
 public:
@@ -176,18 +177,37 @@ public:
 	/// <summary>
 	/// 線形補間
 	/// </summary>
-	/// <param name="num1"></param>
-	/// <param name="num2"></param>
-	/// <param name="t"></param>
+	/// <param name="num1">数字1</param>
+	/// <param name="num2">数字2</param>
+	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
 	static float Lerp(const float& num1, const float& num2, float t);
 
 	/// <summary>
-	/// えｎ
+	/// 球面線形補間
 	/// </summary>
-	/// <param name="v1"></param>
-	/// <param name="v2"></param>
-	/// <param name="t"></param>
+	/// <param name="v1">ベクトル1</param>
+	/// <param name="v2">ベクトル2</param>
+	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
 	static Vector3 SLerp(const Vector3& v1, const Vector3& v2, float t);
+
+	/// <summary>
+	/// CatmullRom補間
+	/// </summary>
+	/// <param name="p0">点0の座標</param>
+	/// <param name="p1">点1の座標</param>
+	/// <param name="p2">点2の座標</param>
+	/// <param name="p3">点3の座標</param>
+	/// <param name= "t">点 1を0.0f点2を1.0fとした割合指定</param>
+	/// <returns></returns>
+	static Vector3 CatmullRomInterpolation(const Vector3& p0,const Vector3& p1,const Vector3& p2,const Vector3& p3,float t);
+
+	/// <summary>
+	/// CatmullRomスプライン曲線上の座標を得る
+	/// </summary>
+	/// <param name="points">制御点の集合</param>
+	/// <param name="t">スプラインの全区間の中での割合指定[0,1]</param>
+	/// <returns>座標</returns>
+	static Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
 };

@@ -95,4 +95,7 @@ public: // メンバ変数
 	unique_ptr<Skydome> skydome_ = nullptr;            // スカイドーム
 	unique_ptr<RailCamera> railCamera_ = nullptr;      // レールカメラ
 	WorldTransform railCameraWorldTransform_;           // レールカメラのワールドトランスフォーム
+
+	// スプライン曲線制御点(通過点)
+	vector<Vector3> contorolPoints_;
 };

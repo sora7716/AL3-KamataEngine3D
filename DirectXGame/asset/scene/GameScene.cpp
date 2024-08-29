@@ -1,7 +1,9 @@
 #include "GameScene.h"
 #include "AxisIndicator.h"
+#include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include "WinApp.h"
+#include "asset/math/Math.h"
 #include <cassert>
 
 // コンストラクタ
@@ -16,7 +18,8 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
+	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
+	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewProjection_);
 	// ゲームシーン
 	viewProjection_.Initialize();
 	// クリエイトクラス
@@ -26,7 +29,7 @@ void GameScene::Initialize() {
 
 	// レールカメラ
 	railCameraWorldTransform_.Initialize();
-	railCamera_ = make_unique<RailCamera>();// 生成
+	railCamera_ = make_unique<RailCamera>();                                                           // 生成
 	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_); // 初期化
 
 	// プレイヤークラス
@@ -34,20 +37,29 @@ void GameScene::Initialize() {
 	player_ = make_unique<Player>(); // 生成
 	Vector3 playerPosition = {0.0f, -8.0f, 25.0f};
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer), playerPosition); // 初期化
-	player_->SetParent(&railCamera_->GetWorldTransform());//自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railCamera_->GetWorldTransform());                                                                       // 自キャラとレールカメラの親子関係を結ぶ
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();
 
 	// 敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
-	enemy_ = make_unique<Enemy>();//生成
-	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100});//初期化
-	enemy_->SetPlayer(player_.get());//プレイヤーをセット
+	enemy_ = make_unique<Enemy>();                                                                                          // 生成
+	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100}); // 初期化
+	enemy_->SetPlayer(player_.get());                                                                                       // プレイヤーをセット
 
-	//スカイドームクラス
+	// スカイドームクラス
 	Create::ObjectType typeSkydome = Create::Type::kSkydome;
-	skydome_ = make_unique<Skydome>();//生成
-	skydome_->Initialize(create_->GetModel(typeSkydome),&viewProjection_);//初期化
+	skydome_ = make_unique<Skydome>();                                      // 生成
+	skydome_->Initialize(create_->GetModel(typeSkydome), &viewProjection_); // 初期化
+
+	contorolPoints_ = {
+	    {0,  0,  0},
+        {10, 10, 0},
+        {10, 15, 0},
+        {20, 15, 0},
+        {20, 0,  0},
+        {30, 0,  0},
+	};
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -63,20 +75,19 @@ void GameScene::Initialize() {
 // 更新
 void GameScene::Update() {
 
-	
 	// レールカメラ
 	railCamera_->Update(); // 更新
 
 	// プレイヤー
-	player_->Update();     // 更新
-	PlayerActionCommand(); // 移動のコマンド
-	railCamera_->SetRotation(player_->GetParentRotation());//角度をセット
-	railCamera_->SetTranslation(player_->GetParentTranslation());//座標をセット
+	player_->Update();                                            // 更新
+	PlayerActionCommand();                                        // 移動のコマンド
+	railCamera_->SetRotation(player_->GetParentRotation());       // 角度をセット
+	railCamera_->SetTranslation(player_->GetParentTranslation()); // 座標をセット
 
 	// 敵
 	enemy_->Update();
 
-	//スカイドーム
+	// スカイドーム
 	skydome_->Update();
 
 	// デバックカメラ
@@ -123,9 +134,26 @@ void GameScene::Draw() {
 	if (enemy_) {
 		enemy_->Draw();
 	}
-	
-	//スカイドーム
+
+	// スカイドーム
 	skydome_->Draw();
+
+	// 曲線で描画する用の頂点リスト
+	vector<Vector3> pointsDrawing;
+	// 線分の数
+	const size_t segmentCount = 100;
+	// 線分の数+1個分の頂点座標を計算
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Math::CatmullRomPosition(contorolPoints_, t);
+		// 描画用語頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
+
+	// 描画
+	for (size_t i = 0; i < segmentCount; i++) {
+		PrimitiveDrawer::GetInstance()->DrawLine3d(pointsDrawing[i], pointsDrawing[i + 1], {1.0f, 0.0f, 0.0f, 1.0f});
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -259,5 +287,4 @@ void GameScene::CheckAllCollision() {
 		}
 	}
 #pragma endregion
-
 }
