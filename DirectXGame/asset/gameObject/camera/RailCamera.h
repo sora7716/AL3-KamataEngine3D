@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "asset/math/Math.h"
 
 /// <summary>
 /// レールカメラ
@@ -24,12 +25,18 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="matWorld">ワールド座標</param>
 	/// <param name="radian">回転角[ラジアン]</param>
-	void Initialize(const Matrix4x4& matWorld,const Vector3& radian);
+	/// <param name="viewProjection">もともとあったビュープロジェクション</param>
+	void Initialize(const Matrix4x4& matWorld,const Vector3& radian,const ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// カメラの軌道
+	/// </summary>
+	void Draw();
 
 	/// <summary>
 	/// ビュープロジェクションのゲッター
@@ -60,5 +67,9 @@ private: // メンバ変数
 	WorldTransform worldTransform_;  // ワールド変換データ
 
 	ViewProjection viewProjection_; // ビュープロジェクション
+
+	std::vector<Vector3> controlPoints_;//制御点
+	//媒介変数
+	float t_ = 0;
 
 };

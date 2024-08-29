@@ -97,5 +97,5 @@ public: // メンバ変数
 	WorldTransform railCameraWorldTransform_;           // レールカメラのワールドトランスフォーム
 
 	// スプライン曲線制御点(通過点)
-	vector<Vector3> contorolPoints_;
+	vector<Vector3> controlPoints_;
 };

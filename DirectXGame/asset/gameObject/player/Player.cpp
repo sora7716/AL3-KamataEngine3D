@@ -56,7 +56,7 @@ void Player::Update() {
 	});
 
 	// 座標移動(ベクトルの加算)
-	parentTranslation_ +=velocity_;
+	worldTransform_.translation_ +=velocity_;
 
 	// マトリックスの更新
 	worldTransform_.UpdateMatrix();
@@ -157,7 +157,7 @@ void Player::MoveDown() { velocity_.y -= kCharacterSpeed; }
 void Player::MoveUp() { velocity_.y += kCharacterSpeed; }
 
 // 右回り
-void Player::RotateRight() { parentRotation_.y -= kRotSpeed; }
+void Player::RotateRight() { worldTransform_.rotation_.y -= kRotSpeed; }
 
 // 左回り
-void Player::RotateLeft() { parentRotation_.y += kRotSpeed; }
+void Player::RotateLeft() { worldTransform_.rotation_.y += kRotSpeed; }
