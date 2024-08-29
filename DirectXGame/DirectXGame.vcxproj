@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -111,6 +111,7 @@
     <ClCompile Include="asset\command\Command.cpp" />
     <ClCompile Include="asset\command\InputHandle.cpp" />
     <ClCompile Include="asset\create\Create.cpp" />
+    <ClCompile Include="asset\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="asset\gameObject\enemy\bullet\EnemyBullet.cpp" />
     <ClCompile Include="asset\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="asset\command\ICommand.h" />
     <ClInclude Include="asset\command\InputHandle.h" />
     <ClInclude Include="asset\create\Create.h" />
+    <ClInclude Include="asset\gameObject\camera\RailCamera.h" />
     <ClInclude Include="asset\gameObject\enemy\bullet\EnemyBullet.h" />
     <ClInclude Include="asset\gameObject\enemy\Enemy.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h" />
