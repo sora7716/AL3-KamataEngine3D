@@ -256,6 +256,24 @@ Vector3 Math::CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 	size_t index2 = (index + 1) % numPoints;
 	size_t index3 = (index + 2) % numPoints;
 
+	////区間番号
+	//size_t index = static_cast<size_t>(t / areaWidth);
+	////区間番号が上限を超えないように収める
+	//index = std::min(index, division - 1);
+	//size_t index0 = index - 1;
+	//size_t index1 = index;
+	//size_t index2 = index + 1;
+	//size_t index3 = index + 2;
+
+	////最初の区間のp0はp1を重複使用する
+	//if (index == 0) {
+	//	index0 = index1;
+	//}
+	////最後の区間はp3はp2を重複使用する
+	//if (index3 >= points.size()) {
+	//	index3 = index2;
+	//}
+
 	// 4点の座標
 	const Vector3& p0 = points[index0];
 	const Vector3& p1 = points[index1];
