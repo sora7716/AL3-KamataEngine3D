@@ -42,8 +42,8 @@ void RailCamera::Update() {
 		t_ -= 0.95f; // t が 1.0f を超えたらループさせる
 	}
 	// 移動
-	worldTransform_.translation_ += Math::CatmullRomPosition(controlPoints_, t_);
-	worldTransform_.rotation_ += Math::CatmullRomPosition(controlPoints_, t_);
+	/*worldTransform_.translation_ += Math::CatmullRomPosition(controlPoints_, t_);
+	worldTransform_.rotation_ += Math::CatmullRomPosition(controlPoints_, t_);*/
 	// ワールド行列を再計算
 	worldTransform_.UpdateMatrix();
 	// カメラのオブジェクトのワールド行列からビュー行列を計算する

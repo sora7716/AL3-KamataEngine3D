@@ -81,6 +81,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	const list<EnemyBullet*>& GetBullet() const;
 
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
+
 public:  // 静的メンバ変数
 
 	static inline const float kBulletSpeed = 1.0f; // 弾の速度

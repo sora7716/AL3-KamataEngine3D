@@ -240,39 +240,35 @@ Vector3 Math::CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, cons
 // CatmullRomスプライン曲線上の座標を得る
 Vector3 Math::CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 	assert(points.size() >= 4 && "制御点は4点以上必要です");
-
-	size_t numPoints = points.size();
-	size_t division = numPoints;
-	//float areaWidth = 1.0f / division;
+	// 区間数は制御点の数-1
+	size_t division = points.size() - 1;
+	// 1区間の長さ(全体を1.0とした割合)
+	float areaWidth = 1.0f / division;
 
 	// 区間内の始点を0.0f、終点1.0fとしたときの現在位置
-	float t_2 = std::fmod(t, 1.0f) * division; // 1.0fで割って周期を超えないようにする
-	t_2 = std::clamp(t_2, 0.0f, static_cast<float>(division - 1));
-
+	float t_2 = std::fmod(t, areaWidth) * division;
+	// 下限(0.0f)とz上限(1.0f)の範囲を収める
+	t_2 = std::clamp(t_2, 0.0f, 1.0f);
 	// 区間番号
-	size_t index = static_cast<size_t>(t_2);
-	size_t index0 = (index == 0) ? (numPoints - 1) : (index - 1);
+	size_t index = static_cast<size_t>(t / areaWidth);
+	// 区間番号が上限を超えないように収める
+	index = std::min(index, division - 1);
+
+	// 4点分のインデックス
+	size_t index0 = index - 1;
 	size_t index1 = index;
-	size_t index2 = (index + 1) % numPoints;
-	size_t index3 = (index + 2) % numPoints;
+	size_t index2 = index + 1;
+	size_t index3 = index + 2;
 
-	////区間番号
-	//size_t index = static_cast<size_t>(t / areaWidth);
-	////区間番号が上限を超えないように収める
-	//index = std::min(index, division - 1);
-	//size_t index0 = index - 1;
-	//size_t index1 = index;
-	//size_t index2 = index + 1;
-	//size_t index3 = index + 2;
+	// 最初の区間のp0はp1を重複使用する
+	if (index == 0) {
+		index0 = index1;
+	}
 
-	////最初の区間のp0はp1を重複使用する
-	//if (index == 0) {
-	//	index0 = index1;
-	//}
-	////最後の区間はp3はp2を重複使用する
-	//if (index3 >= points.size()) {
-	//	index3 = index2;
-	//}
+	// 最後の区間のp3はp2を重複使用する
+	if (index3 >= points.size()) {
+		index3 = index2;
+	}
 
 	// 4点の座標
 	const Vector3& p0 = points[index0];
@@ -281,5 +277,5 @@ Vector3 Math::CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 	const Vector3& p3 = points[index3];
 
 	// 4点を指定してCatmull-Rom補間
-	return CatmullRomInterpolation(p0, p1, p2, p3, t_2 - index);
+	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
 }

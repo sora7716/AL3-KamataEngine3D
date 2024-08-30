@@ -121,15 +121,14 @@ void Enemy::Fire() {
 // プレイヤーのセッター
 void Enemy::SetPlayer(Player* player) { player_ = player; }
 
-//AABBのゲッター
-AABB Enemy::GetAABB(){
+// AABBのゲッター
+AABB Enemy::GetAABB() {
 	Vector3 worldPosition = GetWorldPosition();
 	AABB aabb;
 	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kHeight / 2.0f, worldPosition.z - kDepth / 2.0f};
 	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
 	return aabb;
 }
-
 
 // ワールドポジションのゲッター
 Vector3 Enemy::GetWorldPosition() {
@@ -147,3 +146,6 @@ const list<EnemyBullet*>& Enemy::GetBullet() const {
 	// TODO: return ステートメントをここに挿入します
 	return bullets_;
 }
+
+// 親となるワールドトランスフォームをセット
+void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

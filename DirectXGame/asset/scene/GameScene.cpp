@@ -40,9 +40,10 @@ void GameScene::Initialize() {
 
 	// 敵のクラス
 	Create::ObjectType typeEnemy = Create::Type::kEnemy;
-	enemy_ = make_unique<Enemy>();                                                                                          // 生成
+	enemy_ = make_unique<Enemy>(); // 生成
 	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100}); // 初期化
-	enemy_->SetPlayer(player_.get());                                                                                       // プレイヤーをセット
+	enemy_->SetPlayer(player_.get()); // プレイヤーをセット
+	enemy_->SetParent(&railCamera_->GetWorldTransform());//親子関係を結ぶ
 
 	// スカイドームクラス
 	Create::ObjectType typeSkydome = Create::Type::kSkydome;
@@ -125,7 +126,7 @@ void GameScene::Draw() {
 	skydome_->Draw();
 
 	// カメラの軌道
-	railCamera_->Draw();
+	//railCamera_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
