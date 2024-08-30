@@ -1,13 +1,14 @@
 #pragma once
+#include "asset/math/collision/Collision.h"
 #include "WorldTransform.h"
-#include "asset/gameObject/player/bullet/PlayerBullet.h"
 #include <list>
 using namespace std;
 
-// 前方宣言
+// 前方宣言(苦肉の策)
 class Model;
 class ViewProjection;
 class Input;
+class GameScene;
 
 /// <summary>
 /// プレイヤー
@@ -63,12 +64,6 @@ public: // メンバ関数
 	Vector3 GetWorldPosition();
 
 	/// <summary>
-	/// 弾のリストを取得
-	/// </summary>
-	/// <returns></returns>
-	const list<PlayerBullet*>& GetBullets() const;
-
-	/// <summary>
 	/// AABBのゲッター
 	/// </summary>
 	AABB GetAABB();
@@ -90,6 +85,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetParentRotation();
+
+	/// <summary>
+	/// ゲームシーンのセッター
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGameScene(GameScene*gameScene);
 
 #pragma region コマンド
 	/// <summary>
@@ -145,13 +146,12 @@ public: // 静的メンバ変数
 
 private: // メンバ変数
 	Model* model_ = nullptr;                   // モデル
-	Model* bulletModel_ = nullptr;             //弾のモデル
 	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
 	WorldTransform worldTransform_;            // ワールドトランスフォーム
 	uint32_t texture_ = 0u;                    // テクスチャ
 	Input* input_ = nullptr;                   // キー入力
 	Vector3 velocity_ = {};                    // キャラクターの移動速度
-	list<PlayerBullet*> bullets_ = {nullptr};  // 弾
 	Vector3 parentRotation_ = {};
 	Vector3 parentTranslation_{};
+	GameScene* gameScene_ = nullptr; // ゲームシーン
 };

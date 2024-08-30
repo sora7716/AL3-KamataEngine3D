@@ -5,17 +5,12 @@
 // #include "imgui.h"
 #include "asset/gameObject/player/Player.h"
 #include <cassert>
+#include "asset/scene/GameScene.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-Enemy::~Enemy() {
-	for (auto bullet : bullets_) {
-		delete bullet; // 弾を削除
-	}
-	bullets_.clear();    // 弾のあった配列も削除
-	delete bulletModel_; // 弾のモデルの削除
-}
+Enemy::~Enemy() {}
 
 // 初期化
 void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint32_t& texture, const Vector3& position) {
@@ -29,7 +24,7 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint3
 	actions_[0] = new EnemeyApproach();      // 接近
 	actions_[1] = new EnemeyLeave();         // 離脱
 	actions_[0]->Initialize();               // 接近の初期化
-	bulletModel_ = Model::Create();          // 弾のモデルを生成
+	//bulletModel_ = Model::Create();          // 弾のモデルを生成
 	// 発射タイマーを初期化
 	fireTimer_ = kFireInterval;
 }
@@ -55,25 +50,6 @@ void Enemy::Update() {
 		fireTimer_ = kFireInterval;
 	}
 
-	// デスフラグが立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet) {
-			if (bullet->IsDead()) {
-				delete bullet;
-				return true;
-			}
-		}
-		return false;
-	});
-
-	// 弾の更新
-	for (auto bullet : bullets_) {
-		if (bullet) {
-			bullet->SetPlayer(player_);
-			bullet->Update();
-		}
-	}
-
 	// ImGui::Text("%d",phase_);
 
 	// 行列の更新
@@ -84,17 +60,10 @@ void Enemy::Update() {
 void Enemy::Draw() {
 	// 敵
 	model_->Draw(worldTransform_, *viewProjection_, texture_);
-
-	// 弾
-	for (auto bullet : bullets_) {
-		if (bullet) {
-			bullet->Draw(*viewProjection_);
-		}
-	}
 }
 
 // 衝突を検出したら呼び出されるコールバック関数
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { isDead_ = true; }
 
 // 攻撃
 void Enemy::Fire() {
@@ -112,10 +81,10 @@ void Enemy::Fire() {
 
 	// 弾を生成
 	EnemyBullet* newBullet = new EnemyBullet();
-	newBullet->Initialize(bulletModel_, worldTransform_.translation_, velocity);
+	newBullet->Initialize(gameScene_->GetEnemyBulletModel(), worldTransform_.translation_, velocity);
 
 	// 弾を登録
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 // プレイヤーのセッター
@@ -141,11 +110,12 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
-// 弾のリストを取得
-const list<EnemyBullet*>& Enemy::GetBullet() const {
-	// TODO: return ステートメントをここに挿入します
-	return bullets_;
-}
-
 // 親となるワールドトランスフォームをセット
 void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
+
+//ゲームシーンのセッター
+void Enemy::SetGameScene(GameScene* gameScene) { 
+	gameScene_ = gameScene; }
+
+//死亡フラグのゲッター
+bool Enemy::IsDead() const { return isDead_; }

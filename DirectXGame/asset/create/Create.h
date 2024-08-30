@@ -11,13 +11,17 @@ class Create {
 public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
+		kPlayerBullet,
 		kEnemy,
+		kEnemyBullet,
 		kSkydome,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
 	ObjectType typePlayer = Type::kPlayer;
+	ObjectType typePlayerBullet = Type::kPlayerBullet;
 	ObjectType typeEnemy = Type::kEnemy;
+	ObjectType typeEnemyBullet = Type::kEnemyBullet;
 	ObjectType typeSkydome = Type::kSkydome;
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 

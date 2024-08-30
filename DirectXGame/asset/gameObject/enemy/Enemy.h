@@ -3,14 +3,14 @@
 #include "bullet/EnemyBullet.h"
 #include "statePattern/IEnemyState.h"
 #include "statePattern/state/EnemyState.h"
-#include "asset/gameObject/enemy/bullet/EnemyBullet.h"
 #include <list>
 using namespace std;
 
-// 前方宣言
+// 前方宣言(苦肉の策)
 class Model;
 class ViewProjection;
 class Player;
+class GameScene;
 
 /// <summary>
 /// 敵
@@ -76,16 +76,21 @@ public: // メンバ関数
 	Vector3 GetWorldPosition();
 
 	/// <summary>
-	/// 弾のリストを取得
-	/// </summary>
-	/// <returns></returns>
-	const list<EnemyBullet*>& GetBullet() const;
-
-	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
+
+	/// <summary>
+	/// ゲームシーンのセッター
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGameScene(GameScene* gameScene);
+
+	/// <summary>
+	/// 死亡フラグのゲッター
+	/// </summary>
+	bool IsDead()const;
 
 public:  // 静的メンバ変数
 
@@ -105,8 +110,8 @@ private: // メンバ変数
 	uint32_t texture_ = 0u;                                         // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
-	list<EnemyBullet*> bullets_;                                    // 弾
-	Model* bulletModel_ = nullptr;                                  // 弾のモデル
 	int32_t fireTimer_ = 0;                                         // 発射タイマー
 	Player* player_ = nullptr;                                      // プレイヤー
+	GameScene* gameScene_ = nullptr;                                // ゲームシーン
+	bool isDead_ = false;                                           // 死亡フラグ
 };

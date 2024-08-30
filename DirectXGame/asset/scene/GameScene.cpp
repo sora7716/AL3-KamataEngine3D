@@ -3,12 +3,30 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include <cassert>
+#include <fstream>
+#include "imgui.h"
 
 // コンストラクタ
 GameScene::GameScene() {}
 
 // デストラクタ
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	for (auto enemyBullet : enemyBullets_) {
+		delete enemyBullet; // 弾を削除
+	}
+	enemyBullets_.clear(); // 弾のあった配列も削除
+
+	for (auto playerBullet : playerBullets_) {
+		delete playerBullet; // 弾を削除
+	}
+	playerBullets_.clear(); // 弾のあった配列も削除
+
+	for (auto enemy : enemies_) {
+		delete enemy; // 敵を削除
+	}
+	enemies_.clear(); // 敵の配列を削除
+	delete enemy_;    // 敵単体を消す
+}
 
 // 初期化
 void GameScene::Initialize() {
@@ -26,8 +44,8 @@ void GameScene::Initialize() {
 
 	// レールカメラ
 	railCameraWorldTransform_.Initialize();
-	railCamera_ = make_unique<RailCamera>();                                                           // 生成
-	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_,&viewProjection_); // 初期化
+	railCamera_ = make_unique<RailCamera>();                                                                             // 生成
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_); // 初期化
 
 	// プレイヤークラス
 	Create::ObjectType typePlayer = Create::Type::kPlayer;
@@ -35,15 +53,20 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = {0.0f, -2.0f, 50.0f};
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer), playerPosition); // 初期化
 	player_->SetParent(&railCamera_->GetWorldTransform());                                                                       // 自キャラとレールカメラの親子関係を結ぶ
+	player_->SetGameScene(this);                                                                                                 // ゲームシーンをセット
 	// キー入力のコマンドの初期化
 	InputCommandInitialize();
 
 	// 敵のクラス
-	Create::ObjectType typeEnemy = Create::Type::kEnemy;
-	enemy_ = make_unique<Enemy>(); // 生成
-	enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30, 3, 100}); // 初期化
-	enemy_->SetPlayer(player_.get()); // プレイヤーをセット
-	enemy_->SetParent(&railCamera_->GetWorldTransform());//親子関係を結ぶ
+	LoadEnemyPopDate();
+	// Create::ObjectType typeEnemy = Create::Type::kEnemy;
+	// for (int i = 0; i < kEnemyNum; i++) {
+	//	Enemy* enemy = new Enemy();                                                                                                       // 生成
+	//	enemy->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30 * (float)i, 3, 100}); // 初期化
+	//	enemy->SetGameScene(this);                                                                                                        // ゲームシーンをセット
+	//	enemy->SetPlayer(player_.get());                                                                                                  // プレイヤーをセット
+	//	enemies_.push_back(enemy);                                                                                                        // 敵を登録
+	// }
 
 	// スカイドームクラス
 	Create::ObjectType typeSkydome = Create::Type::kSkydome;
@@ -71,8 +94,63 @@ void GameScene::Update() {
 	player_->Update();     // 更新
 	PlayerActionCommand(); // 移動のコマンド
 
+	// デスフラグの立った自弾を削除
+	playerBullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
+				bullet = nullptr;
+				return true;
+			}
+		}
+		return false;
+	});
+
+	// 自弾
+	for (auto playerBullet : playerBullets_) {
+		if (playerBullet) {
+			playerBullet->Update();
+		}
+	}
+
+	// デスフラグが立ったとき敵を削除
+	enemies_.remove_if([](Enemy* enemy) {
+		if (enemy) {
+			if (enemy->IsDead()) {
+				delete enemy;
+				return true;
+			}
+		}
+		return false;
+	});
+
 	// 敵
-	enemy_->Update();
+	UpdateEnemyPopCommands(); // 敵を出現
+	for (auto enemy : enemies_) {
+		if (enemy) {
+			enemy->Update(); // 敵の更新
+		}
+	}
+
+	// 敵弾
+	//  デスフラグが立った敵弾を削除
+	enemyBullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
+				return true;
+			}
+		}
+		return false;
+	});
+
+	// 敵弾
+	for (auto enemyBullet : enemyBullets_) {
+		if (enemyBullet) {
+			enemyBullet->SetPlayer(player_.get());
+			enemyBullet->Update();
+		}
+	}
 
 	// スカイドーム
 	skydome_->Update();
@@ -117,16 +195,32 @@ void GameScene::Draw() {
 	// プレイヤー
 	player_->Draw();
 
+	// 自弾
+	for (auto playerBullet : playerBullets_) {
+		if (playerBullet) {
+			playerBullet->Draw(viewProjection_);
+		}
+	}
+
 	// 敵
-	if (enemy_) {
-		enemy_->Draw();
+	for (auto enemy : enemies_) {
+		if (enemy) {
+			enemy->Draw();
+		}
+	}
+
+	// 敵弾
+	for (auto enemyBullet : enemyBullets_) {
+		if (enemyBullet) {
+			enemyBullet->Draw(viewProjection_);
+		}
 	}
 
 	// スカイドーム
 	skydome_->Draw();
 
 	// カメラの軌道
-	//railCamera_->Draw();
+	// railCamera_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -205,9 +299,9 @@ void GameScene::CheckAllCollision() {
 	// 判定対象AとBの座標
 	AABB posA, posB;
 	// 自弾リストの取得
-	const list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	const list<PlayerBullet*>& playerBullets = playerBullets_;
 	// 敵弾リストの取得
-	const list<EnemyBullet*>& enemyBullets = enemy_->GetBullet();
+	const list<EnemyBullet*>& enemyBullets = enemyBullets_;
 
 #pragma region 自キャラと敵弾の当たり判定
 	// 自キャラ
@@ -225,17 +319,19 @@ void GameScene::CheckAllCollision() {
 #pragma endregion
 
 #pragma region 自弾と敵キャラの当たり判定
-	// 敵キャラ
-	posB = enemy_->GetAABB();
 	for (auto playerBullet : playerBullets) {
-		if (playerBullet) {
-			// 自弾
-			posA = playerBullet->GetAABB();
-			if (Collision::IsCollision(posA, posB)) {
-				// 自弾の衝突時のコールバックを呼び出す
-				playerBullet->OnCollision();
-				// 敵キャラの衝突時のコールバックを呼び出す
-				enemy_->OnCollision();
+		for (auto enemy : enemies_) {
+			if (playerBullet) {
+				// 自弾
+				posA = playerBullet->GetAABB();
+				// 敵キャラ
+				posB = enemy->GetAABB();
+				if (Collision::IsCollision(posA, posB)) {
+					// 自弾の衝突時のコールバックを呼び出す
+					playerBullet->OnCollision();
+					// 敵キャラの衝突時のコールバックを呼び出す
+					enemy->OnCollision();
+				}
 			}
 		}
 	}
@@ -260,4 +356,101 @@ void GameScene::CheckAllCollision() {
 		}
 	}
 #pragma endregion
+}
+
+// 敵発生データの読み込み
+void GameScene::LoadEnemyPopDate() {
+	// ファイルを開く
+	ifstream file;
+	file.open("Resources/enemyPop.csv");
+	assert(file.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	enemyPopCommands << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+}
+
+// 敵発生コマンドの更新
+void GameScene::UpdateEnemyPopCommands() {
+	// 待機処理
+	if (isEnemyWaite_) {
+		enemyWaitTime_--;
+		if (enemyWaitTime_ <= 0) {
+			// 待機完了
+			enemies_.push_back(enemy_); // 敵を生成
+			isEnemyWaite_ = false;
+		}
+		return;
+	}
+	Create::ObjectType typeEnemy = Create::Type::kEnemy; // モデルの配列番号
+	// 1行分の文字列を入れる変数
+	string line;
+	// コマンド実行ループ
+	while (getline(enemyPopCommands, line)) {
+		if (line.empty()) {
+			continue; // 空行を飛ばす
+		}
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		istringstream line_stream(line); // 読み込んだ行を文字列ストリームに変換
+		string word;                     // 行から切り出した単語を格納する変数
+
+		//,区切りで行の先頭文字を取得
+		getline(line_stream, word, ',');
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)atof(word.c_str());
+			// 敵を発生させる
+			enemy_ = new Enemy();
+			enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), Vector3(x, y, z));
+			enemy_->SetGameScene(this);
+			enemy_->SetPlayer(player_.get());
+		} else if (word.find("WHITE") == 0) {
+			getline(line_stream, word, ',');
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+			// 待機開始
+			isEnemyWaite_ = true;
+			enemyWaitTime_ = waitTime;
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+// 敵弾を追加する
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) {
+	// リストに登録する
+	enemyBullets_.push_back(enemyBullet);
+}
+
+// 敵弾モデルのゲッター
+Model* GameScene::GetEnemyBulletModel() const {
+	Create::ObjectType typeEnemyBullet = Create::Type::kEnemyBullet;
+	return create_->GetModel(typeEnemyBullet);
+}
+
+// 自弾を追加する
+void GameScene::AddPlayerBullet(PlayerBullet* playerBullet) {
+	// リストに追加
+	playerBullets_.push_back(playerBullet);
+}
+// 自弾モデルのゲッター
+Model* GameScene::GetPlayerBulletModel() const {
+	Create::ObjectType typePlayerBullet = Create::Type::kPlayerBullet;
+	return create_->GetModel(typePlayerBullet);
 }

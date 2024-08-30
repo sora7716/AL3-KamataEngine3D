@@ -16,9 +16,13 @@ Create::~Create() {
 void Create::ModelCreate() { 
 	//プレイヤー
 	models_[(int)typePlayer] = Model::Create();
+	//自弾
+	models_[(int)typePlayerBullet] = Model::Create();
 	//敵
 	models_[(int)typeEnemy] = Model::Create();
-
+	//敵弾
+	models_[(int)typeEnemyBullet] = Model::Create();
+	//スカイドーム
 	models_[(int)typeSkydome] = Model::CreateFromOBJ("skydome",true);
 }
 
