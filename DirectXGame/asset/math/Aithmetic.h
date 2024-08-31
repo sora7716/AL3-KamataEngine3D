@@ -1,6 +1,6 @@
 #pragma once
-#include <Vector3.h>
 #include <Matrix4x4.h>
+#include <Vector3.h>
 
 /// <summary>
 /// 加算
@@ -83,7 +83,7 @@ const Vector3 operator/(const Vector3& num, const float& len);
 /// <param name="num1"></param>
 /// <param name="num2"></param>
 /// <returns></returns>
-const Vector3 operator* (const float& num1, const Vector3& num2);
+const Vector3 operator*(const float& num1, const Vector3& num2);
 
 /// <summary>
 /// 加法(Vector3とfloat)
@@ -98,10 +98,18 @@ const Vector3& operator+=(Vector3& v, const float& num);
 /// </summary>
 /// <param name="num"></param>
 /// <returns></returns>
-const Matrix4x4 operator+(const Matrix4x4& num1,const Matrix4x4& num2);
+const Matrix4x4 operator+(const Matrix4x4& num1, const Matrix4x4& num2);
 
 /// <summary>
-///加算(複合) 
+/// ベクトルと行列の掛け算
+/// </summary>
+/// <param name="v">ベクトル</param>
+/// <param name="m">行列</param>
+/// <returns></returns>
+const Vector3 operator*(const Vector3& v, const Matrix4x4& m);
+
+/// <summary>
+/// 加算(複合)
 /// </summary>
 /// <param name="num"></param>
 /// <returns></returns>
@@ -141,3 +149,10 @@ const Matrix4x4 operator*=(const Matrix4x4& num1, const Matrix4x4& num2);
 /// <returns></returns>
 const Matrix4x4 operator~(const Matrix4x4& num);
 
+/// <summary>
+/// 行列と浮動小数の掛け算
+/// </summary>
+/// <param name="m">行列</param>
+/// <param name="num">浮動小数</param>
+/// <returns>行列</returns>
+const Matrix4x4 operator*(const Matrix4x4 m, float num);

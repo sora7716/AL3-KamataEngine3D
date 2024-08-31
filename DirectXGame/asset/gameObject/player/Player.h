@@ -9,6 +9,7 @@ class Model;
 class ViewProjection;
 class Input;
 class GameScene;
+class Sprite;
 
 /// <summary>
 /// プレイヤー
@@ -45,6 +46,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// UIの描画
+	/// </summary>
+	void DrawUI();
 
 	/// <summary>
 	/// 衝突を検出したら呼び出されるコールバック関数
@@ -136,8 +142,8 @@ private: // メンバ関数
 
 public: // 静的メンバ変数
 
-	static inline const float kCharacterSpeed = 0.2f; // キャラクターの移動量
-	static inline const float kRotSpeed = 0.02f;      // 回転の速さ[ラジアン/frame]
+	static inline const float kCharacterSpeed = 0.4f; // キャラクターの移動量
+	static inline const float kRotSpeed = 0.00f;      // 回転の速さ[ラジアン/frame]
 	static inline const float kBulletSpeed = 1.0f;    // 弾の速度
 	// オブジェクトの衝突判定のサイズ
 	static inline const float kWidth = 1.0f;  // 横幅
@@ -154,4 +160,7 @@ private: // メンバ変数
 	Vector3 parentRotation_ = {};
 	Vector3 parentTranslation_{};
 	GameScene* gameScene_ = nullptr; // ゲームシーン
+	WorldTransform worldTransform3DReticle_; // 3Dレティクル用ワールドトランスフォーム
+	//Model* reticleModel_ = nullptr;          // レティクルの場所を示すためだけのモデル
+	Sprite* sprite2DReticle_ = nullptr;      // 2Dレティクル用スプライト
 };
