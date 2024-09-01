@@ -17,6 +17,7 @@ public: // 構造体や列挙型
 		kSkydome,
 		kGround,
 		kTitleFont,
+		kParticle,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
@@ -27,6 +28,7 @@ public: // 構造体や列挙型
 	ObjectType typeSkydome = Type::kSkydome;
 	ObjectType typeGround = Type::kGround;
 	ObjectType typeTitleFont = Type::kTitleFont;
+	ObjectType typeParticle = Type::kParticle;
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

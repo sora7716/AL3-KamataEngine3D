@@ -20,6 +20,7 @@
 #include "asset/gameObject/player/bullet/PlayerBullet.h"
 #include "asset/gameObject/ground/Ground.h"
 #include "asset/gameObject/fade_image/Fade.h"
+#include "asset/gameObject/effect/DeathParticles.h"
 #include <sstream>
 #include <memory>
 using namespace std;
@@ -35,6 +36,11 @@ public://列挙型
 		kFadeIn,  // フェードイン
 		kMain,    // メイン部
 		kFadeOut, // フェードアウト
+	};
+
+	enum class Status { 
+		kPlay,//生存 
+		kDeth,//死んだ
 	};
 
 public: // メンバ関数
@@ -175,4 +181,6 @@ public: // メンバ変数
 	bool isFinished_ = false;                            // 終了フラグ
 	unique_ptr<Fade> fade_ = nullptr;                  // フェード
 	Phase phase_ = Phase::kFadeIn;                     // 現在のシーンのフェーズ
+	unique_ptr<DeathParticles> playerDethParticle_ = nullptr; // デスパーティクル
+	Status playerStatus_ = Status::kPlay;               // プレイヤーの状態
 };

@@ -180,7 +180,10 @@
       <Filter>asset\Game\ソースファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp">
-      <Filter>asset\デフォルトのプログラム\ソース ファイル</Filter>
+      <Filter>asset\Game\ソースファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\effect\DeathParticles.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,7 +329,10 @@
       <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\titleFont\TitleFont.h">
-      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル</Filter>
+      <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\effect\DeathParticles.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

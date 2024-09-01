@@ -83,6 +83,12 @@ void GameScene::Initialize() {
 	fade_->Initialize();
 	fade_->FadeStart(Fade::Status::FadeIn,kFadeTime);
 
+	//デスパーティクル
+	Create::ObjectType typeParticle = Create::Type::kParticle;
+	playerDethParticle_ = make_unique<DeathParticles>();
+	playerDethParticle_->Initialize(create_->GetModel(typeParticle), &viewProjection_, playerPosition);
+
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -235,6 +241,7 @@ void GameScene::CheckAllCollision() {
 		if (Collision::IsCollision(posA, posB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
+			playerStatus_ = Status::kDeth;
 			// 敵弾の衝突時のコールバックを呼び出す
 			enemyBullet->OnCollision();
 		}
@@ -368,6 +375,10 @@ void GameScene::ChangeUpdate() {
 	// 地面
 	ground_->Update();
 
+	// デバックカメラ
+	debugCamera_->Update(); // 更新
+	DebugCameraMove();      // デバックカメラの動き
+
 	// デスフラグの立った自弾を削除
 	playerBullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet) {
@@ -397,62 +408,67 @@ void GameScene::ChangeUpdate() {
 		break;
 	case Phase::kMain:
 		fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);//フェードの初期化
+
+		switch (playerStatus_) { 
+		case Status::kPlay:
+			// デスフラグが立ったとき敵を削除
+			enemies_.remove_if([](Enemy* enemy) {
+				if (enemy) {
+					if (enemy->IsDead()) {
+						delete enemy;
+						return true;
+					}
+				}
+				return false;
+			});
+
+			// 敵
+			UpdateEnemyPopCommands(); // 敵を出現
+			for (auto enemy : enemies_) {
+				if (enemy) {
+					enemy->Update(); // 敵の更新
+				}
+			}
+
+			// 敵弾
+			//  デスフラグが立った敵弾を削除
+			enemyBullets_.remove_if([](EnemyBullet* bullet) {
+				if (bullet) {
+					if (bullet->IsDead()) {
+						delete bullet;
+						return true;
+					}
+				}
+				return false;
+			});
+
+			// 敵弾
+			for (auto enemyBullet : enemyBullets_) {
+				if (enemyBullet) {
+					enemyBullet->SetPlayer(player_.get());
+					enemyBullet->Update();
+				}
+			}
+
+
+			// 衝突しているかどうか
+			CheckAllCollision();
+			break;
+		case Status::kDeth:
+			playerDethParticle_->Update();//デスパーティクルの更新
+			if (playerDethParticle_->IsFinished()) {
+				phase_ = Phase::kFadeOut;
+			}
+			break;
+		}
 		PlayerActionCommand(); // 移動のコマンド
 
-		// デスフラグが立ったとき敵を削除
-		enemies_.remove_if([](Enemy* enemy) {
-			if (enemy) {
-				if (enemy->IsDead()) {
-					delete enemy;
-					return true;
-				}
-			}
-			return false;
-		});
-
-		// 敵
-		UpdateEnemyPopCommands(); // 敵を出現
-		for (auto enemy : enemies_) {
-			if (enemy) {
-				enemy->Update(); // 敵の更新
-			}
-		}
-
-		// 敵弾
-		//  デスフラグが立った敵弾を削除
-		enemyBullets_.remove_if([](EnemyBullet* bullet) {
-			if (bullet) {
-				if (bullet->IsDead()) {
-					delete bullet;
-					return true;
-				}
-			}
-			return false;
-		});
-
-		// 敵弾
-		for (auto enemyBullet : enemyBullets_) {
-			if (enemyBullet) {
-				enemyBullet->SetPlayer(player_.get());
-				enemyBullet->Update();
-			}
-		}
-
 		
-
-		// デバックカメラ
-		debugCamera_->Update(); // 更新
-		DebugCameraMove();      // デバックカメラの動き
-
-		// 衝突しているかどうか
-		CheckAllCollision();
 #ifdef _DEBUG
-		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-			phase_ = Phase::kFadeOut;//スペースを押したらフェードアウトを起動できるようにしている
-		}
+		//if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		//	phase_ = Phase::kFadeOut;//スペースを押したらフェードアウトを起動できるようにしている
+		//}
 #endif // _DEBUG
-
-		
 
 		break;
 	case Phase::kFadeOut:
@@ -466,9 +482,6 @@ void GameScene::ChangeUpdate() {
 
 //描画のフェーズ
 void GameScene::ChangeDraw() {
-
-		// プレイヤー
-	player_->Draw();
 
 	// 自弾
 	for (auto playerBullet : playerBullets_) {
@@ -485,9 +498,20 @@ void GameScene::ChangeDraw() {
 
 	switch (phase_) { 
 	case Phase::kFadeIn:
+		// プレイヤー
+		player_->Draw();
 		break;
 	case Phase::kMain:
-
+		switch (playerStatus_) { 
+		case Status::kPlay:
+			// プレイヤー
+			player_->Draw();
+			playerDethParticle_->SetPosition(player_->GetWorldPosition());
+			break;
+		case Status::kDeth:
+			playerDethParticle_->Draw();
+			break;
+		}
 		// 敵
 		for (auto enemy : enemies_) {
 			if (enemy) {
@@ -503,6 +527,19 @@ void GameScene::ChangeDraw() {
 		}
 		break;
 	case Phase::kFadeOut:
+		// 敵
+		for (auto enemy : enemies_) {
+			if (enemy) {
+				enemy->Draw();
+			}
+		}
+
+		// 敵弾
+		for (auto enemyBullet : enemyBullets_) {
+			if (enemyBullet) {
+				enemyBullet->Draw(viewProjection_);
+			}
+		}
 		break;
 	}
 

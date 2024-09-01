@@ -28,6 +28,8 @@ void Create::ModelCreate() {
 	models_[(int)typeGround] = Model::CreateFromOBJ("ground", true);
 	//タイトルフォント
 	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
+	//デスパーティクル
+	models_[(int)typeParticle] = Model::CreateFromOBJ("particle", true);
 }
 
 // テクスチャをクリエイト

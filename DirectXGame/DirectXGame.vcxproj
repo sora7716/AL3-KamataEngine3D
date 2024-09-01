@@ -112,6 +112,7 @@
     <ClCompile Include="asset\command\InputHandle.cpp" />
     <ClCompile Include="asset\create\Create.cpp" />
     <ClCompile Include="asset\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="asset\gameObject\effect\DeathParticles.cpp" />
     <ClCompile Include="asset\gameObject\enemy\bullet\EnemyBullet.cpp" />
     <ClCompile Include="asset\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="asset\command\InputHandle.h" />
     <ClInclude Include="asset\create\Create.h" />
     <ClInclude Include="asset\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="asset\gameObject\effect\DeathParticles.h" />
     <ClInclude Include="asset\gameObject\enemy\bullet\EnemyBullet.h" />
     <ClInclude Include="asset\gameObject\enemy\Enemy.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h" />
