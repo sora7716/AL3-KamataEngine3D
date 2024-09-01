@@ -7,6 +7,83 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 
+#include "asset/scene/TitleScene.h"
+enum class Scene {
+	kUnknow = 0,
+	kTitle,
+	kGame,
+};
+// 現在のシーン
+Scene scene = Scene::kUnknow;
+GameScene* gameScene = nullptr;
+TitleScene* titleScene = nullptr;
+
+void ChangeScene() {
+	switch (scene) {
+	case Scene::kTitle:
+
+		if (titleScene->IsFinished()) {
+			// シーンの切り替え
+			scene = Scene::kGame;
+			// 旧シーンの削除
+			delete titleScene;
+			titleScene = nullptr;
+			// 新シーンの生成と初期化
+			gameScene = new GameScene();
+			gameScene->Initialize();
+			gameScene->SetIsFinished(false);
+		}
+		if (titleScene == nullptr) {
+			titleScene = new TitleScene();
+			titleScene->Initialize();
+		}
+		break;
+	case Scene::kGame:
+
+		if (gameScene->IsFinished()) {
+			// シーンの切り替え
+			scene = Scene::kTitle;
+			// 旧シーンの削除
+			delete gameScene;
+			gameScene = nullptr;
+			// 新シーンの生成と初期化
+			titleScene = new TitleScene();
+			titleScene->Initialize();
+			titleScene->SetIsFinished(false);
+		}
+		if (gameScene == nullptr) {
+			gameScene = new GameScene();
+			gameScene->Initialize();
+		}
+		break;
+	}
+}
+
+void UpdateScene() {
+	switch (scene) {
+	case Scene::kTitle:
+		// タイトルシーンの毎フレーム処理
+		titleScene->Update();
+		break;
+	case Scene::kGame:
+		// ゲームシーンの毎フレーム処理
+		gameScene->Update();
+		break;
+	}
+}
+
+void DrawScene() {
+	switch (scene) {
+	case Scene::kTitle:
+		// タイトルシーンの描画
+		titleScene->Draw();
+		break;
+	case Scene::kGame:
+		// ゲームシーンの描画
+		gameScene->Draw();
+		break;
+	}
+}
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
@@ -16,11 +93,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Audio* audio = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
-	GameScene* gameScene = nullptr;
-
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"GC1B_01_イイヅカ_ソラ_AL3_1-1");
+	win->CreateGameWindow(L"GC1B_01_イイヅカ_ソラ_AL3");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
@@ -57,9 +132,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	primitiveDrawer->Initialize();
 #pragma endregion
 
+	// タイトルシーンの初期化
+	scene = Scene::kTitle;
+	titleScene = new TitleScene();
+	titleScene->Initialize();
+
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize();
+
+#ifdef _DEBUG
+	scene = Scene::kGame;
+#endif // ゲームシーンからスタート
 
 	// メインループ
 	while (true) {
@@ -72,8 +156,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
-		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		// タイトルシーンの毎フレーム処理
+		titleScene->Update();
+		// シーンの切り替え
+		ChangeScene();
+		UpdateScene();
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -81,8 +168,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画開始
 		dxCommon->PreDraw();
-		// ゲームシーンの描画
-		gameScene->Draw();
+		// タイトルシーン描画
+		DrawScene();
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
@@ -94,6 +181,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	// 各種解放
+	delete titleScene;
 	delete gameScene;
 	// 3Dモデル解放
 	Model::StaticFinalize();

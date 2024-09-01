@@ -120,6 +120,7 @@
     <ClCompile Include="asset\gameObject\player\bullet\PlayerBullet.cpp" />
     <ClCompile Include="asset\gameObject\player\Player.cpp" />
     <ClCompile Include="asset\gameObject\skydome\Skydome.cpp" />
+    <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
     <ClCompile Include="asset\math\collision\Collision.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="asset\gameObject\player\bullet\PlayerBullet.h" />
     <ClInclude Include="asset\gameObject\player\Player.h" />
     <ClInclude Include="asset\gameObject\skydome\Skydome.h" />
+    <ClInclude Include="asset\gameObject\titleFont\TitleFont.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
     <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />

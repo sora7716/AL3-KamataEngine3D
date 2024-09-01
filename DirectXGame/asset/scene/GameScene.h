@@ -19,6 +19,7 @@
 #include "asset/gameObject/enemy/bullet/EnemyBullet.h"
 #include "asset/gameObject/player/bullet/PlayerBullet.h"
 #include "asset/gameObject/ground/Ground.h"
+#include "asset/gameObject/fade_image/Fade.h"
 #include <sstream>
 #include <memory>
 using namespace std;
@@ -27,6 +28,14 @@ using namespace std;
 /// ゲームシーン
 /// </summary>
 class GameScene {
+
+public://列挙型
+
+	enum class Phase {
+		kFadeIn,  // フェードイン
+		kMain,    // メイン部
+		kFadeOut, // フェードアウト
+	};
 
 public: // メンバ関数
 	/// <summary>
@@ -78,6 +87,18 @@ public: // メンバ関数
 	/// <returns>敵弾モデル</returns>
 	Model* GetPlayerBulletModel() const;
 
+	/// <summary>
+	/// 終了フラグのゲッター
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const;
+
+	/// <summary>
+	/// 終了フラグのセッター
+	/// </summary>
+	/// <param name="isFinished"></param>
+	void SetIsFinished(const bool& isFinished);
+
 private: // メンバ関数
 	/// <summary>
 	/// キー入力のコマンドの初期化
@@ -109,10 +130,21 @@ private: // メンバ関数
 	/// </summary>
 	void UpdateEnemyPopCommands();
 
+	/// <summary>
+	/// 更新のフェーズ
+	/// </summary>
+	void ChangeUpdate();
+
+	/// <summary>
+	/// 描画のフェーズ
+	/// </summary>
+	void ChangeDraw();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	static inline const float kFadeTime = 5; // フェードをしてほしい時間
 
 	/// <summary>
 	/// ゲームシーン用
@@ -140,4 +172,7 @@ public: // メンバ変数
 	bool isEnemyWaite_ = false;                        // 待機フラグ
 	int32_t enemyWaitTime_ = 0;                        // 待機時間
 	unique_ptr<Ground> ground_ = nullptr;              // 地面
+	bool isFinished_ = false;                            // 終了フラグ
+	unique_ptr<Fade> fade_ = nullptr;                  // フェード
+	Phase phase_ = Phase::kFadeIn;                     // 現在のシーンのフェーズ
 };

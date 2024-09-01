@@ -52,7 +52,7 @@ void Player::Update() {
 // 描画
 void Player::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_, texture_);       // プレイヤー
-	model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
+	//model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
 }
 
 // UIの描画

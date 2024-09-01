@@ -50,7 +50,7 @@ void GameScene::Initialize() {
 	// プレイヤークラス
 	Create::ObjectType typePlayer = Create::Type::kPlayer;
 	player_ = make_unique<Player>(); // 生成
-	Vector3 playerPosition = {0.0f, -2.0f, 50.0f};
+	Vector3 playerPosition = {0.0f, -2.0f, 22.0f};
 	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer), playerPosition); // 初期化
 	player_->SetParent(&railCamera_->GetWorldTransform());                                                                       // 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetGameScene(this);                                                                                                 // ゲームシーンをセット
@@ -78,6 +78,11 @@ void GameScene::Initialize() {
 	ground_ = make_unique<Ground>();//生成
 	ground_->Initialise(create_->GetModel(typeGround), &viewProjection_);//初期化
 
+	//フェード
+	fade_=make_unique<Fade>();
+	fade_->Initialize();
+	fade_->FadeStart(Fade::Status::FadeIn,kFadeTime);
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -90,85 +95,9 @@ void GameScene::Initialize() {
 }
 
 // 更新
-void GameScene::Update() {
-
-	// レールカメラ
-	railCamera_->Update(); // 更新
-
-	// プレイヤー
-	player_->Update();     // 更新
-	PlayerActionCommand(); // 移動のコマンド
-
-	// デスフラグの立った自弾を削除
-	playerBullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet) {
-			if (bullet->IsDead()) {
-				delete bullet;
-				bullet = nullptr;
-				return true;
-			}
-		}
-		return false;
-	});
-
-	// 自弾
-	for (auto playerBullet : playerBullets_) {
-		if (playerBullet) {
-			playerBullet->Update();
-		}
-	}
-
-	// デスフラグが立ったとき敵を削除
-	enemies_.remove_if([](Enemy* enemy) {
-		if (enemy) {
-			if (enemy->IsDead()) {
-				delete enemy;
-				return true;
-			}
-		}
-		return false;
-	});
-
-	// 敵
-	UpdateEnemyPopCommands(); // 敵を出現
-	for (auto enemy : enemies_) {
-		if (enemy) {
-			enemy->Update(); // 敵の更新
-		}
-	}
-
-	// 敵弾
-	//  デスフラグが立った敵弾を削除
-	enemyBullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet) {
-			if (bullet->IsDead()) {
-				delete bullet;
-				return true;
-			}
-		}
-		return false;
-	});
-
-	// 敵弾
-	for (auto enemyBullet : enemyBullets_) {
-		if (enemyBullet) {
-			enemyBullet->SetPlayer(player_.get());
-			enemyBullet->Update();
-		}
-	}
-
-	// スカイドーム
-	skydome_->Update();
-
-	//地面
-	ground_->Update();
-
-	// デバックカメラ
-	debugCamera_->Update(); // 更新
-	DebugCameraMove();      // デバックカメラの動き
-
-	// 衝突しているかどうか
-	CheckAllCollision();
+void GameScene::Update() { 
+	//更新処理をまとめた
+	ChangeUpdate(); 
 }
 
 // 描画
@@ -200,35 +129,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	// プレイヤー
-	player_->Draw();
+	ChangeDraw();//ゲームシーンの描画処理をまとめた
+	fade_->Draw(commandList);//フェードの画像
 
-	// 自弾
-	for (auto playerBullet : playerBullets_) {
-		if (playerBullet) {
-			playerBullet->Draw(viewProjection_);
-		}
-	}
-
-	// 敵
-	for (auto enemy : enemies_) {
-		if (enemy) {
-			enemy->Draw();
-		}
-	}
-
-	// 敵弾
-	for (auto enemyBullet : enemyBullets_) {
-		if (enemyBullet) {
-			enemyBullet->Draw(viewProjection_);
-		}
-	}
-
-	// スカイドーム
-	skydome_->Draw();
-
-	//地面
-	ground_->Draw();
 
 	// カメラの軌道
 	// railCamera_->Draw();
@@ -253,6 +156,12 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
+// 終了フラグのゲッター
+bool GameScene::IsFinished() const { return isFinished_; }
+
+// 終了フラグのセッター
+void GameScene::SetIsFinished(const bool& isFinished) { isFinished_ = isFinished; }
 
 // キー入力のコマンドの初期化
 void GameScene::InputCommandInitialize() {
@@ -444,6 +353,159 @@ void GameScene::UpdateEnemyPopCommands() {
 			break;
 		}
 	}
+}
+
+//更新のフェーズ
+void GameScene::ChangeUpdate() {
+	// レールカメラ
+	railCamera_->Update(); // 更新
+	// プレイヤー
+	player_->Update();     // 更新
+
+	// スカイドーム
+	skydome_->Update();
+
+	// 地面
+	ground_->Update();
+
+	// デスフラグの立った自弾を削除
+	playerBullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
+				bullet = nullptr;
+				return true;
+			}
+		}
+		return false;
+	});
+
+	// 自弾
+	for (auto playerBullet : playerBullets_) {
+		if (playerBullet) {
+			playerBullet->Update();
+		}
+	}
+
+
+	switch (phase_) { 
+	case Phase::kFadeIn:
+		fade_->Update();//フェードイン
+		if (fade_->IsFinished()) {
+			phase_ = Phase::kMain;//フェードインが終わったら
+		}
+		break;
+	case Phase::kMain:
+		fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);//フェードの初期化
+		PlayerActionCommand(); // 移動のコマンド
+
+		// デスフラグが立ったとき敵を削除
+		enemies_.remove_if([](Enemy* enemy) {
+			if (enemy) {
+				if (enemy->IsDead()) {
+					delete enemy;
+					return true;
+				}
+			}
+			return false;
+		});
+
+		// 敵
+		UpdateEnemyPopCommands(); // 敵を出現
+		for (auto enemy : enemies_) {
+			if (enemy) {
+				enemy->Update(); // 敵の更新
+			}
+		}
+
+		// 敵弾
+		//  デスフラグが立った敵弾を削除
+		enemyBullets_.remove_if([](EnemyBullet* bullet) {
+			if (bullet) {
+				if (bullet->IsDead()) {
+					delete bullet;
+					return true;
+				}
+			}
+			return false;
+		});
+
+		// 敵弾
+		for (auto enemyBullet : enemyBullets_) {
+			if (enemyBullet) {
+				enemyBullet->SetPlayer(player_.get());
+				enemyBullet->Update();
+			}
+		}
+
+		
+
+		// デバックカメラ
+		debugCamera_->Update(); // 更新
+		DebugCameraMove();      // デバックカメラの動き
+
+		// 衝突しているかどうか
+		CheckAllCollision();
+#ifdef _DEBUG
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			phase_ = Phase::kFadeOut;//スペースを押したらフェードアウトを起動できるようにしている
+		}
+#endif // _DEBUG
+
+		
+
+		break;
+	case Phase::kFadeOut:
+		fade_->Update();//フェードの更新
+		if (fade_->IsFinished()) {
+			isFinished_ = true;//ゲームシーンを終了する
+		}
+		break;
+	}
+}
+
+//描画のフェーズ
+void GameScene::ChangeDraw() {
+
+		// プレイヤー
+	player_->Draw();
+
+	// 自弾
+	for (auto playerBullet : playerBullets_) {
+		if (playerBullet) {
+			playerBullet->Draw(viewProjection_);
+		}
+	}
+
+	// スカイドーム
+	skydome_->Draw();
+
+	// 地面
+	ground_->Draw();
+
+	switch (phase_) { 
+	case Phase::kFadeIn:
+		break;
+	case Phase::kMain:
+
+		// 敵
+		for (auto enemy : enemies_) {
+			if (enemy) {
+				enemy->Draw();
+			}
+		}
+
+		// 敵弾
+		for (auto enemyBullet : enemyBullets_) {
+			if (enemyBullet) {
+				enemyBullet->Draw(viewProjection_);
+			}
+		}
+		break;
+	case Phase::kFadeOut:
+		break;
+	}
+
 }
 
 // 敵弾を追加する

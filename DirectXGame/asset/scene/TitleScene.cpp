@@ -15,7 +15,6 @@ TitleScene::TitleScene() { finished_ = false; }
 
 // デストラクタ
 TitleScene::~TitleScene() {
-	delete titleFontModel_;
 	delete fade_; // フェードの削除
 }
 
@@ -25,22 +24,33 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	create_ = make_unique<Create>(); // 生成
+	create_->ModelCreate();          // モデルを生成
 
-	titleFontModel_ = Model::CreateFromOBJ("titleFont", true);
-	titleFontTextureHandle_ = TextureManager::Load("white1x1.png");
-	titleFontWorldTransform_.Initialize();
-	titleFontWorldTransform_.rotation_.x = -(std::numbers::pi_v<float> / 2.0f);
 	viewProjection_.Initialize();
-	fade_ = new Fade();  // フェードの生成
-	fade_->Initialize(); // フェードの初期化
-	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime);
+	fade_ = new Fade();                                // フェードの生成
+	fade_->Initialize();                               // フェードの初期化
+	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime); // フェードイン初期化
+
+	// タイトルフォント
+	Create::ObjectType typeTitleFont = Create::Type::kTitleFont;
+	titleFont_ = make_unique<TitleFont>();                                      // 生成
+	titleFont_->Initialize(create_->GetModel(typeTitleFont), &viewProjection_); // 初期化
+
+	// 敵
+	Create::ObjectType typeEnemy = Create::Type::kEnemy;
+	for (int i = 0; i < 2; i++) {
+		enemy_[i] = make_unique<Enemy>();
+	}
+	enemy_[0]->TitleInitialize(create_->GetModel(typeEnemy), &viewProjection_, {-8, -3, -23}, {0,-6,0});
+	enemy_[1]->TitleInitialize(create_->GetModel(typeEnemy), &viewProjection_, {8, -3, -23}, {0, 6, 0});
 }
 
 // 更新
 void TitleScene::Update() {
 	ChangePhaseUpdate();
 #ifdef _DEBUG
-	// ImGui::DragFloat("Y", &positionY_);
+
 #endif // _DEBUG
 }
 
@@ -72,8 +82,13 @@ void TitleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	// 敵
+	for (int i = 0; i < 2; i++) {
+		enemy_[i]->Draw();
+	}
+
 	// タイトルフォント
-	titleFontModel_->Draw(titleFontWorldTransform_, viewProjection_, titleFontTextureHandle_);
+	titleFont_->Draw();
 
 	// フェード
 	fade_->Draw(commandList);
@@ -104,11 +119,15 @@ void TitleScene::SetIsFinished(const bool& isFinished) { finished_ = isFinished;
 
 // 更新処理のフェーズの変更
 void TitleScene::ChangePhaseUpdate() {
+	titleFont_->Update(); // タイトルフォント
+	for (int i = 0; i < 2; i++) {
+		enemy_[i]->TitleUpdate(); // 敵
+	}
 	switch (phase_) {
 	case Phase::kFadeIn:
 		// フェードイン
 		fade_->Update(); // フェードの更新処理
-		TitleFontUpdate();
+		// TitleFontUpdate();
 		if (fade_->IsFinished()) {
 			phase_ = Phase::kMain;
 		}
@@ -124,29 +143,13 @@ void TitleScene::ChangePhaseUpdate() {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		}
-		TitleFontUpdate();
 		break;
 	case Phase::kFadeOut:
 		// フェードアウト
 		fade_->Update();
-		TitleFontUpdate();
 		if (fade_->IsFinished()) {
 			finished_ = true;
 		}
 		break;
 	}
-	
-	
-}
-
-//タイトルフォントの更新処理
-void TitleScene::TitleFontUpdate() {
-	width_ = 1;
-	if (positionY_ < 20.0f) {
-		positionY_ += 10.0f;
-	}
-	titleFontWorldTransform_.translation_.y = width_ * sin(theta_) - (titleFontWorldTransform_.translation_.y - positionY_);
-	theta_ += std::numbers::pi_v<float> / 30.0f;
-	titleFontWorldTransform_.rotation_.y += 0.01f;
-	titleFontWorldTransform_.UpdateMatrix();
 }

@@ -179,6 +179,9 @@
     <ClCompile Include="asset\gameObject\fade_image\Fade.cpp">
       <Filter>asset\Game\ソースファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp">
+      <Filter>asset\デフォルトのプログラム\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -321,6 +324,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\fade_image\Fade.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\TitleFont.h">
+      <Filter>asset\デフォルトのプログラム\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

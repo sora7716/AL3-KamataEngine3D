@@ -26,6 +26,8 @@ void Create::ModelCreate() {
 	models_[(int)typeSkydome] = Model::CreateFromOBJ("skydome",true);
 	//地面
 	models_[(int)typeGround] = Model::CreateFromOBJ("ground", true);
+	//タイトルフォント
+	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
 }
 
 // テクスチャをクリエイト

@@ -48,6 +48,16 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// タイトル用の初期化
+	/// </summary>
+	void TitleInitialize(Model* model, ViewProjection* viewProjection, const Vector3& position, const Vector3& angle);
+
+	/// <summary>
+	/// タイトル用の更新
+	/// </summary>
+	void TitleUpdate();
+
+	/// <summary>
 	/// 衝突を検出したら呼び出されるコールバック関数
 	/// </summary>
 	void OnCollision();

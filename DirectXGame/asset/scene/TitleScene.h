@@ -7,6 +7,11 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "asset/gameObject/fade_image/Fade.h"
+#include "asset/gameObject/titleFont/TitleFont.h"
+#include "asset/create/Create.h"
+#include "asset/gameObject/enemy/Enemy.h"
+#include <memory>
+using namespace std;
 
 /// <summary>
 /// タイトルシーン
@@ -64,11 +69,6 @@ private: // メンバ変数
 	/// </summary>
 	void ChangePhaseUpdate();
 
-	/// <summary>
-	/// タイトルフォントの更新処理
-	/// </summary>
-	void TitleFontUpdate();
-
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -79,14 +79,12 @@ private:
 	/// </summary>
 	bool finished_; // 終了フラグ
 	Phase phase_ = Phase::kFadeIn;//現在のフェーズ
-	Model* titleFontModel_ = nullptr;//フォントのモデル
-	WorldTransform titleFontWorldTransform_;//フォントのワールドトランスフォーム
 	ViewProjection viewProjection_;//ビュープロジェクション
-	uint32_t titleFontTextureHandle_ = 0u;//フォントのテクスチャ
-	float theta_ = 0.0f;//角度
-	float width_ = 0.0f;//振幅
-	float positionY_ = 0.0f;//今のポジション
 	Fade* fade_ = nullptr; // フェード
+	unique_ptr<Create> create_ = nullptr;//モデルクリエイト
+	unique_ptr<TitleFont> titleFont_ = nullptr;//タイトルフォント
+	unique_ptr<Enemy> enemy_[2] = nullptr;       // 敵
+
 public://メンバ関数
 	static inline const float kFadeTime = 5;//フェードをしてほしい時間
 };

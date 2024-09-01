@@ -2,7 +2,9 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "asset/math/Math.h"
-// #include "imgui.h"
+#ifdef _DEBUG
+#include "imgui.h"
+#endif // _DEBUG
 #include "asset/gameObject/player/Player.h"
 #include "asset/scene/GameScene.h"
 #include <cassert>
@@ -61,6 +63,29 @@ void Enemy::Update() {
 void Enemy::Draw() {
 	// 敵
 	model_->Draw(worldTransform_, *viewProjection_);
+}
+
+// タイトル用の初期化
+void Enemy::TitleInitialize(Model* model, ViewProjection* viewProjection, const Vector3& position, const Vector3& angle) {
+	assert(model);
+	model_ = model;                                                  // モデルを受け取る
+	viewProjection_ = viewProjection;                                // ビュープロジェクションを設定
+	worldTransform_.Initialize();                                    // ワールドトランスフォームの初期化
+	worldTransform_.translation_ = position;                         // 位置の設定
+	worldTransform_.rotation_ = angle;                               // アングルの設定
+	worldTransform_.rotation_.x = -std::numbers::pi_v<float> / 2.0f; // 角度の設定
+}
+
+// タイトル用の更新
+void Enemy::TitleUpdate() {
+#ifdef _DEBUG
+	ImGui::Begin("enemy");
+	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+
+	worldTransform_.UpdateMatrix();
 }
 
 // 衝突を検出したら呼び出されるコールバック関数
