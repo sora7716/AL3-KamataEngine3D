@@ -118,7 +118,7 @@ private: // メンバ変数
 	ViewProjection* viewProjection_ = nullptr;                      // ビュープロジェクション
 	WorldTransform worldTransform_;                                 // ワールドトランスフォーム
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
-	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
+	int32_t phase_ = 2;                                             // 現在の行動パターンの番号
 	int32_t fireTimer_ = 0;                                         // 発射タイマー
 	Player* player_ = nullptr;                                      // プレイヤー
 	GameScene* gameScene_ = nullptr;                                // ゲームシーン

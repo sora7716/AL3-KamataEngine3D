@@ -58,15 +58,15 @@ void GameScene::Initialize() {
 	InputCommandInitialize();
 
 	// 敵のクラス
-	LoadEnemyPopDate();
-	// Create::ObjectType typeEnemy = Create::Type::kEnemy;
-	// for (int i = 0; i < kEnemyNum; i++) {
-	//	Enemy* enemy = new Enemy();                                                                                                       // 生成
-	//	enemy->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), {30 * (float)i, 3, 100}); // 初期化
-	//	enemy->SetGameScene(this);                                                                                                        // ゲームシーンをセット
-	//	enemy->SetPlayer(player_.get());                                                                                                  // プレイヤーをセット
-	//	enemies_.push_back(enemy);                                                                                                        // 敵を登録
-	// }
+	//LoadEnemyPopDate();
+	 Create::ObjectType typeEnemy = Create::Type::kEnemy;
+	 for (int i = 0; i < kEnemyNum; i++) {
+		Enemy* enemy = new Enemy();                                                                                                       // 生成
+		enemy->Initialize(create_->GetModel(typeEnemy), &viewProjection_,{30 * (float)i, 3, 100}); // 初期化
+		enemy->SetGameScene(this);                                                                                                        // ゲームシーンをセット
+		enemy->SetPlayer(player_.get());                                                                                                  // プレイヤーをセット
+		enemies_.push_back(enemy);                                                                                                        // 敵を登録
+	 }
 
 	// スカイドームクラス
 	Create::ObjectType typeSkydome = Create::Type::kSkydome;
@@ -241,7 +241,7 @@ void GameScene::CheckAllCollision() {
 		if (Collision::IsCollision(posA, posB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
-			playerStatus_ = Status::kDeth;
+			//playerStatus_ = Status::kDeth;
 			// 敵弾の衝突時のコールバックを呼び出す
 			enemyBullet->OnCollision();
 		}
@@ -423,7 +423,7 @@ void GameScene::ChangeUpdate() {
 			});
 
 			// 敵
-			UpdateEnemyPopCommands(); // 敵を出現
+			//UpdateEnemyPopCommands(); // 敵を出現
 			for (auto enemy : enemies_) {
 				if (enemy) {
 					enemy->Update(); // 敵の更新

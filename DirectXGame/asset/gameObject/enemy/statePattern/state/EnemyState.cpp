@@ -13,6 +13,7 @@ EnemeyApproach::~EnemeyApproach() {
 void EnemeyApproach::Initialize() {
 	//接近に初期化
 	phase_ = Phase::Approach;
+	//firstPosition_ = position;//最初の位置を設定
 }
 
 // 状態を遷移(接近状態から)
@@ -32,21 +33,24 @@ void EnemeyApproach::Exce(WorldTransform& worldTransform) {
 
 //初期化
 void EnemeyLeave::Initialize() { 
-	//離脱に初期化
-	phase_ = Phase::Leave; 
+	//firstPosition_ = position;//最初の位置を設定
 }
 
 // 状態を遷移(離脱状態から)
-void EnemeyLeave::ChangePhase() {}
+void EnemeyLeave::ChangePhase() { phase_ = Phase::Approach; }
 
 // 離脱を実行
 void EnemeyLeave::Exce(WorldTransform& worldTransform) {
 	//フェーズがLeaveじゃなかった場合
 	if (phase_ == Phase::phaseNum) {
-		Initialize();//初期化する
+		phase_ = Phase::Leave; 
 	}
 	// 敵の動くスピード
 	Vector3 velocity{-kCharacterSpeed, kCharacterSpeed, -kCharacterSpeed};
 	// 移動(ベクトル加算)
 	worldTransform.translation_ += velocity;
+	if (worldTransform.translation_.y > 100) {
+		worldTransform.translation_ = firstPosition_;
+		ChangePhase();
+	}
 }

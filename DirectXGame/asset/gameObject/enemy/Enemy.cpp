@@ -27,6 +27,8 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vecto
 	actions_[0] = new EnemeyApproach(); // 接近
 	actions_[1] = new EnemeyLeave();    // 離脱
 	actions_[0]->Initialize();          // 接近の初期化
+	phase_ = actions_[0]->GetPhase();
+	actions_[1]->SetFirstPosition(position); // 最初の位置をセット
 	// bulletModel_ = Model::Create();          // 弾のモデルを生成
 	//  発射タイマーを初期化
 	fireTimer_ = kFireInterval;
@@ -40,6 +42,7 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(WorldTransform&) = {
 void Enemy::Update() {
 	// 現在のフェーズを算出
 	phase_ = actions_[phase_]->GetPhase();
+	actions_[phase_]->SetPhase(phase_);
 	// 現在のフェーズを実行
 	(actions_[phase_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(phase_)])(worldTransform_);
 
@@ -53,7 +56,12 @@ void Enemy::Update() {
 		fireTimer_ = kFireInterval;
 	}
 
-	// ImGui::Text("%d",phase_);
+#ifdef _DEBUG
+	ImGui::Begin("enemyGame");
+	ImGui::Text("%d", phase_);
+	ImGui::Text("%f", worldTransform_.translation_.y);
+	ImGui::End();
+#endif // DEBUG
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();

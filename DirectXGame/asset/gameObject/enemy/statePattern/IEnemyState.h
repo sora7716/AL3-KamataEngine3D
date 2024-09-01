@@ -1,4 +1,7 @@
 #pragma once
+#include <Vector3.h>
+#include <cmath>
+#define _USE_MATH_DEFINES
 
 // 前方宣言
 class WorldTransform;
@@ -33,6 +36,18 @@ public: // メンバ関数
 	/// <returns>現在のフェーズ</returns>
 	int GetPhase() { return static_cast<int>(phase_); }
 
+	/// <summary>
+	/// フェーズのセッター
+	/// </summary>
+	/// <param name="phase"></param>
+	void SetPhase(uint32_t phase) { phase_ = static_cast<Phase>(phase); };
+
+	/// <summary>
+	/// 最初の位置のセッター
+	/// </summary>
+	/// <param name="position">最初の位置</param>
+	void SetFirstPosition(Vector3 position) { firstPosition_ = position; };
+
 
 public: // 静的メンバ変数と関数ポインタ
 
@@ -44,4 +59,5 @@ public: // 静的メンバ変数と関数ポインタ
 
 protected: // メンバ変数
 	Phase phase_ = Phase::phaseNum; // フェーズ
+	Vector3 firstPosition_ = {};
 };
