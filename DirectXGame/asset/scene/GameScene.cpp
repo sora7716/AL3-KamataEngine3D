@@ -5,6 +5,8 @@
 #include <cassert>
 #include <fstream>
 #include "imgui.h"
+#include <cstdlib>
+#include <ctime>
 
 // コンストラクタ
 GameScene::GameScene() {}
@@ -34,7 +36,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
+	srand(static_cast<unsigned int>(time(nullptr)));
 	// ゲームシーン
 	viewProjection_.Initialize();
 	// クリエイトクラス
@@ -61,8 +63,9 @@ void GameScene::Initialize() {
 	//LoadEnemyPopDate();
 	 Create::ObjectType typeEnemy = Create::Type::kEnemy;
 	 for (int i = 0; i < kEnemyNum; i++) {
-		Enemy* enemy = new Enemy();                                                                                                       // 生成
-		enemy->Initialize(create_->GetModel(typeEnemy), &viewProjection_,{30 * (float)i, 3, 100}); // 初期化
+		 Enemy* enemy = new Enemy();                                                                                             // 生成
+		 float multiple = static_cast<float>(rand() % 6 - 3);
+		 enemy->Initialize(create_->GetModel(typeEnemy), &viewProjection_, {30.0f * multiple, 3 * multiple, 100}); // 初期化
 		enemy->SetGameScene(this);                                                                                                        // ゲームシーンをセット
 		enemy->SetPlayer(player_.get());                                                                                                  // プレイヤーをセット
 		enemies_.push_back(enemy);                                                                                                        // 敵を登録

@@ -6,9 +6,9 @@ void InputHandle::Initialize(Input* input) { input_ = input; }
 
 // 横移動のコマンドを実行
 IPlayerCommand* InputHandle::PlayerBesideMoveInput() {
-	if (input_->PushKey(DIK_LEFT)) {
+	if (input_->PushKey(DIK_A)) {
 		return pressKeyLeft_;
-	} else if (input_->PushKey(DIK_RIGHT)) {
+	} else if (input_->PushKey(DIK_D)) {
 		return pressKeyRight_;
 	}
 	return nullptr;
@@ -16,18 +16,18 @@ IPlayerCommand* InputHandle::PlayerBesideMoveInput() {
 
 // 縦移動のコマンドを実行
 IPlayerCommand* InputHandle::PlayerVerticalMoveInput() {
-	if (input_->PushKey(DIK_DOWN)) {
+	if (input_->PushKey(DIK_S)) {
 		return pressKeyDown_;
-	} else if (input_->PushKey(DIK_UP)) {
+	} else if (input_->PushKey(DIK_W)) {
 		return pressKeyUp_;
 	}
 	return nullptr;
 }
 
 IPlayerCommand* InputHandle::PlayerRotateInput() { 
-	if (input_->PushKey(DIK_D)) {
+	if (input_->PushKey(DIK_LEFT)) {
 		return pressKeyD_;
-	} else if (input_->PushKey(DIK_A)) {
+	} else if (input_->PushKey(DIK_RIGHT)) {
 		return pressKeyA_;
 	}
 	return nullptr;

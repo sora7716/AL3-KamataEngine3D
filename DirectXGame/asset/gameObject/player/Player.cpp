@@ -52,7 +52,7 @@ void Player::Update() {
 // 描画
 void Player::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_);       // プレイヤー
-	//model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
+	model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
 }
 
 // UIの描画
@@ -112,69 +112,46 @@ void Player::ReticleUpdate() {
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	ScreenToClient(hwnd, &mousePosition);
 
+	// ビューポートサイズを取得
+	float windowWidth = static_cast<float>(WinApp::kWindowWidth);
+	float windowHeight = static_cast<float>(WinApp::kWindowHeight);
+
+	// マウス座標を正規化デバイス座標系(NDC)に変換
+	float mouseX = (2.0f * mousePosition.x) / windowWidth - 1.0f;
+	float mouseY = 1.0f - (2.0f * mousePosition.y) / windowHeight;
+	Vector3 posNDC = {mouseX, mouseY, 1.0f}; // 遠平面(z = 1.0f)でのNDC
+
+	// ビュープロジェクション行列の逆行列を取得
+	Matrix4x4 matInverseVP = ~(viewProjection_->matView * viewProjection_->matProjection);
+
+	// NDCからワールド座標系への変換（遠平面）
+	Vector3 posFar = Math::Transform(posNDC, matInverseVP);
+
+	// NDCを近平面(z = 0)に調整
+	posNDC.z = 0.0f;
+	Vector3 posNear = Math::Transform(posNDC, matInverseVP);
+
+	// マウスレイの方向を計算
+	Vector3 mouseDirection = Math::Normalize(posFar - posNear);
+
 	// 自機から3Dレティクルへの距離
 	const float kDistancePlayerTo3DReticle = 50.0f;
 
-	// 自機から3Dレティクルへのオフセット(z方向固定)
-	Vector3 offset = {0, 0, kDistancePlayerTo3DReticle};
-	// 自機のワールド行列の回転を反映
-	Matrix4x4 worldMatrix = Math::MakeAffineMatrix(Math::Normalize(worldTransform_.scale_), worldTransform_.rotation_, worldTransform_.translation_);
-	offset = offset * worldMatrix;
-	// ベクトルの長さを整える
-	offset = Math::Normalize(offset) * kDistancePlayerTo3DReticle;
-
-	// 3Dレティクルの座標を設定
-	worldTransform3DReticle_.translation_ = Vector3(offset.x, offset.y, offset.z);
+	// 3Dレティクルの位置を設定
+	worldTransform3DReticle_.translation_ = posNear + mouseDirection * kDistancePlayerTo3DReticle;
 	worldTransform3DReticle_.UpdateMatrix();
 
-	// 3Dレティクルのワールド行列から、ワールド座標を取得
-	Vector3 positionReticle = {
-	    worldTransform3DReticle_.matWorld_.m[3][0],
-	    worldTransform3DReticle_.matWorld_.m[3][1],
-	    worldTransform3DReticle_.matWorld_.m[3][2],
-	};
+	// ビューポート行列の作成
+	Matrix4x4 matViewport = Math::MakeViewportMatrix(0, 0, windowWidth, windowHeight, 0, 1);
 
-	// ビューポート行列
-	Matrix4x4 matViewport = Math::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
-
-	// ビュープロジェクションビューポート合成行列
-	Matrix4x4 matVP = viewProjection_->matView * viewProjection_->matProjection;
-	Matrix4x4 matVPV = matVP * matViewport;
-
-	// 合成行列の逆行列
-	Matrix4x4 matInverseVPV = ~matVPV;
-
-	// スクリーン座標
-	Vector3 posNear = Vector3((float)mousePosition.x, (float)mousePosition.y, 0);
-	Vector3 posFar = Vector3((float)mousePosition.x, (float)mousePosition.y, 1);
-
-	// スクリーン座標系からワールド座標系へ
-	posNear = Math::Transform(posNear, matInverseVPV);
-	posFar = Math::Transform(posFar, matInverseVPV);
-
-	// マウスレイの方向
-	Vector3 mouseDirection = posFar - posNear;
-	mouseDirection = Math::Normalize(mouseDirection);
-
-	// 設定距離
-	const float kDistanceTestObject = 50.0f;
-
-	// 発射位置を設定
-	worldTransform3DReticle_.translation_ = posNear + mouseDirection * kDistanceTestObject;
-	worldTransform3DReticle_.translation_.z = offset.z; // Z座標は固定
-
-	// ワールド行列を更新
-	worldTransform3DReticle_.UpdateMatrix();
-
-	// ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	// ビュー、プロジェクション、ビューポート行列を合成
 	Matrix4x4 matViewProjectionViewport = viewProjection_->matView * viewProjection_->matProjection * matViewport;
 
-	// ワールド->スクリーン座標変換(ここで3Dから2Dになる)
-	positionReticle = Math::Transform(positionReticle, matViewProjectionViewport);
+	// ワールド座標からスクリーン座標へ変換
+	Vector3 positionReticle = Math::Transform(worldTransform3DReticle_.translation_, matViewProjectionViewport);
 
 	// スプライトのレティクルに座標設定
-	sprite2DReticle_->SetPosition(Vector2((float)mousePosition.x, (float)mousePosition.y));
-
+	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 }
 
 #ifdef _DEBUG

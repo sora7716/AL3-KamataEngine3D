@@ -1,6 +1,7 @@
 #pragma once
 #include "Aithmetic.h"
 #include <vector>
+#include <Vector2.h>
 
 class Math {
 public:

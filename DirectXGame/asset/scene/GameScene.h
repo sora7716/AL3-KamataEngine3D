@@ -151,7 +151,7 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	static inline const float kFadeTime = 5; // フェードをしてほしい時間
-	static inline const float kEnemyNum = 1;//敵の数
+	static inline const float kEnemyNum = 6;//敵の数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
