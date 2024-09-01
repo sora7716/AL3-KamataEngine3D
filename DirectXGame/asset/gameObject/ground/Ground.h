@@ -42,5 +42,5 @@ public:  // メンバ関数
 private: // メンバ変数
 	Model* model_ = nullptr;//モデル
 	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
-	WorldTransform worldTransform_;//ワールドトランスフォーム
+	WorldTransform worldTransform_[2];//ワールドトランスフォーム
 };
