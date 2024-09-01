@@ -15,7 +15,7 @@ Create::~Create() {
 // モデルをクリエイト
 void Create::ModelCreate() { 
 	//プレイヤー
-	models_[(int)typePlayer] = Model::Create();
+	models_[(int)typePlayer] = Model::CreateFromOBJ("player", true);
 	//自弾
 	models_[(int)typePlayerBullet] = Model::Create();
 	//敵

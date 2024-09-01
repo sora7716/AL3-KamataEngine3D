@@ -9,6 +9,7 @@
 #include "input/Input.h"
 #include <cassert>
 #include "imgui.h"
+#include <numbers>
 
 // コンストラクタ
 Player::Player() {}
@@ -17,11 +18,10 @@ Player::Player() {}
 Player::~Player() { delete sprite2DReticle_; }
 
 // 初期化
-void Player::Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture, Vector3 position) {
+void Player::Initialize(Model* model, ViewProjection* viewProjection,Vector3 position) {
 	assert(model);
 	model_ = model;                                                                                           // モデル
 	viewProjection_ = viewProjection;                                                                         // ビュープロジェクション
-	texture_ = texture;                                                                                       // テクスチャ
 	worldTransform_.Initialize();                                                                             // ワールドトランスフォームの初期化
 	worldTransform_.translation_ = position;                                                                  // 初期位置
 	input_ = Input::GetInstance();                                                                            // シングルインスタンス
@@ -51,7 +51,7 @@ void Player::Update() {
 
 // 描画
 void Player::Draw() {
-	model_->Draw(worldTransform_, *viewProjection_, texture_);       // プレイヤー
+	model_->Draw(worldTransform_, *viewProjection_);       // プレイヤー
 	//model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
 }
 

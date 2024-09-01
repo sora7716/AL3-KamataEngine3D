@@ -35,7 +35,7 @@ public: // メンバ関数
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="texture">テクスチャ</param>
 	/// <param name="position">ポジション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, uint32_t texture, Vector3 position);
+	void Initialize(Model* model, ViewProjection* viewProjection,Vector3 position);
 
 	/// <summary>
 	/// 更新
@@ -159,7 +159,6 @@ private: // メンバ変数
 	Model* model_ = nullptr;                   // モデル
 	ViewProjection* viewProjection_ = nullptr; // ビュープロジェクション
 	WorldTransform worldTransform_;            // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                    // テクスチャ
 	Input* input_ = nullptr;                   // キー入力
 	Vector3 velocity_ = {};                    // キャラクターの移動速度
 	Vector3 parentRotation_ = {};

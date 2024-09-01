@@ -51,7 +51,7 @@ void GameScene::Initialize() {
 	Create::ObjectType typePlayer = Create::Type::kPlayer;
 	player_ = make_unique<Player>(); // 生成
 	Vector3 playerPosition = {0.0f, -2.0f, 22.0f};
-	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_, create_->GetTextureHandle(typePlayer), playerPosition); // 初期化
+	player_->Initialize(create_->GetModel(typePlayer), &viewProjection_,playerPosition); // 初期化
 	player_->SetParent(&railCamera_->GetWorldTransform());                                                                       // 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetGameScene(this);                                                                                                 // ゲームシーンをセット
 	// キー入力のコマンドの初期化
