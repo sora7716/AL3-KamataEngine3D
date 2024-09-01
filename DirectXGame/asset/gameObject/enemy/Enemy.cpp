@@ -4,8 +4,9 @@
 #include "asset/math/Math.h"
 // #include "imgui.h"
 #include "asset/gameObject/player/Player.h"
-#include <cassert>
 #include "asset/scene/GameScene.h"
+#include <cassert>
+#include <numbers>
 
 /// <summary>
 /// デストラクタ
@@ -13,19 +14,19 @@
 Enemy::~Enemy() {}
 
 // 初期化
-void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const uint32_t& texture, const Vector3& position) {
+void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 
 	assert(model);                           // NULLチェック
 	model_ = model;                          // モデルを代入
 	viewProjection_ = viewProjection;        // ビュープロジェクションを代入
 	worldTransform_.Initialize();            // ワールドトランスフォームを初期化
 	worldTransform_.translation_ = position; // 初期座標の設定
-	texture_ = texture;                      // テクスチャハンドル
-	actions_[0] = new EnemeyApproach();      // 接近
-	actions_[1] = new EnemeyLeave();         // 離脱
-	actions_[0]->Initialize();               // 接近の初期化
-	//bulletModel_ = Model::Create();          // 弾のモデルを生成
-	// 発射タイマーを初期化
+	worldTransform_.rotation_.x = -std::numbers::pi_v<float> / 2.0f;
+	actions_[0] = new EnemeyApproach(); // 接近
+	actions_[1] = new EnemeyLeave();    // 離脱
+	actions_[0]->Initialize();          // 接近の初期化
+	// bulletModel_ = Model::Create();          // 弾のモデルを生成
+	//  発射タイマーを初期化
 	fireTimer_ = kFireInterval;
 }
 
@@ -59,7 +60,7 @@ void Enemy::Update() {
 // 描画
 void Enemy::Draw() {
 	// 敵
-	model_->Draw(worldTransform_, *viewProjection_, texture_);
+	model_->Draw(worldTransform_, *viewProjection_);
 }
 
 // 衝突を検出したら呼び出されるコールバック関数
@@ -113,9 +114,8 @@ Vector3 Enemy::GetWorldPosition() {
 // 親となるワールドトランスフォームをセット
 void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
-//ゲームシーンのセッター
-void Enemy::SetGameScene(GameScene* gameScene) { 
-	gameScene_ = gameScene; }
+// ゲームシーンのセッター
+void Enemy::SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
-//死亡フラグのゲッター
+// 死亡フラグのゲッター
 bool Enemy::IsDead() const { return isDead_; }

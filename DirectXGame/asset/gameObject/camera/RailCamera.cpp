@@ -37,24 +37,24 @@ void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian, co
 
 // 更新
 void RailCamera::Update() {
-	t_ += 1.0f / (1024.0f * 10000);
+	t_ += 1.0f / (1024.0f * 100);
 	if (t_ > 0.95f) {
 		t_ -= 0.95f; // t が 1.0f を超えたらループさせる
 	}
 	// 移動
-	/*worldTransform_.translation_ += Math::CatmullRomPosition(controlPoints_, t_);
-	worldTransform_.rotation_ += Math::CatmullRomPosition(controlPoints_, t_);*/
+	//worldTransform_.translation_ += Math::CatmullRomPosition(controlPoints_, t_);
+	//worldTransform_.rotation_ += Math::CatmullRomPosition(controlPoints_, t_);
 	// ワールド行列を再計算
 	worldTransform_.UpdateMatrix();
 	// カメラのオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = ~worldTransform_.matWorld_;
 
 	// カメラの座標を画面に表示する処理
-	/*ImGui::Begin("Camera");
+	ImGui::Begin("Camera");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::Text("t%f", t_);
-	ImGui::End();*/
+	ImGui::End();
 }
 
 // カメラの起動

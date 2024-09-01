@@ -105,6 +105,12 @@
     <Filter Include="asset\Game\ヘッダーファイル\gameObject\camera">
       <UniqueIdentifier>{dda7896b-5c8c-4139-8f43-74f2beac9c8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\Game\ソースファイル\gameObject\ground">
+      <UniqueIdentifier>{107beb7c-6cb6-4388-8c04-3954d7d04033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\Game\ヘッダーファイル\gameObject\ground">
+      <UniqueIdentifier>{a71a3e00-fe01-4ead-ae21-5a0a215fbd09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -163,6 +169,15 @@
     </ClCompile>
     <ClCompile Include="asset\gameObject\camera\RailCamera.cpp">
       <Filter>asset\Game\ソースファイル\gameObject\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\ground\Ground.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject\ground</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\scene\TitleScene.cpp">
+      <Filter>asset\Game\ソースファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\fade_image\Fade.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +312,15 @@
     </ClInclude>
     <ClInclude Include="asset\math\collision\Collision.h">
       <Filter>asset\Game\ヘッダーファイル\process</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\ground\Ground.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\TitleScene.h">
+      <Filter>asset\Game\ヘッダーファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\fade_image\Fade.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

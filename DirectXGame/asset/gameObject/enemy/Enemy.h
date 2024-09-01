@@ -35,7 +35,7 @@ public: // メンバ関数
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="texture">テクスチャハンドル</param>
 	/// <param name="position">初期座標</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, const uint32_t& texture, const Vector3& position);
+	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
 
 	/// <summary>
 	/// 更新
@@ -107,7 +107,6 @@ private: // メンバ変数
 	Model* model_ = nullptr;                                        // モデル
 	ViewProjection* viewProjection_ = nullptr;                      // ビュープロジェクション
 	WorldTransform worldTransform_;                                 // ワールドトランスフォーム
-	uint32_t texture_ = 0u;                                         // テクスチャハンドル
 	IEnemyState* actions_[(int)IEnemyState::kPhaseNum] = {nullptr}; // 行動パターン
 	int32_t phase_ = 0;                                             // 現在の行動パターンの番号
 	int32_t fireTimer_ = 0;                                         // 発射タイマー

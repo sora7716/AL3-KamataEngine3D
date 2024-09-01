@@ -73,6 +73,11 @@ void GameScene::Initialize() {
 	skydome_ = make_unique<Skydome>();                                      // 生成
 	skydome_->Initialize(create_->GetModel(typeSkydome), &viewProjection_); // 初期化
 
+	//地面
+	Create::ObjectType typeGround = Create::Type::kGround;
+	ground_ = make_unique<Ground>();//生成
+	ground_->Initialise(create_->GetModel(typeGround), &viewProjection_);//初期化
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -155,6 +160,9 @@ void GameScene::Update() {
 	// スカイドーム
 	skydome_->Update();
 
+	//地面
+	ground_->Update();
+
 	// デバックカメラ
 	debugCamera_->Update(); // 更新
 	DebugCameraMove();      // デバックカメラの動き
@@ -218,6 +226,9 @@ void GameScene::Draw() {
 
 	// スカイドーム
 	skydome_->Draw();
+
+	//地面
+	ground_->Draw();
 
 	// カメラの軌道
 	// railCamera_->Draw();
@@ -419,7 +430,7 @@ void GameScene::UpdateEnemyPopCommands() {
 			float z = (float)atof(word.c_str());
 			// 敵を発生させる
 			enemy_ = new Enemy();
-			enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, create_->GetTextureHandle(typeEnemy), Vector3(x, y, z));
+			enemy_->Initialize(create_->GetModel(typeEnemy), &viewProjection_, Vector3(x, y, z));
 			enemy_->SetGameScene(this);
 			enemy_->SetPlayer(player_.get());
 		} else if (word.find("WHITE") == 0) {

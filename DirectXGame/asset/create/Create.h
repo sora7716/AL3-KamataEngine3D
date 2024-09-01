@@ -15,6 +15,7 @@ public: // 構造体や列挙型
 		kEnemy,
 		kEnemyBullet,
 		kSkydome,
+		kGround,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
@@ -23,6 +24,7 @@ public: // 構造体や列挙型
 	ObjectType typeEnemy = Type::kEnemy;
 	ObjectType typeEnemyBullet = Type::kEnemyBullet;
 	ObjectType typeSkydome = Type::kSkydome;
+	ObjectType typeGround = Type::kGround;
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

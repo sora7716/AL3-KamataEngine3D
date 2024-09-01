@@ -148,7 +148,7 @@ private: // メンバ関数
 public: // 静的メンバ変数
 
 	static inline const float kCharacterSpeed = 0.4f; // キャラクターの移動量
-	static inline const float kRotSpeed = 0.02f;      // 回転の速さ[ラジアン/frame]
+	static inline const float kRotSpeed = 0.00f;      // 回転の速さ[ラジアン/frame]
 	static inline const float kBulletSpeed = 1.0f;    // 弾の速度
 	// オブジェクトの衝突判定のサイズ
 	static inline const float kWidth = 1.0f;  // 横幅

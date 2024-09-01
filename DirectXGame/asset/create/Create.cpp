@@ -19,19 +19,19 @@ void Create::ModelCreate() {
 	//自弾
 	models_[(int)typePlayerBullet] = Model::Create();
 	//敵
-	models_[(int)typeEnemy] = Model::Create();
+	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy",true);
 	//敵弾
 	models_[(int)typeEnemyBullet] = Model::Create();
 	//スカイドーム
 	models_[(int)typeSkydome] = Model::CreateFromOBJ("skydome",true);
+	//地面
+	models_[(int)typeGround] = Model::CreateFromOBJ("ground", true);
 }
 
 // テクスチャをクリエイト
 void Create::TextureCreate() { 
 	//プレイヤー
 	textureHandle_[(int)typePlayer] = TextureManager::Load("test/player.png"); 
-	//敵
-	textureHandle_[(int)typeEnemy] = TextureManager::Load("test/enemy.png");
 }
 
 // モデルのゲッター

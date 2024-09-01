@@ -18,6 +18,7 @@
 #include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/enemy/bullet/EnemyBullet.h"
 #include "asset/gameObject/player/bullet/PlayerBullet.h"
+#include "asset/gameObject/ground/Ground.h"
 #include <sstream>
 #include <memory>
 using namespace std;
@@ -138,4 +139,5 @@ public: // メンバ変数
 	stringstream enemyPopCommands;                     // 敵発生コマンド
 	bool isEnemyWaite_ = false;                        // 待機フラグ
 	int32_t enemyWaitTime_ = 0;                        // 待機時間
+	unique_ptr<Ground> ground_ = nullptr;              // 地面
 };
