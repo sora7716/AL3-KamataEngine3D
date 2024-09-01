@@ -44,6 +44,11 @@ void TitleScene::Initialize() {
 	}
 	enemy_[0]->TitleInitialize(create_->GetModel(typeEnemy), &viewProjection_, {-8, -3, -23}, {0,-6,0});
 	enemy_[1]->TitleInitialize(create_->GetModel(typeEnemy), &viewProjection_, {8, -3, -23}, {0, 6, 0});
+
+	//ゲームスタートボタン
+	Create::ObjectType typePressSpacae = Create::Type::kPressSpace;
+	pressSpace_ = make_unique<GameStart>();
+	pressSpace_->Initiaize(create_->GetModel(typePressSpacae), &viewProjection_, create_->GetTextureHandle(typePressSpacae));
 }
 
 // 更新
@@ -90,6 +95,9 @@ void TitleScene::Draw() {
 	// タイトルフォント
 	titleFont_->Draw();
 
+	//スペースボタン
+	pressSpace_->Draw();
+
 	// フェード
 	fade_->Draw(commandList);
 
@@ -120,6 +128,7 @@ void TitleScene::SetIsFinished(const bool& isFinished) { finished_ = isFinished;
 // 更新処理のフェーズの変更
 void TitleScene::ChangePhaseUpdate() {
 	titleFont_->Update(); // タイトルフォント
+	pressSpace_->Update();//スペースボタン
 	for (int i = 0; i < 2; i++) {
 		enemy_[i]->TitleUpdate(); // 敵
 	}

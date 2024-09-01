@@ -5,6 +5,12 @@
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/player/Player.h"
 #include "asset/math/Math.h"
+#include <cstdlib>
+#include <ctime>
+#ifdef _DEBUG
+#include "imgui.h"
+#endif // _DEBUG
+
 
 // 初期化
 void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
@@ -22,6 +28,9 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 
 	// 弾の向き
 	Direction();
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+	trackingTime_ = rand() % 90 + 30;
 }
 
 // 更新
@@ -34,12 +43,22 @@ void EnemyBullet::Update() {
 
 	// 速度分トランスレイションに加算
 	worldTransform_.translation_ += velocity_;
+	if (trackingTime_ < 0) {
+		isTracking_ = false;
+	} else {
+		trackingTime_--;
+	}
+	if (isTracking_) {
+		// 追跡
+		Tracking();
 
-	// 追跡
-	Tracking();
-
-	// 弾の向き
-	Direction();
+		// 弾の向き
+		Direction();
+	}
+#ifdef _DEBUG
+	ImGui::Text("%d", trackingTime_);
+	ImGui::Text("%d", isTracking_);
+#endif // _DEBUG
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -60,7 +79,7 @@ bool EnemyBullet::IsDead() const { return isDead_; }
 // プレイヤーのセッター
 void EnemyBullet::SetPlayer(Player* player) { player_ = player; }
 
-//ワールドポジションのゲッター
+// ワールドポジションのゲッター
 Vector3 EnemyBullet::GetWorldPosition() {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
@@ -71,7 +90,7 @@ Vector3 EnemyBullet::GetWorldPosition() {
 	return worldPos;
 }
 
-//AABBのゲッター
+// AABBのゲッター
 AABB EnemyBullet::GetAABB() {
 	Vector3 worldPosition = GetWorldPosition();
 	AABB aabb;

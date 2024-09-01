@@ -10,6 +10,7 @@
 #include "asset/gameObject/titleFont/TitleFont.h"
 #include "asset/create/Create.h"
 #include "asset/gameObject/enemy/Enemy.h"
+#include "asset/gameObject/pressSpace/GameStart.h"
 #include <memory>
 using namespace std;
 
@@ -83,7 +84,8 @@ private:
 	Fade* fade_ = nullptr; // フェード
 	unique_ptr<Create> create_ = nullptr;//モデルクリエイト
 	unique_ptr<TitleFont> titleFont_ = nullptr;//タイトルフォント
-	unique_ptr<Enemy> enemy_[2] = nullptr;       // 敵
+	unique_ptr<Enemy> enemy_[2];      // 敵
+	unique_ptr<GameStart> pressSpace_ = nullptr;//ゲームスタートのボタン
 
 public://メンバ関数
 	static inline const float kFadeTime = 5;//フェードをしてほしい時間

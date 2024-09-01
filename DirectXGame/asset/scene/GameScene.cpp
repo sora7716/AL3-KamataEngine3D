@@ -4,7 +4,6 @@
 #include "WinApp.h"
 #include <cassert>
 #include <fstream>
-#include "imgui.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -244,7 +243,7 @@ void GameScene::CheckAllCollision() {
 		if (Collision::IsCollision(posA, posB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
-			//playerStatus_ = Status::kDeth;
+			playerStatus_ = Status::kDeth;
 			// 敵弾の衝突時のコールバックを呼び出す
 			enemyBullet->OnCollision();
 		}
@@ -263,7 +262,8 @@ void GameScene::CheckAllCollision() {
 					// 自弾の衝突時のコールバックを呼び出す
 					playerBullet->OnCollision();
 					// 敵キャラの衝突時のコールバックを呼び出す
-					enemy->OnCollision();
+					enemy->OnCollision(killNum);
+					
 				}
 			}
 		}
@@ -382,25 +382,6 @@ void GameScene::ChangeUpdate() {
 	debugCamera_->Update(); // 更新
 	DebugCameraMove();      // デバックカメラの動き
 
-	// デスフラグの立った自弾を削除
-	playerBullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet) {
-			if (bullet->IsDead()) {
-				delete bullet;
-				bullet = nullptr;
-				return true;
-			}
-		}
-		return false;
-	});
-
-	// 自弾
-	for (auto playerBullet : playerBullets_) {
-		if (playerBullet) {
-			playerBullet->Update();
-		}
-	}
-
 
 	switch (phase_) { 
 	case Phase::kFadeIn:
@@ -410,8 +391,30 @@ void GameScene::ChangeUpdate() {
 		}
 		break;
 	case Phase::kMain:
-		fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);//フェードの初期化
 
+		// デスフラグの立った自弾を削除
+		playerBullets_.remove_if([](PlayerBullet* bullet) {
+			if (bullet) {
+				if (bullet->IsDead()) {
+					delete bullet;
+					bullet = nullptr;
+					return true;
+				}
+			}
+			return false;
+		});
+
+		// 自弾
+		for (auto playerBullet : playerBullets_) {
+			if (playerBullet) {
+				playerBullet->Update();
+			}
+		}
+
+		fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);//フェードの初期化
+		if (killNum == 3) {
+			phase_ = Phase::kFadeOut;
+		}
 		switch (playerStatus_) { 
 		case Status::kPlay:
 			// デスフラグが立ったとき敵を削除
@@ -530,6 +533,11 @@ void GameScene::ChangeDraw() {
 		}
 		break;
 	case Phase::kFadeOut:
+		switch (playerStatus_) { 
+		case Status::kPlay:
+			player_->Draw();
+			break;
+		}
 		// 敵
 		for (auto enemy : enemies_) {
 			if (enemy) {

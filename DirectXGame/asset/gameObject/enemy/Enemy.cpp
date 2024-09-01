@@ -97,7 +97,10 @@ void Enemy::TitleUpdate() {
 }
 
 // 衝突を検出したら呼び出されるコールバック関数
-void Enemy::OnCollision() { isDead_ = true; }
+void Enemy::OnCollision(int &kill) { 
+	isDead_ = true; 
+	kill++;
+}
 
 // 攻撃
 void Enemy::Fire() {

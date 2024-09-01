@@ -8,7 +8,9 @@
 #include "asset/scene/GameScene.h"
 #include "input/Input.h"
 #include <cassert>
+#ifdef _DEBUG
 #include "imgui.h"
+#endif // _DEBUG
 #include <numbers>
 
 // コンストラクタ
@@ -27,14 +29,16 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection,Vector3 pos
 	input_ = Input::GetInstance();                                                                            // シングルインスタンス
 	worldTransform3DReticle_.Initialize();                                                                    // 3Dレティクルのワールドトランスフォーム初期化
 	//reticleModel_ = Model::Create();                                                                          // レティクルの場所を示すだけのモデルを作成
-	uint32_t textureRecticle = TextureManager::Load("kamata.ico");                                            // レティクル用テクスチャ取得
+	uint32_t textureRecticle = TextureManager::Load("reticle.png");                                            // レティクル用テクスチャ取得
 	sprite2DReticle_ = Sprite::Create(textureRecticle, {1.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}); // スプライト生成
 }
 
 // 更新
 void Player::Update() {
+#ifdef _DEBUG
 	// デバックテキスト
 	DebugText();
+#endif // _DEBUG
 
 	// 攻撃
 	Attack();
@@ -52,7 +56,7 @@ void Player::Update() {
 // 描画
 void Player::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_);       // プレイヤー
-	model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
+	//model_->Draw(worldTransform3DReticle_, *viewProjection_);  // レティクルの場所を示すだけのモデル
 }
 
 // UIの描画

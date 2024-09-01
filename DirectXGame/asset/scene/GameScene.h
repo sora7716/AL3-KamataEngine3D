@@ -183,4 +183,5 @@ public: // メンバ変数
 	Phase phase_ = Phase::kFadeIn;                     // 現在のシーンのフェーズ
 	unique_ptr<DeathParticles> playerDethParticle_ = nullptr; // デスパーティクル
 	Status playerStatus_ = Status::kPlay;               // プレイヤーの状態
+	int killNum = 0;//敵のキル数
 };

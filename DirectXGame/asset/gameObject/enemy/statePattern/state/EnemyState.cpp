@@ -49,7 +49,7 @@ void EnemeyLeave::Exce(WorldTransform& worldTransform) {
 	Vector3 velocity{-kCharacterSpeed, kCharacterSpeed, -kCharacterSpeed};
 	// 移動(ベクトル加算)
 	worldTransform.translation_ += velocity;
-	if (worldTransform.translation_.y > 100) {
+	if (worldTransform.translation_.y > 50) {
 		worldTransform.translation_ = firstPosition_;
 		ChangePhase();
 	}

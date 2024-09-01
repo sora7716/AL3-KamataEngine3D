@@ -30,12 +30,16 @@ void Create::ModelCreate() {
 	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
 	//デスパーティクル
 	models_[(int)typeParticle] = Model::CreateFromOBJ("particle", true);
+	//スペースボタン
+	models_[(int)typePressSpace] = Model::CreateFromOBJ("pressSpace", true);
 }
 
 // テクスチャをクリエイト
 void Create::TextureCreate() { 
 	//プレイヤー
 	textureHandle_[(int)typePlayer] = TextureManager::Load("test/player.png"); 
+	//スペースボタン
+	textureHandle_[(int)typePressSpace] = TextureManager::Load("test/enemyBullet.png"); 
 }
 
 // モデルのゲッター

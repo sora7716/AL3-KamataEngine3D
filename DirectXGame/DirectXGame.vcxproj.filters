@@ -185,6 +185,9 @@
     <ClCompile Include="asset\gameObject\effect\DeathParticles.cpp">
       <Filter>asset\Game\ソースファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\pressSpace\GameStart.cpp">
+      <Filter>asset\Game\ソースファイル\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -332,6 +335,9 @@
       <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\effect\DeathParticles.h">
+      <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\pressSpace\GameStart.h">
       <Filter>asset\Game\ヘッダーファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>

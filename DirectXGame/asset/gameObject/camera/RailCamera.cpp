@@ -1,7 +1,6 @@
 #include "RailCamera.h"
 #include "PrimitiveDrawer.h"
 #include "asset/math/Math.h"
-#include "imgui.h"
 
 // 初期化
 void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian, const ViewProjection* viewProjection) {
@@ -49,12 +48,16 @@ void RailCamera::Update() {
 	// カメラのオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = ~worldTransform_.matWorld_;
 
+	#ifdef _DEBUG
 	// カメラの座標を画面に表示する処理
 	ImGui::Begin("Camera");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::Text("t%f", t_);
 	ImGui::End();
+#endif // _DEBUG
+
+	
 }
 
 // カメラの起動

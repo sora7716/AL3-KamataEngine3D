@@ -60,7 +60,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 衝突を検出したら呼び出されるコールバック関数
 	/// </summary>
-	void OnCollision();
+	void OnCollision(int &kill);
 
 	/// <summary>
 	/// 攻撃

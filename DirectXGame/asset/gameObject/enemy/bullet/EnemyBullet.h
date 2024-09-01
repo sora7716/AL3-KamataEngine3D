@@ -100,4 +100,6 @@ private: // メンバ変数
 	bool isDead_ = false;            // デスフラグ
 	Player* player_ = nullptr;       // プレイヤー
 	float t = 0.0f;                  // 補間割合
+	bool isTracking_ = true;//ホーミングしているかどうか
+	int trackingTime_ = 0;//ホーミングし続ける時間
 };
