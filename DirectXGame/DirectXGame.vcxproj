@@ -109,6 +109,7 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="asset\create\Create.cpp" />
+    <ClCompile Include="asset\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
     <ClCompile Include="asset\math\collision\Collision.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="3d\ViewProjection.h" />
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="asset\create\Create.h" />
+    <ClInclude Include="asset\failLoad\CSVFailLoading.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
     <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />
