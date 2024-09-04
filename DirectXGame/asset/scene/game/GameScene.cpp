@@ -6,30 +6,57 @@
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 
-//コンストラクタ
+// コンストラクタ
 GameScene::GameScene() {}
 
-//デストラクタ
+// デストラクタ
 GameScene::~GameScene() {}
 
-//初期化
+// 初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	viewProjection_.Initialize();
 
-	//クリエイト
-	create_ = make_unique<Create>();//クリエイトクラスの生成
-	create_->ModelCreate();//モデルの生成
-	create_->TextureCreate();//テクスチャの生成
+#pragma region デバックカメラ
+	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
+#ifdef _DEBUG
+	// 軸方向表示の表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+#endif // _DEBUG
+#pragma endregion
 
+	// クリエイト
+	create_ = make_unique<Create>(); // クリエイトクラスの生成
+	create_->ModelCreate();          // モデルの生成
+	create_->TextureCreate();        // テクスチャの生成
+
+	// レールカメラ
+	railCamera_ = make_unique<RailCamera>();
+	railCameraWorldTransform_.Initialize();
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_);
+
+	//プレイヤー
+	player_ = make_unique<Player>();//生成
+	player_->Initialize(create_->GetModel(create_->typePlayer), &viewProjection_);
+	player_->SetPearent(&railCamera_->GetWorldTransform());
 }
 
-//更新
-void GameScene::Update() {}
+// 更新
+void GameScene::Update() { 
+	// デバックカメラ
+	DebugCameraMove();
+	//プレイヤー
+	player_->Update();
+	//レールカメラ
+	railCamera_->Update();
+}
 
-//描画
+// 描画
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -57,6 +84,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -74,4 +102,26 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+// デバックカメラ
+void GameScene::DebugCameraMove() {
+#ifdef _DEBUG
+	debugCamera_->Update();//デバックカメラの更新
+	if (input_->TriggerKey(DIK_BACKSPACE)) {
+		isDebugCameraActive_ ^= true;
+	}
+#endif // _DEBUG
+
+	if (isDebugCameraActive_) {
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// 行列の更新
+		viewProjection_.TransferMatrix();
+	}
 }

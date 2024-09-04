@@ -110,6 +110,8 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="asset\create\Create.cpp" />
     <ClCompile Include="asset\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="asset\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="asset\gameObject\player\Player.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
     <ClCompile Include="asset\math\collision\Collision.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
@@ -139,6 +141,8 @@
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="asset\create\Create.h" />
     <ClInclude Include="asset\failLoad\CSVFailLoading.h" />
+    <ClInclude Include="asset\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="asset\gameObject\player\Player.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
     <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />

@@ -1,0 +1,51 @@
+#pragma once
+#include "WorldTransform.h"
+
+//前方宣言(苦肉の策)
+class Model;
+class ViewProjection;
+
+/// <summary>
+/// プレイヤー
+/// </summary>
+class Player {
+
+public://メンバ関数
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Player() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Player() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
+
+	/// <summary>
+	/// 親子関係作る
+	/// </summary>
+	void SetPearent(const WorldTransform* parent);
+
+private://メンバ変数
+	Model* model_ = nullptr;
+	ViewProjection* viewProjection_ = nullptr;
+	WorldTransform worldTransform_;
+};

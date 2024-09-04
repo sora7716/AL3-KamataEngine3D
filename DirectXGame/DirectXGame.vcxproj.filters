@@ -102,6 +102,12 @@
     <ClCompile Include="asset\math\Math.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\camera\RailCamera.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\Player.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -205,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="asset\math\Math.h">
       <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\camera\RailCamera.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\Player.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
