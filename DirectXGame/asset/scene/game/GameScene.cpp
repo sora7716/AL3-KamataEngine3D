@@ -37,14 +37,14 @@ void GameScene::Initialize() {
 	create_->TextureCreate();        // テクスチャの生成
 
 	// レールカメラ
-	railCamera_ = make_unique<RailCamera>();
-	railCameraWorldTransform_.Initialize();
-	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_);
+	railCamera_ = make_unique<RailCamera>();//生成
+	railCameraWorldTransform_.Initialize();//ワールドトランスフォームの初期化
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_);//初期化
 
 	//プレイヤー
 	player_ = make_unique<Player>();//生成
-	player_->Initialize(create_->GetModel(create_->typePlayer), &viewProjection_);
-	player_->SetPearent(&railCamera_->GetWorldTransform());
+	player_->Initialize(create_->GetModel(create_->typePlayer), &viewProjection_);//初期化
+	player_->SetPearent(&railCamera_->GetWorldTransform());//親子付け
 }
 
 // 更新

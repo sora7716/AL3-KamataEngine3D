@@ -25,6 +25,7 @@ void Player::Update() {
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::End();
 	worldTransform_.UpdateMatrix();
 
