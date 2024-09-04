@@ -45,8 +45,10 @@ void GameScene::Initialize() {
 //更新
 void GameScene::Update() {
 
+	///プレイヤー
 	player_->Update();
 
+	///デバッグカメラ
 	DebugCameraMove();
 
 }
@@ -80,6 +82,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	///プレイヤー
 	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
