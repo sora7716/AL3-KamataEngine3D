@@ -187,6 +187,7 @@ float Math::Lerp(const float& num1, const float& num2, float t) {
 	return result;
 }
 
+// 球面線形補間
 Vector3 Math::SLerp(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 nv1 = Normalize(v1); // v1 の正規化ベクトル
 	Vector3 nv2 = Normalize(v2); // v2 の正規化ベクトル

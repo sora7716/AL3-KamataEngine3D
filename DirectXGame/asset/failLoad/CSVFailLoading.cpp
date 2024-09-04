@@ -1,6 +1,6 @@
 #include "CSVFailLoading.h"
 #include <fstream>
-#include <iostream>
+
 //初期化
 void CSVFailLoading::Initialize(){
 	failDataCommands_ = LoadData("csvFail/enemyPop.csv");
@@ -85,7 +85,6 @@ void CSVFailLoading::UpdatePopCommand(std::stringstream& failDataCommands, std::
 			int32_t newWaitTime = atoi(word.c_str());
 			//待機時間
 			waitTime = newWaitTime;//どれくらい待機するか
-			std::cout << "waitTime" << waitTime << std::endl;
 			// 待機状態に入る
 			isWaiting = true;
 			//コマンドのループを抜ける
