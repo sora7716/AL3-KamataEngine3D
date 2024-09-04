@@ -11,6 +11,8 @@
 #include "asset/create/Create.h"
 #include "asset/gameObject/player/Player.h"
 #include "asset/gameObject/camera/RailCamera.h"
+#include "asset/gameObject/player/command/ICommand.h"
+#include "asset/gameObject/player/command/InputHandler.h"
 
 #include <memory>
 using namespace std;
@@ -72,4 +74,8 @@ private: // メンバ変数
 	//レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
+	//コマンド
+	ICommand * iCommand_ = nullptr;
+	//インプットハンドラ
+	unique_ptr<InputHandler> inputHandler_ = nullptr;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "asset/math/Aithmetic.h"
 
 //前方宣言(苦肉の策)
 class Model;
@@ -10,7 +11,7 @@ class ViewProjection;
 /// </summary>
 class Player {
 
-
+public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -39,9 +40,32 @@ class Player {
 	void Draw();
 
 	/// <summary>
+	/// 右方向移動
+	/// </summary>
+	void MoveRight();
+
+	/// <summary>
+	/// 左方向移動
+	/// </summary>
+	void MoveLeft();
+
+	/// <summary>
+	/// 上方向移動
+	/// </summary>
+	void MoveUp();
+
+	/// <summary>
+	/// 下方向移動
+	/// </summary>
+	void MoveDown();
+
+	/// <summary>
 	/// 親子関係作る
 	/// </summary>
 	void SetPearent(const WorldTransform* parent);
+	
+	///キャラクターの移動速度
+	static inline const float kCharacterSpeed = 0.2f;
 
 private://メンバ変数
 
@@ -53,5 +77,4 @@ private://メンバ変数
 
 	///ワールドトランスフォーム
 	WorldTransform worldTransform_;
-
 };

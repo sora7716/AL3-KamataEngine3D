@@ -41,16 +41,35 @@ void GameScene::Initialize() {
 	railCameraWorldTransform_.Initialize();
 	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_);
 
-	//プレイヤー
-	player_ = make_unique<Player>();//生成
+	// プレイヤー
+	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_->GetModel(create_->typePlayer), &viewProjection_);
 	player_->SetPearent(&railCamera_->GetWorldTransform());
+
+	// インプットハンドラ
+	inputHandler_ = make_unique<InputHandler>();
+
+#pragma region プレイヤーを各方向に移動させる
+
+	inputHandler_->AssignMoveRightCommand2PressKeyD();
+	inputHandler_->AssignMoveLeftCommand2PressKeyA();
+	inputHandler_->AssignMoveUpCommand2PressKeyW();
+	inputHandler_->AssignMoveDownCommand2PressKeyS();
+
+#pragma endregion
+
 }
 
 // 更新
 void GameScene::Update() { 
 	// デバックカメラ
 	DebugCameraMove();
+
+	iCommand_ = inputHandler_->HandleInput();
+	if (this->iCommand_) {
+		iCommand_->Exec(*player_);
+	}
+	
 	//プレイヤー
 	player_->Update();
 	//レールカメラ
@@ -85,8 +104,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw();
-
 	///プレイヤー
 	player_->Draw();
 
