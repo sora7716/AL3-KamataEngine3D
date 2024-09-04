@@ -36,6 +36,22 @@ void Player::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_); // プレイヤー
 }
 
+void Player::MoveRight() {
+	worldTransform_.translation_ += Vector3(kCharacterSpeed, 0, 0);
+}
+
+void Player::MoveLeft() {
+	worldTransform_.translation_ -= Vector3(kCharacterSpeed, 0, 0);
+}
+
+void Player::MoveUp() { 
+	worldTransform_.translation_ += Vector3(0, kCharacterSpeed, 0); 
+}
+
+void Player::MoveDown() { 
+	worldTransform_.translation_ -= Vector3(0, kCharacterSpeed, 0); 
+}
+
 //親子関係を作る
 void Player::SetPearent(const WorldTransform* parent) { 
 	worldTransform_.parent_ = parent; 
