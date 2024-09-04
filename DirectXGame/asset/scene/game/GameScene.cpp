@@ -85,11 +85,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	//プレイヤー
 	player_->Draw();
 
-	///プレイヤー
-	player_->Draw();
-
+    railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -112,7 +112,7 @@ void GameScene::Draw() {
 void GameScene::DebugCameraMove() {
 #ifdef _DEBUG
 	debugCamera_->Update();//デバックカメラの更新
-	if (input_->TriggerKey(DIK_BACKSPACE)) {
+	if (input_->TriggerKey(DIK_1)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG

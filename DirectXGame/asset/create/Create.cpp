@@ -17,7 +17,7 @@ Create::~Create() {
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM);//配列の大きさを設定
 	// プレイヤー
-	models_[(int)typePlayer] = Model::Create();
+	models_[(int)typePlayer] = Model::CreateFromOBJ("head",true);
 }
 
 // テクスチャをクリエイト

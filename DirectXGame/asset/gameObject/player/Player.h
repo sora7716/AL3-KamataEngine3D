@@ -10,15 +10,16 @@ class ViewProjection;
 /// </summary>
 class Player {
 
+public://メンバ関数
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	Player() = default;
 
-/// <summary>
+    /// <summary>
 	/// デストラクタ
-/// </summary>
+    /// </summary>
 	~Player() = default;
 
 	/// <summary>
