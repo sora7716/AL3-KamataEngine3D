@@ -13,10 +13,12 @@ class Create {
 public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
+		kEnemy,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
 	ObjectType typePlayer = Type::kPlayer;//プレイヤー
+	ObjectType typeEnemy = Type::kEnemy;//障害物
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

@@ -13,6 +13,7 @@
 #include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/player/command/ICommand.h"
 #include "asset/gameObject/player/command/InputHandler.h"
+#include "asset/gameObject/enemy/Enemy.h"
 
 #include <memory>
 using namespace std;
@@ -55,6 +56,15 @@ private://メンバ関数
 	/// </summary>
 	void DebugCameraMove();
 
+	/// <summary>
+	/// コマンドを受け取る
+	/// </summary>
+	void InputCommand();
+
+	/// <summary>
+	/// コマンドの更新
+	/// </summary>
+	void UpdateCommand();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -75,7 +85,10 @@ private: // メンバ変数
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
 	//コマンド
-	ICommand * iCommand_ = nullptr;
+	ICommand * lateralMovement_ = nullptr;//横移動
+	ICommand * verticalMvement_ = nullptr;//縦移動
 	//インプットハンドラ
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
+	//障害物
+	unique_ptr<Enemy> enemy_ = nullptr;
 };

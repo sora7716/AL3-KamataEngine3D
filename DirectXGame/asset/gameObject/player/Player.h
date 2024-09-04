@@ -11,6 +11,15 @@ class ViewProjection;
 /// </summary>
 class Player {
 
+public://列挙型
+
+	//プレイヤーの状態
+	enum class Phase {
+		kStart,//始まり
+		kPlay,//ゲームプレイ
+		kDeth,//死亡
+	};
+
 public://メンバ関数
 
 	/// <summary>
@@ -40,6 +49,7 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
+#pragma region コマンド
 	/// <summary>
 	/// 右方向移動
 	/// </summary>
@@ -59,12 +69,15 @@ public://メンバ関数
 	/// 下方向移動
 	/// </summary>
 	void MoveDown();
+#pragma endregion
 
 	/// <summary>
 	/// 親子関係作る
 	/// </summary>
 	void SetPearent(const WorldTransform* parent);
-	
+
+public://静的メンバ変数
+
 	///キャラクターの移動速度
 	static inline const float kCharacterSpeed = 0.2f;
 
@@ -78,4 +91,10 @@ private://メンバ変数
 
 	///ワールドトランスフォーム
 	WorldTransform worldTransform_;
+
+	//速度
+	Vector3 velocity_ = {};
+
+	//プレイヤーの状態
+	Phase phase_ = Phase::kStart;
 };

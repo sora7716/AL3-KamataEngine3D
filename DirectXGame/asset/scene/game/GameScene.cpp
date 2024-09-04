@@ -48,32 +48,26 @@ void GameScene::Initialize() {
 
 	// インプットハンドラ
 	inputHandler_ = make_unique<InputHandler>();
+	InputCommand();
 
-#pragma region プレイヤーを各方向に移動させる
-
-	inputHandler_->AssignMoveRightCommand2PressKeyD();
-	inputHandler_->AssignMoveLeftCommand2PressKeyA();
-	inputHandler_->AssignMoveUpCommand2PressKeyW();
-	inputHandler_->AssignMoveDownCommand2PressKeyS();
-
-#pragma endregion
-
+	//障害物
+	enemy_ = make_unique<Enemy>();
+	Vector3 enemyPos = {0, 0, 50.0f};
+	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
 }
 
 // 更新
 void GameScene::Update() { 
 	// デバックカメラ
 	DebugCameraMove();
-
-	iCommand_ = inputHandler_->HandleInput();
-	if (this->iCommand_) {
-		iCommand_->Exec(*player_);
-	}
-	
 	//プレイヤー
 	player_->Update();
+	// コマンド
+	UpdateCommand();
 	//レールカメラ
 	railCamera_->Update();
+	//障害物
+	enemy_->Update();
 }
 
 // 描画
@@ -104,10 +98,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	///プレイヤー
+	
 	///プレイヤー
 	player_->Draw();
-
+	// 障害物
+	enemy_->Draw();
     railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -146,5 +141,31 @@ void GameScene::DebugCameraMove() {
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
+	}
+}
+
+//コマンドを受け取る
+void GameScene::InputCommand() {
+#pragma region プレイヤーを各方向に移動させる
+
+	inputHandler_->AssignMoveRightCommand2PressKeyD();
+	inputHandler_->AssignMoveLeftCommand2PressKeyA();
+	inputHandler_->AssignMoveUpCommand2PressKeyW();
+	inputHandler_->AssignMoveDownCommand2PressKeyS();
+
+#pragma endregion
+}
+
+//コマンドの更新
+void GameScene::UpdateCommand() {
+	//横移動
+	lateralMovement_ = inputHandler_->HandleInputHorizon();
+	if (this->lateralMovement_) {
+		lateralMovement_->Exec(*player_);
+	}
+	//縦移動
+	verticalMvement_ = inputHandler_->HandleInputVertical();
+	if (this->verticalMvement_) {
+		verticalMvement_->Exec(*player_);
 	}
 }

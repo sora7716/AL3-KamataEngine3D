@@ -8,7 +8,8 @@ class InputHandler
 {
 public:
 	// 入力を処理するための関数
-	ICommand* HandleInput();
+	ICommand* HandleInputHorizon();//横移動
+	ICommand* HandleInputVertical();//縦移動
 
 	// "D"キーに右移動コマンドを割り当てる関数
 	void AssignMoveRightCommand2PressKeyD();
