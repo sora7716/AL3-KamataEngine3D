@@ -5,6 +5,7 @@
 #include "AxisIndicator.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
+#include "imgui.h"
 
 // コンストラクタ
 GameScene::GameScene() {}
@@ -84,6 +85,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw();
+
+	///プレイヤー
 	player_->Draw();
 
 	// 3Dオブジェクト描画後処理

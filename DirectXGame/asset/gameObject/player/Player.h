@@ -10,16 +10,15 @@ class ViewProjection;
 /// </summary>
 class Player {
 
-public://メンバ関数
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	Player() = default;
 
-	/// <summary>
+/// <summary>
 	/// デストラクタ
-	/// </summary>
+/// </summary>
 	~Player() = default;
 
 	/// <summary>
@@ -45,7 +44,14 @@ public://メンバ関数
 	void SetPearent(const WorldTransform* parent);
 
 private://メンバ変数
+
+	///モデル
 	Model* model_ = nullptr;
+
+	///ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
+
+	///ワールドトランスフォーム
 	WorldTransform worldTransform_;
+
 };

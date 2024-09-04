@@ -6,25 +6,31 @@
 #include "imgui.h"
 #endif // _DEBUG
 
-//初期化
-void Player::Initialize(Model* model, ViewProjection* viewProjection) { 
+void Player::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	///NULLポインタチェック
 	assert(model);
+
+	///メンバ変数に引数のデータを記録する
 	model_ = model;
 	viewProjection_ = viewProjection;
+
+	///ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_.z = 50.0f;
 }
 
 //更新
-void Player::Update() { 
+void Player::Update() {
 	ImGui::Begin("player");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
 	ImGui::End();
-	worldTransform_.UpdateMatrix(); 
+	worldTransform_.UpdateMatrix();
+
 }
 
 //描画
-void Player::Draw() { 
+void Player::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_); // プレイヤー
 }
 
