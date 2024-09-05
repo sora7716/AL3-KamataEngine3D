@@ -61,6 +61,18 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 終了フラグのゲッター
+	/// </summary>
+	/// <returns>終了フラグ</returns>
+	bool IsFinished();
+
+	/// <summary>
+	/// 終了フラグのセッター
+	/// </summary>
+	/// <param name="isFinished">終了フラグ</param>
+	void SetIsFinished(bool isFinished);
+
 private://メンバ関数
 
 	/// <summary>
@@ -126,4 +138,6 @@ private: // メンバ変数
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	//フィールドの状態
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
+	//終了フラグ
+	bool isFinished_ = false;
 };

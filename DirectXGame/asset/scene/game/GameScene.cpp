@@ -54,7 +54,7 @@ void GameScene::Initialize() {
 
 	// 障害物
 	enemy_ = make_unique<Enemy>();
-	Vector3 enemyPos = {0, 0, 50.0f};
+	Vector3 enemyPos = {10, 0, 50.0f};
 	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
 
 	// 天球
@@ -133,6 +133,12 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
+// 終了フラグのゲッター
+bool GameScene::IsFinished() { return isFinished_; }
+
+// 終了フラグのセッター
+void GameScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
+
 // デバックカメラ
 void GameScene::DebugCameraMove() {
 #ifdef _DEBUG
@@ -192,6 +198,7 @@ void GameScene::CheackOnCollision() {
 	// 衝突判定
 	if (Collision::IsCollision(posA, posB)) {
 		enemy_->OnCollision(); // 衝突したら
+		isFinished_ = true;
 	}
 #pragma endregion
 }
