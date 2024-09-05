@@ -80,6 +80,9 @@ void Player::MoveLimit() {
 // 親子関係を作る
 void Player::SetPearent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
+//トランスレイションのセッター
+void Player::SetTranslation(const Vector3& position) { worldTransform_.translation_ = position; }
+
 //ワールド座標のゲッター
 Vector3 Player::GetWorldPosition() { 
 	// ワールド座標を入れる変数

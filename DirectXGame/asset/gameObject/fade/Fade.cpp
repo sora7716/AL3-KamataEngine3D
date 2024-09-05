@@ -19,22 +19,22 @@ void Fade::Initialize() {
 	textureHandle_ = TextureManager::Load("white1x1.png");
 	sprite_ = Sprite::Create(textureHandle_, {}, {}, {});
 	sprite_->SetSize(Vector2((float)WinApp::kWindowWidth, (float)WinApp::kWindowHeight));
-	sprite_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+	sprite_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 // 更新
-void Fade::Update() {
+void Fade::Update(Vector4 color) {
 	switch (status_) {
 	case Status::None:
 		// 何もしない
 		break;
 	case Status::FadeIn:
 		// フェードインの処理
-		FadeIn();
+		FadeIn(color);
 		break;
 	case Status::FadeOut:
 		// フェードアウトの処理
-		FadeOut();
+		FadeOut(color);
 		break;
 	}
 	//ImGui::Text("%f", counter_);
@@ -75,7 +75,7 @@ bool Fade::IsFinished() const {
 }
 
 // フェードアウトの処理
-void Fade::FadeOut() {
+void Fade::FadeOut(Vector4 color) {
 	// 1フレーム分の秒数をカウントアップ
 	counter_ += oneFrame;
 	// フェードの継続時間に行ったら打ち止め
@@ -84,11 +84,12 @@ void Fade::FadeOut() {
 	}
 	// 0.0fから1.0fの間で、継続時間がフェードの継続時間に近づくほどアルファ値を大きくする
 	float alpha = std::clamp(counter_ / duration_, 0.0f, 1.0f);
-	sprite_->SetColor(Vector4(0.0f, 0.0f, 0.0f, alpha));
+	color.w = alpha;
+	sprite_->SetColor(color);
 }
 
 // フェードインの処理
-void Fade::FadeIn() {
+void Fade::FadeIn(Vector4 color) {
 	// 1フレーム分の秒数をカウントアップ
 	counter_ += oneFrame;
 	// フェードの継続時間に行ったら打ち止め
@@ -97,5 +98,6 @@ void Fade::FadeIn() {
 	}
 	// 0.0fから1.0fの間で、継続時間がフェードの継続時間に近づくほどアルファ値を大きくする
 	float alpha = 1.0f - std::clamp(counter_ / duration_, 0.0f, 1.0f);
-	sprite_->SetColor(Vector4(0.0f, 0.0f, 0.0f, alpha));
+	color.w = alpha;
+	sprite_->SetColor(color);
 }

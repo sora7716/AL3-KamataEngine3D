@@ -23,21 +23,23 @@ void SkyDome::Initialize(Model* model, ViewProjection* viewProjection) {
 }
 
 // 更新
-void SkyDome::Update() {
+void SkyDome::Update(bool isMove) {
 
 	Begin("skyDome");
 	DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
 	End();
 	// スカイドームを移動
-	worldTransform_.translation_.z--;
-	worldTransform_.rotation_.z += 0.005f; // 回転
+	if (isMove) {
+		worldTransform_.translation_.z--;
+		worldTransform_.rotation_.z += 0.005f; // 回転
+	}
 	worldTransform_.UpdateMatrix();
 }
 
 // 描画
 void SkyDome::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
-//ワールド座標のゲッター
+// ワールド座標のゲッター
 Vector3 SkyDome::GetWorldTransform() const {
 	Vector3 worldPos = {
 	    worldTransform_.matWorld_.m[3][0],
@@ -47,3 +49,5 @@ Vector3 SkyDome::GetWorldTransform() const {
 	return worldPos;
 }
 
+// トランスレイションのセッター
+void SkyDome::SetTranslation(const Vector3& position) { worldTransform_.translation_ = position; }

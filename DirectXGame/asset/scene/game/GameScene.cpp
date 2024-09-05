@@ -64,7 +64,7 @@ void GameScene::Initialize() {
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();
 	fieldChangeFade_->Initialize();
-	fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);
+	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
 }
 
 // 更新
@@ -205,16 +205,26 @@ void GameScene::UpdateField() {
 	// プレイヤー
 	player_->Update();
 	// 天球
-	skyDome_->Update();
+	skyDome_->Update(!fieldChangeFade_->IsFinished());
 
+	//フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
-		fieldChangeFade_->Update();
+		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kMain;
-			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
+			fieldStatus_ = FieldStatus::kMain;//フェードインが終了したら
+			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);//スタートできるように設定
+			//スカイダイブかどうか
+			if (isSkyDive_) {
+				isSkyDive_ = false;//falseを設定
+				fieldFadeColor_ = BLACK;//色を黒色に設定
+			} else {
+				isSkyDive_ = true;//trueに設定
+				fieldFadeColor_ = WHITE;//白色に設定
+			}
 		}
 	} else if (fieldStatus_ == FieldStatus::kMain) {
-		if (input_->TriggerKey(DIK_SPACE)) {
+		//スカイドームが-1280より上に行ったら
+		if (skyDome_->GetWorldTransform().z < -1280.0f) {
 			fieldStatus_ = FieldStatus::kFadeOut;
 		}
 		// 衝突判定
@@ -224,10 +234,12 @@ void GameScene::UpdateField() {
 		// 障害物
 		enemy_->Update();
 	} else {
-		fieldChangeFade_->Update();
+		fieldChangeFade_->Update(fieldFadeColor_);//更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kFadeIn;
-			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);
+			fieldStatus_ = FieldStatus::kFadeIn;//フェードアウトが終了したら
+			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);//スタートできるように設定
+			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});//スカイドームの位置をリセット
+			player_->SetTranslation({0.0f, 0.0f, 50.0f});//プレイヤーの位置をリセット
 		}
 	}
 }

@@ -1,4 +1,6 @@
 #pragma once
+#define WHITE Vector4{1.0f,1.0f,1.0f,1.0f};
+#define BLACK Vector4{0.0f,0.0f,0.0f,1.0f};
 
 #include "Audio.h"
 #include "DirectXCommon.h"
@@ -118,8 +120,10 @@ private: // メンバ変数
 	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
 	//天球
 	unique_ptr<SkyDome> skyDome_ = nullptr;
+	bool isSkyDive_ = true;
+	Vector4 fieldFadeColor_ = WHITE;
 	//フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	//フィールドの状態
-	FieldStatus fieldStatus_ = FieldStatus::kFadeIn;
+	FieldStatus fieldStatus_ = FieldStatus::kMain;
 };

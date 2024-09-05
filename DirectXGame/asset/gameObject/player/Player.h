@@ -81,6 +81,12 @@ public://メンバ関数
 	void SetPearent(const WorldTransform* parent);
 
 	/// <summary>
+	/// トランスレイションのセッター
+	/// </summary>
+	/// <param name="position">位置</param>
+	void SetTranslation(const Vector3& position); 
+
+	/// <summary>
 	/// ワールド座標のゲッター
 	/// </summary>
 	/// <returns></returns>

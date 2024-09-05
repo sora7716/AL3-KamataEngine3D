@@ -32,7 +32,8 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="color">色</param>
+	void Update(Vector4 color = {0.0f, 0.0f, 0.0f, 0.0f});
 
 	/// <summary>
 	/// 描画
@@ -63,12 +64,14 @@ private: // メンバ関数
 	/// <summary>
 	/// フェードアウトの処理
 	/// </summary>
-	void FadeOut();
+	/// <param name="color">色</param>
+	void FadeOut(Vector4 color);
 
 	/// <summary>
 	/// フェードインの処理
 	/// </summary>
-	void FadeIn();
+	/// <param name="color">色</param>
+	void FadeIn(Vector4 color);
 
 private:                           // メンバ変数
 	Sprite* sprite_ = nullptr;     // スプライト

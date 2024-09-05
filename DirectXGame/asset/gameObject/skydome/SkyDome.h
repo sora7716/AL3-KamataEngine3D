@@ -19,7 +19,8 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="isMove">スカイドームが動くかのフラグ</param>
+	void Update(bool isMove = true);
 
 	/// <summary>
 	/// 描画
@@ -30,6 +31,12 @@ public:
 	/// ワールド座標のゲッター
 	/// </summary>
 	Vector3 GetWorldTransform()const;
+
+	/// <summary>
+	/// トランスレイションのセッター
+	/// </summary>
+	/// <param name="position">セットしたい位置</param>
+	void SetTranslation(const Vector3& position);
 
 private:
 
