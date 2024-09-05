@@ -6,8 +6,13 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
+#include "DebugCamera.h"
 #include "asset/gameObject/fade/Fade.h"
 #include "asset/create/Create.h"
+#include "asset/gameObject/player/Player.h"
+#include "asset/gameObject/camera/RailCamera.h"
+
 #include <memory>
 using namespace std;
 
@@ -67,6 +72,11 @@ private: // メンバ変数
 	/// </summary>
 	void ChangePhaseUpdate();
 
+	/// <summary>
+	/// デバックカメラの操作
+	/// </summary>
+	void DebugCameraMove();
+
 public: // メンバ関数
 	static inline const float kFadeTime = 5; // フェードをしてほしい時間
 
@@ -74,6 +84,8 @@ private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	bool isDebugCameraActive_ = false;// デバックカメラをオンにするか
+	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 
 	/// <summary>
 	/// ゲームシーン用
@@ -81,6 +93,10 @@ private:
 	bool isFinished_; // 終了フラグ
 	Phase phase_ = Phase::kFadeIn;//現在のフェーズ
 	ViewProjection viewProjection_;//ビュープロジェクション
-	Fade* fade_ = nullptr; // フェード
+	unique_ptr<Fade> fade_ = nullptr;    // フェード
 	unique_ptr<Create> create_ = nullptr;//モデルクリエイト
+	unique_ptr<Player> player_ = nullptr;//プレイヤー
+	// レールカメラ
+	unique_ptr<RailCamera> railCamera_ = nullptr;
+	WorldTransform railCameraWorldTransform_;
 };

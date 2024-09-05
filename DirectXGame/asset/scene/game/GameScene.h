@@ -35,6 +35,13 @@ public://列挙型
 		kFadeOut,
 	};
 
+	// ゲームのフェーズ
+	enum class GamePhase {
+		kStart,
+		kMain,
+		kEnd,
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -140,4 +147,6 @@ private: // メンバ変数
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
 	//終了フラグ
 	bool isFinished_ = false;
+	//ゲームのフェーズ
+	GamePhase gamePhase_ = GamePhase::kStart;
 };

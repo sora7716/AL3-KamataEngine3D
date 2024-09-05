@@ -81,6 +81,15 @@ public://メンバ関数
 	/// <param name="angle">角度</param>
 	void SetAngle(const Vector3& angle) { angle_ = angle; };
 
+	/// <summary>
+	/// 拡縮、回転、平行移動のセッター
+	/// </summary>
+	void SetSRT(){
+		worldTransform_.scale_ = size_;//拡縮
+		worldTransform_.rotation_ = angle_;//回転
+		worldTransform_.translation_ = position_;//平行移動
+	};
+
 protected: // メンバ変数
 
 	///モデル
@@ -96,4 +105,6 @@ protected: // メンバ変数
 	Vector3 position_ = {};
 	//パーツの角度
 	Vector3 angle_ = {};
+	//パーツのサイズ
+	Vector3 size_ = {1.0f,1.0f,1.0f};
 };

@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "TextureManager.h"
 
+#include "AxisIndicator.h"
 #include <cmath>
 #include <numbers>
 #define pi_f std::numbers::pi_v<float>;
@@ -14,9 +15,7 @@
 TitleScene::TitleScene() { isFinished_ = false; }
 
 // デストラクタ
-TitleScene::~TitleScene() {
-	delete fade_; // フェードの削除
-}
+TitleScene::~TitleScene() {}
 
 // 初期化
 void TitleScene::Initialize() {
@@ -24,22 +23,37 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	viewProjection_.Initialize();    // ビュープロジェクションの初期化
 	create_ = make_unique<Create>(); // 生成
 	create_->ModelCreate();          // モデルを生成
 
-	viewProjection_.Initialize();
-	fade_ = new Fade();                                // フェードの生成
+	fade_ = make_unique<Fade>();                       // フェードの生成
 	fade_->Initialize();                               // フェードの初期化
 	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime); // フェードイン初期化
+
+	// レールカメラ
+	railCamera_ = make_unique<RailCamera>();                                                                             // 生成
+	railCameraWorldTransform_.Initialize();                                                                              // ワールドトランスフォームの初期化
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_); // 初期化
+
+	// プレイヤー
+	player_ = make_unique<Player>();
+	player_->InitializeTitle(create_.get(), &viewProjection_);
+	player_->SetPearent(&railCamera_->GetWorldTransform());
+
+#pragma region デバックカメラ
+	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
+#ifdef _DEBUG
+	// 軸方向表示の表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+#endif // _DEBUG
+#pragma endregion
 }
 
 // 更新
-void TitleScene::Update() {
-	ChangePhaseUpdate();
-#ifdef _DEBUG
-
-#endif // _DEBUG
-}
+void TitleScene::Update() { ChangePhaseUpdate(); }
 
 // 描画
 void TitleScene::Draw() {
@@ -68,6 +82,9 @@ void TitleScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	// プレイヤー
+	player_->Draw();
 
 	// フェード
 	fade_->Draw(commandList);
@@ -98,6 +115,12 @@ void TitleScene::SetIsFinished(const bool& isFinished) { isFinished_ = isFinishe
 
 // 更新処理のフェーズの変更
 void TitleScene::ChangePhaseUpdate() {
+	// レールカメラ
+	railCamera_->Update();
+	// デバックカメラ
+	DebugCameraMove();
+	// プレイヤーの更新
+	player_->Update();
 	switch (phase_) {
 	case Phase::kFadeIn:
 		// フェードイン
@@ -126,5 +149,27 @@ void TitleScene::ChangePhaseUpdate() {
 			isFinished_ = true;
 		}
 		break;
+	}
+}
+
+// デバックカメラの操作
+void TitleScene::DebugCameraMove() {
+#ifdef _DEBUG
+	debugCamera_->Update(); // デバックカメラの更新
+	if (input_->TriggerKey(DIK_UP)) {
+		isDebugCameraActive_ ^= true;
+	}
+#endif // _DEBUG
+
+	if (isDebugCameraActive_) {
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// 行列の更新
+		viewProjection_.TransferMatrix();
 	}
 }

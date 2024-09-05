@@ -28,17 +28,16 @@ void PlayerHead::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 	position_ = {-1.65f, 0.460f, 0.0f};
 	angle_ = {-0.23f, pi_v<float> / 2.0f, 0.0f};
-	worldTransform_.translation_ = position_;
-	worldTransform_.rotation_ = angle_;
 }
 
 /// 更新
 void PlayerHead::Update() {
+	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
 	ImGui::Begin("head");
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 	Animation();
@@ -75,16 +74,15 @@ void PlayerBody::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 	position_.y = -2.25f;
 	angle_ = {0.0f, 0.0f, 0.7f};
-	worldTransform_.translation_ = position_;
-	worldTransform_.rotation_ = angle_;
 }
 
 void PlayerBody::Update() {
+	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
 	ImGui::Begin("body");
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 
@@ -117,20 +115,18 @@ void PlayerLeft_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 	position_ = {0.0f, 0.0f, 0.5f};
 	angle_ = {0.0f, -0.43f, 0.0f};
-	worldTransform_.translation_ = position_;
-	worldTransform_.rotation_ = angle_;
 }
 
 void PlayerLeft_Arm::Update() {
-#ifdef DEBUG
+	SetSRT(); // SRTのセッター
+#ifdef _DEBUG
 	ImGui::Begin("leftArm");
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // DEBUG
 
-	
 	worldTransform_.UpdateMatrix();
 }
 
@@ -152,16 +148,15 @@ void PlayerRight_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 	position_ = {0.0f, 0.0f, -0.5f};
 	angle_ = {0.0f, 0.43f, 0.0f};
-	worldTransform_.translation_ = position_;
-	worldTransform_.rotation_= angle_;
 }
 
 void PlayerRight_Arm::Update() {
+	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
 	ImGui::Begin("rightArm");
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 	worldTransform_.UpdateMatrix();
@@ -182,15 +177,15 @@ void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	worldTransform_.Initialize();
 	position_.y = -1.8f;
-	worldTransform_.translation_ = position_;
 }
 
 void PlayerArm::Update() {
+	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
 	ImGui::Begin("arm");
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif //  _DEBUG
 	Animation();

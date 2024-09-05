@@ -11,6 +11,7 @@
 using namespace std;
 using namespace std::numbers;
 
+//初期化
 void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 	/// NULLポインタチェック
@@ -30,6 +31,27 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	
 	//パーツの生成
 	CreateParts();
+	InitializeParts();
+}
+
+void Player::InitializeTitle(Create* create, ViewProjection* viewProjection) {
+	/// NULLポインタチェック
+	assert(create);
+	create_ = create;
+	/// メンバ変数に引数のデータを記録する
+	viewProjection_ = viewProjection;
+
+	/// ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+	worldTransform_.translation_.z = 50.0f;//カメラからの距離
+	worldTransform_.rotation_.y = pi_v<float> / 2.0f;//あとで変えるかも今のところ下を向く
+
+	// 速度
+	velocity_ = {kCharacterSpeed, kCharacterSpeed, kCharacterSpeed};
+
+	//パーツの生成
+	CreateParts();
+	InitializeParts();
 }
 
 // 更新
@@ -113,25 +135,40 @@ WorldTransform& Player::GetWorldTransform(){
 void Player::CreateParts() {
 	// プレイヤーパーツ(頭)
 	parts_[static_cast<int>(IPlayerParts::head)] = make_unique<PlayerHead>();
+
+	// プレイヤーパーツ(体)
+	parts_[static_cast<int>(IPlayerParts::body)] = make_unique<PlayerBody>();
+
+	// プレイヤーのパーツ(腕)
+	parts_[static_cast<int>(IPlayerParts::arm)] = make_unique<PlayerArm>();
+
+	// プレイヤーパーツ(左腕)
+	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
+
+	// プレイヤーパーツ(右腕)
+	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
+	
+}
+
+//パーツの初期化
+void Player::InitializeParts() {
+	// プレイヤーパーツ(頭)
 	parts_[static_cast<int>(IPlayerParts::head)]->Initialize(create_->GetModel(create_->typePlayerHead), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::head)]->SetParent(&this->GetWorldTransform());
 
 	// プレイヤーパーツ(体)
-	parts_[static_cast<int>(IPlayerParts::body)] = make_unique<PlayerBody>();
 	parts_[static_cast<int>(IPlayerParts::body)]->Initialize(create_->GetModel(create_->typePlayerBody), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::body)]->SetParent(&this->GetWorldTransform());
 
 	// プレイヤーのパーツ(腕)
-	parts_[static_cast<int>(IPlayerParts::arm)] = make_unique<PlayerArm>();
 	parts_[static_cast<int>(IPlayerParts::arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::arm)]->SetParent(&this->GetWorldTransform());
+
 	// プレイヤーパーツ(左腕)
-	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
 	parts_[static_cast<int>(IPlayerParts::left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 
 	// プレイヤーパーツ(右腕)
-	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
 	parts_[static_cast<int>(IPlayerParts::right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 }

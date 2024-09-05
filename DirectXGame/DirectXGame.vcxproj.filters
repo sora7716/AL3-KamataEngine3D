@@ -135,6 +135,9 @@
     <ClCompile Include="asset\gameObject\fade\Fade.cpp">
       <Filter>asset\ゲームオブジェクト</Filter>
     </ClCompile>
+    <ClCompile Include="asset\scene\title\TitleScene.cpp">
+      <Filter>asset\シーン</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\fade\Fade.h">
       <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\title\TitleScene.h">
+      <Filter>asset\シーン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

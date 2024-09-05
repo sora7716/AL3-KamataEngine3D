@@ -42,6 +42,13 @@ public://メンバ関数
 	void Initialize(Create* create, ViewProjection* viewProjection);
 
 	/// <summary>
+	/// スタート時の初期化
+	/// </summary>
+	/// <param name="create"></param>
+	/// <param name="viewProjection"></param>
+	void InitializeTitle(Create* create, ViewProjection* viewProjection);
+
+	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
@@ -73,6 +80,9 @@ public://メンバ関数
 	void MoveDown();
 #pragma endregion
 
+	/// <summary>
+	/// プレイヤーの動ける上限
+	/// </summary>
 	void MoveLimit();
 
 	/// <summary>
@@ -109,6 +119,11 @@ private://メンバ関数
 	/// パーツを作る
 	/// </summary>
 	void CreateParts();
+
+	/// <summary>
+	/// パーツの初期化
+	/// </summary>
+	void InitializeParts();
 
 public://静的メンバ変数
 
