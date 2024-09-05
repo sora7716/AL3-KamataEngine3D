@@ -88,6 +88,12 @@ public://メンバ関数
 	/// </summary>
 	AABB GetAABB();
 
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform& GetWorldTransform();
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度
