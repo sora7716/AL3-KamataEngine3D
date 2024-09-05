@@ -47,17 +47,19 @@ void Enemy::Draw() {
 
 // 止まっているとき
 void Enemy::StatusStay() {
-	static int chageTime = 120; // 一秒間だけまつ
+	const int kChangeSecond = 120;
+	static int chageTime = kChangeSecond; // n秒間だけまつ
 	if (chageTime > 0) {
 		chageTime--;
 	} else {
 		isStatusChange_ = true; // 状態を変更
-		chageTime = 120;//時間を再設定
+		chageTime = kChangeSecond; // 時間を再設定
 	}
 }
 
 // 横移動しているとき
 void Enemy::StatusLateralMove() {
+	const int kChangeSecond = 300;//切り替えまでの時間
 	static float width = 1.0f;// 振れ幅
 	static float theta = 1.0f;// 角度
 	if (width < 10) {
@@ -65,12 +67,14 @@ void Enemy::StatusLateralMove() {
 	}
 	worldTransform_.translation_.x = width * std::sin(theta) - firstPos.x; // サイン波
 	theta += pi_v<float> / 60.0f;// 揺らすスピード
-	static int chageTime = 120; // 一秒間だけまつ
+
+	static int chageTime = kChangeSecond;// n秒間だけまつ
 	if (chageTime > 0) {
 		chageTime--;
 	} else {
 		isStatusChange_ = true; // 状態を変更
-		chageTime = 120;
+		chageTime = kChangeSecond; // 時間を再設定
+		width = 1.0f;//振れ幅を再設定
 	}
 	ImGui::Text("%d", chageTime);
 }
