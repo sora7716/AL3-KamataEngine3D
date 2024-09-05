@@ -152,6 +152,7 @@
     <ClInclude Include="asset\gameObject\player\command\ICommand.h" />
     <ClInclude Include="asset\gameObject\player\command\InputHandler.h" />
     <ClInclude Include="asset\gameObject\player\Player.h" />
+    <ClInclude Include="asset\gameObject\player\playerParts\IPlayerParts.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
     <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />
