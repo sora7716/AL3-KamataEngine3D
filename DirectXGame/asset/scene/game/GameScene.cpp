@@ -37,9 +37,9 @@ void GameScene::Initialize() {
 	create_->TextureCreate();        // テクスチャの生成
 
 	// レールカメラ
-	railCamera_ = make_unique<RailCamera>();//生成
-	railCameraWorldTransform_.Initialize();//ワールドトランスフォームの初期化
-	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_);//初期化
+	railCamera_ = make_unique<RailCamera>();                                                                             // 生成
+	railCameraWorldTransform_.Initialize();                                                                              // ワールドトランスフォームの初期化
+	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_); // 初期化
 
 	// プレイヤー
 	player_ = make_unique<Player>(); // 生成
@@ -53,17 +53,17 @@ void GameScene::Initialize() {
 	inputHandler_ = make_unique<InputHandler>();
 	InputCommand();
 
-	//障害物
+	// 障害物
 	enemy_ = make_unique<Enemy>();
 	Vector3 enemyPos = {0, 0, 50.0f};
 	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
 }
 
 // 更新
-void GameScene::Update() { 
+void GameScene::Update() {
 	// デバックカメラ
 	DebugCameraMove();
-	//プレイヤー
+	// プレイヤー
 	player_->Update();
 
 	for (auto& playerPart : playerParts_) {
@@ -72,10 +72,13 @@ void GameScene::Update() {
 
 	// コマンド
 	UpdateCommand();
-	//レールカメラ
+	// レールカメラ
 	railCamera_->Update();
-	//障害物
+	// 障害物
 	enemy_->Update();
+
+	// 衝突判定
+	CheackOnCollision();
 }
 
 // 描画
@@ -114,7 +117,7 @@ void GameScene::Draw() {
 	}
 	// 障害物
 	enemy_->Draw();
-    //railCamera_->Draw();
+	railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -136,7 +139,7 @@ void GameScene::Draw() {
 // デバックカメラ
 void GameScene::DebugCameraMove() {
 #ifdef _DEBUG
-	debugCamera_->Update();//デバックカメラの更新
+	debugCamera_->Update(); // デバックカメラの更新
 	if (input_->TriggerKey(DIK_1)) {
 		isDebugCameraActive_ ^= true;
 	}
@@ -191,16 +194,31 @@ void GameScene::InputCommand() {
 #pragma endregion
 }
 
-//コマンドの更新
+// コマンドの更新
 void GameScene::UpdateCommand() {
-	//横移動
+	// 横移動
 	lateralMovement_ = inputHandler_->HandleInputHorizon();
 	if (this->lateralMovement_) {
 		lateralMovement_->Exec(*player_);
 	}
-	//縦移動
+	// 縦移動
 	verticalMvement_ = inputHandler_->HandleInputVertical();
 	if (this->verticalMvement_) {
 		verticalMvement_->Exec(*player_);
 	}
+}
+
+// 衝突判定
+void GameScene::CheackOnCollision() {
+	AABB posA;
+	AABB posB;
+#pragma region 自キャラと障害物の衝突
+	// AABBを受け取る
+	posA = player_->GetAABB();
+	posB = enemy_->GetAABB();
+	// 衝突判定
+	if (Collision::IsCollision(posA, posB)) {
+		enemy_->OnCollision(); // 衝突したら
+	}
+#pragma endregion
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "asset/gameObject/enemy/statePattern/state/EnemyState.h"
+#include "asset/math/collision/Collision.h"
 
 //前方宣言(苦肉の策)
 class Model;
@@ -40,6 +41,54 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突したとき
+	/// </summary>
+	void OnCollision();
+
+#pragma region ステートパターン
+
+	/// <summary>
+	/// 止まっているとき
+	/// </summary>
+	void StatusStay();
+
+	/// <summary>
+	/// 横移動しているとき
+	/// </summary>
+	void StatusLateralMove();
+#pragma endregion
+
+	/// <summary>
+	/// ステータスが変わったかどうか
+	/// </summary>
+	/// <returns>ステータスが変わったかどうかのフラグ</returns>
+	bool IsStatusChange();
+
+	/// <summary>
+	/// ステータスが変わったかどうかのセッター
+	/// </summary>
+	/// <param name="isStatusChange">ステータスのフラグに設定したい値</param>
+	void SetIsStatusChange(bool isStatusChange);
+
+	/// <summary>
+	/// ワールド座標のゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
+public: // 静的メンバ変数
+
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 1.0f;  // 深さ
+
 private: // メンバ変数
 	// モデル
 	Model* model_ = nullptr;
@@ -47,8 +96,12 @@ private: // メンバ変数
 	ViewProjection* viewProjection_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
+	//初期位置
+	Vector3 firstPos = {};
 	// 障害物の状態
 	IEnemyState*actions_[IEnemyState::kStatusNum];
 	//ステータス
 	int status_ = IEnemyState::kStatusNum;
+	//ステータスをチェンジ
+	bool isStatusChange_ = false;
 };

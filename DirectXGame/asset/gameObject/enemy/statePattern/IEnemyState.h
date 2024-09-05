@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 
 //前方宣言(苦肉の策)
-class WorldTransform;
+class Enemy;
 
 /// <summary>
 /// 障害物の状態のインターフェース
@@ -44,11 +44,11 @@ protected: // メンバ関数
 	//純粋仮想関数
 	virtual ~IEnemyState() = default;
 	virtual void ChangePhase() = 0;
-	virtual void Exce(WorldTransform& worldTransform) = 0;
+	virtual void Exce(Enemy& enemy) = 0;
 
 public: // 静的メンバ変数
 	static inline const int kStatusNum = (int)Status::phaseEmpty;//フェーズの数
-	static void (IEnemyState::*EnemyPhaseTable[])(WorldTransform& worldTransform);//フェーズを実行する関数ポインタ
+	static void (IEnemyState::*EnemyPhaseTable[])(Enemy& enemy);  // フェーズを実行する関数ポインタ
 
 protected: // メンバ変数
 	Status status_ = Status::phaseEmpty; // 障害物の状態

@@ -31,23 +31,23 @@ public://メンバ関数
 	/// 実行
 	/// </summary>
 	/// <param name="worldTransform"></param>
-	void Exce(WorldTransform& worldTransform) override;
+	void Exce(Enemy&enemy) override;
 };
 
 /// <summary>
 /// 動いているときのフェーズ
 /// </summary>
-class EnemyMove : public IEnemyState {
+class EnemyLateralMove : public IEnemyState {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyMove() = default;
+	EnemyLateralMove() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyMove() override = default;
+	~EnemyLateralMove() override = default;
 
 	/// <summary>
 	/// 初期化
@@ -63,5 +63,5 @@ public: // メンバ関数
 	/// 実行
 	/// </summary>
 	/// <param name="worldTransform"></param>
-	void Exce(WorldTransform& worldTransform) override;
+	void Exce(Enemy& enemy) override;
 };
