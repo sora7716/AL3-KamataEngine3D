@@ -66,6 +66,11 @@ private://メンバ関数
 	/// </summary>
 	void UpdateCommand();
 
+	/// <summary>
+	/// 衝突判定
+	/// </summary>
+	void CheackOnCollision();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

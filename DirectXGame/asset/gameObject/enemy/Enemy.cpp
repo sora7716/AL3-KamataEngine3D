@@ -46,6 +46,9 @@ void Enemy::Draw() {
 	model_->Draw(worldTransform_, *viewProjection_); //
 }
 
+//衝突したとき
+void Enemy::OnCollision() { worldTransform_.rotation_.y += 1.0f; }
+
 // 止まっているとき
 void Enemy::StatusStay() {
 	const int kChangeSecond = 120;
@@ -87,4 +90,24 @@ bool Enemy::IsStatusChange() { return isStatusChange_; }
 // ステータスが変わったかどうかのセッター
 void Enemy::SetIsStatusChange(bool isStatusChange) {
 	isStatusChange_ = isStatusChange; 
+}
+
+// ワールド座標のゲッター
+Vector3 Enemy::GetWorldPosition() { 
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}
+
+// AABBのゲッター
+AABB Enemy::GetAABB() {
+	Vector3 worldPosition = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPosition.x - kWidth / 2.0f, worldPosition.y - kHeight / 2.0f, worldPosition.z - kDepth / 2.0f};
+	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
+	return aabb;
 }

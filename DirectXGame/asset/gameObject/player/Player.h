@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "asset/math/Aithmetic.h"
+#include "asset/math/collision/Collision.h"
 
 //前方宣言(苦肉の策)
 class Model;
@@ -76,10 +77,25 @@ public://メンバ関数
 	/// </summary>
 	void SetPearent(const WorldTransform* parent);
 
+	/// <summary>
+	/// ワールド座標のゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度
 	static inline const float kCharacterSpeed = 0.2f;
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 1.0f;  // 深さ
 
 private://メンバ変数
 

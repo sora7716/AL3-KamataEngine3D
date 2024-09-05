@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "asset/gameObject/enemy/statePattern/state/EnemyState.h"
+#include "asset/math/collision/Collision.h"
 
 //前方宣言(苦肉の策)
 class Model;
@@ -39,6 +40,12 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 衝突したとき
+	/// </summary>
+	void OnCollision();
+
 #pragma region ステートパターン
 
 	/// <summary>
@@ -63,6 +70,24 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isStatusChange">ステータスのフラグに設定したい値</param>
 	void SetIsStatusChange(bool isStatusChange);
+
+	/// <summary>
+	/// ワールド座標のゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	AABB GetAABB();
+
+public: // 静的メンバ変数
+
+	// オブジェクトの衝突判定のサイズ
+	static inline const float kWidth = 1.0f;  // 横幅
+	static inline const float kHeight = 1.0f; // 立幅
+	static inline const float kDepth = 1.0f;  // 深さ
 
 private: // メンバ変数
 	// モデル
