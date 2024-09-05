@@ -1,53 +1,143 @@
 #pragma once
 #include "IPlayerParts.h"
 
+/// <summary>
+/// 頭
+/// </summary>
 class PlayerHead : public IPlayerParts {
 
 public:
 	/// <summary>
-	/// 初期化処理
+	/// 初期化
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Initialize(Model* model, ViewProjection* viewProjection) override;
 
 	/// <summary>
-	/// 更新処理
+	/// 更新
 	/// </summary>
 	void Update() override;
 
 	/// <summary>
-	/// 描画処理
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+private:
+
+	/// <summary>
+	/// アニメーション
+	/// </summary>
+	void Animation();
+};
+
+/// <summary>
+/// 体
+/// </summary>
+class PlayerBody : public IPlayerParts {
+
+public:
+
+    /// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+private:
+
+	/// <summary>
+	/// アニメーション
+	/// </summary>
+	void Animation();
+};
+
+/// <summary>
+/// 腕クラス
+/// </summary>
+class PlayerArm : public IPlayerParts {
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+private:
+	
+	/// <summary>
+	/// アニメーション
+	/// </summary>
+	void Animation();
+};
+
+/// <summary>
+/// 左腕
+/// </summary>
+class PlayerLeft_Arm : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
 	/// </summary>
 	void Draw() override;
 };
 
-class PlayerBody : public IPlayerParts {
-
-public:
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
-
-	void Update() override;
-
-	void Draw() override;
-};
-
-class PlayerLeft_Arm : public IPlayerParts {
-
-public:
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
-
-	void Update() override;
-
-	void Draw() override;
-};
-
+/// <summary>
+/// 右腕
+/// </summary>
 class PlayerRight_Arm : public IPlayerParts {
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Initialize(Model* model, ViewProjection* viewProjection) override;
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update() override;
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() override;
 };

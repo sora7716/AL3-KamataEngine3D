@@ -5,7 +5,10 @@
 #include "AxisIndicator.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
+#ifdef _DEBUG
 #include "imgui.h"
+#endif // _DEBUG
+
 
 // コンストラクタ
 GameScene::GameScene() {}
@@ -43,11 +46,8 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = make_unique<Player>(); // 生成
-	player_->Initialize(create_->GetModel(create_->typePlayerHead), &viewProjection_);
+	player_->Initialize(create_.get(), &viewProjection_);
 	player_->SetPearent(&railCamera_->GetWorldTransform());
-
-	//プレイヤーパーツ
-	Create_PlayerParts();
 
 	// インプットハンドラ
 	inputHandler_ = make_unique<InputHandler>();
@@ -66,10 +66,7 @@ void GameScene::Update() {
 	// プレイヤー
 	player_->Update();
 
-	for (auto& playerPart : playerParts_) {
-		playerPart->Update();
-	}
-
+	
 	// コマンド
 	UpdateCommand();
 	// レールカメラ
@@ -109,14 +106,13 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	for (auto& playerPart : playerParts_) {
 
-		playerPart->Draw();
+	//プレイヤー
+	player_->Draw();
 
-	}
 	// 障害物
 	enemy_->Draw();
+
 	railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -140,7 +136,7 @@ void GameScene::Draw() {
 void GameScene::DebugCameraMove() {
 #ifdef _DEBUG
 	debugCamera_->Update(); // デバックカメラの更新
-	if (input_->TriggerKey(DIK_1)) {
+	if (input_->TriggerKey(DIK_UP)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG
@@ -156,30 +152,6 @@ void GameScene::DebugCameraMove() {
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
-}
-
-///プレイヤーパーツを生成
-void GameScene::Create_PlayerParts() {
-	// プレイヤーパーツ(頭)
-	playerParts_[static_cast<int>(IPlayerParts::head)] = make_unique<PlayerHead>();
-	playerParts_[static_cast<int>(IPlayerParts::head)]->Initialize(create_->GetModel(create_->typePlayerHead), &viewProjection_);
-	playerParts_[static_cast<int>(IPlayerParts::head)]->SetParent(&player_->GetWorldTransform());
-
-	// プレイヤーパーツ(体)
-	playerParts_[static_cast<int>(IPlayerParts::body)] = make_unique<PlayerBody>();
-	playerParts_[static_cast<int>(IPlayerParts::body)]->Initialize(create_->GetModel(create_->typePlayerBody), &viewProjection_);
-	playerParts_[static_cast<int>(IPlayerParts::body)]->SetParent(&player_->GetWorldTransform());
-
-	// プレイヤーパーツ(左腕)
-	playerParts_[static_cast<int>(IPlayerParts::Left_Arm)] = make_unique<PlayerLeft_Arm>();
-	playerParts_[static_cast<int>(IPlayerParts::Left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), &viewProjection_);
-	playerParts_[static_cast<int>(IPlayerParts::Left_Arm)]->SetParent(&player_->GetWorldTransform());
-
-	// プレイヤーパーツ(右腕)
-	playerParts_[static_cast<int>(IPlayerParts::Right_Arm)] = make_unique<PlayerRight_Arm>();
-	playerParts_[static_cast<int>(IPlayerParts::Right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), &viewProjection_);
-	playerParts_[static_cast<int>(IPlayerParts::Right_Arm)]->SetParent(&player_->GetWorldTransform());
-
 }
 
 //コマンドを受け取る

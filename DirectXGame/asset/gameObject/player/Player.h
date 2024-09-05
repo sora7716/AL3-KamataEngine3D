@@ -2,10 +2,11 @@
 #include "WorldTransform.h"
 #include "asset/math/Aithmetic.h"
 #include "asset/math/collision/Collision.h"
+#include "asset/gameObject/player/playerParts/PlayerParts.h"
 
 //前方宣言(苦肉の策)
-class Model;
 class ViewProjection;
+class Create;
 
 /// <summary>
 /// プレイヤー
@@ -38,7 +39,7 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection);
+	void Initialize(Create* create, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -94,19 +95,23 @@ public://メンバ関数
 	/// <returns></returns>
 	WorldTransform& GetWorldTransform();
 
+private://メンバ関数
+
+	/// <summary>
+	/// パーツを作る
+	/// </summary>
+	void CreateParts();
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度
 	static inline const float kCharacterSpeed = 0.2f;
 	// オブジェクトの衝突判定のサイズ
-	static inline const float kWidth = 1.0f;  // 横幅
-	static inline const float kHeight = 1.0f; // 立幅
-	static inline const float kDepth = 1.0f;  // 深さ
+	static inline const float kWidth = 3.0f;  // 横幅
+	static inline const float kHeight = 3.0f; // 立幅
+	static inline const float kDepth = 2.0f;  // 深さ
 
 private://メンバ変数
-
-	///モデル
-	Model* model_ = nullptr;
 
 	///ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
@@ -119,4 +124,10 @@ private://メンバ変数
 
 	//プレイヤーの状態
 	Phase phase_ = Phase::kStart;
+
+	//パーツ
+	std::unique_ptr<IPlayerParts> parts_[IPlayerParts::PartsNum] = {nullptr};
+
+	// クリエイトクラス
+	Create* create_ = nullptr; 
 };

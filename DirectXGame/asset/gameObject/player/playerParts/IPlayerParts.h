@@ -2,9 +2,10 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "cassert"
-#include "numbers"
 
+/// <summary>
+/// プレイヤーのパーツのインターフェース
+/// </summary>
 class IPlayerParts {
 
 public://メンバ関数
@@ -12,6 +13,7 @@ public://メンバ関数
 	enum class Parts {
 		kHead,      // 頭
 		kBody,      // 体
+		kArm,       // 腕
 		kLeft_Arm,  // 左腕
 		kRight_Arm, // 右腕
 		kPartsNum    // パーツ数
@@ -20,6 +22,7 @@ public://メンバ関数
 	using PartsName = Parts;
 	static inline PartsName head = Parts::kHead;
 	static inline PartsName body = Parts::kBody;
+	static inline PartsName arm = Parts::kArm;
 	static inline PartsName Left_Arm = Parts::kLeft_Arm;
 	static inline PartsName Right_Arm = Parts::kRight_Arm;
 
@@ -57,7 +60,13 @@ public://メンバ関数
 	/// <param name="parent">ペアレント</param>
 	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
-protected: //メンバ変数
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+protected: // メンバ変数
 
 	///モデル
 	Model* model_ = nullptr;
@@ -67,5 +76,9 @@ protected: //メンバ変数
 
 	///ワールドトランスドーム
 	WorldTransform worldTransform_;
+
+	//パーツノ位置
+	Vector3 position_ = {};
+	Vector3 angle_ = {};
 
 };

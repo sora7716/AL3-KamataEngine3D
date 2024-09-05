@@ -3,7 +3,10 @@
 #include "ViewProjection.h"
 #include <cassert>
 #include <numbers>
+#ifdef _DEBUG
 #include "imgui.h"
+#endif // _DEBUG
+
 #include "asset/math/Aithmetic.h"
 using namespace std;
 using namespace std::numbers;
@@ -31,14 +34,17 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(Enemy&) = {
 // 更新
 void Enemy::Update() {
 	// 現在のステータスの算出
-	status_ = actions_[(int)status_]->GetStatus();
+	//status_ = actions_[(int)status_]->GetStatus();
 	// 現在のステータスに上書き
-	actions_[(int)status_]->SetStatus(status_);
+	//actions_[(int)status_]->SetStatus(status_);
 	// 現在のフェーズを実行
 	(actions_[status_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(status_)])(*this);
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
+#ifdef _DEBUG
 	ImGui::Text("%d", status_);
+#endif // _DEBUG
+
 }
 
 // 描画
@@ -81,7 +87,10 @@ void Enemy::StatusLateralMove() {
 		width = 1.0f;//振れ幅を再設定
 		firstPos = worldTransform_.translation_ * -1.0f;
 	}
+#ifdef _DEBUG
 	ImGui::Text("%d", chageTime);
+#endif // _DEBUG
+
 }
 
 // ステータスが変わったかどうか

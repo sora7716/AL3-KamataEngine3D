@@ -40,13 +40,13 @@ void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian, co
 
 // 更新
 void RailCamera::Update() {
-	t_ += 1.0f/1000.0f;
-	if (t_ > 1.0f) {
-		t_ -= 1.0f; // t が 1.0f を超えたらループさせる
-	}
+	//t_ += 1.0f/1000.0f;
+	//if (t_ > 1.0f) {
+	//	t_ -= 1.0f; // t が 1.0f を超えたらループさせる
+	//}
 	// 移動
 	//worldTransform_.translation_ = Math::CatmullRomPosition(controlPoints_, t_);
-	//worldTransform_.rotation_ += Math::CatmullRomPosition(controlPoints_, t_);
+	//worldTransform_.rotation_ = Math::CatmullRomPosition(controlPoints_, t_);
 	
 	// ワールド行列を再計算
 	worldTransform_.UpdateMatrix();
