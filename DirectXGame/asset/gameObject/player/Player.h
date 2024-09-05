@@ -12,15 +12,15 @@ class Create;
 /// プレイヤー
 /// </summary>
 class Player {
-
 public://列挙型
 
-	//プレイヤーの状態
+	// プレイヤーの状態
 	enum class Phase {
-		kStart,//始まり
-		kPlay,//ゲームプレイ
-		kDeth,//死亡
+		kStart, // 始まり
+		kPlay,  // ゲームプレイ
+		kDeth,  // 死亡
 	};
+
 
 public://メンバ関数
 

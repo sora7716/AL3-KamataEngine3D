@@ -8,23 +8,26 @@
 /// </summary>
 class IPlayerParts {
 
-public://メンバ関数
+public://列挙型
 
+	//パーツの名前
 	enum class Parts {
 		kHead,      // 頭
 		kBody,      // 体
 		kArm,       // 腕
 		kLeft_Arm,  // 左腕
 		kRight_Arm, // 右腕
-		kPartsNum    // パーツ数
+		kPartsNum   // パーツ数
 	};
+
+public://メンバ関数
 
 	using PartsName = Parts;
 	static inline PartsName head = Parts::kHead;
 	static inline PartsName body = Parts::kBody;
 	static inline PartsName arm = Parts::kArm;
-	static inline PartsName Left_Arm = Parts::kLeft_Arm;
-	static inline PartsName Right_Arm = Parts::kRight_Arm;
+	static inline PartsName left_Arm = Parts::kLeft_Arm;
+	static inline PartsName right_Arm = Parts::kRight_Arm;
 
 	static inline const int PartsNum = static_cast<int>(Parts::kPartsNum);
 
@@ -66,6 +69,18 @@ public://メンバ関数
 	/// <returns></returns>
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 
+	/// <summary>
+	/// ポジションのセッター
+	/// </summary>
+	/// <param name="position">位置</param>
+	void SetPosition(const Vector3& position) { position_ = position; };
+
+	/// <summary>
+	/// 角度のセッター
+	/// </summary>
+	/// <param name="angle">角度</param>
+	void SetAngle(const Vector3& angle) { angle_ = angle; };
+
 protected: // メンバ変数
 
 	///モデル
@@ -79,6 +94,6 @@ protected: // メンバ変数
 
 	//パーツノ位置
 	Vector3 position_ = {};
+	//パーツの角度
 	Vector3 angle_ = {};
-
 };

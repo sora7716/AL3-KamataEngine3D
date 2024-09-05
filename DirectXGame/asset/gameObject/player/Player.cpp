@@ -27,6 +27,7 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	// 速度
 	velocity_ = {kCharacterSpeed, kCharacterSpeed, kCharacterSpeed};
 
+	
 	//パーツの生成
 	CreateParts();
 }
@@ -46,7 +47,6 @@ void Player::Update() {
 	for (auto& playerPart : parts_) {
 		playerPart->Update();
 	}
-
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
@@ -123,12 +123,12 @@ void Player::CreateParts() {
 	parts_[static_cast<int>(IPlayerParts::arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::arm)]->SetParent(&this->GetWorldTransform());
 	// プレイヤーパーツ(左腕)
-	parts_[static_cast<int>(IPlayerParts::Left_Arm)] = make_unique<PlayerLeft_Arm>();
-	parts_[static_cast<int>(IPlayerParts::Left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
-	parts_[static_cast<int>(IPlayerParts::Left_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
+	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
+	parts_[static_cast<int>(IPlayerParts::left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 
 	// プレイヤーパーツ(右腕)
-	parts_[static_cast<int>(IPlayerParts::Right_Arm)] = make_unique<PlayerRight_Arm>();
-	parts_[static_cast<int>(IPlayerParts::Right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
-	parts_[static_cast<int>(IPlayerParts::Right_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
+	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
+	parts_[static_cast<int>(IPlayerParts::right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 }
