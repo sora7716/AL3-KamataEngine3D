@@ -57,6 +57,10 @@ void GameScene::Initialize() {
 	enemy_ = make_unique<Enemy>();
 	Vector3 enemyPos = {0, 0, 50.0f};
 	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
+	
+	//天球
+	skyDome_ = make_unique<SkyDome>();
+	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
 }
 
 // 更新
@@ -73,6 +77,9 @@ void GameScene::Update() {
 	railCamera_->Update();
 	// 障害物
 	enemy_->Update();
+
+	// 天球
+	skyDome_->Update();
 
 	// 衝突判定
 	CheackOnCollision();
@@ -112,7 +119,8 @@ void GameScene::Draw() {
 
 	// 障害物
 	enemy_->Draw();
-
+	//天球
+	skyDome_->Draw();
 	railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

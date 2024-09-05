@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include "Player.h"
 #include "ViewProjection.h"
 #include "asset/create/Create.h"
@@ -6,6 +7,7 @@
 #include "imgui.h"
 #endif // _DEBUG
 #include <numbers>
+#include <algorithm>
 using namespace std;
 using namespace std::numbers;
 
@@ -31,6 +33,9 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 // 更新
 void Player::Update() {
+
+	MoveLimit();
+
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
@@ -61,6 +66,16 @@ void Player::MoveLeft() { worldTransform_.translation_.x -= velocity_.x; }
 void Player::MoveUp() { worldTransform_.translation_.y += velocity_.y; }
 
 void Player::MoveDown() { worldTransform_.translation_.y -= velocity_.y; }
+
+void Player::MoveLimit() {
+
+	const float kLimitMoveX = 32.6f;
+	float kLimitmoveY[2];
+	kLimitmoveY[0] = 18.4f ,kLimitmoveY[1] = 16.12f;
+	
+	worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, -kLimitMoveX, kLimitMoveX);
+	worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, -kLimitmoveY[0], kLimitmoveY[1]);
+}
 
 // 親子関係を作る
 void Player::SetPearent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

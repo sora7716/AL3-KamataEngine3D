@@ -14,6 +14,7 @@
 #include "asset/gameObject/player/command/ICommand.h"
 #include "asset/gameObject/player/command/InputHandler.h"
 #include "asset/gameObject/enemy/Enemy.h"
+#include "asset/gameObject/skydome/SkyDome.h"
 
 #include <memory>
 using namespace std;
@@ -96,4 +97,7 @@ private: // メンバ変数
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
 	unique_ptr<Enemy> enemy_ = nullptr;
+	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
+	//天球
+	unique_ptr<SkyDome> skyDome_ = nullptr;
 };

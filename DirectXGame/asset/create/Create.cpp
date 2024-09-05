@@ -23,6 +23,8 @@ void Create::ModelCreate() {
 	models_[(int)typePlayerRight_Arm] = Model::CreateFromOBJ("right_arm", true);
 	//障害物
 	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy", true);
+	//天球
+	models_[(int)typeSkyDome] = Model::CreateFromOBJ("SkyEntyu", true);
 }
 
 // テクスチャをクリエイト

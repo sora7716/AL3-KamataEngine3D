@@ -73,6 +73,8 @@ public://メンバ関数
 	void MoveDown();
 #pragma endregion
 
+	void MoveLimit();
+
 	/// <summary>
 	/// 親子関係作る
 	/// </summary>

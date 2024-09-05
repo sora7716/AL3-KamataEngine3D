@@ -117,6 +117,7 @@
     <ClCompile Include="asset\gameObject\player\command\InputHandler.cpp" />
     <ClCompile Include="asset\gameObject\player\Player.cpp" />
     <ClCompile Include="asset\gameObject\player\playerParts\PlayerParts.cpp" />
+    <ClCompile Include="asset\gameObject\skydome\SkyDome.cpp" />
     <ClCompile Include="asset\math\Aithmetic.cpp" />
     <ClCompile Include="asset\math\collision\Collision.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="asset\gameObject\player\Player.h" />
     <ClInclude Include="asset\gameObject\player\playerParts\IPlayerParts.h" />
     <ClInclude Include="asset\gameObject\player\playerParts\PlayerParts.h" />
+    <ClInclude Include="asset\gameObject\skydome\SkyDome.h" />
     <ClInclude Include="asset\math\Aithmetic.h" />
     <ClInclude Include="asset\math\collision\Collision.h" />
     <ClInclude Include="asset\math\Math.h" />

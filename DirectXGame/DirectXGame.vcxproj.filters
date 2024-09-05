@@ -129,6 +129,9 @@
     <ClCompile Include="asset\gameObject\player\playerParts\PlayerParts.cpp">
       <Filter>asset\ゲームオブジェクト\player</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\skydome\SkyDome.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\player\playerParts\PlayerParts.h">
       <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\skydome\SkyDome.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
