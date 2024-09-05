@@ -132,6 +132,9 @@
     <ClCompile Include="asset\gameObject\skydome\SkyDome.cpp">
       <Filter>asset\ゲームオブジェクト</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\fade\Fade.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -264,6 +267,9 @@
       <Filter>asset\ゲームオブジェクト\player</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\skydome\SkyDome.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\fade\Fade.h">
       <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>

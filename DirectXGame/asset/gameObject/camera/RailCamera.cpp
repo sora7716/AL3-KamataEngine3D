@@ -14,7 +14,7 @@ void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian, co
 	worldTransform_.rotation_ = radian;                           // 回転角を設定
 	worldTransform_.translation_ = Vector3({0.0f, 0.0f, 0.0f}); // カメラの初期位置を設定
 	// ビュープロジェクションの初期化
-	viewProjection_.farZ = 2000;
+	viewProjection_.farZ = 20000;
 	viewProjection_.Initialize();
 
 	// 制御点の初期化

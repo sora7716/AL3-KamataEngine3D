@@ -113,6 +113,7 @@
     <ClCompile Include="asset\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="asset\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp" />
+    <ClCompile Include="asset\gameObject\fade\Fade.cpp" />
     <ClCompile Include="asset\gameObject\player\command\ICommand.cpp" />
     <ClCompile Include="asset\gameObject\player\command\InputHandler.cpp" />
     <ClCompile Include="asset\gameObject\player\Player.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="asset\gameObject\enemy\Enemy.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\state\EnemyState.h" />
+    <ClInclude Include="asset\gameObject\fade\Fade.h" />
     <ClInclude Include="asset\gameObject\player\command\ICommand.h" />
     <ClInclude Include="asset\gameObject\player\command\InputHandler.h" />
     <ClInclude Include="asset\gameObject\player\Player.h" />

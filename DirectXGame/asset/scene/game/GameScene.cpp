@@ -9,7 +9,6 @@
 #include "imgui.h"
 #endif // _DEBUG
 
-
 // コンストラクタ
 GameScene::GameScene() {}
 
@@ -57,32 +56,21 @@ void GameScene::Initialize() {
 	enemy_ = make_unique<Enemy>();
 	Vector3 enemyPos = {0, 0, 50.0f};
 	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
-	
-	//天球
+
+	// 天球
 	skyDome_ = make_unique<SkyDome>();
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
+
+	// フェード
+	fieldChangeFade_ = make_unique<Fade>();
+	fieldChangeFade_->Initialize();
+	fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);
 }
 
 // 更新
 void GameScene::Update() {
-	// デバックカメラ
-	DebugCameraMove();
-	// プレイヤー
-	player_->Update();
-
-	
-	// コマンド
-	UpdateCommand();
-	// レールカメラ
-	railCamera_->Update();
-	// 障害物
-	enemy_->Update();
-
-	// 天球
-	skyDome_->Update();
-
-	// 衝突判定
-	CheackOnCollision();
+	// フィールドの更新
+	UpdateField();
 }
 
 // 描画
@@ -114,13 +102,18 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	//プレイヤー
+	// プレイヤー
 	player_->Draw();
-
-	// 障害物
-	enemy_->Draw();
-	//天球
+	if (fieldStatus_ == FieldStatus::kMain) {
+		// 障害物
+		enemy_->Draw();
+	}
+	// 天球
 	skyDome_->Draw();
+
+	// フェードインとフェードアウトに使うスプライト
+	fieldChangeFade_->Draw(commandList);
+
 	railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -162,7 +155,7 @@ void GameScene::DebugCameraMove() {
 	}
 }
 
-//コマンドを受け取る
+// コマンドを受け取る
 void GameScene::InputCommand() {
 #pragma region プレイヤーを各方向に移動させる
 
@@ -201,4 +194,40 @@ void GameScene::CheackOnCollision() {
 		enemy_->OnCollision(); // 衝突したら
 	}
 #pragma endregion
+}
+
+// フィールドの更新
+void GameScene::UpdateField() {
+	// デバックカメラ
+	DebugCameraMove();
+	// レールカメラ
+	railCamera_->Update();
+	// プレイヤー
+	player_->Update();
+	// 天球
+	skyDome_->Update();
+
+	if (fieldStatus_ == FieldStatus::kFadeIn) {
+		fieldChangeFade_->Update();
+		if (fieldChangeFade_->IsFinished()) {
+			fieldStatus_ = FieldStatus::kMain;
+			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
+		}
+	} else if (fieldStatus_ == FieldStatus::kMain) {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			fieldStatus_ = FieldStatus::kFadeOut;
+		}
+		// 衝突判定
+		CheackOnCollision();
+		// コマンド
+		UpdateCommand();
+		// 障害物
+		enemy_->Update();
+	} else {
+		fieldChangeFade_->Update();
+		if (fieldChangeFade_->IsFinished()) {
+			fieldStatus_ = FieldStatus::kFadeIn;
+			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);
+		}
+	}
 }

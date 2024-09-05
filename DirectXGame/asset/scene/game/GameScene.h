@@ -15,6 +15,7 @@
 #include "asset/gameObject/player/command/InputHandler.h"
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/skydome/SkyDome.h"
+#include "asset/gameObject/fade/Fade.h"
 
 #include <memory>
 using namespace std;
@@ -23,6 +24,14 @@ using namespace std;
 /// ゲームシーン
 /// </summary>
 class GameScene {
+public://列挙型
+
+	//フィールドの状態
+	enum class FieldStatus {
+		kFadeIn,
+		kMain,
+		kFadeOut,
+	};
 
 public: // メンバ関数
 	/// <summary>
@@ -72,6 +81,15 @@ private://メンバ関数
 	/// </summary>
 	void CheackOnCollision();
 
+	/// <summary>
+	/// フィールドの更新
+	/// </summary>
+	void UpdateField();
+
+public://静的メンバ変数
+
+	static inline const float kFieldChangeFadeTime = 1;
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -100,4 +118,8 @@ private: // メンバ変数
 	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
 	//天球
 	unique_ptr<SkyDome> skyDome_ = nullptr;
+	//フェードスプライト(フィールドを変更)
+	unique_ptr<Fade> fieldChangeFade_ = nullptr;
+	//フィールドの状態
+	FieldStatus fieldStatus_ = FieldStatus::kFadeIn;
 };
