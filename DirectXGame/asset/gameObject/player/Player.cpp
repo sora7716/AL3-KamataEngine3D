@@ -21,7 +21,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection) {
 	///ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_.z = 50.0f;//カメラからの距離
-	worldTransform_.rotation_.y = pi_v<float>;//あとで変えるかも今のところ下を向く
+	worldTransform_.rotation_.y = pi_v<float> / 2.0f;//あとで変えるかも今のところ下を向く
 
 	//速度
 	velocity_ = {kCharacterSpeed, kCharacterSpeed, kCharacterSpeed};
@@ -64,4 +64,9 @@ void Player::MoveDown() {
 //親子関係を作る
 void Player::SetPearent(const WorldTransform* parent) { 
 	worldTransform_.parent_ = parent; 
+}
+
+WorldTransform& Player::GetWorldTransform(){
+	// TODO: return ステートメントをここに挿入します
+	return worldTransform_;
 }

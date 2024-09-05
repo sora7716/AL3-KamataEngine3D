@@ -12,12 +12,18 @@ class Model;
 class Create {
 public: // 構造体や列挙型
 	enum class Type {
-		kPlayer,
+		kPlayerHead,
+		kPlayerBody,
+		kPlayerLeft_Arm,
+		kPlayerRight_Arm,
 		kEnemy,
 		kModelNum,
 	};
     using ObjectType=Type;//エイリアス
-	ObjectType typePlayer = Type::kPlayer;//プレイヤー
+	ObjectType typePlayerHead = Type::kPlayerHead;//プレイヤー
+	ObjectType typePlayerBody = Type::kPlayerBody;
+	ObjectType typePlayerLeft_Arm = Type::kPlayerLeft_Arm;
+	ObjectType typePlayerRight_Arm = Type::kPlayerRight_Arm;
 	ObjectType typeEnemy = Type::kEnemy;//障害物
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 

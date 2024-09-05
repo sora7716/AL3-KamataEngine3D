@@ -76,6 +76,12 @@ public://メンバ関数
 	/// </summary>
 	void SetPearent(const WorldTransform* parent);
 
+    /// <summary>
+    /// ワールドトランスのゲッター
+    /// </summary>
+    /// <returns></returns>
+	WorldTransform& GetWorldTransform();
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度

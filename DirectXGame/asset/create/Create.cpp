@@ -17,7 +17,10 @@ Create::~Create() {
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM);//配列の大きさを設定
 	// プレイヤー
-	models_[(int)typePlayer] = Model::CreateFromOBJ("head",true);
+	models_[(int)typePlayerHead] = Model::CreateFromOBJ("head",true);
+	models_[(int)typePlayerBody] = Model::CreateFromOBJ("body",true);
+	models_[(int)typePlayerLeft_Arm] = Model::CreateFromOBJ("left_arm",true);
+	models_[(int)typePlayerRight_Arm] = Model::CreateFromOBJ("right_arm", true);
 	//障害物
 	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy", true);
 }
