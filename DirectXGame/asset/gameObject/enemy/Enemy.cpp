@@ -4,6 +4,7 @@
 #include <cassert>
 #include <numbers>
 #include "imgui.h"
+#include "asset/math/Aithmetic.h"
 using namespace std;
 using namespace std::numbers;
 Enemy::~Enemy() {}
@@ -59,7 +60,7 @@ void Enemy::StatusStay() {
 
 // 横移動しているとき
 void Enemy::StatusLateralMove() {
-	const int kChangeSecond = 300;//切り替えまでの時間
+	const int kChangeSecond = 500;//切り替えまでの時間
 	static float width = 1.0f;// 振れ幅
 	static float theta = 1.0f;// 角度
 	if (width < 10) {
@@ -75,6 +76,7 @@ void Enemy::StatusLateralMove() {
 		isStatusChange_ = true; // 状態を変更
 		chageTime = kChangeSecond; // 時間を再設定
 		width = 1.0f;//振れ幅を再設定
+		firstPos = worldTransform_.translation_ * -1.0f;
 	}
 	ImGui::Text("%d", chageTime);
 }
