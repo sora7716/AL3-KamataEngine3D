@@ -11,7 +11,7 @@ void EnemyStay::ChangePhase() { status_ = Status::kMove; }
 //止まっている時
 void EnemyStay::Exce(WorldTransform& worldTransform) { 
 	(void)worldTransform;
-	static int chageTime = 60; //一秒間だけまつ
+	static int chageTime =120; //一秒間だけまつ
     if (chageTime > 0) {
 		chageTime--;
 	} else {
@@ -27,7 +27,7 @@ void EnemyMove::ChangePhase() { status_ = Status::kMove; }
 
 //動いているとき
 void EnemyMove::Exce(WorldTransform& worldTransform) { 
-	static float width = 1.0f; //振れ幅
+	static float width = 2.0f; //振れ幅
 	static float theta = 1.0f; // 角度
 	worldTransform.translation_.x = width * std::sin(theta);//サイン波
 	theta += std::numbers::pi_v<float> / 60.0f;//揺らすスピード
