@@ -27,19 +27,29 @@ void TitleScene::Initialize() {
 	create_ = make_unique<Create>(); // 生成
 	create_->ModelCreate();          // モデルを生成
 
+	//フェード
 	fade_ = make_unique<Fade>();                       // フェードの生成
 	fade_->Initialize();                               // フェードの初期化
 	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime); // フェードイン初期化
 
 	// レールカメラ
-	railCamera_ = make_unique<RailCamera>();                                                                             // 生成
-	railCameraWorldTransform_.Initialize();                                                                              // ワールドトランスフォームの初期化
+	railCamera_ = make_unique<RailCamera>(); // 生成
+	railCameraWorldTransform_.Initialize(); // ワールドトランスフォームの初期化
 	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_); // 初期化
 
 	// プレイヤー
-	player_ = make_unique<Player>();
-	player_->InitializeTitle(create_.get(), &viewProjection_);
-	player_->SetPearent(&railCamera_->GetWorldTransform());
+	player_ = make_unique<Player>();//生成
+	player_->Initialize(create_.get(), &viewProjection_);//初期化
+	player_->SetPearent(&railCamera_->GetWorldTransform());//親子関係
+	player_->SetPosition({0.0f,0.0f,20.0f});//位置
+	player_->SetRotation({0.0f, -numbers::pi_v<float>/2.0f, 0.0f});//角度
+	SetPartisPositionAndAngle();//パーツの角度と位置
+
+	//スカイドーム
+	skyDome_ = make_unique<SkyDome>();//生成
+	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome),&viewProjection_);//初期化
+	skyDome_->SetRotation({});//ローテーションの設定
+	skyDome_->SetTranslation({});
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -83,6 +93,9 @@ void TitleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	//スカイドーム
+	skyDome_->Draw();
+
 	// プレイヤー
 	player_->Draw();
 
@@ -119,10 +132,13 @@ void TitleScene::ChangePhaseUpdate() {
 	railCamera_->Update();
 	// デバックカメラ
 	DebugCameraMove();
-	// プレイヤーの更新
-	player_->Update();
+	//スカイドーム
+	skyDome_->Update(false,false);
+
 	switch (phase_) {
 	case Phase::kFadeIn:
+		// プレイヤーの更新
+		player_->Update();
 		// フェードイン
 		fade_->Update(); // フェードの更新処理
 		// TitleFontUpdate();
@@ -136,6 +152,8 @@ void TitleScene::ChangePhaseUpdate() {
 
 		break;
 	case Phase::kMain:
+		// プレイヤーの更新
+		player_->Update();
 		// メインの処理
 		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 			phase_ = Phase::kFadeOut;
@@ -172,4 +190,19 @@ void TitleScene::DebugCameraMove() {
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
+}
+
+// パーツの位置と角度のセッターをまとめた
+void TitleScene::SetPartisPositionAndAngle() { 
+	//位置
+	player_->SetPartsPosition(IPlayerParts::head, {0.0f,1.0f,0.0f}); //頭
+	player_->SetPartsPosition(IPlayerParts::arm, {0.0f, -0.98f, 0.0f});//腕
+	player_->SetPartsPosition(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.0f});//左腕
+	player_->SetPartsPosition(IPlayerParts::right_Arm, {0.0f, 0.0f, -2.0f});//右腕
+	//角度
+	player_->SetPartsAngle(IPlayerParts::head, {0.0f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
+	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 0.0f}); // 体
+	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f}); // 腕
+	player_->SetPartsAngle(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.3f}); // 左腕
+	player_->SetPartsAngle(IPlayerParts::right_Arm, {0.0f,0.0f, 2.3f}); // 右腕
 }

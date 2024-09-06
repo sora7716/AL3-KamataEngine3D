@@ -198,7 +198,7 @@ void GameScene::CheackOnCollision() {
 	// 衝突判定
 	if (Collision::IsCollision(posA, posB)) {
 		enemy_->OnCollision(); // 衝突したら
-		isFinished_ = true;
+		//isFinished_ = true;
 	}
 #pragma endregion
 }
@@ -246,7 +246,7 @@ void GameScene::UpdateField() {
 			fieldStatus_ = FieldStatus::kFadeIn;//フェードアウトが終了したら
 			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);//スタートできるように設定
 			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});//スカイドームの位置をリセット
-			player_->SetTranslation({0.0f, 0.0f, 50.0f});//プレイヤーの位置をリセット
+			player_->SetPosition({0.0f, 0.0f, 50.0f});//プレイヤーの位置をリセット
 		}
 	}
 }

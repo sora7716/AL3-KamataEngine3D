@@ -20,7 +20,8 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="isMove">スカイドームが動くかのフラグ</param>
-	void Update(bool isMove = true);
+	/// <param name="isTitle">タイトル画面化のフラグm</param>
+	void Update(bool isMove = true, bool isTitle = false);
 
 	/// <summary>
 	/// 描画
@@ -37,6 +38,12 @@ public:
 	/// </summary>
 	/// <param name="position">セットしたい位置</param>
 	void SetTranslation(const Vector3& position);
+
+	/// <summary>
+	/// ローテーションのセッター
+	/// </summary>
+	/// <param name="rotation">ローテーション</param>
+	void SetRotation(const Vector3& rotation);
 
 private:
 

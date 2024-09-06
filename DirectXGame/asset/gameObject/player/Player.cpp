@@ -34,26 +34,6 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	InitializeParts();
 }
 
-void Player::InitializeTitle(Create* create, ViewProjection* viewProjection) {
-	/// NULLポインタチェック
-	assert(create);
-	create_ = create;
-	/// メンバ変数に引数のデータを記録する
-	viewProjection_ = viewProjection;
-
-	/// ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
-	worldTransform_.translation_.z = 50.0f;//カメラからの距離
-	worldTransform_.rotation_.y = pi_v<float> / 2.0f;//あとで変えるかも今のところ下を向く
-
-	// 速度
-	velocity_ = {kCharacterSpeed, kCharacterSpeed, kCharacterSpeed};
-
-	//パーツの生成
-	CreateParts();
-	InitializeParts();
-}
-
 // 更新
 void Player::Update() {
 
@@ -102,8 +82,11 @@ void Player::MoveLimit() {
 // 親子関係を作る
 void Player::SetPearent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
-//トランスレイションのセッター
-void Player::SetTranslation(const Vector3& position) { worldTransform_.translation_ = position; }
+//位置のセッター
+void Player::SetPosition(const Vector3& position) { worldTransform_.translation_ = position; }
+
+//角度のセッター
+void Player::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
 
 //ワールド座標のゲッター
 Vector3 Player::GetWorldPosition() { 
@@ -129,6 +112,18 @@ AABB Player::GetAABB() {
 WorldTransform& Player::GetWorldTransform(){
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
+}
+
+//パーツの位置のセッター
+void Player::SetPartsPosition(IPlayerParts::PartsName partsType, const Vector3& position) { 
+	//値をセット
+	parts_[(int)partsType]->SetPosition(position);
+}
+
+//パーツの角度
+void Player::SetPartsAngle(IPlayerParts::PartsName partsType, const Vector3& angle) {
+	// 値をセット
+	parts_[(int)partsType]->SetAngle(angle);
 }
 
 // パーツを作る

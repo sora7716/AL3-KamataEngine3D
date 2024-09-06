@@ -42,13 +42,6 @@ public://メンバ関数
 	void Initialize(Create* create, ViewProjection* viewProjection);
 
 	/// <summary>
-	/// スタート時の初期化
-	/// </summary>
-	/// <param name="create"></param>
-	/// <param name="viewProjection"></param>
-	void InitializeTitle(Create* create, ViewProjection* viewProjection);
-
-	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
@@ -91,10 +84,16 @@ public://メンバ関数
 	void SetPearent(const WorldTransform* parent);
 
 	/// <summary>
-	/// トランスレイションのセッター
+	/// 位置のセッター
 	/// </summary>
 	/// <param name="position">位置</param>
-	void SetTranslation(const Vector3& position); 
+	void SetPosition(const Vector3& position); 
+
+	/// <summary>
+	/// 角度のセッター
+	/// </summary>
+	/// <param name="rotation">角度</param>
+	void SetRotation(const Vector3& rotation);
 
 	/// <summary>
 	/// ワールド座標のゲッター
@@ -112,6 +111,20 @@ public://メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	WorldTransform& GetWorldTransform();
+
+	/// <summary>
+	/// パーツの位置のセッター
+	/// </summary>
+	/// <param name="partsType">パーツの場所</param>
+	/// <param name="position">位置</param>
+	void SetPartsPosition(IPlayerParts::PartsName partsType, const Vector3& position);
+
+	/// <summary>
+	/// パーツの角度のセッター
+	/// </summary>
+	/// <param name="partsType">パーツの場所</param>
+	/// <param name="angle">角度</param>
+	void SetPartsAngle(IPlayerParts::PartsName partsType, const Vector3& angle);
 
 private://メンバ関数
 

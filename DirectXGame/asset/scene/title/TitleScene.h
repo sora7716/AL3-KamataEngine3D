@@ -12,6 +12,7 @@
 #include "asset/create/Create.h"
 #include "asset/gameObject/player/Player.h"
 #include "asset/gameObject/camera/RailCamera.h"
+#include "asset/gameObject/skydome/SkyDome.h"
 
 #include <memory>
 using namespace std;
@@ -77,6 +78,11 @@ private: // メンバ変数
 	/// </summary>
 	void DebugCameraMove();
 
+	/// <summary>
+	/// パーツの位置と角度のセッターをまとめた
+	/// </summary>
+	void SetPartisPositionAndAngle();
+
 public: // メンバ関数
 	static inline const float kFadeTime = 5; // フェードをしてほしい時間
 
@@ -96,6 +102,7 @@ private:
 	unique_ptr<Fade> fade_ = nullptr;    // フェード
 	unique_ptr<Create> create_ = nullptr;//モデルクリエイト
 	unique_ptr<Player> player_ = nullptr;//プレイヤー
+	unique_ptr<SkyDome> skyDome_ = nullptr; // 天球
 	// レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;

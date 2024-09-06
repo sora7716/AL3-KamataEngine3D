@@ -8,6 +8,8 @@
 #include <numbers>
 using namespace std::numbers;
 
+//=============================================================================================================
+
 #pragma region 頭クラスの定義
 
 /// 初期化
@@ -26,8 +28,8 @@ void PlayerHead::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	/// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	position_ = {-1.65f, 0.460f, 0.0f};
-	angle_ = {-0.23f, pi_v<float> / 2.0f, 0.0f};
+	position_ = {-1.95f, 0.460f, 0.0f};
+	angle_ = {-0.37f, pi_v<float> / 2.0f, 0.0f};
 }
 
 /// 更新
@@ -37,7 +39,7 @@ void PlayerHead::Update() {
 	ImGui::Begin("head");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 	Animation();
@@ -82,7 +84,7 @@ void PlayerBody::Update() {
 	ImGui::Begin("body");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 
@@ -103,6 +105,45 @@ void PlayerBody::Animation() {
 
 //=============================================================================================================
 
+#pragma region 腕クラスの定義
+void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	angle_ = {pi_v<float>,0.0f,0.0f};
+	position_ = {0.22f, -1.320f, 2.04f};
+}
+
+void PlayerArm::Update() {
+	SetSRT(); // SRTのセッター
+#ifdef _DEBUG
+	ImGui::Begin("arm");
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
+	ImGui::End();
+#endif //  _DEBUG
+	Animation();
+	worldTransform_.UpdateMatrix();
+}
+
+void PlayerArm::Draw() {}
+
+void PlayerArm::Animation() {
+	static float width = 0.2f;
+	static float theta = 1.0f;
+	worldTransform_.translation_.y = width * sin(theta) + position_.y;
+	worldTransform_.rotation_.z = width * sin(theta) + 0.91f;
+	theta += 1.0f / 15.0f;
+}
+
+#pragma endregion
+
+//=============================================================================================================
+
 #pragma region 左腕クラスの定義
 
 void PlayerLeft_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
@@ -113,8 +154,8 @@ void PlayerLeft_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	position_ = {0.0f, 0.0f, 0.5f};
-	angle_ = {0.0f, -0.43f, 0.0f};
+	angle_ = {0.0f, -0.43f, -0.6f};
+	position_ = {0.0f, 0.0f, 4.440f};
 }
 
 void PlayerLeft_Arm::Update() {
@@ -123,7 +164,7 @@ void PlayerLeft_Arm::Update() {
 	ImGui::Begin("leftArm");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // DEBUG
 
@@ -146,8 +187,8 @@ void PlayerRight_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	position_ = {0.0f, 0.0f, -0.5f};
-	angle_ = {0.0f, 0.43f, 0.0f};
+	angle_ = {0.0f, 0.43f, -0.6f};
+	position_ = {0.0f, 0.0f, -0.22f};
 }
 
 void PlayerRight_Arm::Update() {
@@ -156,7 +197,7 @@ void PlayerRight_Arm::Update() {
 	ImGui::Begin("rightArm");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 	worldTransform_.UpdateMatrix();
@@ -168,38 +209,3 @@ void PlayerRight_Arm::Draw() { model_->Draw(worldTransform_, *viewProjection_); 
 
 //=============================================================================================================
 
-#pragma region 腕クラスの定義
-void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);
-
-	model_ = model;
-	viewProjection_ = viewProjection;
-
-	worldTransform_.Initialize();
-	position_.y = -1.8f;
-}
-
-void PlayerArm::Update() {
-	SetSRT(); // SRTのセッター
-#ifdef _DEBUG
-	ImGui::Begin("arm");
-	ImGui::DragFloat3("scale", &size_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
-	ImGui::DragFloat3("head.translate", &position_.x, 0.01f);
-	ImGui::End();
-#endif //  _DEBUG
-	Animation();
-	worldTransform_.UpdateMatrix();
-}
-
-void PlayerArm::Draw() {}
-
-void PlayerArm::Animation() {
-	static float width = 0.2f;
-	static float theta = 1.0f;
-	worldTransform_.translation_.y = width * sin(theta) + position_.y;
-	worldTransform_.rotation_.z = width * sin(theta) + 0.91f;
-	theta += 1.0f / 15.0f;
-}
-
-#pragma endregion
