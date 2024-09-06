@@ -18,6 +18,7 @@
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/fade/Fade.h"
+#include "asset/gameObject/score/Score.h"
 
 #include <memory>
 using namespace std;
@@ -126,4 +127,7 @@ private: // メンバ変数
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	//フィールドの状態
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
+	//スコア
+	unique_ptr<Score> score_ = nullptr;
+
 };

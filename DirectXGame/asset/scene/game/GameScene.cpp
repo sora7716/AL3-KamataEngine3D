@@ -13,7 +13,7 @@
 GameScene::GameScene() {}
 
 // デストラクタ
-GameScene::~GameScene() {}
+GameScene::~GameScene() {  }
 
 // 初期化
 void GameScene::Initialize() {
@@ -65,12 +65,19 @@ void GameScene::Initialize() {
 	fieldChangeFade_ = make_unique<Fade>();
 	fieldChangeFade_->Initialize();
 	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
+
+
+
+	score_ = make_unique<Score>();
+	score_->Initialize();
 }
 
 // 更新
 void GameScene::Update() {
 	// フィールドの更新
 	UpdateField();
+
+	
 }
 
 // 描画
@@ -126,6 +133,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	score_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -207,6 +215,7 @@ void GameScene::UpdateField() {
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
 
+	
 	//フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
@@ -242,4 +251,6 @@ void GameScene::UpdateField() {
 			player_->SetTranslation({0.0f, 0.0f, 50.0f});//プレイヤーの位置をリセット
 		}
 	}
+
+	score_->Update();
 }
