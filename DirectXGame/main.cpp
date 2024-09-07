@@ -95,7 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"GC1B_01_イイヅカ_ソラ_AL3");
+	win->CreateGameWindow(L"6002_オチのない落ち");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
@@ -142,7 +142,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene->Initialize();
 
 #ifdef _DEBUG
-	scene = Scene::kGame;
+	//scene = Scene::kGame;
 #endif // ゲームシーンからスタート
 
 	// メインループ
