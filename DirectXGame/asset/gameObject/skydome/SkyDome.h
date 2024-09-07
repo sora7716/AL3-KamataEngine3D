@@ -60,7 +60,7 @@ private: // メンバ関数
 
 public: // 静的メンバ変数
 
-	static inline const int kAddTimeInterval = 60; // 加算する時間
+	static inline const int kAddTimeInterval = 3600; // 加算する時間
 
 private: // メンバ変数
 
