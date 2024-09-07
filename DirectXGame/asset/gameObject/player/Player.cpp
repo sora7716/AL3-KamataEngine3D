@@ -99,7 +99,7 @@ void Player::Draw() {
 		playerPart->Draw();
 	}
 
-	bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
+	//bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
 }
 
 void Player::MoveRight() { worldTransform_.translation_.x += velocity_.x; }

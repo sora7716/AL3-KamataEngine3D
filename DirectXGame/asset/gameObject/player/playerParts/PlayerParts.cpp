@@ -218,8 +218,8 @@ void PlayerEar::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	angle_ = {};
-	position_ = {};
+	angle_ = {1.0f,1.5f,0.0f};
+	position_ = {0.0f,1.0f,0.0f};
 }
 
 void PlayerEar::Update() {
@@ -231,10 +231,19 @@ void PlayerEar::Update() {
 	ImGui::DragFloat3("translate", &position_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
+	Animation();
 	worldTransform_.UpdateMatrix();
 }
 
 void PlayerEar::Draw() {}
+
+void PlayerEar::Animation() {
+	static float width = 0.2f;
+	static float theta = 1.0f;
+	worldTransform_.translation_.y = width * sin(theta) + position_.y;
+	worldTransform_.rotation_.z = width * sin(theta) + 0.91f;
+	theta += 1.0f / 15.0f;
+}
 
 #pragma endregion
 
@@ -253,7 +262,7 @@ void PlayerLeft_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	worldTransform_.Initialize();
 	angle_ = {};
-	position_ = {};
+	position_ = {-1.5f,0.0f,0.0f};
 }
 
 void PlayerLeft_Ear::Update() {
@@ -287,7 +296,7 @@ void PlayerRight_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	worldTransform_.Initialize();
 	angle_ = {};
-	position_ = {};
+	position_ = {1.5f,0.0f,0.0f};
 }
 
 void PlayerRight_Ear::Update() {

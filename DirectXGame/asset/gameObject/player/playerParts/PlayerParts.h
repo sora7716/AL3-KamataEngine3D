@@ -164,6 +164,12 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private:
+	/// <summary>
+	/// アニメーション
+	/// </summary>
+	void Animation();
 };
 
 /// <summary>
