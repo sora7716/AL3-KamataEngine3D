@@ -8,26 +8,30 @@
 /// </summary>
 class IPlayerParts {
 
-public://列挙型
-
-	//パーツの名前
+public: // 列挙型
+	// パーツの名前
 	enum class Parts {
 		kHead,      // 頭
 		kBody,      // 体
 		kArm,       // 腕
 		kLeft_Arm,  // 左腕
 		kRight_Arm, // 右腕
+		kEar,       // 耳
+		kLeftEar,   // 左耳
+		kRightEar,  // 右耳
 		kPartsNum   // パーツ数
 	};
 
-public://メンバ関数
-
+public: // メンバ関数
 	using PartsName = Parts;
 	static inline PartsName head = Parts::kHead;
 	static inline PartsName body = Parts::kBody;
 	static inline PartsName arm = Parts::kArm;
 	static inline PartsName left_Arm = Parts::kLeft_Arm;
 	static inline PartsName right_Arm = Parts::kRight_Arm;
+	static inline PartsName ear = Parts::kEar;
+	static inline PartsName left_Ear = Parts::kLeftEar;
+	static inline PartsName right_Ear = Parts::kRightEar;
 
 	static inline const int PartsNum = static_cast<int>(Parts::kPartsNum);
 
@@ -84,10 +88,10 @@ public://メンバ関数
 	/// <summary>
 	/// 拡縮、回転、平行移動のセッター
 	/// </summary>
-	void SetSRT(){
-		worldTransform_.scale_ = size_;//拡縮
-		worldTransform_.rotation_ = angle_;//回転
-		worldTransform_.translation_ = position_;//平行移動
+	void SetSRT() {
+		worldTransform_.scale_ = size_;           // 拡縮
+		worldTransform_.rotation_ = angle_;       // 回転
+		worldTransform_.translation_ = position_; // 平行移動
 	};
 
 	/// <summary>
@@ -103,20 +107,19 @@ public://メンバ関数
 	Vector3 GetAngle() const { return angle_; };
 
 protected: // メンバ変数
-
-	///モデル
+	/// モデル
 	Model* model_ = nullptr;
 
-	///ビュープロジェクション
+	/// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
-	///ワールドトランスドーム
+	/// ワールドトランスドーム
 	WorldTransform worldTransform_;
 
-	//パーツノ位置
+	// パーツノ位置
 	Vector3 position_ = {};
-	//パーツの角度
+	// パーツの角度
 	Vector3 angle_ = {};
-	//パーツのサイズ
-	Vector3 size_ = {1.0f,1.0f,1.0f};
+	// パーツのサイズ
+	Vector3 size_ = {1.0f, 1.0f, 1.0f};
 };

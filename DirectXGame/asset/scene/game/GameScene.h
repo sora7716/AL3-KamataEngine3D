@@ -1,6 +1,7 @@
 #pragma once
-#define WHITE Vector4{1.0f,1.0f,1.0f,1.0f};
-#define BLACK Vector4{0.0f,0.0f,0.0f,1.0f};
+#define WHITE Vector4{1.0f,1.0f,1.0f,1.0f}
+#define BLACK Vector4{0.0f,0.0f,0.0f,1.0f}
+#define oneFrame float(1.0f/60.0f)
 
 #include "Audio.h"
 #include "DirectXCommon.h"
@@ -116,7 +117,8 @@ private://メンバ関数
 
 public://静的メンバ変数
 
-	static inline const float kFieldChangeFadeTime = 1;
+	static inline const float kFieldChangeFadeTime = 1.0f;
+	static inline const float kScoreSource = 1.0f;
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -150,10 +152,12 @@ private: // メンバ変数
 	Vector4 fieldFadeColor_ = WHITE;
 	//フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
+	float fadeTime_ = kFieldChangeFadeTime;//フェードする時間
 	//フィールドの状態
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
 	//スコア
-	unique_ptr<Score> score_ = nullptr;
+	unique_ptr<Score> bitmapFont_ = nullptr;
+	float score_ = 0;//現在のスコア
 	//CSVファイルロード
 	unique_ptr<CSVFailLoading> enemyCommand_ = nullptr;
 	//終了フラグ

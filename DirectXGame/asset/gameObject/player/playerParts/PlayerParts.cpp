@@ -108,8 +108,6 @@ void PlayerBody::Animation() {
 #pragma region 腕クラスの定義
 void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
-
-	model_ = model;
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
@@ -210,3 +208,102 @@ void PlayerRight_Arm::Draw() { model_->Draw(worldTransform_, *viewProjection_); 
 
 //=============================================================================================================
 
+//=============================================================================================================
+
+#pragma region 耳クラスの定義
+
+void PlayerEar::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	angle_ = {};
+	position_ = {};
+}
+
+void PlayerEar::Update() {
+	SetSRT(); // SRTのセッター
+#ifdef _DEBUG
+	ImGui::Begin("ear");
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void PlayerEar::Draw() {}
+
+#pragma endregion
+
+//=============================================================================================================
+
+//=============================================================================================================
+
+#pragma region 左耳クラスの定義
+
+void PlayerLeft_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	angle_ = {};
+	position_ = {};
+}
+
+void PlayerLeft_Ear::Update() {
+	SetSRT(); // SRTのセッター
+#ifdef _DEBUG
+	ImGui::Begin("leftEar");
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void PlayerLeft_Ear::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+#pragma endregion
+
+//=============================================================================================================
+
+//=============================================================================================================
+
+#pragma region 右耳クラスの定義
+
+void PlayerRight_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	angle_ = {};
+	position_ = {};
+}
+
+void PlayerRight_Ear::Update() {
+	SetSRT(); // SRTのセッター
+#ifdef _DEBUG
+	ImGui::Begin("rightEar");
+	ImGui::DragFloat3("scale", &size_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
+	ImGui::DragFloat3("translate", &position_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void PlayerRight_Ear::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+#pragma endregion
+
+//=============================================================================================================

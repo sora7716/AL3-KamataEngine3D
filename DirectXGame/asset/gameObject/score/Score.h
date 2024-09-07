@@ -15,6 +15,12 @@ public:
 
 	void Draw();
 
+	/// <summary>
+	/// スコアのセッター
+	/// </summary>
+	/// <param name="score">スコア</param>
+	void SetScore(int score);
+
 private:
 
 	void CalculateDigits(int score); 

@@ -24,14 +24,23 @@ void SkyDome::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void SkyDome::Update(bool isMove, bool isTitle) {
-
+#ifdef _DEBUG
 	Begin("skyDome");
 	DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
+	DragFloat("velocityZ", &velocityZ, 0.1f);
+	ImGui::Text("addTime:%d", velocityZAddTime);
 	End();
+#endif // _DEBUG
 	// スカイドームを移動
 	if (isMove) {
-		worldTransform_.translation_.z--;
-		worldTransform_.rotation_.z += 0.005f; // 回転
+		if (velocityZ>=15.0f) {
+			velocityZ = 15.0f;
+		} else {
+			// 速度を加算
+			VelocityAdd();
+		}
+		worldTransform_.translation_.z -= velocityZ; // 移動
+		worldTransform_.rotation_.z += 0.005f;       // 回転
 	}
 	if (isTitle) {
 		worldTransform_.rotation_.y += 0.005f; // 回転
@@ -57,3 +66,15 @@ void SkyDome::SetTranslation(const Vector3& position) { worldTransform_.translat
 
 // ローテーションのセッター
 void SkyDome::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
+
+//速度Zのゲッター
+float SkyDome::GetVelocityZ() const { return velocityZ; }
+
+// 速度を加算する
+void SkyDome::VelocityAdd() {
+	// 時間を計測
+	if (velocityZAddTime-- < 0) {
+		velocityZ++;//速度を加算
+		velocityZAddTime = kAddTimeInterval;//時間をリセット
+	}
+}

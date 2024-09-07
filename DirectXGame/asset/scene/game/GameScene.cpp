@@ -13,7 +13,7 @@
 GameScene::GameScene() {}
 
 // デストラクタ
-GameScene::~GameScene() {  }
+GameScene::~GameScene() {}
 
 // 初期化
 void GameScene::Initialize() {
@@ -47,7 +47,7 @@ void GameScene::Initialize() {
 	player_ = make_unique<Player>(); // 生成
 	player_->Initialize(create_.get(), &viewProjection_);
 	player_->SetPearent(&railCamera_->GetWorldTransform());
-	SetPartisPositionAndAngle();//パーツの位置をセット
+	SetPartisPositionAndAngle(); // パーツの位置をセット
 
 	// インプットハンドラ
 	inputHandler_ = make_unique<InputHandler>();
@@ -55,7 +55,7 @@ void GameScene::Initialize() {
 
 	// 障害物
 	Enemy* newEnemy = new Enemy();
-	Vector3 enemyPos = {0, 0, 50.0f};
+	Vector3 enemyPos = {10, 0, 50.0f};
 	newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
 	enemis_.push_back(newEnemy);
 
@@ -66,15 +66,14 @@ void GameScene::Initialize() {
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();
 	fieldChangeFade_->Initialize();
-	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
+	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_);
 
-	//スコア
-	score_ = make_unique<Score>();
-	score_->Initialize();
+	// スコア
+	bitmapFont_ = make_unique<Score>();
+	bitmapFont_->Initialize();
 
 	enemyCommand_ = make_unique<CSVFailLoading>();
 	enemyCommand_->Initialize();
-
 }
 
 // 更新
@@ -87,7 +86,6 @@ void GameScene::Update() {
 	for (auto position : enemyCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
-
 }
 
 // 描画
@@ -145,7 +143,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	score_->Draw();
+	bitmapFont_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -227,6 +225,10 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
+	//フェードの時間をスカイドームの進むスピードに合わせる
+	if (fadeTime_ > 0.3f) {
+		fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
+	}
 	// デバックカメラ
 	DebugCameraMove();
 	// レールカメラ
@@ -235,25 +237,32 @@ void GameScene::UpdateField() {
 	player_->Update();
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
-
-	
-	//フェードを入れた処理
+	// 障害物
+	for (auto* enemy : enemis_) {
+		enemy->Update();
+	}
+	//スコアの計算
+	score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
+	bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	//スコアの表示用の計算
+	bitmapFont_->Update();
+	// フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kMain;//フェードインが終了したら
-			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);//スタートできるように設定
-			//スカイダイブかどうか
+			fieldStatus_ = FieldStatus::kMain;                                        // フェードインが終了したら
+			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
+			// スカイダイブかどうか
 			if (isSkyDive_) {
-				isSkyDive_ = false;//falseを設定
-				fieldFadeColor_ = BLACK;//色を黒色に設定
+				isSkyDive_ = false;      // falseを設定
+				fieldFadeColor_ = BLACK; // 色を黒色に設定
 			} else {
-				isSkyDive_ = true;//trueに設定
-				fieldFadeColor_ = WHITE;//白色に設定
+				isSkyDive_ = true;       // trueに設定
+				fieldFadeColor_ = WHITE; // 白色に設定
 			}
 		}
 	} else if (fieldStatus_ == FieldStatus::kMain) {
-		//スカイドームが-1280より上に行ったら
+		// スカイドームが-1280より上に行ったら
 		if (skyDome_->GetWorldTransform().z < -1280.0f) {
 			fieldStatus_ = FieldStatus::kFadeOut;
 		}
@@ -261,35 +270,29 @@ void GameScene::UpdateField() {
 		CheackOnCollision();
 		// コマンド
 		UpdateCommand();
-		// 障害物
-		for (auto* enemy : enemis_) {
-			enemy->Update();
-		}
 	} else {
-		fieldChangeFade_->Update(fieldFadeColor_);//更新
+		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kFadeIn;//フェードアウトが終了したら
-			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, kFieldChangeFadeTime);//スタートできるように設定
-			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});//スカイドームの位置をリセット
-			player_->SetPosition({0.0f, 0.0f, 50.0f});//プレイヤーの位置をリセット
+			fieldStatus_ = FieldStatus::kFadeIn;                                     // フェードアウトが終了したら
+			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_);            // スタートできるように設定
+			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});                         // スカイドームの位置をリセット
+			player_->SetPosition({0.0f, 0.0f, 50.0f});                               // プレイヤーの位置をリセット
 		}
 	}
-
-	score_->Update();
 }
 
 // パーツの位置と角度のセッターをまとめた
 void GameScene::SetPartisPositionAndAngle() {
 	// 位置
-	player_->SetPartsPosition(IPlayerParts::head, {-0.81f, 0.69f, 0.00f});       // 頭
-	player_->SetPartsPosition(IPlayerParts::body, {1.51f, -1.31f, 0.00f});       // 体
+	player_->SetPartsPosition(IPlayerParts::head, {-0.81f, 0.69f, 0.00f});   // 頭
+	player_->SetPartsPosition(IPlayerParts::body, {1.51f, -1.31f, 0.00f});   // 体
 	player_->SetPartsPosition(IPlayerParts::arm, {1.87f, 0.01f, 0.0f});      // 腕
 	player_->SetPartsPosition(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.5f});   // 左腕
 	player_->SetPartsPosition(IPlayerParts::right_Arm, {0.0f, 0.0f, -2.5f}); // 右腕
 	// 角度
 	player_->SetPartsAngle(IPlayerParts::head, {-0.52f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
-	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 1.01f});                        // 体
-	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                         // 腕
+	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 1.01f});                         // 体
+	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                           // 腕
 	player_->SetPartsAngle(IPlayerParts::left_Arm, {0.3f, -0.91f, 2.7f});                    // 左腕
 	player_->SetPartsAngle(IPlayerParts::right_Arm, {-0.3f, 0.91f, 2.7f});                   // 右腕
 }

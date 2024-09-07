@@ -17,10 +17,12 @@ Create::~Create() {
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM);//配列の大きさを設定
 	// プレイヤー
-	models_[(int)typePlayerHead] = Model::CreateFromOBJ("head",true);
-	models_[(int)typePlayerBody] = Model::CreateFromOBJ("body",true);
-	models_[(int)typePlayerLeft_Arm] = Model::CreateFromOBJ("left_arm",true);
-	models_[(int)typePlayerRight_Arm] = Model::CreateFromOBJ("right_arm", true);
+	models_[(int)typePlayerHead] = Model::CreateFromOBJ("head",true);//頭
+	models_[(int)typePlayerBody] = Model::CreateFromOBJ("body",true);//体
+	models_[(int)typePlayerLeft_Arm] = Model::CreateFromOBJ("left_arm",true);//左腕
+	models_[(int)typePlayerRight_Arm] = Model::CreateFromOBJ("right_arm", true);//右腕
+	models_[(int)typePlayerLeft_Ear] = Model::CreateFromOBJ("left_ear", true);//左耳
+	models_[(int)typePlayerRight_Ear] = Model::CreateFromOBJ("right_ear", true);//右耳
 	//障害物
 	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy", true);
 	//天球

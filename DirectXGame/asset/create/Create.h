@@ -16,6 +16,8 @@ public: // 構造体や列挙型
 		kPlayerBody,
 		kPlayerLeft_Arm,
 		kPlayerRight_Arm,
+		kPlayerLeft_Ear,
+		kPlayerRight_Ear,
 		kEnemy,
 		kSkyDome,
 		kModelNum,
@@ -25,6 +27,8 @@ public: // 構造体や列挙型
 	ObjectType typePlayerBody = Type::kPlayerBody;
 	ObjectType typePlayerLeft_Arm = Type::kPlayerLeft_Arm;
 	ObjectType typePlayerRight_Arm = Type::kPlayerRight_Arm;
+	ObjectType typePlayerLeft_Ear = Type::kPlayerLeft_Ear;
+	ObjectType typePlayerRight_Ear = Type::kPlayerRight_Ear;
 	ObjectType typeEnemy = Type::kEnemy;//障害物
 	ObjectType typeSkyDome = Type::kSkyDome;//天球
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数

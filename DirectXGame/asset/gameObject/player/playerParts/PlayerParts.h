@@ -141,3 +141,75 @@ public:
 	/// </summary>
 	void Draw() override;
 };
+
+/// <summary>
+/// 耳クラス
+/// </summary>
+class PlayerEar : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 左耳クラス
+/// </summary>
+class PlayerLeft_Ear : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 右耳クラス
+/// </summary>
+class PlayerRight_Ear : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};

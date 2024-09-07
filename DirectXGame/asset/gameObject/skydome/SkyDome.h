@@ -7,7 +7,7 @@ class ViewProjection;
 
 class SkyDome {
 
-public:
+public: // メンバ関数
 
 	/// <summary>
 	/// 初期化
@@ -45,7 +45,24 @@ public:
 	/// <param name="rotation">ローテーション</param>
 	void SetRotation(const Vector3& rotation);
 
-private:
+	/// <summary>
+	/// 速度Zのゲッター
+	/// </summary>
+	/// <returns>velocityZ</returns>
+	float GetVelocityZ() const;
+
+private: // メンバ関数
+
+	/// <summary>
+	/// 速度を加算する
+	/// </summary>
+	void VelocityAdd();
+
+public: // 静的メンバ変数
+
+	static inline const int kAddTimeInterval = 60; // 加算する時間
+
+private: // メンバ変数
 
 	//モデル
 	Model* model_ = nullptr;
@@ -53,5 +70,6 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
-
+	float velocityZ = 1.0f;//スカイドームの移動するスピード
+	int velocityZAddTime = kAddTimeInterval;
 };

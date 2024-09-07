@@ -183,6 +183,5 @@ private://メンバ変数
 
 	Model* bulletModel_ = nullptr;
 	WorldTransform bulletWorldTransform_;
-	Vector3 bulletVelocity_ = {};
 	bool isPressSpace_ = false;
 };

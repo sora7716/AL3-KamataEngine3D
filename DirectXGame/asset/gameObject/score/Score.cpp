@@ -71,6 +71,9 @@ void Score::Draw() {
  
 }
 
+//スコアのセッター
+void Score::SetScore(int score) { score_ = score; }
+
 void Score::CalculateDigits(int score) {
 
 	for (int i = 6; i >= 0; --i) {

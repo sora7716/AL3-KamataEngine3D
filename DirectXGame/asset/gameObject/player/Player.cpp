@@ -52,30 +52,40 @@ void Player::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	//パーツの更新
 	for (auto& playerPart : parts_) {
 		playerPart->Update();
 	}
+
 	static Vector3 begin = {};
 	static Vector3 end = {};
 	static float frame = 0;
-	float endFrame = 120;
-	bulletWorldTransform_.translation_ -= bulletVelocity_;
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	float endFrame = 60;
+	static bool isReverse = false;
+	bulletWorldTransform_.translation_=worldTransform_.translation_;
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_&&!isReverse) {
 		begin = worldTransform_.translation_;
-		end = worldTransform_.translation_ + Vector3(0.0f, 0.0f, 50.0f);
+		end = Vector3(0.0f, 0.0f, 100.0f);
 		isPressSpace_ = true;
+		frame = 0.0f;
 	}
 	if (isPressSpace_) {
 		if (frame++ > endFrame) {
 			frame = endFrame;
+			isReverse = true;
+			isPressSpace_ = false;
+			frame = 0.0f;
 		}
 		bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f,0.0f,30.0f), end, frame / endFrame);
 	}
-	if (Input::GetInstance()->TriggerKey(DIK_R)) {
-		bulletWorldTransform_.translation_ = worldTransform_.translation_;
-		frame = 0;
-		isPressSpace_ = false;
+	if (isReverse) {
+		if (frame++ > endFrame) {
+			frame = endFrame;
+			isReverse = false;
+		}
+		bulletWorldTransform_.translation_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), worldTransform_.translation_, Easing::InOut(frame / endFrame));
 	}
+
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 	bulletWorldTransform_.UpdateMatrix();
@@ -83,8 +93,9 @@ void Player::Update() {
 
 // 描画
 void Player::Draw() {
-	for (auto& playerPart : parts_) {
 
+	//パーツの描画
+	for (auto& playerPart : parts_) {
 		playerPart->Draw();
 	}
 
@@ -166,18 +177,20 @@ Vector3 Player::GetPartsAngle(IPlayerParts::PartsName partsName) const { return 
 void Player::CreateParts() {
 	// プレイヤーパーツ(頭)
 	parts_[static_cast<int>(IPlayerParts::head)] = make_unique<PlayerHead>();
-
 	// プレイヤーパーツ(体)
 	parts_[static_cast<int>(IPlayerParts::body)] = make_unique<PlayerBody>();
-
 	// プレイヤーのパーツ(腕)
 	parts_[static_cast<int>(IPlayerParts::arm)] = make_unique<PlayerArm>();
-
 	// プレイヤーパーツ(左腕)
 	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
-
 	// プレイヤーパーツ(右腕)
 	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
+	//プレイヤーパーツ(耳)
+	parts_[static_cast<int>(IPlayerParts::ear)] = make_unique<PlayerEar>();
+	// プレイヤーパーツ(左耳)
+	parts_[static_cast<int>(IPlayerParts::left_Ear)] = make_unique<PlayerLeft_Ear>();
+	//プレイヤーパーツ(右耳)
+	parts_[static_cast<int>(IPlayerParts::right_Ear)] = make_unique<PlayerRight_Ear>();
 }
 
 // パーツの初期化
@@ -185,20 +198,25 @@ void Player::InitializeParts() {
 	// プレイヤーパーツ(頭)
 	parts_[static_cast<int>(IPlayerParts::head)]->Initialize(create_->GetModel(create_->typePlayerHead), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::head)]->SetParent(&this->GetWorldTransform());
-
 	// プレイヤーパーツ(体)
 	parts_[static_cast<int>(IPlayerParts::body)]->Initialize(create_->GetModel(create_->typePlayerBody), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::body)]->SetParent(&this->GetWorldTransform());
-
 	// プレイヤーのパーツ(腕)
 	parts_[static_cast<int>(IPlayerParts::arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::arm)]->SetParent(&this->GetWorldTransform());
-
 	// プレイヤーパーツ(左腕)
 	parts_[static_cast<int>(IPlayerParts::left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
-
 	// プレイヤーパーツ(右腕)
 	parts_[static_cast<int>(IPlayerParts::right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
+	// プレイヤーパーツ(耳)
+	parts_[static_cast<int>(IPlayerParts::ear)]->Initialize(create_->GetModel(create_->typePlayerLeft_Ear), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::ear)]->SetParent(&this->GetWorldTransform());
+	// プレイヤーパーツ(左耳)
+	parts_[static_cast<int>(IPlayerParts::left_Ear)]->Initialize(create_->GetModel(create_->typePlayerLeft_Ear), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::left_Ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
+	// プレイヤーパーツ(右耳)
+	parts_[static_cast<int>(IPlayerParts::right_Ear)]->Initialize(create_->GetModel(create_->typePlayerRight_Ear), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::right_Ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
 }
