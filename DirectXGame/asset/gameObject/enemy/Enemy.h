@@ -82,6 +82,8 @@ public: // メンバ関数
 	/// </summary>
 	AABB GetAABB();
 
+	void SetPosition(Vector3 position);
+
 public: // 静的メンバ変数
 
 	// オブジェクトの衝突判定のサイズ

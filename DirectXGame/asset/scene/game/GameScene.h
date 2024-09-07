@@ -19,6 +19,7 @@
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/fade/Fade.h"
 #include "asset/gameObject/score/Score.h"
+#include "asset/failLoad/CSVFailLoading.h"
 
 #include <memory>
 using namespace std;
@@ -117,7 +118,7 @@ private: // メンバ変数
 	//インプットハンドラ
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
-	unique_ptr<Enemy> enemy_ = nullptr;
+	list<Enemy*> enemis_;
 	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
 	//天球
 	unique_ptr<SkyDome> skyDome_ = nullptr;
@@ -129,5 +130,6 @@ private: // メンバ変数
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
 	//スコア
 	unique_ptr<Score> score_ = nullptr;
-
+	//CSVファイルロード
+	unique_ptr<CSVFailLoading> enemyCommand_ = nullptr;
 };

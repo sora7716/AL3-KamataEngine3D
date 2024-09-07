@@ -120,3 +120,6 @@ AABB Enemy::GetAABB() {
 	aabb.max = {worldPosition.x + kWidth / 2.0f, worldPosition.y + kHeight / 2.0f, worldPosition.z + kDepth / 2.0f};
 	return aabb;
 }
+
+// 座標のセッター
+void Enemy::SetPosition(Vector3 position) { worldTransform_.translation_ = position; }

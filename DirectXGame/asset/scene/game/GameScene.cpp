@@ -53,9 +53,10 @@ void GameScene::Initialize() {
 	InputCommand();
 
 	// 障害物
-	enemy_ = make_unique<Enemy>();
+	Enemy* newEnemy = new Enemy();
 	Vector3 enemyPos = {0, 0, 50.0f};
-	enemy_->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
+	newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
+	enemis_.push_back(newEnemy);
 
 	// 天球
 	skyDome_ = make_unique<SkyDome>();
@@ -66,10 +67,13 @@ void GameScene::Initialize() {
 	fieldChangeFade_->Initialize();
 	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, kFieldChangeFadeTime);
 
-
-
+	//スコア
 	score_ = make_unique<Score>();
 	score_->Initialize();
+
+	enemyCommand_ = make_unique<CSVFailLoading>();
+	enemyCommand_->Initialize();
+
 }
 
 // 更新
@@ -77,7 +81,12 @@ void GameScene::Update() {
 	// フィールドの更新
 	UpdateField();
 
-	
+	enemyCommand_->Update();
+
+	for (auto position : enemyCommand_->GetPosition()) {
+		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
+	}
+
 }
 
 // 描画
@@ -113,7 +122,9 @@ void GameScene::Draw() {
 	player_->Draw();
 	if (fieldStatus_ == FieldStatus::kMain) {
 		// 障害物
-		enemy_->Draw();
+		for (auto* enemy : enemis_) {
+			enemy->Draw();
+		}
 	}
 	// 天球
 	skyDome_->Draw();
@@ -196,10 +207,13 @@ void GameScene::CheackOnCollision() {
 #pragma region 自キャラと障害物の衝突
 	// AABBを受け取る
 	posA = player_->GetAABB();
-	posB = enemy_->GetAABB();
-	// 衝突判定
-	if (Collision::IsCollision(posA, posB)) {
-		enemy_->OnCollision(); // 衝突したら
+
+	for (auto* enemy : enemis_) {
+		posB = enemy->GetAABB();
+		// 衝突判定
+		if (Collision::IsCollision(posA, posB)) {
+			enemy->OnCollision(); // 衝突したら
+		}
 	}
 #pragma endregion
 }
@@ -241,7 +255,9 @@ void GameScene::UpdateField() {
 		// コマンド
 		UpdateCommand();
 		// 障害物
-		enemy_->Update();
+		for (auto* enemy : enemis_) {
+			enemy->Update();
+		}
 	} else {
 		fieldChangeFade_->Update(fieldFadeColor_);//更新
 		if (fieldChangeFade_->IsFinished()) {

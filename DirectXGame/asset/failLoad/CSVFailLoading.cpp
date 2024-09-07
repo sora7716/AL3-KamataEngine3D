@@ -3,7 +3,7 @@
 
 //初期化
 void CSVFailLoading::Initialize(){
-	failDataCommands_ = LoadData("csvFail/enemyPop.csv");
+	failDataCommands_ = LoadData("Resources/csvFail/enemyPop.csv");
 }
 
 //更新
