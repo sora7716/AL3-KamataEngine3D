@@ -33,6 +33,7 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(Enemy&) = {
 
 // 更新
 void Enemy::Update() {
+
 	// 現在のステータスの算出
 	//status_ = actions_[(int)status_]->GetStatus();
 	// 現在のステータスに上書き
@@ -49,11 +50,12 @@ void Enemy::Update() {
 
 // 描画
 void Enemy::Draw() {
+
 	model_->Draw(worldTransform_, *viewProjection_); //
 }
 
 //衝突したとき
-void Enemy::OnCollision() { worldTransform_.rotation_.y += 1.0f; }
+void Enemy::OnCollision() { worldTransform_.translation_.x += 10.0f;}
 
 // 止まっているとき
 void Enemy::StatusStay() {

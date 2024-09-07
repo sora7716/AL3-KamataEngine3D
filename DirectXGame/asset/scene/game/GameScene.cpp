@@ -74,6 +74,9 @@ void GameScene::Initialize() {
 
 	enemyCommand_ = make_unique<CSVFailLoading>();
 	enemyCommand_->Initialize();
+
+	playerHp_ = make_unique<Hp>();
+	playerHp_->Initialize();
 }
 
 // 更新
@@ -144,6 +147,8 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	bitmapFont_->Draw();
+
+	playerHp_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -218,6 +223,9 @@ void GameScene::CheackOnCollision() {
 		// 衝突判定
 		if (Collision::IsCollision(posA, posB)) {
 			enemy->OnCollision(); // 衝突したら
+
+			//プレイヤーの残機を一個減らす
+			playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
 		}
 	}
 #pragma endregion
@@ -279,6 +287,7 @@ void GameScene::UpdateField() {
 			player_->SetPosition({0.0f, 0.0f, 50.0f});                               // プレイヤーの位置をリセット
 		}
 	}
+	playerHp_->Update();
 }
 
 // パーツの位置と角度のセッターをまとめた

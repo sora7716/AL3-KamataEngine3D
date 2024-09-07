@@ -106,4 +106,5 @@ private: // メンバ変数
 	int status_ = IEnemyState::kStatusNum;
 	//ステータスをチェンジ
 	bool isStatusChange_ = false;
+	bool isDead_ = false;
 };

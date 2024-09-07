@@ -21,6 +21,7 @@
 #include "asset/gameObject/fade/Fade.h"
 #include "asset/gameObject/score/Score.h"
 #include "asset/failLoad/CSVFailLoading.h"
+#include "asset/gameObject/hp/Hp.h"
 
 #include <memory>
 using namespace std;
@@ -164,4 +165,7 @@ private: // メンバ変数
 	bool isFinished_ = false;
 	//ゲームのフェーズ
 	GamePhase gamePhase_ = GamePhase::kStart;
+	//残機
+	unique_ptr<Hp> playerHp_ = nullptr;
+
 };
