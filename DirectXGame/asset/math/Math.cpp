@@ -277,3 +277,11 @@ Vector3 Math::CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 	// 4点を指定してCatmull-Rom補間
 	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
 }
+
+// 三次元のベジエ曲線
+Vector3 Math::Bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t) {
+	Vector3 p0p1 = Lerp(p0, p1, t);  // p0とp1の間を補間
+	Vector3 p1p2 = Lerp(p1, p2, t);  // p1とp2の間を補間
+	Vector3 p = Lerp(p0p1, p1p2, t); // 上記2つの補間結果をさらに補間
+	return p;
+}

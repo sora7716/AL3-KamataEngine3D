@@ -45,6 +45,10 @@ void TitleScene::Initialize() {
 	player_->SetRotation({0.0f, -numbers::pi_v<float>/2.0f, 0.0f});//角度
 	SetPartisPositionAndAngle();//パーツの角度と位置
 
+	//タイトルのアニメーション
+	titleAnimation_ = make_unique<TitleAnimation>();
+	titleAnimation_->Initialize(player_.get());
+
 	//スカイドーム
 	skyDome_ = make_unique<SkyDome>();//生成
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome),&viewProjection_);//初期化
@@ -63,7 +67,10 @@ void TitleScene::Initialize() {
 }
 
 // 更新
-void TitleScene::Update() { ChangePhaseUpdate(); }
+void TitleScene::Update() { 
+	titleAnimation_->Update();
+	ChangePhaseUpdate(); 
+}
 
 // 描画
 void TitleScene::Draw() {

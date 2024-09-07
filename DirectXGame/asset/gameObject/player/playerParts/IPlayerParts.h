@@ -90,6 +90,18 @@ public://メンバ関数
 		worldTransform_.translation_ = position_;//平行移動
 	};
 
+	/// <summary>
+	/// ポジションのゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetPosition() const { return position_; };
+
+	/// <summary>
+	/// 角度
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetAngle() const { return angle_; };
+
 protected: // メンバ変数
 
 	///モデル

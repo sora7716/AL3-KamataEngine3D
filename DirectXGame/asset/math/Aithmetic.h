@@ -101,6 +101,14 @@ const Vector3 operator*(const float& num1, const Vector3& num2);
 const Vector3& operator+=(Vector3& v, const float& num);
 
 /// <summary>
+/// 除法
+/// </summary>
+/// <param name="v1">ベクトル1</param>
+/// <param name="v2">ベクトル2</param>
+/// <returns></returns>
+const Vector3 operator/(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
 /// 加算
 /// </summary>
 /// <param name="num"></param>

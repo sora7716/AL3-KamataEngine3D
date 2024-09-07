@@ -73,6 +73,12 @@
     <Filter Include="asset\ゲームオブジェクト\enemy">
       <UniqueIdentifier>{ce443c2a-34ff-4be3-9b42-effca877c8dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\プロセス\math">
+      <UniqueIdentifier>{879c5be8-28e3-456b-8736-ebd20aef0f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\プロセス\command">
+      <UniqueIdentifier>{6a94c590-57e3-4b4b-ac72-a37d52a1c31d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -90,9 +96,6 @@
     <ClCompile Include="main.cpp">
       <Filter>asset</Filter>
     </ClCompile>
-    <ClCompile Include="asset\math\Aithmetic.cpp">
-      <Filter>asset\プロセス</Filter>
-    </ClCompile>
     <ClCompile Include="asset\math\collision\Collision.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
@@ -104,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="asset\scene\game\GameScene.cpp">
       <Filter>asset\シーン</Filter>
-    </ClCompile>
-    <ClCompile Include="asset\math\Math.cpp">
-      <Filter>asset\プロセス</Filter>
     </ClCompile>
     <ClCompile Include="asset\gameObject\camera\RailCamera.cpp">
       <Filter>asset\ゲームオブジェクト</Filter>
@@ -120,12 +120,6 @@
     <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp">
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="asset\gameObject\player\command\ICommand.cpp">
-      <Filter>asset\プロセス</Filter>
-    </ClCompile>
-    <ClCompile Include="asset\gameObject\player\command\InputHandler.cpp">
-      <Filter>asset\プロセス</Filter>
-    </ClCompile>
     <ClCompile Include="asset\gameObject\player\playerParts\PlayerParts.cpp">
       <Filter>asset\ゲームオブジェクト\player</Filter>
     </ClCompile>
@@ -137,6 +131,24 @@
     </ClCompile>
     <ClCompile Include="asset\scene\title\TitleScene.cpp">
       <Filter>asset\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\playerParts\titleAnimation\TitleAnimation.cpp">
+      <Filter>asset\プロセス</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Aithmetic.cpp">
+      <Filter>asset\プロセス\math</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Math.cpp">
+      <Filter>asset\プロセス\math</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\command\ICommand.cpp">
+      <Filter>asset\プロセス\command</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\command\InputHandler.cpp">
+      <Filter>asset\プロセス\command</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\easing\Easing.cpp">
+      <Filter>asset\プロセス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,9 +236,6 @@
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>kamataEngine\ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="asset\math\Aithmetic.h">
-      <Filter>asset\プロセス</Filter>
-    </ClInclude>
     <ClInclude Include="asset\math\collision\Collision.h">
       <Filter>asset\プロセス</Filter>
     </ClInclude>
@@ -238,9 +247,6 @@
     </ClInclude>
     <ClInclude Include="asset\scene\game\GameScene.h">
       <Filter>asset\シーン</Filter>
-    </ClInclude>
-    <ClInclude Include="asset\math\Math.h">
-      <Filter>asset\プロセス</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\camera\RailCamera.h">
       <Filter>asset\ゲームオブジェクト</Filter>
@@ -257,12 +263,6 @@
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h">
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="asset\gameObject\player\command\ICommand.h">
-      <Filter>asset\プロセス</Filter>
-    </ClInclude>
-    <ClInclude Include="asset\gameObject\player\command\InputHandler.h">
-      <Filter>asset\プロセス</Filter>
-    </ClInclude>
     <ClInclude Include="asset\gameObject\player\playerParts\IPlayerParts.h">
       <Filter>asset\ゲームオブジェクト\player</Filter>
     </ClInclude>
@@ -277,6 +277,24 @@
     </ClInclude>
     <ClInclude Include="asset\scene\title\TitleScene.h">
       <Filter>asset\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\playerParts\titleAnimation\TitleAnimation.h">
+      <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Aithmetic.h">
+      <Filter>asset\プロセス\math</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Math.h">
+      <Filter>asset\プロセス\math</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\command\ICommand.h">
+      <Filter>asset\プロセス\command</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\command\InputHandler.h">
+      <Filter>asset\プロセス\command</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\easing\Easing.h">
+      <Filter>asset\プロセス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

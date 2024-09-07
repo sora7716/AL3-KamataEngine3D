@@ -13,6 +13,7 @@
 #include "asset/gameObject/player/Player.h"
 #include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/skydome/SkyDome.h"
+#include "asset/gameObject/player/playerParts/titleAnimation/TitleAnimation.h"
 
 #include <memory>
 using namespace std;
@@ -106,4 +107,6 @@ private:
 	// レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
+	//タイトルアニメーション
+	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;//タイトルのアニメーション
 };

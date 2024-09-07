@@ -18,6 +18,7 @@
 #include "asset/gameObject/enemy/Enemy.h"
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/fade/Fade.h"
+#include "asset/failLoad/CSVFailLoading.h"
 
 #include <memory>
 using namespace std;
@@ -107,6 +108,11 @@ private://メンバ関数
 	/// </summary>
 	void UpdateField();
 
+	/// <summary>
+	/// パーツの位置と角度のセッターをまとめた
+	/// </summary>
+	void SetPartisPositionAndAngle();
+
 public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1;
@@ -136,7 +142,6 @@ private: // メンバ変数
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
 	unique_ptr<Enemy> enemy_ = nullptr;
-	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
 	//天球
 	unique_ptr<SkyDome> skyDome_ = nullptr;
 	bool isSkyDive_ = true;

@@ -101,6 +101,14 @@ const Vector3& operator+=(Vector3& v, const float& num) {
 	return v;
 }
 
+const Vector3 operator/(const Vector3& v1, const Vector3& v2) {
+	Vector3 result;
+	result.x = v1.x / v2.x;
+	result.y = v1.y / v2.y;
+	result.z = v1.z / v2.z;
+	return result;
+}
+
 const Matrix4x4 operator+(const Matrix4x4& num1, const Matrix4x4& num2) {
 	Matrix4x4 result = {};
 	for (int i = 0; i < 4; i++) {

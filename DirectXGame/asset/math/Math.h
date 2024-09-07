@@ -1,5 +1,6 @@
 #pragma once
 #include "Aithmetic.h"
+#include "asset/math/easing/Easing.h"
 
 class Math {
 public:
@@ -209,4 +210,14 @@ public:
 	/// <param name="t">スプラインの全区間の中での割合指定[0,1]</param>
 	/// <returns>座標</returns>
 	static Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
+
+	/// <summary>
+	/// 三次元のベジエ曲線
+	/// </summary>
+	/// <param name="p0">始点</param>
+	/// <param name="p1">中点</param>
+	/// <param name="p2">終点</param>
+	/// <param name="t">フレーム</param>
+	/// <returns></returns>
+	static Vector3 Bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t);
 };

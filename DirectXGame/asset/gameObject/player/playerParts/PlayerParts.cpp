@@ -28,8 +28,8 @@ void PlayerHead::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	/// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	position_ = {-1.95f, 0.460f, 0.0f};
-	angle_ = {-0.37f, pi_v<float> / 2.0f, 0.0f};
+	angle_ = {0.0f, pi_v<float> / 2.0f, 0.0f};
+	position_ = {0.0f, 1.0f, 0.0f};
 }
 
 /// 更新
@@ -74,8 +74,8 @@ void PlayerBody::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	position_.y = -2.25f;
-	angle_ = {0.0f, 0.0f, 0.7f};
+	position_ = {0.0f, -2.25f, 0.0f};
+	angle_ = {0.0f, 0.0f, 0.0f};
 }
 
 void PlayerBody::Update() {
@@ -113,8 +113,9 @@ void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	angle_ = {pi_v<float>,0.0f,0.0f};
-	position_ = {0.22f, -1.320f, 2.04f};
+	size_ = {0.7f, 0.7f, 0.7f};
+	angle_ = {0.0f, 0.0f, 0.0f};
+	position_ = {0.0f, -0.98f, 0.0f};
 }
 
 void PlayerArm::Update() {
@@ -154,8 +155,8 @@ void PlayerLeft_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	angle_ = {0.0f, -0.43f, -0.6f};
-	position_ = {0.0f, 0.0f, 4.440f};
+	angle_ = {0.0f, 0.0f, 2.3f};
+	position_ = {0.0f, 0.0f, 2.5f};
 }
 
 void PlayerLeft_Arm::Update() {
@@ -187,8 +188,8 @@ void PlayerRight_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	angle_ = {0.0f, 0.43f, -0.6f};
-	position_ = {0.0f, 0.0f, -0.22f};
+	angle_ = {0.0f, 0.0f, 2.3f};
+	position_ = {0.0f, 0.0f, -2.5f};
 }
 
 void PlayerRight_Arm::Update() {

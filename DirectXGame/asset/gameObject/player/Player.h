@@ -122,11 +122,25 @@ public://メンバ関数
 	/// <summary>
 	/// パーツの角度のセッター
 	/// </summary>
-	/// <param name="partsType">パーツの場所</param>
+	/// <param name="partsName">パーツの部位</param>
 	/// <param name="angle">角度</param>
-	void SetPartsAngle(IPlayerParts::PartsName partsType, const Vector3& angle);
+	void SetPartsAngle(IPlayerParts::PartsName partsName, const Vector3& angle);
 
-private://メンバ関数
+	/// <summary>
+	/// パーツの位置のゲッター
+	/// </summary>
+	/// <param name="partsName">パーツの部位</param>
+	/// <returns>position</returns>
+	Vector3 GetPartsPosition(IPlayerParts::PartsName partsName)const;
+
+	/// <summary>
+	/// パーツの角度のゲッター
+	/// </summary>
+	/// <param name="partsName">パーツの部位</param>
+	/// <returns></returns>
+	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName)const;
+
+private: // メンバ関数
 
 	/// <summary>
 	/// パーツを作る
@@ -166,4 +180,9 @@ private://メンバ変数
 
 	// クリエイトクラス
 	Create* create_ = nullptr; 
+
+	Model* bulletModel_ = nullptr;
+	WorldTransform bulletWorldTransform_;
+	Vector3 bulletVelocity_ = {};
+	bool isPressSpace_ = false;
 };
