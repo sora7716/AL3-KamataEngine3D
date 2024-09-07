@@ -103,8 +103,8 @@ void Player::MoveLimit() {
 
 	const float kLimitMoveX = 32.6f;
 	float kLimitmoveY[2];
-	kLimitmoveY[0] = 18.4f, kLimitmoveY[1] = 16.12f;
-
+	kLimitmoveY[0] = 17.2f ,kLimitmoveY[1] = 19.6f;
+	
 	worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, -kLimitMoveX, kLimitMoveX);
 	worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, -kLimitmoveY[0], kLimitmoveY[1]);
 }

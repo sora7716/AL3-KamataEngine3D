@@ -150,6 +150,12 @@
     <ClCompile Include="asset\math\easing\Easing.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\score\Score.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\easing\Easing.cpp">
+      <Filter>asset\プロセス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -292,6 +298,12 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\player\command\InputHandler.h">
       <Filter>asset\プロセス\command</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\easing\Easing.h">
+      <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\score\Score.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="asset\math\easing\Easing.h">
       <Filter>asset\プロセス</Filter>

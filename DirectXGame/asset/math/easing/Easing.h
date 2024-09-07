@@ -9,41 +9,41 @@ class Easing{
 public:
 
 	/// <summary>
-	/// コンストラクタ
+	/// �R���X�g���N�^
 	/// </summary>
 	Easing() = default;
 
 	/// <summary>
-	/// デストラクタ
+	/// �f�X�g���N�^
 	/// </summary>
 	~Easing() = default;
 
 	/// <summary>
-	/// イン
+	/// �C��
 	/// </summary>
-	/// <param name="frame">フレーム</param>
-	/// <returns>イージング</returns>
+	/// <param name="frame">�t���[��</param>
+	/// <returns>�C�[�W���O</returns>
 	static float In(float frame);
 
 	/// <summary>
-	/// アウト
+	/// �A�E�g
 	/// </summary>
-	/// <param name="frame">フレーム</param>
-	/// <returns>イージング</returns>
+	/// <param name="frame">�t���[��</param>
+	/// <returns>�C�[�W���O</returns>
 	static float Out(float frame);
 
 	/// <summary>
-	/// インアウト
+	/// �C���A�E�g
 	/// </summary>
-	/// <param name="frame">フレーム</param>
-	/// <returns>イージング</returns>
+	/// <param name="frame">�t���[��</param>
+	/// <returns>�C�[�W���O</returns>
 	static float InOut(float frame);
 
 	/// <summary>
-	/// インバック
+	/// �C���o�b�N
 	/// </summary>
-	/// <param name="frame">フレーム</param>
-	/// <returns>イージング</returns>
+	/// <param name="frame">�t���[��</param>
+	/// <returns>�C�[�W���O</returns>
 	static float InBack(float frame);
 
 	/// <summary>
