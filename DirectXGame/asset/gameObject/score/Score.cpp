@@ -1,6 +1,13 @@
 #include "Score.h"
 #include "Sprite.h"
 #include "TextureManager.h"
+#include "asset/math/easing/Easing.h"
+#include "asset/math/Math.h"
+
+#ifdef _DEBUG
+#include <imgui.h>
+#endif // _DEBUG
+
 
 Score::~Score() {}
 
@@ -22,21 +29,43 @@ void Score::Initialize() {
 
 #pragma endregion
 
+	///ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+	//X座標を指定
+	worldTransform_.translation_.x = -370.0f;
+	
 	for (int i = 0; i < 7; ++i) {
-		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + i * 50, 0.5f}); // Adjust position as needed
+		//数字のテクスチャを使用してスプライトを作成し、配列に格納する
+		//スプライトの位置は、各数字に対して横方向に50ピクセルずつずらして配置する
+		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + (i * 50), 0.5f});
 	}
 
 }
 
 void Score::Update() {
+
+	for (int i = 0; i < 7; ++i) {
+		//最初はイージングさせたいため、Initialize関数で指定したX座標に設定する
+		sprites[i]->SetPosition({worldTransform_.translation_.x + (i * 50), 0.5f});
+	}
+
+	//関数呼び出し
+	EaseMove();
+
+	//行列の更新
+	worldTransform_.UpdateMatrix();
 }
 
 void Score::Draw() {
 
+	// スコアの桁数を計算する
 	CalculateDigits(score_);
 
 	for (int i = 0; i < 7; ++i) {
+		// スプライトに対応する桁の数字のテクスチャを設定する
 		sprites[i]->SetTextureHandle(numberTexture[digits[i]]);
+
+		// スプライトを描画する
 		sprites[i]->Draw();
 	}
  
@@ -45,7 +74,36 @@ void Score::Draw() {
 void Score::CalculateDigits(int score) {
 
 	for (int i = 6; i >= 0; --i) {
+		// スコアの一桁を取り出し、digits 配列に格納する
 		digits[i] = score % 10;
+
+		// スコアを10で割って次の桁へ移動する
 		score /= 10;
 	}
+}
+
+void Score::EaseMove() {
+
+	// フレーム数を管理する変数（静的にして状態を保持）
+	static float frame = 0;
+
+	// イージングの終了フレーム数
+	static float endFrame = 50;
+
+	if (frame != endFrame) {
+		// フレーム数が終了フレームに達していない場合、フレーム数を増やす
+		++frame;
+	}
+
+	// イージングの値を計算する（フレーム数を正規化して使用）
+	float easing = Easing::In(frame / endFrame);
+
+	// イージングの開始位置を設定（初回のみ）
+	static float begin = worldTransform_.translation_.x;
+
+	// イージングの終了位置
+	static float end = 0.5f;
+
+	// 開始位置と終了位置の間をイージングによって補間する
+	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
 }

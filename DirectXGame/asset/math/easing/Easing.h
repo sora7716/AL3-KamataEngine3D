@@ -4,14 +4,14 @@
 class Easing
 {
 public:
-	float In   (float frame);
+	static float In(float frame);
 
-	float Out  (float frame);
+	static float Out(float frame);
 
-	float InOut(float frame);
+	static float InOut(float frame);
 
-	float InBack(float frame);
+	static float InBack(float frame);
 
-	float outBack(float frame);
+	static float outBack(float frame);
 };
 

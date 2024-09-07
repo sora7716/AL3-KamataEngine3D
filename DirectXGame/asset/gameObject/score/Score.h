@@ -17,10 +17,15 @@ public:
 
 private:
 
+	void CalculateDigits(int score); 
+
+	void EaseMove();
+
+private:
+
 	uint32_t numberTexture[10]; 
 	int digits[7];              
 
-	void CalculateDigits(int score); 
 
 	WorldTransform worldTransform_; 
 	Sprite* sprites[7];       
