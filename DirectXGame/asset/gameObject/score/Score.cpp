@@ -23,7 +23,7 @@ void Score::Initialize() {
 #pragma endregion
 
 	for (int i = 0; i < 7; ++i) {
-		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + i * 40, 0.5f}); // Adjust position as needed
+		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + i * 50, 0.5f}); // Adjust position as needed
 	}
 
 }

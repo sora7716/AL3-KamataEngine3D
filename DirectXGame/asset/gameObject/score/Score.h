@@ -25,6 +25,8 @@ private:
 	WorldTransform worldTransform_; 
 	Sprite* sprites[7];       
 
-	int score_ = 0;
+	int score_ = 0000000;
+
+	int scoreUpTimer_ = 0;
 
 };
