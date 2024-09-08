@@ -70,6 +70,9 @@ void SkyDome::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ =
 //速度Zのゲッター
 float SkyDome::GetVelocityZ() const { return velocityZ; }
 
+//ローカル座標のゲッター
+Vector3 SkyDome::GetTranslation() { return worldTransform_.translation_; }
+
 // 速度を加算する
 void SkyDome::VelocityAdd() {
 	// 時間を計測

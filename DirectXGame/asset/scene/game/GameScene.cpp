@@ -225,7 +225,7 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
-	//フェードの時間をスカイドームの進むスピードに合わせる
+	// フェードの時間をスカイドームの進むスピードに合わせる
 	if (fadeTime_ > 0.3f) {
 		fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
 	}
@@ -234,23 +234,23 @@ void GameScene::UpdateField() {
 	// レールカメラ
 	railCamera_->Update();
 	// プレイヤー
-	player_->Update(skyDome_->GetWorldPosition().y);
+	player_->Update(skyDome_->GetTranslation().z);
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
 	// 障害物
 	for (auto* enemy : enemis_) {
 		enemy->Update();
 	}
-	//スコアの計算
+	// スコアの計算
 	score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
 	bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
-	//スコアの表示用の計算
+	// スコアの表示用の計算
 	bitmapFont_->Update();
 	// フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kMain;                                        // フェードインが終了したら
+			fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
 			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
 			// スカイダイブかどうか
 			if (isSkyDive_) {
@@ -273,10 +273,11 @@ void GameScene::UpdateField() {
 	} else {
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kFadeIn;                                     // フェードアウトが終了したら
-			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_);            // スタートできるように設定
-			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});                         // スカイドームの位置をリセット
-			player_->SetPosition({0.0f, 0.0f, 50.0f});                               // プレイヤーの位置をリセット
+			fieldStatus_ = FieldStatus::kFadeIn;                          // フェードアウトが終了したら
+			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_); // スタートできるように設定
+			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
+			player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
+			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
 		}
 	}
 }

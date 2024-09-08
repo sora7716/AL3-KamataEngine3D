@@ -33,14 +33,12 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	// パーツの生成
 	CreateParts();
 	InitializeParts();
-
-	bulletModel_ = Model::Create();
 }
 
 // 更新
 void Player::Update(float firePos) {
 
-	//プレイヤーの動ける位置の制限
+	// プレイヤーの動ける位置の制限
 	MoveLimit();
 
 #ifdef _DEBUG
@@ -55,7 +53,7 @@ void Player::Update(float firePos) {
 		playerPart->Update();
 	}
 
-	//耳を飛ばす
+	// 耳を飛ばす
 	EarShot(firePos);
 
 	// 行列の更新
@@ -69,8 +67,6 @@ void Player::Draw() {
 	for (auto& playerPart : parts_) {
 		playerPart->Draw();
 	}
-
-	// bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
 }
 
 void Player::MoveRight() { worldTransform_.translation_.x += velocity_.x; }
@@ -144,6 +140,9 @@ Vector3 Player::GetPartsPosition(IPlayerParts::PartsName partsName) const { retu
 // パーツの角度のゲッター
 Vector3 Player::GetPartsAngle(IPlayerParts::PartsName partsName) const { return parts_[(int)partsName]->GetAngle(); }
 
+// 耳飛ばしたのが1回目かどうかのフラグ
+void Player::SetIsShotFirstTime(bool isShotFirstTime) { isShotFirstTime_ = isShotFirstTime; }
+
 // パーツを作る
 void Player::CreateParts() {
 	// プレイヤーパーツ(頭)
@@ -192,38 +191,47 @@ void Player::InitializeParts() {
 	parts_[static_cast<int>(IPlayerParts::right_ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
 }
 
-//耳を飛ばす
+// 耳を飛ばす
 void Player::EarShot(float firePos) {
-	static Vector3 begin = {};
-	static Vector3 end = {};
-	static float frame = 0;
-	float endFrame = 60;
-	static bool isReverse = false;
-	leftEarPosition_ = {};
-	if (firePos < -900 && !isPressSpace_ && !isReverse) {
-		begin = leftEarPosition_;
-		end = Vector3(0.0f, 0.0f, -100.0f);
-		isPressSpace_ = true;
-		frame = 0.0f;
+	static Vector3 beginPos = {};  // 初めの位置
+	static Vector3 endPos = {};    // 終わりの位置
+	static float beginSize = 1.0f; // 初めの大きさ
+	static float endSize = 5.0f;   // 終わりの大きさ
+	static float frame = 0;        // 現在のフレーム数
+	float endFrame = 60;           // 最終的になってほしいフレーム数
+	static bool isReverse = false; // 戻ってくる用のフラグ
+	leftEarPosition_ = {};         // 最初のポジション
+	if (firePos < -900 && !isShotFirstTime_) {
+		beginPos = leftEarPosition_;           // 初めの位置を設定
+		endPos = Vector3(0.0f, 0.0f, -100.0f); // 終わりの位置の設定
+		isEarShot_ = true;                     // 耳を飛ばすフラグをtrue
+		isShotFirstTime_ = true;               // 1回目かどうかのフラグをtrue
+		frame = 0.0f;                          // フレームを0に設定
 	}
-	if (isPressSpace_) {
+	if (isEarShot_) {
 		if (frame++ > endFrame) {
-			frame = endFrame;
-			isReverse = true;
-			isPressSpace_ = false;
+			frame = endFrame;   // 現在のフレームを最終的になってほしいフレームで固定
+			isReverse = true;   // 戻ってくるフラグをtrue
+			isEarShot_ = false; // 耳を飛ばすフラグをfalse
 			frame = 0.0f;
 		}
-		leftEarPosition_ = Math::Bezier(begin, begin + Vector3(-20.0f, 0.0f, -50.0f), end, frame / endFrame);
+		leftEarPosition_ = Math::Bezier(beginPos, beginPos + Vector3(-20.0f, 0.0f, -50.0f), endPos, frame / endFrame); // ベジエ曲線で動きをつけている
+		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::Out(frame / endFrame));                             // 大きさを変える
 	}
 	if (isReverse) {
 		if (frame++ > endFrame) {
 			frame = endFrame;
 			isReverse = false;
 		}
-		leftEarPosition_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), {-1.53f, 0.0f, 0.0f}, Easing::InOut(frame / endFrame));
+		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(20.0f, 0.0f, 50.0f), {-1.53f,0.0f,0.0f}, Easing::InOut(frame / endFrame));
+		leftEarSize_ = Math::Lerp(endSize, beginSize, Easing::In(frame / endFrame)); // 大きさを変える
+		if (leftEarSize_ < beginSize) {
+			leftEarSize_ = beginSize; // サイズをbeginSizeより下に行かないようにする
+		}
 	}
-	if (isReverse || isPressSpace_) {
+	if (isReverse || isEarShot_) {
 		// 位置を設定
 		parts_[static_cast<int>(IPlayerParts::left_ear)]->SetPosition(leftEarPosition_);
+		parts_[static_cast<int>(IPlayerParts::left_ear)]->SetSize({leftEarSize_, leftEarSize_, leftEarSize_});
 	}
 }

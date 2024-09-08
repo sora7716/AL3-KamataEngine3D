@@ -31,6 +31,7 @@ public: // メンバ関数
 	/// <summary>
 	/// ワールド座標のゲッター
 	/// </summary>
+	/// <returns>ワールド座標</returns>
 	Vector3 GetWorldPosition()const;
 
 	/// <summary>
@@ -50,6 +51,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>velocityZ</returns>
 	float GetVelocityZ() const;
+
+	/// <summary>
+	/// ローカル座標のゲッター
+	/// </summary>
+	/// <returns>ローカル座標</returns>
+	Vector3 GetTranslation();
 
 private: // メンバ関数
 

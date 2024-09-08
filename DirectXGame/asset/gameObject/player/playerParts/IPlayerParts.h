@@ -86,6 +86,12 @@ public: // メンバ関数
 	void SetAngle(const Vector3& angle) { angle_ = angle; };
 
 	/// <summary>
+	/// 大きさのセッター
+	/// </summary>
+	/// <param name="size">大きさ</param>
+	void SetSize(const Vector3& size) { size_ = size; }
+
+	/// <summary>
 	/// 拡縮、回転、平行移動のセッター
 	/// </summary>
 	void SetSRT() {

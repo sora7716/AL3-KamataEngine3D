@@ -141,6 +141,12 @@ public://メンバ関数
 	/// <returns></returns>
 	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName)const;
 
+	/// <summary>
+	/// 耳飛ばしたのが1回目かどうかのフラグのセッター
+	/// </summary>
+	/// <param name="isShotFirstTime">設定したいフラグ</param>
+	void SetIsShotFirstTime(bool isShotFirstTime);
+
 private: // メンバ関数
 
 	/// <summary>
@@ -188,7 +194,9 @@ private://メンバ変数
 	// クリエイトクラス
 	Create* create_ = nullptr; 
 
-	Model* bulletModel_ = nullptr;
-	Vector3 leftEarPosition_ = {};
-	bool isPressSpace_ = false;
+	//耳を飛ばすときの変数
+	Vector3 leftEarPosition_ = {};//耳の位置
+	float leftEarSize_ = 1.0f;//耳の大きさ
+	bool isEarShot_ = false;//耳を飛ばすときのフラグ
+	bool isShotFirstTime_ = false;//耳飛ばしたのが1回目かどうかのフラグ
 };
