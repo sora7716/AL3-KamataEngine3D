@@ -170,7 +170,12 @@ void PlayerLeft_Arm::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-void PlayerLeft_Arm::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void PlayerLeft_Arm::Draw() {
+	if (parts_IsDead_ != false) {
+		return;
+	}
+	model_->Draw(worldTransform_, *viewProjection_); 
+}
 
 #pragma endregion
 
@@ -191,6 +196,7 @@ void PlayerRight_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 }
 
 void PlayerRight_Arm::Update() {
+
 	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
 	ImGui::Begin("rightArm");
@@ -202,7 +208,14 @@ void PlayerRight_Arm::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-void PlayerRight_Arm::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void PlayerRight_Arm::Draw() { 
+
+	if (parts_IsDead_ != false) {
+		return;
+	}
+	model_->Draw(worldTransform_, *viewProjection_);
+	
+}
 
 #pragma endregion
 

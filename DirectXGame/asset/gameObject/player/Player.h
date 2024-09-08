@@ -7,6 +7,7 @@
 //前方宣言(苦肉の策)
 class ViewProjection;
 class Create;
+class Hp;
 
 /// <summary>
 /// プレイヤー
@@ -96,6 +97,11 @@ public://メンバ関数
 	void SetRotation(const Vector3& rotation);
 
 	/// <summary>
+	/// パーツの更新
+	/// </summary>
+	void UpdateParts(int count);
+
+	/// <summary>
 	/// ワールド座標のゲッター
 	/// </summary>
 	/// <returns></returns>
@@ -152,6 +158,10 @@ private: // メンバ関数
 	/// </summary>
 	void InitializeParts();
 
+	void Right_Arm_Fly(int count);
+
+	void Left_Arm_Fly(int count);
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度
@@ -184,4 +194,6 @@ private://メンバ変数
 	Model* bulletModel_ = nullptr;
 	WorldTransform bulletWorldTransform_;
 	bool isPressSpace_ = false;
+	bool isDead_ = false;
+
 };

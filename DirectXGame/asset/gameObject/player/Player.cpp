@@ -4,6 +4,7 @@
 #include "asset/create/Create.h"
 #include "input/Input.h"
 #include "asset/math/Math.h"
+#include "asset/gameObject/hp/Hp.h"
 #include <cassert>
 #ifdef _DEBUG
 #include "imgui.h"
@@ -42,6 +43,10 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 // 更新
 void Player::Update() {
+
+	if (isDead_ != false) {
+		return;
+	}
 
 	MoveLimit();
 
@@ -93,6 +98,10 @@ void Player::Update() {
 
 // 描画
 void Player::Draw() {
+
+	if (isDead_ != false) {
+		return;
+	}
 
 	//パーツの描画
 	for (auto& playerPart : parts_) {
@@ -219,4 +228,62 @@ void Player::InitializeParts() {
 	// プレイヤーパーツ(右耳)
 	parts_[static_cast<int>(IPlayerParts::right_Ear)]->Initialize(create_->GetModel(create_->typePlayerRight_Ear), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::right_Ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
+}
+
+void Player::Right_Arm_Fly(int count) {
+
+	if (count == 2 || count == 1) {
+
+		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false) {
+			return;
+		}
+
+		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
+
+		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
+			Vector3 right_ArmPos = {Vector3(0.0f, 0.0f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.65f)};
+
+			parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
+			if (right_ArmPos.z <= -90.f) {
+				parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
+			}
+		}
+	}
+
+}
+
+void Player::Left_Arm_Fly(int count) {
+
+	if (count == 1) {
+
+		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
+			return;
+		}
+
+		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
+
+		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
+			Vector3 left_ArmPos = {Vector3(0.0f, 0.0f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.65f)};
+
+			parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
+
+			if (left_ArmPos.z >= 90.f) {
+				parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
+			}
+		}
+	}
+
+}
+
+// パーツの更新(ここでは、衝突した時にパーツが飛ぶ処理を実装する)
+void Player::UpdateParts(int count) {
+
+	Player::Right_Arm_Fly(count);
+
+	Player::Left_Arm_Fly(count);
+
+	if (count <= 0) {
+		isDead_ = true;
+	}
+
 }

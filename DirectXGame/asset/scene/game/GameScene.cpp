@@ -89,6 +89,8 @@ void GameScene::Update() {
 	for (auto position : enemyCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
+
+	player_->UpdateParts(playerHp_->GetHpCount());
 }
 
 // 描画

@@ -106,6 +106,14 @@ public: // メンバ関数
 	/// <returns></returns>
 	Vector3 GetAngle() const { return angle_; };
 
+	bool GetParts_Fly() { return this->parts_Fly_; }
+
+	void SetParts_Fly(bool parts_Fly) { parts_Fly_ = parts_Fly; } 
+
+	bool GetParts_IsDead() { return this->parts_IsDead_; }
+
+	void SetParts_IsDead(bool parts_IsDead) { parts_IsDead_ = parts_IsDead; }
+
 protected: // メンバ変数
 	/// モデル
 	Model* model_ = nullptr;
@@ -122,4 +130,7 @@ protected: // メンバ変数
 	Vector3 angle_ = {};
 	// パーツのサイズ
 	Vector3 size_ = {1.0f, 1.0f, 1.0f};
+	
+	bool parts_Fly_ = false;
+	bool parts_IsDead_ = false;
 };
