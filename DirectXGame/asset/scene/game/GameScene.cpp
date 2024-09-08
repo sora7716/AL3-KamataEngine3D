@@ -234,7 +234,7 @@ void GameScene::UpdateField() {
 	// レールカメラ
 	railCamera_->Update();
 	// プレイヤー
-	player_->Update();
+	player_->Update(skyDome_->GetWorldPosition().y);
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
 	// 障害物
@@ -263,7 +263,7 @@ void GameScene::UpdateField() {
 		}
 	} else if (fieldStatus_ == FieldStatus::kMain) {
 		// スカイドームが-1280より上に行ったら
-		if (skyDome_->GetWorldTransform().z < -1280.0f) {
+		if (skyDome_->GetWorldPosition().z < -1280.0f) {
 			fieldStatus_ = FieldStatus::kFadeOut;
 		}
 		// 衝突判定
@@ -287,12 +287,12 @@ void GameScene::SetPartisPositionAndAngle() {
 	player_->SetPartsPosition(IPlayerParts::head, {-0.81f, 0.69f, 0.00f});   // 頭
 	player_->SetPartsPosition(IPlayerParts::body, {1.51f, -1.31f, 0.00f});   // 体
 	player_->SetPartsPosition(IPlayerParts::arm, {1.87f, 0.01f, 0.0f});      // 腕
-	player_->SetPartsPosition(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.5f});   // 左腕
-	player_->SetPartsPosition(IPlayerParts::right_Arm, {0.0f, 0.0f, -2.5f}); // 右腕
+	player_->SetPartsPosition(IPlayerParts::left_arm, {0.0f, 0.0f, 2.5f});   // 左腕
+	player_->SetPartsPosition(IPlayerParts::right_arm, {0.0f, 0.0f, -2.5f}); // 右腕
 	// 角度
 	player_->SetPartsAngle(IPlayerParts::head, {-0.52f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
 	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 1.01f});                         // 体
 	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                           // 腕
-	player_->SetPartsAngle(IPlayerParts::left_Arm, {0.3f, -0.91f, 2.7f});                    // 左腕
-	player_->SetPartsAngle(IPlayerParts::right_Arm, {-0.3f, 0.91f, 2.7f});                   // 右腕
+	player_->SetPartsAngle(IPlayerParts::left_arm, {0.3f, -0.91f, 2.7f});                    // 左腕
+	player_->SetPartsAngle(IPlayerParts::right_arm, {-0.3f, 0.91f, 2.7f});                   // 右腕
 }

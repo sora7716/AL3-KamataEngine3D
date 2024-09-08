@@ -44,7 +44,8 @@ public://メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="firePos">耳を飛ばす場所</param>
+	void Update(float firePos = 0.0f);
 
 	/// <summary>
 	/// 描画
@@ -152,6 +153,12 @@ private: // メンバ関数
 	/// </summary>
 	void InitializeParts();
 
+	/// <summary>
+	/// 耳を飛ばす
+	/// </summary>
+	/// <param name="firePos">耳を飛ばす位置</param>
+	void EarShot(float firePos);
+
 public://静的メンバ変数
 
 	///キャラクターの移動速度
@@ -182,6 +189,6 @@ private://メンバ変数
 	Create* create_ = nullptr; 
 
 	Model* bulletModel_ = nullptr;
-	WorldTransform bulletWorldTransform_;
+	Vector3 leftEarPosition_ = {};
 	bool isPressSpace_ = false;
 };

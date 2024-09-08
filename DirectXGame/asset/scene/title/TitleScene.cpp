@@ -27,32 +27,32 @@ void TitleScene::Initialize() {
 	create_ = make_unique<Create>(); // 生成
 	create_->ModelCreate();          // モデルを生成
 
-	//フェード
+	// フェード
 	fade_ = make_unique<Fade>();                       // フェードの生成
 	fade_->Initialize();                               // フェードの初期化
 	fade_->FadeStart(Fade::Status::FadeIn, kFadeTime); // フェードイン初期化
 
 	// レールカメラ
-	railCamera_ = make_unique<RailCamera>(); // 生成
-	railCameraWorldTransform_.Initialize(); // ワールドトランスフォームの初期化
+	railCamera_ = make_unique<RailCamera>();                                                                             // 生成
+	railCameraWorldTransform_.Initialize();                                                                              // ワールドトランスフォームの初期化
 	railCamera_->Initialize(railCameraWorldTransform_.matWorld_, railCameraWorldTransform_.rotation_, &viewProjection_); // 初期化
 
 	// プレイヤー
-	player_ = make_unique<Player>();//生成
-	player_->Initialize(create_.get(), &viewProjection_);//初期化
-	player_->SetPearent(&railCamera_->GetWorldTransform());//親子関係
-	player_->SetPosition({0.0f,0.0f,20.0f});//位置
-	player_->SetRotation({0.0f, -numbers::pi_v<float>/2.0f, 0.0f});//角度
-	SetPartisPositionAndAngle();//パーツの角度と位置
+	player_ = make_unique<Player>();                                  // 生成
+	player_->Initialize(create_.get(), &viewProjection_);             // 初期化
+	player_->SetPearent(&railCamera_->GetWorldTransform());           // 親子関係
+	player_->SetPosition({0.0f, 0.0f, 20.0f});                        // 位置
+	player_->SetRotation({0.0f, -numbers::pi_v<float> / 2.0f, 0.0f}); // 角度
+	SetPartisPositionAndAngle();                                      // パーツの角度と位置
 
-	//タイトルのアニメーション
+	// タイトルのアニメーション
 	titleAnimation_ = make_unique<TitleAnimation>();
 	titleAnimation_->Initialize(player_.get());
 
-	//スカイドーム
-	skyDome_ = make_unique<SkyDome>();//生成
-	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome),&viewProjection_);//初期化
-	skyDome_->SetRotation({});//ローテーションの設定
+	// スカイドーム
+	skyDome_ = make_unique<SkyDome>();                                               // 生成
+	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_); // 初期化
+	skyDome_->SetRotation({});                                                       // ローテーションの設定
 	skyDome_->SetTranslation({});
 
 #pragma region デバックカメラ
@@ -67,9 +67,9 @@ void TitleScene::Initialize() {
 }
 
 // 更新
-void TitleScene::Update() { 
+void TitleScene::Update() {
 	titleAnimation_->Update();
-	ChangePhaseUpdate(); 
+	ChangePhaseUpdate();
 }
 
 // 描画
@@ -100,7 +100,7 @@ void TitleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	//スカイドーム
+	// スカイドーム
 	skyDome_->Draw();
 
 	// プレイヤー
@@ -139,8 +139,8 @@ void TitleScene::ChangePhaseUpdate() {
 	railCamera_->Update();
 	// デバックカメラ
 	DebugCameraMove();
-	//スカイドーム
-	skyDome_->Update(false,false);
+	// スカイドーム
+	skyDome_->Update(false, false);
 
 	switch (phase_) {
 	case Phase::kFadeIn:
@@ -200,16 +200,23 @@ void TitleScene::DebugCameraMove() {
 }
 
 // パーツの位置と角度のセッターをまとめた
-void TitleScene::SetPartisPositionAndAngle() { 
-	//位置
-	player_->SetPartsPosition(IPlayerParts::head, {0.0f,1.0f,0.0f}); //頭
-	player_->SetPartsPosition(IPlayerParts::arm, {0.0f, -0.98f, 0.0f});//腕
-	player_->SetPartsPosition(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.0f});//左腕
-	player_->SetPartsPosition(IPlayerParts::right_Arm, {0.0f, 0.0f, -2.0f});//右腕
-	//角度
+void TitleScene::SetPartisPositionAndAngle() {
+	// 位置
+	player_->SetPartsPosition(IPlayerParts::head, {0.0f, 1.0f, 0.0f});       // 頭
+	player_->SetPartsPosition(IPlayerParts::body, {0.0f, -2.25f, 0.0f});     // 体
+	player_->SetPartsPosition(IPlayerParts::arm, {0.0f, -0.98f, 0.0f});      // 腕
+	player_->SetPartsPosition(IPlayerParts::left_arm, {0.0f, 0.0f, 2.0f});   // 左腕
+	player_->SetPartsPosition(IPlayerParts::right_arm, {0.0f, 0.0f, -2.0f}); // 右腕
+	player_->SetPartsPosition(IPlayerParts::ear, {0.0f, 1.0f, 0.0f});        // 耳
+	player_->SetPartsPosition(IPlayerParts::left_ear, {-1.5f, 0.0f, 0.0f});  // 左耳
+	player_->SetPartsPosition(IPlayerParts::right_ear, {1.5f, 0.0f, 0.0f});  // 右耳
+	// 角度
 	player_->SetPartsAngle(IPlayerParts::head, {0.0f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
-	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 0.0f}); // 体
-	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f}); // 腕
-	player_->SetPartsAngle(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.3f}); // 左腕
-	player_->SetPartsAngle(IPlayerParts::right_Arm, {0.0f,0.0f, 2.3f}); // 右腕
+	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 0.0f});                        // 体
+	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                         // 腕
+	player_->SetPartsAngle(IPlayerParts::left_arm, {0.0f, 0.0f, 2.3f});                    // 左腕
+	player_->SetPartsAngle(IPlayerParts::right_arm, {0.0f, 0.0f, 2.3f});                   // 右腕
+	player_->SetPartsAngle(IPlayerParts::ear, {1.0f, 1.5f, 0.0f});                         // 耳
+	player_->SetPartsAngle(IPlayerParts::left_ear, {0.0f, 0.0f, 0.0f});                    // 左耳
+	player_->SetPartsAngle(IPlayerParts::right_ear, {0.0f, 0.0f, 0.0f});                   // 右耳
 }

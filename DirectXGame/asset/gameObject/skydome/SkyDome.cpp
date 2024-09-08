@@ -52,7 +52,7 @@ void SkyDome::Update(bool isMove, bool isTitle) {
 void SkyDome::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 // ワールド座標のゲッター
-Vector3 SkyDome::GetWorldTransform() const {
+Vector3 SkyDome::GetWorldPosition() const {
 	Vector3 worldPos = {
 	    worldTransform_.matWorld_.m[3][0],
 	    worldTransform_.matWorld_.m[3][1],

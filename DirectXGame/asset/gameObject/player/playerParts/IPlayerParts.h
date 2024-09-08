@@ -27,11 +27,11 @@ public: // メンバ関数
 	static inline PartsName head = Parts::kHead;
 	static inline PartsName body = Parts::kBody;
 	static inline PartsName arm = Parts::kArm;
-	static inline PartsName left_Arm = Parts::kLeft_Arm;
-	static inline PartsName right_Arm = Parts::kRight_Arm;
+	static inline PartsName left_arm = Parts::kLeft_Arm;
+	static inline PartsName right_arm = Parts::kRight_Arm;
 	static inline PartsName ear = Parts::kEar;
-	static inline PartsName left_Ear = Parts::kLeftEar;
-	static inline PartsName right_Ear = Parts::kRightEar;
+	static inline PartsName left_ear = Parts::kLeftEar;
+	static inline PartsName right_ear = Parts::kRightEar;
 
 	static inline const int PartsNum = static_cast<int>(Parts::kPartsNum);
 

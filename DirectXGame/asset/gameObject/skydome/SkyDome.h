@@ -31,7 +31,7 @@ public: // メンバ関数
 	/// <summary>
 	/// ワールド座標のゲッター
 	/// </summary>
-	Vector3 GetWorldTransform()const;
+	Vector3 GetWorldPosition()const;
 
 	/// <summary>
 	/// トランスレイションのセッター
