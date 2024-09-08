@@ -230,49 +230,66 @@ void Player::InitializeParts() {
 	parts_[static_cast<int>(IPlayerParts::right_Ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
 }
 
+// 右腕が飛ぶ処理
 void Player::Right_Arm_Fly(int count) {
 
-	if (count == 2 || count == 1) {
+	if (count == 2) {
 
-		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false) {
+		// 右腕のパーツが破壊されていないかまたは残機が1でないか確認する
+		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false && count != 1) {
 			return;
 		}
 
+		// 右腕のパーツが飛んでいる状態に設定する
 		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
 
+		// パーツが飛んでいるかどうかを確認する
 		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
-			Vector3 right_ArmPos = {Vector3(0.0f, 0.0f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.65f)};
+			// 右腕の新しい位置を計算
+			Vector3 right_ArmPos = {
+			    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().y - 0.40f,
+			    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.75f};
 
+			// 新しい位置を設定
 			parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
-			if (right_ArmPos.z <= -90.f) {
+
+			// 右腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
+			if (right_ArmPos.x <= -10.f && right_ArmPos.y <= -40.f && right_ArmPos.z <= -90.f) {
 				parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
 			}
 		}
 	}
-
 }
 
+// 右腕が飛ぶ処理
 void Player::Left_Arm_Fly(int count) {
 
 	if (count == 1) {
 
+		// 左腕のパーツが破壊されていないか確認する
 		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
 			return;
 		}
 
+		// 左腕のパーツが飛んでいる状態に設定する
 		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
 
+		// パーツが飛んでいるかどうかを確認する
 		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
-			Vector3 left_ArmPos = {Vector3(0.0f, 0.0f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.65f)};
+			// 左腕の新しい位置を計算
+			Vector3 left_ArmPos = {
+			    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().y - 0.40f,
+			    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.75f};
 
+			// 新しい位置を設定
 			parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
 
-			if (left_ArmPos.z >= 90.f) {
+			// 左腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
+			if (left_ArmPos.x <= -10.f && left_ArmPos.y <= -40.f && left_ArmPos.z >= 90.f) {
 				parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
 			}
 		}
 	}
-
 }
 
 // パーツの更新(ここでは、衝突した時にパーツが飛ぶ処理を実装する)
