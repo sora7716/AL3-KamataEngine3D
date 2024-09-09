@@ -2,9 +2,9 @@
 #include "Player.h"
 #include "ViewProjection.h"
 #include "asset/create/Create.h"
-#include "input/Input.h"
-#include "asset/math/Math.h"
 #include "asset/gameObject/hp/Hp.h"
+#include "asset/math/Math.h"
+#include "input/Input.h"
 #include <cassert>
 #ifdef _DEBUG
 #include "imgui.h"
@@ -44,7 +44,7 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 // 更新
 void Player::Update() {
 
-	if (isDead_ != false) {
+	if (isDead_ ) {
 		return;
 	}
 
@@ -57,7 +57,7 @@ void Player::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
-	//パーツの更新
+	// パーツの更新
 	for (auto& playerPart : parts_) {
 		playerPart->Update();
 	}
@@ -67,8 +67,8 @@ void Player::Update() {
 	static float frame = 0;
 	float endFrame = 60;
 	static bool isReverse = false;
-	bulletWorldTransform_.translation_=worldTransform_.translation_;
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_&&!isReverse) {
+	bulletWorldTransform_.translation_ = worldTransform_.translation_;
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_ && !isReverse) {
 		begin = worldTransform_.translation_;
 		end = Vector3(0.0f, 0.0f, 100.0f);
 		isPressSpace_ = true;
@@ -81,7 +81,7 @@ void Player::Update() {
 			isPressSpace_ = false;
 			frame = 0.0f;
 		}
-		bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f,0.0f,30.0f), end, frame / endFrame);
+		bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f, 0.0f, 30.0f), end, frame / endFrame);
 	}
 	if (isReverse) {
 		if (frame++ > endFrame) {
@@ -89,6 +89,16 @@ void Player::Update() {
 			isReverse = false;
 		}
 		bulletWorldTransform_.translation_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), worldTransform_.translation_, Easing::InOut(frame / endFrame));
+	}
+	if (hpCount_ < 3) {
+		(this->*parts_flyTable[hpCount_])();
+	}
+
+	if (--coolTimer >= 0) {
+		Unrivaled();
+	} else {
+		isFrashStart_ = false;
+		isInvisible_ = false;
 	}
 
 	// 行列の更新
@@ -99,16 +109,26 @@ void Player::Update() {
 // 描画
 void Player::Draw() {
 
-	if (isDead_ != false) {
+	if (isDead_ || isFrashing_) {
 		return;
 	}
 
-	//パーツの描画
+	// パーツの描画
 	for (auto& playerPart : parts_) {
 		playerPart->Draw();
 	}
 
-	//bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
+	// bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
+}
+
+void Player::OnCollision(int hpCount) { 
+	
+	hpCount_ = hpCount; 
+
+	isFrashStart_ = true;
+	
+	coolTimer = 60;
+
 }
 
 void Player::MoveRight() { worldTransform_.translation_.x += velocity_.x; }
@@ -123,8 +143,8 @@ void Player::MoveLimit() {
 
 	const float kLimitMoveX = 32.6f;
 	float kLimitmoveY[2];
-	kLimitmoveY[0] = 17.2f ,kLimitmoveY[1] = 19.6f;
-	
+	kLimitmoveY[0] = 17.2f, kLimitmoveY[1] = 19.6f;
+
 	worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, -kLimitMoveX, kLimitMoveX);
 	worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, -kLimitmoveY[0], kLimitmoveY[1]);
 }
@@ -182,6 +202,12 @@ Vector3 Player::GetPartsPosition(IPlayerParts::PartsName partsName) const { retu
 // パーツの角度のゲッター
 Vector3 Player::GetPartsAngle(IPlayerParts::PartsName partsName) const { return parts_[(int)partsName]->GetAngle(); }
 
+void Player::PlayerDead() { isDead_ = true; }
+
+int Player::IsStartFrash() { return this->isFrashStart_; }
+
+int Player::IsFrashing() { return this->isFrashing_; }
+
 // パーツを作る
 void Player::CreateParts() {
 	// プレイヤーパーツ(頭)
@@ -194,11 +220,11 @@ void Player::CreateParts() {
 	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
 	// プレイヤーパーツ(右腕)
 	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
-	//プレイヤーパーツ(耳)
+	// プレイヤーパーツ(耳)
 	parts_[static_cast<int>(IPlayerParts::ear)] = make_unique<PlayerEar>();
 	// プレイヤーパーツ(左耳)
 	parts_[static_cast<int>(IPlayerParts::left_Ear)] = make_unique<PlayerLeft_Ear>();
-	//プレイヤーパーツ(右耳)
+	// プレイヤーパーツ(右耳)
 	parts_[static_cast<int>(IPlayerParts::right_Ear)] = make_unique<PlayerRight_Ear>();
 }
 
@@ -230,77 +256,119 @@ void Player::InitializeParts() {
 	parts_[static_cast<int>(IPlayerParts::right_Ear)]->SetParent(&parts_[static_cast<int>(IPlayerParts::ear)]->GetWorldTransform());
 }
 
-// 右腕が飛ぶ処理
-void Player::Right_Arm_Fly(int count) {
+#pragma region プレイヤーの腕が吹っ飛ぶ処理
 
-	if (count == 2) {
+void Player::Right_Arm_MoveAngle() {
 
-		// 右腕のパーツが破壊されていないかまたは残機が1でないか確認する
-		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false && count != 1) {
-			return;
-		}
+	static float right_ArmAngle = 1.0f;
+	right_ArmAngle++;
 
-		// 右腕のパーツが飛んでいる状態に設定する
-		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
+	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
+}
 
-		// パーツが飛んでいるかどうかを確認する
-		if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
-			// 右腕の新しい位置を計算
-			Vector3 right_ArmPos = {
-			    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().y - 0.40f,
-			    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.75f};
+void Player::Right_Arm_MovePosition() {
 
-			// 新しい位置を設定
-			parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
+	// 右腕の新しい位置を計算
+	Vector3 right_ArmPos = {
+	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.75f};
 
-			// 右腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
-			if (right_ArmPos.x <= -10.f && right_ArmPos.y <= -40.f && right_ArmPos.z <= -90.f) {
-				parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
-			}
-		}
+	// 新しい位置を設定
+	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
+
+	// 右腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
+	if (right_ArmPos.x <= -10.f && right_ArmPos.y <= -40.f && right_ArmPos.z <= -90.f) {
+		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
 	}
 }
 
-// 右腕が飛ぶ処理
-void Player::Left_Arm_Fly(int count) {
+void Player::Right_Arm_Fly() {
 
-	if (count == 1) {
+	// 右腕のパーツが破壊されていないかまたは残機が1でないか確認する
+	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false) {
+		return;
+	}
 
-		// 左腕のパーツが破壊されていないか確認する
-		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
-			return;
-		}
+	// 右腕のパーツが飛んでいる状態に設定する
+	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
 
-		// 左腕のパーツが飛んでいる状態に設定する
-		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
+	// パーツが飛んでいるかどうかを確認する
+	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
 
-		// パーツが飛んでいるかどうかを確認する
-		if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
-			// 左腕の新しい位置を計算
-			Vector3 left_ArmPos = {
-			    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().y - 0.40f,
-			    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.75f};
+		Right_Arm_MoveAngle();
 
-			// 新しい位置を設定
-			parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
-
-			// 左腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
-			if (left_ArmPos.x <= -10.f && left_ArmPos.y <= -40.f && left_ArmPos.z >= 90.f) {
-				parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
-			}
-		}
+		Right_Arm_MovePosition();
 	}
 }
 
-// パーツの更新(ここでは、衝突した時にパーツが飛ぶ処理を実装する)
-void Player::UpdateParts(int count) {
+void Player::Left_Arm_MoveAngle() {
 
-	Player::Right_Arm_Fly(count);
+	static float left_ArmAngle = 1.0f;
+	left_ArmAngle++;
 
-	Player::Left_Arm_Fly(count);
+	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
+}
 
-	if (count <= 0) {
-		isDead_ = true;
+void Player::Left_Arm_MovePosition() {
+
+	// 左腕の新しい位置を計算
+	Vector3 left_ArmPos = {
+	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.75f};
+
+	// 新しい位置を設定
+	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
+
+	// 左腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
+	if (left_ArmPos.x <= -10.f && left_ArmPos.y <= -40.f && left_ArmPos.z >= 90.f) {
+		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
 	}
+}
+
+void Player::Left_Arm_Fly() {
+
+	// 左腕のパーツが破壊されていないか確認する
+	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
+		return;
+	}
+
+	// 左腕のパーツが飛んでいる状態に設定する
+	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
+
+	// パーツが飛んでいるかどうかを確認する
+	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
+
+		Left_Arm_MoveAngle();
+
+		Left_Arm_MovePosition();
+	}
+}
+
+void (Player::*Player::parts_flyTable[])(){
+	&Player::PlayerDead,
+	&Player::Left_Arm_Fly, 
+	&Player::Right_Arm_Fly
+};
+
+#pragma endregion
+
+void Player::Unrivaled() {
+
+	static int frashTimer = 0;
+	const int kInterval = 15;
+
+	if (isFrashStart_) {
+
+		if (--frashTimer < 0 && isFrashing_ == false) {
+			isFrashing_ = true;
+			frashTimer = kInterval;
+		} else if (--frashTimer < 0 && isFrashing_ == true) {
+			isFrashing_ = false;
+			frashTimer = kInterval;
+		}
+	}
+	ImGui::Checkbox("Start", &isFrashStart_);
+	ImGui::Checkbox("Frag", &isFrashing_);
+	ImGui::Text("time = %d", frashTimer);
 
 }

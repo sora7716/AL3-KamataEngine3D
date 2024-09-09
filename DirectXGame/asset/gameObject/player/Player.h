@@ -52,6 +52,11 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突したときの処理
+	/// </summary>
+	void OnCollision(int hpCount);
+
 #pragma region コマンド
 	/// <summary>
 	/// 右方向移動
@@ -95,11 +100,6 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="rotation">角度</param>
 	void SetRotation(const Vector3& rotation);
-
-	/// <summary>
-	/// パーツの更新
-	/// </summary>
-	void UpdateParts(int count);
 
 	/// <summary>
 	/// ワールド座標のゲッター
@@ -146,6 +146,15 @@ public://メンバ関数
 	/// <returns></returns>
 	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName)const;
 
+	/// <summary>
+	/// プレイヤーの消滅
+	/// </summary>
+	void PlayerDead();
+
+	int IsStartFrash();
+
+	int IsFrashing();
+
 private: // メンバ関数
 
 	/// <summary>
@@ -158,9 +167,32 @@ private: // メンバ関数
 	/// </summary>
 	void InitializeParts();
 
-	void Right_Arm_Fly(int count);
+#pragma region 右腕を飛ばす
 
-	void Left_Arm_Fly(int count);
+	//角度も動かす
+	void Right_Arm_MoveAngle();
+
+	//衝突時、座標を動かす
+	void Right_Arm_MovePosition();
+	
+	void Right_Arm_Fly();
+
+#pragma endregion
+
+
+#pragma region 左腕を飛ばす
+
+	// 衝突時、座標を動かす
+	void Left_Arm_MovePosition();
+	// 角度も動かす
+	void Left_Arm_MoveAngle();
+
+	void Left_Arm_Fly();
+
+#pragma endregion
+	
+	//無敵時間
+	void Unrivaled();
 
 public://静的メンバ変数
 
@@ -195,5 +227,12 @@ private://メンバ変数
 	WorldTransform bulletWorldTransform_;
 	bool isPressSpace_ = false;
 	bool isDead_ = false;
+	int hpCount_ = 3;
+
+	static void (Player::*parts_flyTable[])();//メンバ関数ポインタテーブル
+	bool isFrashStart_ = false;
+	bool isInvisible_ = false;
+
+	int coolTimer = 0;
 
 };

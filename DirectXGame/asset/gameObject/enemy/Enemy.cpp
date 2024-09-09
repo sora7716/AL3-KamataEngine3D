@@ -55,7 +55,9 @@ void Enemy::Draw() {
 }
 
 //衝突したとき
-void Enemy::OnCollision() { worldTransform_.translation_.x += 10.0f;}
+void Enemy::OnCollision() { 
+	worldTransform_.translation_.x += 5.0f;
+}
 
 // 止まっているとき
 void Enemy::StatusStay() {

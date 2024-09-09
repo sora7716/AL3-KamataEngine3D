@@ -89,8 +89,6 @@ void GameScene::Update() {
 	for (auto position : enemyCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
-
-	player_->UpdateParts(playerHp_->GetHpCount());
 }
 
 // 描画
@@ -220,14 +218,18 @@ void GameScene::CheackOnCollision() {
 	// AABBを受け取る
 	posA = player_->GetAABB();
 
-	for (auto* enemy : enemis_) {
-		posB = enemy->GetAABB();
-		// 衝突判定
-		if (Collision::IsCollision(posA, posB)) {
-			enemy->OnCollision(); // 衝突したら
+	if (!player_->IsStartFrash()) {
 
-			//プレイヤーの残機を一個減らす
-			playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
+		for (auto* enemy : enemis_) {
+			posB = enemy->GetAABB();
+			// 衝突判定
+			if (Collision::IsCollision(posA, posB)) {
+				enemy->OnCollision(); // 衝突したら
+
+				// プレイヤーの残機を一個減らす
+				playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
+				player_->OnCollision(playerHp_->GetHpCount());
+			}
 		}
 	}
 #pragma endregion
