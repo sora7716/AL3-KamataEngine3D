@@ -7,6 +7,7 @@
 //前方宣言(苦肉の策)
 class ViewProjection;
 class Create;
+class Hp;
 
 /// <summary>
 /// プレイヤー
@@ -51,6 +52,11 @@ public://メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 衝突したときの処理
+	/// </summary>
+	void OnCollision(int hpCount);
 
 #pragma region コマンド
 	/// <summary>
@@ -142,6 +148,15 @@ public://メンバ関数
 	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName)const;
 
 	/// <summary>
+	/// プレイヤーの消滅
+	/// </summary>
+	void PlayerDead();
+
+	int IsStartFrash();
+
+	int IsFrashing();
+
+	/// <summary>
 	/// 耳飛ばしたのが1回目かどうかのフラグのセッター
 	/// </summary>
 	/// <param name="isShotFirstTime">設定したいフラグ</param>
@@ -158,6 +173,33 @@ private: // メンバ関数
 	/// パーツの初期化
 	/// </summary>
 	void InitializeParts();
+
+#pragma region 右腕を飛ばす
+
+	//角度も動かす
+	void Right_Arm_MoveAngle();
+
+	//衝突時、座標を動かす
+	void Right_Arm_MovePosition();
+	
+	void Right_Arm_Fly();
+
+#pragma endregion
+
+
+#pragma region 左腕を飛ばす
+
+	// 衝突時、座標を動かす
+	void Left_Arm_MovePosition();
+	// 角度も動かす
+	void Left_Arm_MoveAngle();
+
+	void Left_Arm_Fly();
+
+#pragma endregion
+	
+	//無敵時間
+	void Unrivaled();
 
 	/// <summary>
 	/// 耳を飛ばす
@@ -193,6 +235,18 @@ private://メンバ変数
 
 	// クリエイトクラス
 	Create* create_ = nullptr; 
+
+	Model* bulletModel_ = nullptr;
+	WorldTransform bulletWorldTransform_;
+	bool isPressSpace_ = false;
+	bool isDead_ = false;
+	int hpCount_ = 3;
+
+	static void (Player::*parts_flyTable[])();//メンバ関数ポインタテーブル
+	bool isFrashStart_ = false;
+	bool isInvisible_ = false;
+
+	int coolTimer = 0;
 
 	//耳を飛ばすときの変数
 	Vector3 leftEarPosition_ = {};//耳の位置

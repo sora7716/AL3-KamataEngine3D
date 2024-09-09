@@ -74,6 +74,9 @@ void GameScene::Initialize() {
 
 	enemyCommand_ = make_unique<CSVFailLoading>();
 	enemyCommand_->Initialize();
+
+	playerHp_ = make_unique<Hp>();
+	playerHp_->Initialize();
 }
 
 // 更新
@@ -145,6 +148,8 @@ void GameScene::Draw() {
 	/// </summary>
 	bitmapFont_->Draw();
 
+	playerHp_->Draw();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -213,11 +218,18 @@ void GameScene::CheackOnCollision() {
 	// AABBを受け取る
 	posA = player_->GetAABB();
 
-	for (auto* enemy : enemis_) {
-		posB = enemy->GetAABB();
-		// 衝突判定
-		if (Collision::IsCollision(posA, posB)) {
-			enemy->OnCollision(); // 衝突したら
+	if (!player_->IsStartFrash()) {
+
+		for (auto* enemy : enemis_) {
+			posB = enemy->GetAABB();
+			// 衝突判定
+			if (Collision::IsCollision(posA, posB)) {
+				enemy->OnCollision(); // 衝突したら
+
+				// プレイヤーの残機を一個減らす
+				playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
+				player_->OnCollision(playerHp_->GetHpCount());
+			}
 		}
 	}
 #pragma endregion
@@ -280,6 +292,7 @@ void GameScene::UpdateField() {
 			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
 		}
 	}
+	playerHp_->Update();
 }
 
 // パーツの位置と角度のセッターをまとめた

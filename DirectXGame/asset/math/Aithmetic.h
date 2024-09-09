@@ -171,3 +171,4 @@ const Matrix4x4 operator~(const Matrix4x4& num);
 /// <param name="num">浮動小数</param>
 /// <returns>行列</returns>
 const Matrix4x4 operator*(const Matrix4x4 m, float num);
+
