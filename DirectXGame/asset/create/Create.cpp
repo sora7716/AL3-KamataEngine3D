@@ -27,6 +27,8 @@ void Create::ModelCreate() {
 	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy", true);
 	//天球
 	models_[(int)typeSkyDome] = Model::CreateFromOBJ("SkyEntyu", true);
+	//ワープポイント
+	models_[(int)typeWarp] = Model::CreateFromOBJ("warp", true);
 }
 
 // テクスチャをクリエイト

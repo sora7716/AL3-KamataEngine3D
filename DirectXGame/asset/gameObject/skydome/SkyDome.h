@@ -57,6 +57,12 @@ public: // メンバ関数
 	/// <returns>ローカル座標</returns>
 	Vector3 GetTranslation();
 
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns>ワールドトランスフォーム</returns>
+	WorldTransform& GetWorldTransform();
+
 private: // メンバ関数
 
 	/// <summary>

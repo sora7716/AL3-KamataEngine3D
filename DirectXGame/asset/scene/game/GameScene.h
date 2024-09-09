@@ -22,6 +22,7 @@
 #include "asset/gameObject/score/Score.h"
 #include "asset/failLoad/CSVFailLoading.h"
 #include "asset/gameObject/hp/Hp.h"
+#include "asset/gameObject/warp/Warp.h"
 
 #include <memory>
 using namespace std;
@@ -167,5 +168,6 @@ private: // メンバ変数
 	GamePhase gamePhase_ = GamePhase::kStart;
 	//残機
 	unique_ptr<Hp> playerHp_ = nullptr;
-
+	//ワープポイント
+	unique_ptr<Warp> warp_ = nullptr;
 };

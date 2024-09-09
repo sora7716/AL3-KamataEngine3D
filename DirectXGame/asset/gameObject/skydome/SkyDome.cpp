@@ -34,14 +34,14 @@ void SkyDome::Update(bool isMove, bool isTitle) {
 #endif // _DEBUG
 	// スカイドームを移動
 	if (isMove) {
-		if (velocityZ>=15.0f) {
+		if (velocityZ >= 15.0f) {
 			velocityZ = 15.0f;
 		} else {
 			// 速度を加算
 			VelocityAdd();
 		}
-		//worldTransform_.translation_.z -= velocityZ; // 移動
-		worldTransform_.rotation_.z += 0.005f;       // 回転
+		// worldTransform_.translation_.z -= velocityZ; // 移動
+		worldTransform_.rotation_.z += 0.005f; // 回転
 	}
 	if (isTitle) {
 		worldTransform_.rotation_.y += 0.005f; // 回転
@@ -68,17 +68,23 @@ void SkyDome::SetTranslation(const Vector3& position) { worldTransform_.translat
 // ローテーションのセッター
 void SkyDome::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
 
-//速度Zのゲッター
+// 速度Zのゲッター
 float SkyDome::GetVelocityZ() const { return velocityZ; }
 
-//ローカル座標のゲッター
+// ローカル座標のゲッター
 Vector3 SkyDome::GetTranslation() { return worldTransform_.translation_; }
+
+// ワールドトランスフォームのゲッター
+WorldTransform& SkyDome::GetWorldTransform() {
+	// TODO: return ステートメントをここに挿入します
+	return worldTransform_;
+}
 
 // 速度を加算する
 void SkyDome::VelocityAdd() {
 	// 時間を計測
 	if (velocityZAddTime-- < 0) {
-		velocityZ++;//速度を加算
-		velocityZAddTime = kAddTimeInterval;//時間をリセット
+		velocityZ++;                         // 速度を加算
+		velocityZAddTime = kAddTimeInterval; // 時間をリセット
 	}
 }

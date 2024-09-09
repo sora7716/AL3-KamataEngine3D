@@ -59,34 +59,7 @@ void Player::Update(float firePos) {
 
 	// 耳を飛ばす
 	EarShot(firePos);
-	static Vector3 begin = {};
-	static Vector3 end = {};
-	static float frame = 0;
-	float endFrame = 60;
-	static bool isReverse = false;
-	bulletWorldTransform_.translation_ = worldTransform_.translation_;
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_ && !isReverse) {
-		begin = worldTransform_.translation_;
-		end = Vector3(0.0f, 0.0f, 100.0f);
-		isPressSpace_ = true;
-		frame = 0.0f;
-	}
-	if (isPressSpace_) {
-		if (frame++ > endFrame) {
-			frame = endFrame;
-			isReverse = true;
-			isPressSpace_ = false;
-			frame = 0.0f;
-		}
-		bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f, 0.0f, 30.0f), end, frame / endFrame);
-	}
-	if (isReverse) {
-		if (frame++ > endFrame) {
-			frame = endFrame;
-			isReverse = false;
-		}
-		bulletWorldTransform_.translation_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), worldTransform_.translation_, Easing::InOut(frame / endFrame));
-	}
+	
 	if (hpCount_ < 3) {
 		(this->*parts_flyTable[hpCount_])();
 	}
@@ -105,7 +78,7 @@ void Player::Update(float firePos) {
 // 描画
 void Player::Draw() {
 
-	if (isDead_ || isFrashing_) {
+	if (isDead_ || isInvisible_) {
 		return;
 	}
 
@@ -200,7 +173,7 @@ void Player::PlayerDead() { isDead_ = true; }
 
 int Player::IsStartFrash() { return this->isFrashStart_; }
 
-int Player::IsFrashing() { return this->isFrashing_; }
+int Player::IsFrashing() { return this->isInvisible_; }
 
 // 耳飛ばしたのが1回目かどうかのフラグ
 void Player::SetIsShotFirstTime(bool isShotFirstTime) { isShotFirstTime_ = isShotFirstTime; }
@@ -305,37 +278,37 @@ void Player::Right_Arm_MoveAngle() {
 	static float right_ArmAngle = 1.0f;
 	right_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
 }
 
 void Player::Right_Arm_MovePosition() {
 
 	// 右腕の新しい位置を計算
 	Vector3 right_ArmPos = {
-	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().y - 0.40f,
-	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.75f};
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().z - 0.75f};
 
 	// 新しい位置を設定
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetPosition(right_ArmPos);
 
 	// 右腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
 	if (right_ArmPos.x <= -10.f && right_ArmPos.y <= -40.f && right_ArmPos.z <= -90.f) {
-		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
+		parts_[static_cast<int>(IPlayerParts::right_arm)]->SetParts_IsDead(true);
 	}
 }
 
 void Player::Right_Arm_Fly() {
 
 	// 右腕のパーツが破壊されていないかまたは残機が1でないか確認する
-	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false) {
+	if (parts_[static_cast<int>(IPlayerParts::right_arm)]->GetParts_IsDead() != false) {
 		return;
 	}
 
 	// 右腕のパーツが飛んでいる状態に設定する
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetParts_Fly(true);
 
 	// パーツが飛んでいるかどうかを確認する
-	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
+	if (parts_[static_cast<int>(IPlayerParts::right_arm)]->GetParts_Fly()) {
 
 		Right_Arm_MoveAngle();
 
@@ -348,37 +321,37 @@ void Player::Left_Arm_MoveAngle() {
 	static float left_ArmAngle = 1.0f;
 	left_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
 }
 
 void Player::Left_Arm_MovePosition() {
 
 	// 左腕の新しい位置を計算
 	Vector3 left_ArmPos = {
-	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().y - 0.40f,
-	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.75f};
+	    parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().z + 0.75f};
 
 	// 新しい位置を設定
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetPosition(left_ArmPos);
 
 	// 左腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
 	if (left_ArmPos.x <= -10.f && left_ArmPos.y <= -40.f && left_ArmPos.z >= 90.f) {
-		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
+		parts_[static_cast<int>(IPlayerParts::left_arm)]->SetParts_IsDead(true);
 	}
 }
 
 void Player::Left_Arm_Fly() {
 
 	// 左腕のパーツが破壊されていないか確認する
-	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
+	if (parts_[static_cast<int>(IPlayerParts::left_arm)]->GetParts_IsDead() != false) {
 		return;
 	}
 
 	// 左腕のパーツが飛んでいる状態に設定する
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetParts_Fly(true);
 
 	// パーツが飛んでいるかどうかを確認する
-	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
+	if (parts_[static_cast<int>(IPlayerParts::left_arm)]->GetParts_Fly()) {
 
 		Left_Arm_MoveAngle();
 
@@ -401,16 +374,16 @@ void Player::Unrivaled() {
 
 	if (isFrashStart_) {
 
-		if (--frashTimer < 0 && isFrashing_ == false) {
-			isFrashing_ = true;
+		if (--frashTimer < 0 && isInvisible_ == false) {
+			isInvisible_ = true;
 			frashTimer = kInterval;
-		} else if (--frashTimer < 0 && isFrashing_ == true) {
-			isFrashing_ = false;
+		} else if (--frashTimer < 0 && isInvisible_ == true) {
+			isInvisible_ = false;
 			frashTimer = kInterval;
 		}
 	}
 	ImGui::Checkbox("Start", &isFrashStart_);
-	ImGui::Checkbox("Frag", &isFrashing_);
+	ImGui::Checkbox("Frag", &isInvisible_);
 	ImGui::Text("time = %d", frashTimer);
 
 }

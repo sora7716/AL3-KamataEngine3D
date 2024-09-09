@@ -71,12 +71,17 @@ void GameScene::Initialize() {
 	// スコア
 	bitmapFont_ = make_unique<Score>();
 	bitmapFont_->Initialize();
-
+	//敵の表示する場所
 	enemyCommand_ = make_unique<CSVFailLoading>();
 	enemyCommand_->Initialize();
-
+	//プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
 	playerHp_->Initialize();
+
+	//ワープ
+	warp_ = make_unique<Warp>();
+	warp_->Initialize(create_->GetModel(create_->typeWarp),&viewProjection_);
+	warp_->SetParent(&skyDome_->GetWorldTransform());
 }
 
 // 更新
@@ -85,7 +90,6 @@ void GameScene::Update() {
 	UpdateField();
 
 	enemyCommand_->Update();
-
 	for (auto position : enemyCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
@@ -131,7 +135,10 @@ void GameScene::Draw() {
 	// 天球
 	skyDome_->Draw();
 
-	// フェードインとフェードアウトに使うスプライト
+	// ワープ
+	warp_->Draw();
+	
+	// フェードインとフェードアウトに使うスプライト(この下に3Dモデルをおかないで)
 	fieldChangeFade_->Draw(commandList);
 
 	railCamera_->Draw();
@@ -146,9 +153,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	//スコアの表示
 	bitmapFont_->Draw();
-
+	//プレイヤーのHP
 	playerHp_->Draw();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -249,6 +259,8 @@ void GameScene::UpdateField() {
 	player_->Update(skyDome_->GetTranslation().z);
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
+	//ワープ
+	warp_->Update();
 	// 障害物
 	for (auto* enemy : enemis_) {
 		enemy->Update();

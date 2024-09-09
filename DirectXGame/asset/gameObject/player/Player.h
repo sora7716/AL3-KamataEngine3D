@@ -236,9 +236,6 @@ private://メンバ変数
 	// クリエイトクラス
 	Create* create_ = nullptr; 
 
-	Model* bulletModel_ = nullptr;
-	WorldTransform bulletWorldTransform_;
-	bool isPressSpace_ = false;
 	bool isDead_ = false;
 	int hpCount_ = 3;
 
