@@ -53,7 +53,7 @@ void Enemy::Update() {
 // 描画
 void Enemy::Draw() {
 
-	model_->Draw(worldTransform_, *viewProjection_); //
+	model_->Draw(worldTransform_, *viewProjection_); 
 }
 
 //衝突したとき

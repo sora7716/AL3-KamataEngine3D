@@ -29,7 +29,7 @@ public: // メンバ関数
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="position">初期位置</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, Vector3 position);
+	void Initialize(Model* model, ViewProjection* viewProjection, Vector3 position = {});
 
 	/// <summary>
 	/// 更新

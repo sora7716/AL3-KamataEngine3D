@@ -59,12 +59,12 @@ void GameScene::Initialize() {
 	player_->SetSkyDome(skyDome_.get());
 
 	// 障害物
-	for (int i = 0; i < kEnemyNum;i++) {
-		Enemy *newEnemy = new Enemy();
+	for (int i = 0; i < kEnemyBeginNum; i++) {
+		Enemy* newEnemy = new Enemy();
 		Vector3 enemyPos = {10, 0, 50.0f};
 		newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
 		newEnemy->SetParent(&skyDome_->GetWorldTransform());
-		enemis_.push_back(newEnemy);
+		enemis_.push_back(newEnemy); // moveでunique_ptrを転送
 	}
 
 	// フェード
@@ -75,16 +75,16 @@ void GameScene::Initialize() {
 	// スコア
 	bitmapFont_ = make_unique<Score>();
 	bitmapFont_->Initialize();
-	//敵の表示する場所
-	enemyCommand_ = make_unique<CSVFailLoading>();
-	enemyCommand_->Initialize();
-	//プレイヤーのHP
+	// 敵の表示する場所
+	enemyPopCommand_ = make_unique<CSVFailLoading>();
+	enemyPopCommand_->Initialize();
+	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
 	playerHp_->Initialize();
 
-	//ワープ
+	// ワープ
 	warp_ = make_unique<Warp>();
-	warp_->Initialize(create_->GetModel(create_->typeWarp),&viewProjection_);
+	warp_->Initialize(create_->GetModel(create_->typeWarp), &viewProjection_);
 	warp_->SetParent(&skyDome_->GetWorldTransform());
 }
 
@@ -92,11 +92,16 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// フィールドの更新
 	UpdateField();
-
-	enemyCommand_->Update();
-	for (auto position : enemyCommand_->GetPosition()) {
+#ifdef _DEBUG
+	ImGui::Begin("enemyPopCommand");
+	for (auto position : enemyPopCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
+	for (auto time : enemyPopCommand_->GetWaitTime()) {
+		ImGui::Text("%d", time);
+	}
+	ImGui::End();
+#endif // _DEBUG
 }
 
 // 描画
@@ -141,7 +146,7 @@ void GameScene::Draw() {
 
 	// ワープ
 	warp_->Draw();
-	
+
 	// フェードインとフェードアウトに使うスプライト(この下に3Dモデルをおかないで)
 	fieldChangeFade_->Draw(commandList);
 
@@ -157,12 +162,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	
-	//スコアの表示
-	bitmapFont_->Draw();
-	//プレイヤーのHP
-	playerHp_->Draw();
 
+	// スコアの表示
+	bitmapFont_->Draw();
+	// プレイヤーのHP
+	playerHp_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -251,6 +255,8 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
+	// 障害物のpopするコマンド
+	enemyPopCommand_->Update();
 	// フェードの時間をスカイドームの進むスピードに合わせる
 	if (fadeTime_ > 0.3f) {
 		fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
@@ -261,14 +267,6 @@ void GameScene::UpdateField() {
 	railCamera_->Update();
 	// プレイヤー
 	player_->Update(skyDome_->GetTranslation().z);
-	// 天球
-	skyDome_->Update(!fieldChangeFade_->IsFinished());
-	//ワープ
-	warp_->Update(player_->IsWarpSpawn());
-	// 障害物
-	for (auto* enemy : enemis_) {
-		enemy->Update();
-	}
 	// スコアの計算
 	score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
 	bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
@@ -276,8 +274,16 @@ void GameScene::UpdateField() {
 	bitmapFont_->Update();
 	// プレイヤーのHPの更新
 	playerHp_->Update();
+	// 天球
+	skyDome_->Update(!fieldChangeFade_->IsFinished());
+	// ワープ
+	warp_->Update(player_->IsWarpSpawn());
 	// フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
+		static int enemyNum = kEnemyBeginNum;
+		for (int i = 0; i < enemyNum; i++) {
+			enemis_[i]->SetPosition(enemyPopCommand_->GetPosition()[i]);
+		}
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
 			fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
@@ -290,6 +296,12 @@ void GameScene::UpdateField() {
 			}
 		}
 	} else if (fieldStatus_ == FieldStatus::kMain) {
+		// 障害物
+		for (auto* enemy : enemis_) {
+			if (enemy) {
+				enemy->Update();
+			}
+		}
 		// スカイドームが-1280より上に行ったら
 		if (skyDome_->GetWorldPosition().z < -1280.0f) {
 			fieldStatus_ = FieldStatus::kFadeOut;
@@ -307,7 +319,7 @@ void GameScene::UpdateField() {
 			player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
 			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
 			warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
-			//現在のスカイドームの状態
+			// 現在のスカイドームの状態
 			if (isSkyDive_) {
 				isSkyDive_ = false; // falseを設定
 			} else {

@@ -122,7 +122,7 @@ public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
 	static inline const float kScoreSource = 1.0f;//スコアの元
-	static inline const int kEnemyNum = 1;//障害物の数
+	static inline const int kEnemyBeginNum = 4;//障害物の最初にある数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -148,8 +148,10 @@ private: // メンバ変数
 	//インプットハンドラ
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
-	list<Enemy*> enemis_;
+	vector<Enemy*> enemis_;
 	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
+	// CSVファイルロード
+	unique_ptr<CSVFailLoading> enemyPopCommand_ = nullptr;
 	//天球
 	unique_ptr<SkyDome> skyDome_ = nullptr;
 	bool isSkyDive_ = true;
@@ -162,8 +164,6 @@ private: // メンバ変数
 	//スコア
 	unique_ptr<Score> bitmapFont_ = nullptr;
 	float score_ = 0;//現在のスコア
-	//CSVファイルロード
-	unique_ptr<CSVFailLoading> enemyCommand_ = nullptr;
 	//終了フラグ
 	bool isFinished_ = false;
 	//ゲームのフェーズ

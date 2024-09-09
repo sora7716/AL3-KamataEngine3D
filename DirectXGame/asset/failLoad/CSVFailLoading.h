@@ -2,7 +2,7 @@
 #include<cmath>
 #define _USE_MATH_DEFINES
 #include <sstream>
-#include <list>
+#include <vector>
 #include "Vector3.h"
 
 /// <summary>
@@ -34,7 +34,13 @@ public://メンバ関数
 	/// <summary>
     /// 位置のゲッター
     /// </summary>
-	std::list<Vector3>GetPosition();
+	std::vector<Vector3>GetPosition();
+
+	/// <summary>
+	/// 待つ時間のゲッター
+	/// </summary>
+	/// <returns>waitTime</returns>
+	std::vector<int32_t> GetWaitTime();
 
 private: // メンバ変数
 
@@ -48,11 +54,11 @@ private: // メンバ変数
 	/// コマンドの更新
 	/// </summary>
 	/// <param name="failDataCommands">コマンドを格納しておく変数</param>
-	void UpdatePopCommand(std::stringstream& failDataCommands, std::list<Vector3>& position, int32_t waitTime);
+	void UpdatePopCommand(std::stringstream& failDataCommands, std::vector<Vector3>& position, std::vector<int32_t>& waitTime);
 
 private://メンバ変数
 	std::stringstream failDataCommands_;//ファイルデータを格納しておく変数
-	std::list<Vector3>position_;//データに書いてあった位置を格納しておく変数
-	int32_t waitTime_ = 0;  // 待機時間のカウンタを保持するための変数
+	std::vector<Vector3>position_;//データに書いてあった位置を格納しておく変数
+	std::vector<int32_t> waitTime_;   // 待機時間のカウンタを保持するための変数
 };
 
