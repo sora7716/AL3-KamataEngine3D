@@ -204,12 +204,12 @@ void TitleScene::SetPartisPositionAndAngle() {
 	//位置
 	player_->SetPartsPosition(IPlayerParts::head, {0.0f,1.0f,0.0f}); //頭
 	player_->SetPartsPosition(IPlayerParts::arm, {0.0f, -0.98f, 0.0f});//腕
-	player_->SetPartsPosition(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.0f});//左腕
-	player_->SetPartsPosition(IPlayerParts::right_Arm, {0.0f, 0.0f, -2.0f});//右腕
+	player_->SetPartsPosition(IPlayerParts::left_arm, {0.0f, 0.0f, 2.0f});//左腕
+	player_->SetPartsPosition(IPlayerParts::right_arm, {0.0f, 0.0f, -2.0f});//右腕
 	//角度
 	player_->SetPartsAngle(IPlayerParts::head, {0.0f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
 	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 0.0f}); // 体
 	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f}); // 腕
-	player_->SetPartsAngle(IPlayerParts::left_Arm, {0.0f, 0.0f, 2.3f}); // 左腕
-	player_->SetPartsAngle(IPlayerParts::right_Arm, {0.0f,0.0f, 2.3f}); // 右腕
+	player_->SetPartsAngle(IPlayerParts::left_arm, {0.0f, 0.0f, 2.3f}); // 左腕
+	player_->SetPartsAngle(IPlayerParts::right_arm, {0.0f,0.0f, 2.3f}); // 右腕
 }

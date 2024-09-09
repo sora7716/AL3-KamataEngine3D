@@ -128,8 +128,8 @@ void Player::DrawDebugText() {
 	    parts_[static_cast<int>(IPlayerParts::head)]->DrawDebugText();      //頭
 	    parts_[static_cast<int>(IPlayerParts::body)]->DrawDebugText();      //体
 	    parts_[static_cast<int>(IPlayerParts::arm)]->DrawDebugText();       //両腕
-	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->DrawDebugText();  //左腕
-	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->DrawDebugText(); //右腕
+	    parts_[static_cast<int>(IPlayerParts::left_arm)]->DrawDebugText();  //左腕
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->DrawDebugText(); //右腕
 	    parts_[static_cast<int>(IPlayerParts::ear)]->DrawDebugText();       //両耳
 	    parts_[static_cast<int>(IPlayerParts::left_Ear)]->DrawDebugText();  //左耳
 	    parts_[static_cast<int>(IPlayerParts::right_Ear)]->DrawDebugText(); //右耳
@@ -239,9 +239,9 @@ void Player::CreateParts() {
 	// プレイヤーのパーツ(腕)
 	parts_[static_cast<int>(IPlayerParts::arm)] = make_unique<PlayerArm>();
 	// プレイヤーパーツ(左腕)
-	parts_[static_cast<int>(IPlayerParts::left_Arm)] = make_unique<PlayerLeft_Arm>();
+	parts_[static_cast<int>(IPlayerParts::left_arm)] = make_unique<PlayerLeft_Arm>();
 	// プレイヤーパーツ(右腕)
-	parts_[static_cast<int>(IPlayerParts::right_Arm)] = make_unique<PlayerRight_Arm>();
+	parts_[static_cast<int>(IPlayerParts::right_arm)] = make_unique<PlayerRight_Arm>();
 	// プレイヤーパーツ(耳)
 	parts_[static_cast<int>(IPlayerParts::ear)] = make_unique<PlayerEar>();
 	// プレイヤーパーツ(左耳)
@@ -262,11 +262,11 @@ void Player::InitializeParts() {
 	parts_[static_cast<int>(IPlayerParts::arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::arm)]->SetParent(&this->GetWorldTransform());
 	// プレイヤーパーツ(左腕)
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->Initialize(create_->GetModel(create_->typePlayerLeft_Arm), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 	// プレイヤーパーツ(右腕)
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->Initialize(create_->GetModel(create_->typePlayerRight_Arm), viewProjection_);
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetParent(&parts_[static_cast<int>(IPlayerParts::arm)]->GetWorldTransform());
 	// プレイヤーパーツ(耳)
 	parts_[static_cast<int>(IPlayerParts::ear)]->Initialize(create_->GetModel(create_->typePlayerLeft_Ear), viewProjection_);
 	parts_[static_cast<int>(IPlayerParts::ear)]->SetParent(&this->GetWorldTransform());
@@ -285,37 +285,37 @@ void Player::Right_Arm_MoveAngle() {
 	static float right_ArmAngle = 1.0f;
 	right_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
 }
 
 void Player::Right_Arm_MovePosition() {
 
 	// 右腕の新しい位置を計算
 	Vector3 right_ArmPos = {
-	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().y - 0.40f,
-	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetPosition().z - 0.75f};
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().z - 0.75f};
 
 	// 新しい位置を設定
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetPosition(right_ArmPos);
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetPosition(right_ArmPos);
 
 	// 右腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
 	if (right_ArmPos.x <= -10.f && right_ArmPos.y <= -40.f && right_ArmPos.z <= -90.f) {
-		parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_IsDead(true);
+		parts_[static_cast<int>(IPlayerParts::right_arm)]->SetParts_IsDead(true);
 	}
 }
 
 void Player::Right_Arm_Fly() {
 
 	// 右腕のパーツが破壊されていないかまたは残機が1でないか確認する
-	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_IsDead() != false) {
+	if (parts_[static_cast<int>(IPlayerParts::right_arm)]->GetParts_IsDead() != false) {
 		return;
 	}
 
 	// 右腕のパーツが飛んでいる状態に設定する
-	parts_[static_cast<int>(IPlayerParts::right_Arm)]->SetParts_Fly(true);
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetParts_Fly(true);
 
 	// パーツが飛んでいるかどうかを確認する
-	if (parts_[static_cast<int>(IPlayerParts::right_Arm)]->GetParts_Fly()) {
+	if (parts_[static_cast<int>(IPlayerParts::right_arm)]->GetParts_Fly()) {
 
 		Right_Arm_MoveAngle();
 
@@ -328,37 +328,37 @@ void Player::Left_Arm_MoveAngle() {
 	static float left_ArmAngle = 1.0f;
 	left_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
 }
 
 void Player::Left_Arm_MovePosition() {
 
 	// 左腕の新しい位置を計算
 	Vector3 left_ArmPos = {
-	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().y - 0.40f,
-	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetPosition().z + 0.75f};
+	    parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().y - 0.40f,
+	    parts_[static_cast<int>(IPlayerParts::left_arm)]->GetPosition().z + 0.75f};
 
 	// 新しい位置を設定
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetPosition(left_ArmPos);
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetPosition(left_ArmPos);
 
 	// 左腕の位置が一定の範囲内に入った場合、パーツを破壊済みに設定する
 	if (left_ArmPos.x <= -10.f && left_ArmPos.y <= -40.f && left_ArmPos.z >= 90.f) {
-		parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_IsDead(true);
+		parts_[static_cast<int>(IPlayerParts::left_arm)]->SetParts_IsDead(true);
 	}
 }
 
 void Player::Left_Arm_Fly() {
 
 	// 左腕のパーツが破壊されていないか確認する
-	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_IsDead() != false) {
+	if (parts_[static_cast<int>(IPlayerParts::left_arm)]->GetParts_IsDead() != false) {
 		return;
 	}
 
 	// 左腕のパーツが飛んでいる状態に設定する
-	parts_[static_cast<int>(IPlayerParts::left_Arm)]->SetParts_Fly(true);
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetParts_Fly(true);
 
 	// パーツが飛んでいるかどうかを確認する
-	if (parts_[static_cast<int>(IPlayerParts::left_Arm)]->GetParts_Fly()) {
+	if (parts_[static_cast<int>(IPlayerParts::left_arm)]->GetParts_Fly()) {
 
 		Left_Arm_MoveAngle();
 
