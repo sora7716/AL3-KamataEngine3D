@@ -52,5 +52,12 @@ public:
 	/// <param name="frame">フレーム</param>
 	/// <returns>イージング</returns>
 	static float OutBack(float frame);
+
+	/// <summary>
+	/// イーズアウトエラスティック
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns></returns>
+	static float EaseOutElastic(float frame);
 };
 

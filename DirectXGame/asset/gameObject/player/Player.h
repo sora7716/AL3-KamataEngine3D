@@ -8,6 +8,7 @@
 class ViewProjection;
 class Create;
 class Hp;
+class SkyDome;
 
 /// <summary>
 /// プレイヤー
@@ -152,15 +153,35 @@ public://メンバ関数
 	/// </summary>
 	void PlayerDead();
 
-	int IsStartFrash();
+	/// <summary>
+	/// 無敵時間がスタートするかどうかのフラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsStartFrash();
 
-	int IsFrashing();
+	/// <summary>
+	/// 透明なのかのフラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsInvisible_();
 
 	/// <summary>
 	/// 耳飛ばしたのが1回目かどうかのフラグのセッター
 	/// </summary>
 	/// <param name="isShotFirstTime">設定したいフラグ</param>
 	void SetIsShotFirstTime(bool isShotFirstTime);
+
+	/// <summary>
+	/// ワープポイントがスポーンしているかどうかのフラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsWarpSpawn();
+
+	/// <summary>
+	/// スカイドームのセッター
+	/// </summary>
+	/// <param name="skyDome">スカイドーム</param>
+	void SetSkyDome(SkyDome* skyDome);
 
 private: // メンバ関数
 
@@ -236,18 +257,21 @@ private://メンバ変数
 	// クリエイトクラス
 	Create* create_ = nullptr; 
 
-	bool isDead_ = false;
-	int hpCount_ = 3;
+	bool isDead_ = false;//死んだとき
+	int hpCount_ = 3;//HPのカウント
 
+	//無敵時間
 	static void (Player::*parts_flyTable[])();//メンバ関数ポインタテーブル
-	bool isFrashStart_ = false;
-	bool isInvisible_ = false;
-
-	int coolTimer = 0;
+	bool isFrashStart_ = false;//無敵時間をスタートさせるかどうか
+	bool isInvisible_ = false;//透明かどうか
+	int coolTimer = 0;//無敵時間のクールタイム
 
 	//耳を飛ばすときの変数
 	Vector3 leftEarPosition_ = {};//耳の位置
 	float leftEarSize_ = 1.0f;//耳の大きさ
 	bool isEarShot_ = false;//耳を飛ばすときのフラグ
 	bool isShotFirstTime_ = false;//耳飛ばしたのが1回目かどうかのフラグ
+
+	bool isWarpSpawn_ = false;//ワープポイントのスポーンするかどうかのフラグ
+	SkyDome* skyDome_ = nullptr;//スカイドーム
 };

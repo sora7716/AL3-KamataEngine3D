@@ -57,7 +57,6 @@ void Score::Update() {
 }
 
 void Score::Draw() {
-
 	// スコアの桁数を計算する
 	CalculateDigits(score_);
 

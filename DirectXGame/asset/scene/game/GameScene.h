@@ -1,6 +1,7 @@
 #pragma once
 #define WHITE Vector4{1.0f,1.0f,1.0f,1.0f}
 #define BLACK Vector4{0.0f,0.0f,0.0f,1.0f}
+#define DARK_BROWN Vector4 { 0.259f, 0.075f, 0.086f }
 #define oneFrame float(1.0f/60.0f)
 
 #include "Audio.h"

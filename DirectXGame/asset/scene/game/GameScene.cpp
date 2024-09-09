@@ -62,6 +62,7 @@ void GameScene::Initialize() {
 	// 天球
 	skyDome_ = make_unique<SkyDome>();
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
+	player_->SetSkyDome(skyDome_.get());
 
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();
@@ -133,7 +134,7 @@ void GameScene::Draw() {
 		}
 	}
 	// 天球
-	skyDome_->Draw();
+	skyDome_->Draw(isSkyDive_);
 
 	// ワープ
 	warp_->Draw();
@@ -260,7 +261,7 @@ void GameScene::UpdateField() {
 	// 天球
 	skyDome_->Update(!fieldChangeFade_->IsFinished());
 	//ワープ
-	warp_->Update();
+	warp_->Update(player_->IsWarpSpawn());
 	// 障害物
 	for (auto* enemy : enemis_) {
 		enemy->Update();
@@ -270,6 +271,8 @@ void GameScene::UpdateField() {
 	bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
 	// スコアの表示用の計算
 	bitmapFont_->Update();
+	// プレイヤーのHPの更新
+	playerHp_->Update();
 	// フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
@@ -278,10 +281,8 @@ void GameScene::UpdateField() {
 			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
 			// スカイダイブかどうか
 			if (isSkyDive_) {
-				isSkyDive_ = false;      // falseを設定
-				fieldFadeColor_ = BLACK; // 色を黒色に設定
+				fieldFadeColor_ = DARK_BROWN; // 色を赤みがかったダークブラウンに設定
 			} else {
-				isSkyDive_ = true;       // trueに設定
 				fieldFadeColor_ = WHITE; // 白色に設定
 			}
 		}
@@ -302,9 +303,15 @@ void GameScene::UpdateField() {
 			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
 			player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
 			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
+			warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
+			//現在のスカイドームの状態
+			if (isSkyDive_) {
+				isSkyDive_ = false; // falseを設定
+			} else {
+				isSkyDive_ = true; // trueに設定
+			}
 		}
 	}
-	playerHp_->Update();
 }
 
 // パーツの位置と角度のセッターをまとめた

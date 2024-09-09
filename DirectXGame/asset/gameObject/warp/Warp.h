@@ -31,7 +31,8 @@ public://メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="isSpawn">ワープポイントを出すかどうかのフラグ</param>
+	void Update(bool isSpawn);
 
 	/// <summary>
 	/// 描画
@@ -44,9 +45,23 @@ public://メンバ関数
 	/// <param name="parent">親</param>
 	void SetParent(const WorldTransform*parent);
 
+	/// <summary>
+	/// サイズのセッター
+	/// </summary>
+	/// <param name="size">サイズ</param>
+	void SetSize(float size);
+
+private: // メンバ関数
+	/// <summary>
+	///スポーン
+	/// </summary>
+	void Spawn();
+
 private://メンバ変数
-	Model* model_ = nullptr;
-	ViewProjection* viewProjection_ = nullptr;
-	WorldTransform worldTransform_;
-	float size_ = 1.0f;
+	Model* model_ = nullptr;//モデル
+	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
+	WorldTransform worldTransform_;//ワールドトランスフォーム
+	float size_ = 0.0f;//サイズ
+	float sizeEasing_ = 0.0f;//イージングのフレーム
+	bool isAlive_ = false;
 };

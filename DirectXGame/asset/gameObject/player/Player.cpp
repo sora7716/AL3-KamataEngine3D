@@ -3,6 +3,7 @@
 #include "ViewProjection.h"
 #include "asset/create/Create.h"
 #include "asset/gameObject/hp/Hp.h"
+#include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/math/Math.h"
 #include "input/Input.h"
 #include <cassert>
@@ -39,7 +40,7 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 // 更新
 void Player::Update(float firePos) {
 
-	if (isDead_ ) {
+	if (isDead_) {
 		return;
 	}
 
@@ -57,9 +58,11 @@ void Player::Update(float firePos) {
 		playerPart->Update();
 	}
 
-	// 耳を飛ばす
-	EarShot(firePos);
-	
+	if (skyDome_) {
+		// 耳を飛ばす
+		EarShot(firePos);
+	}
+
 	if (hpCount_ < 3) {
 		(this->*parts_flyTable[hpCount_])();
 	}
@@ -88,14 +91,14 @@ void Player::Draw() {
 	}
 }
 
-void Player::OnCollision(int hpCount) { 
-	
-	hpCount_ = hpCount; 
+// 衝突したとき
+void Player::OnCollision(int hpCount) {
+
+	hpCount_ = hpCount;
 
 	isFrashStart_ = true;
-	
-	coolTimer = 60;
 
+	coolTimer = 60;
 }
 
 void Player::MoveRight() { worldTransform_.translation_.x += velocity_.x; }
@@ -169,14 +172,23 @@ Vector3 Player::GetPartsPosition(IPlayerParts::PartsName partsName) const { retu
 // パーツの角度のゲッター
 Vector3 Player::GetPartsAngle(IPlayerParts::PartsName partsName) const { return parts_[(int)partsName]->GetAngle(); }
 
+// プレイヤーの消滅
 void Player::PlayerDead() { isDead_ = true; }
 
-int Player::IsStartFrash() { return this->isFrashStart_; }
+// 無敵時間がスタートするかどうかのフラグ
+bool Player::IsStartFrash() { return this->isFrashStart_; }
 
-int Player::IsFrashing() { return this->isInvisible_; }
+// 透明なのかのフラグ
+bool Player::IsInvisible_() { return this->isInvisible_; }
 
 // 耳飛ばしたのが1回目かどうかのフラグ
 void Player::SetIsShotFirstTime(bool isShotFirstTime) { isShotFirstTime_ = isShotFirstTime; }
+
+// ワープポイントがスポーンしているかどうかのフラグ
+bool Player::IsWarpSpawn() { return isWarpSpawn_; }
+
+// セッタースカイドーム
+void Player::SetSkyDome(SkyDome* skyDome) { skyDome_ = skyDome; }
 
 // パーツを作る
 void Player::CreateParts() {
@@ -228,15 +240,16 @@ void Player::InitializeParts() {
 
 // 耳を飛ばす
 void Player::EarShot(float firePos) {
-	static Vector3 beginPos = {};  // 初めの位置
-	static Vector3 endPos = {};    // 終わりの位置
-	static float beginSize = 1.0f; // 初めの大きさ
-	static float endSize = 0.8f;   // 終わりの大きさ
-	static float frame = 0;        // 現在のフレーム数
-	float endFrame = 60;           // 最終的になってほしいフレーム数
-	static bool isReverse = false; // 戻ってくる用のフラグ
-	leftEarPosition_ = {};         // 最初のポジション
-	if (firePos < -900 && !isShotFirstTime_) {
+	static Vector3 beginPos = {};                   // 初めの位置
+	static Vector3 endPos = {};                     // 終わりの位置
+	static float beginSize = 1.0f;                  // 初めの大きさ
+	static float endSize = 0.2f;                    // 終わりの大きさ
+	static float frame = 0;                         // 現在のフレーム数
+	float endFrame = 60.0f / (skyDome_->GetVelocityZ()*0.2f); // 最終的になってほしいフレーム数
+	static bool isReverse = false;                  // 戻ってくる用のフラグ
+	leftEarPosition_ = {};                          // 最初のポジション
+	isWarpSpawn_ = isReverse;                       // 戻ってくるフラグの代入
+	if (firePos < -800 && !isShotFirstTime_) {
 		beginPos = leftEarPosition_;           // 初めの位置を設定
 		endPos = Vector3(0.0f, 0.0f, -100.0f); // 終わりの位置の設定
 		isEarShot_ = true;                     // 耳を飛ばすフラグをtrue
@@ -251,14 +264,14 @@ void Player::EarShot(float firePos) {
 			frame = 0.0f;
 		}
 		leftEarPosition_ = Math::Bezier(beginPos, beginPos + Vector3(-50.0f, 0.0f, -30.0f), endPos, frame / endFrame); // ベジエ曲線で動きをつけている
-		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::Out(frame / endFrame));                             // 大きさを変える
+		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::Out(frame / endFrame));                                  // 大きさを変える
 	}
 	if (isReverse) {
 		if (frame++ > endFrame) {
 			frame = endFrame;
 			isReverse = false;
 		}
-		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(-50.0f, 0.0f, 30.0f), {-1.53f,0.0f,0.0f}, Easing::InOut(frame / endFrame));
+		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(-50.0f, 0.0f, 30.0f), {-1.55f, 0.0f, 0.0f}, Easing::InOut(frame / endFrame));
 		leftEarSize_ = Math::Lerp(endSize, beginSize, Easing::In(frame / endFrame)); // 大きさを変える
 		if (leftEarSize_ < beginSize) {
 			leftEarSize_ = beginSize; // サイズをbeginSizeより下に行かないようにする
@@ -359,31 +372,22 @@ void Player::Left_Arm_Fly() {
 	}
 }
 
-void (Player::*Player::parts_flyTable[])(){
-	&Player::PlayerDead,
-	&Player::Left_Arm_Fly, 
-	&Player::Right_Arm_Fly
-};
+void (Player::*Player::parts_flyTable[])(){&Player::PlayerDead, &Player::Left_Arm_Fly, &Player::Right_Arm_Fly};
 
 #pragma endregion
 
 void Player::Unrivaled() {
 
-	static int frashTimer = 0;
-	const int kInterval = 15;
-
+	static int frashTimer = 0; // 点滅させる時間
+	const int kInterval = 15;  // どれくらいのスパンで点滅させるか
+	// 無敵時間の時に処理する
 	if (isFrashStart_) {
-
 		if (--frashTimer < 0 && isInvisible_ == false) {
-			isInvisible_ = true;
-			frashTimer = kInterval;
+			isInvisible_ = true;    // 透明化
+			frashTimer = kInterval; // 時間を設定
 		} else if (--frashTimer < 0 && isInvisible_ == true) {
-			isInvisible_ = false;
-			frashTimer = kInterval;
+			isInvisible_ = false;   // 非透明化
+			frashTimer = kInterval; // 時間を設定
 		}
 	}
-	ImGui::Checkbox("Start", &isFrashStart_);
-	ImGui::Checkbox("Frag", &isInvisible_);
-	ImGui::Text("time = %d", frashTimer);
-
 }

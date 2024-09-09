@@ -25,7 +25,8 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	/// <param name="isSky">空にいるかどうか</param>
+	void Draw(bool isSky = true);
 
 	/// <summary>
 	/// ワールド座標のゲッター
@@ -72,7 +73,9 @@ private: // メンバ関数
 
 public: // 静的メンバ変数
 
-	static inline const int kAddTimeInterval = 3600; // 加算する時間
+	static inline const float kLimitVelocity = 8.0f; // 最高速度
+
+	static inline const int kAddTimeInterval = 900; // 加算する時間
 
 private: // メンバ変数
 
@@ -82,6 +85,7 @@ private: // メンバ変数
 	ViewProjection* viewProjection_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
-	float velocityZ = 1.0f;//スカイドームの移動するスピード
-	int velocityZAddTime = kAddTimeInterval;
+	float velocityZ_ = 1.0f;//スカイドームの移動するスピード
+	int velocityZAddTime_ = kAddTimeInterval;
+	uint32_t texture_ = 0u;
 };

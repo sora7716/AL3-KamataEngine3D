@@ -4,6 +4,7 @@
 #include "cassert"
 #include <numbers>
 using namespace std::numbers;
+#include "TextureManager.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -21,36 +22,43 @@ void SkyDome::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 	worldTransform_.translation_.z = 1252; // スカイドームの一番端から
 	worldTransform_.rotation_.x = pi_v<float> / 2.f;
+	texture_ = TextureManager::Load("SkyEntyu_ground.png");
 }
 
 // 更新
 void SkyDome::Update(bool isMove, bool isTitle) {
-#ifdef _DEBUG
-	Begin("skyDome");
-	DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	DragFloat("velocityZ", &velocityZ, 0.1f);
-	ImGui::Text("addTime:%d", velocityZAddTime);
-	End();
-#endif // _DEBUG
 	// スカイドームを移動
 	if (isMove) {
-		if (velocityZ >= 15.0f) {
-			velocityZ = 15.0f;
+		if (velocityZ_ >= kLimitVelocity) {
+			velocityZ_ = kLimitVelocity;
 		} else {
 			// 速度を加算
 			VelocityAdd();
 		}
-		// worldTransform_.translation_.z -= velocityZ; // 移動
-		worldTransform_.rotation_.z += 0.005f; // 回転
+		worldTransform_.translation_.z -= velocityZ_; // 移動
+		worldTransform_.rotation_.z += 0.005f;       // 回転
 	}
 	if (isTitle) {
 		worldTransform_.rotation_.y += 0.005f; // 回転
 	}
-	worldTransform_.UpdateMatrix();
+#ifdef _DEBUG
+	Begin("skyDome");
+	DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
+	DragFloat("velocityZ", &velocityZ_, 0.1f);
+	ImGui::Text("addTime:%d", velocityZAddTime_);
+	End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();//行列の更新
 }
 
 // 描画
-void SkyDome::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void SkyDome::Draw(bool isSky) {
+	if (isSky) {
+		model_->Draw(worldTransform_, *viewProjection_);//空
+	} else {
+		model_->Draw(worldTransform_, *viewProjection_,texture_);//地下
+	}
+}
 
 // ワールド座標のゲッター
 Vector3 SkyDome::GetWorldPosition() const {
@@ -69,7 +77,7 @@ void SkyDome::SetTranslation(const Vector3& position) { worldTransform_.translat
 void SkyDome::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
 
 // 速度Zのゲッター
-float SkyDome::GetVelocityZ() const { return velocityZ; }
+float SkyDome::GetVelocityZ() const { return velocityZ_; }
 
 // ローカル座標のゲッター
 Vector3 SkyDome::GetTranslation() { return worldTransform_.translation_; }
@@ -83,8 +91,8 @@ WorldTransform& SkyDome::GetWorldTransform() {
 // 速度を加算する
 void SkyDome::VelocityAdd() {
 	// 時間を計測
-	if (velocityZAddTime-- < 0) {
-		velocityZ++;                         // 速度を加算
-		velocityZAddTime = kAddTimeInterval; // 時間をリセット
+	if (velocityZAddTime_-- < 0) {
+		velocityZ_++;                         // 速度を加算
+		velocityZAddTime_ = kAddTimeInterval; // 時間をリセット
 	}
 }
