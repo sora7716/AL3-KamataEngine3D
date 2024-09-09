@@ -156,6 +156,12 @@
     <ClCompile Include="asset\math\easing\Easing.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\warp\Warp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -307,6 +313,12 @@
     </ClInclude>
     <ClInclude Include="asset\math\easing\Easing.h">
       <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\hp\Hp.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\warp\Warp.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

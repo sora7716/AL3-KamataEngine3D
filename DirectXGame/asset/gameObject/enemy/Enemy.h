@@ -82,7 +82,17 @@ public: // メンバ関数
 	/// </summary>
 	AABB GetAABB();
 
+	/// <summary>
+	/// 座標のセッター
+	/// </summary>
+	/// <param name="position">座標</param>
 	void SetPosition(Vector3 position);
+
+	/// <summary>
+	/// 親のセッター
+	/// </summary>
+	/// <param name="parent">親</param>
+	void SetParent(const WorldTransform* parent);
 
 public: // 静的メンバ変数
 

@@ -43,7 +43,9 @@ void Enemy::Update() {
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 #ifdef _DEBUG
-	ImGui::Text("%d", status_);
+	ImGui::Begin("enemy");
+	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::End();
 #endif // _DEBUG
 
 }
@@ -127,3 +129,6 @@ AABB Enemy::GetAABB() {
 
 // 座標のセッター
 void Enemy::SetPosition(Vector3 position) { worldTransform_.translation_ = position; }
+
+//親のセッター
+void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

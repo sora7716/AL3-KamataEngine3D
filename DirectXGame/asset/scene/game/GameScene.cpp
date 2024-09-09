@@ -53,16 +53,19 @@ void GameScene::Initialize() {
 	inputHandler_ = make_unique<InputHandler>();
 	InputCommand();
 
-	// 障害物
-	Enemy* newEnemy = new Enemy();
-	Vector3 enemyPos = {10, 0, 50.0f};
-	newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
-	enemis_.push_back(newEnemy);
-
 	// 天球
 	skyDome_ = make_unique<SkyDome>();
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
 	player_->SetSkyDome(skyDome_.get());
+
+	// 障害物
+	for (int i = 0; i < kEnemyNum;i++) {
+		Enemy *newEnemy = new Enemy();
+		Vector3 enemyPos = {10, 0, 50.0f};
+		newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
+		newEnemy->SetParent(&skyDome_->GetWorldTransform());
+		enemis_.push_back(newEnemy);
+	}
 
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();

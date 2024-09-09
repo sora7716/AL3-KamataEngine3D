@@ -120,8 +120,9 @@ private://メンバ関数
 
 public://静的メンバ変数
 
-	static inline const float kFieldChangeFadeTime = 1.0f;
-	static inline const float kScoreSource = 1.0f;
+	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
+	static inline const float kScoreSource = 1.0f;//スコアの元
+	static inline const int kEnemyNum = 1;//障害物の数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

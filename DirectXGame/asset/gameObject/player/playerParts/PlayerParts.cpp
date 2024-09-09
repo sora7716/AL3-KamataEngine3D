@@ -232,7 +232,7 @@ void PlayerEar::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	worldTransform_.Initialize();
 	angle_ = {1.0f,1.5f,0.0f};
-	position_ = {0.0f,1.0f,0.0f};
+	position_ = {0.0f,1.5f,0.0f};
 }
 
 void PlayerEar::Update() {
