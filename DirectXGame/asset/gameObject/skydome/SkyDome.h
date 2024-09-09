@@ -1,6 +1,5 @@
 #pragma once
 #include "WorldTransform.h"
-#include "numbers"
 
 class Model;
 class ViewProjection;

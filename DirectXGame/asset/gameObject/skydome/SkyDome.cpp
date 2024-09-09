@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "cassert"
+#include <numbers>
 using namespace std::numbers;
 
 #ifdef _DEBUG
