@@ -40,7 +40,7 @@ void SkyDome::Update(bool isMove, bool isTitle) {
 			// 速度を加算
 			VelocityAdd();
 		}
-		worldTransform_.translation_.z -= velocityZ; // 移動
+		//worldTransform_.translation_.z -= velocityZ; // 移動
 		worldTransform_.rotation_.z += 0.005f;       // 回転
 	}
 	if (isTitle) {
