@@ -24,6 +24,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	void DrawDebugText() override;
+
 private:
 
 	/// <summary>
@@ -56,6 +58,9 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	
+	void DrawDebugText() override;
+
 private:
 
 	/// <summary>
@@ -85,6 +90,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 
 private:
 	
@@ -116,6 +124,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 };
 
 /// <summary>
@@ -140,6 +151,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 };
 
 /// <summary>
@@ -164,6 +178,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 
 private:
 	/// <summary>
@@ -194,6 +211,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 };
 
 /// <summary>
@@ -218,4 +238,7 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	void DrawDebugText() override;
 };

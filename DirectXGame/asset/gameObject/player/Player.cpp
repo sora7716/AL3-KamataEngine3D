@@ -50,12 +50,7 @@ void Player::Update() {
 
 	MoveLimit();
 
-#ifdef _DEBUG
-	ImGui::Begin("player");
-	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
-	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::End();
-#endif // _DEBUG
+	DrawDebugText();
 
 	// パーツの更新
 	for (auto& playerPart : parts_) {
@@ -109,7 +104,7 @@ void Player::Update() {
 // 描画
 void Player::Draw() {
 
-	if (isDead_ || isFrashing_) {
+	if (isDead_ || isInvisible_) {
 		return;
 	}
 
@@ -117,8 +112,35 @@ void Player::Draw() {
 	for (auto& playerPart : parts_) {
 		playerPart->Draw();
 	}
+}
 
-	// bulletModel_->Draw(bulletWorldTransform_, *viewProjection_);
+void Player::DrawDebugText() {
+
+#ifdef _DEBUG
+
+	ImGui::Begin("playerDebugWindow");
+	if (ImGui::BeginChild("player")) {
+		ImGui::Text("player");
+		ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
+		ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+
+#pragma region 各パーツのデバッグテキストを呼び出す
+	    parts_[static_cast<int>(IPlayerParts::head)]->DrawDebugText();      //頭
+	    parts_[static_cast<int>(IPlayerParts::body)]->DrawDebugText();      //体
+	    parts_[static_cast<int>(IPlayerParts::arm)]->DrawDebugText();       //両腕
+	    parts_[static_cast<int>(IPlayerParts::left_Arm)]->DrawDebugText();  //左腕
+	    parts_[static_cast<int>(IPlayerParts::right_Arm)]->DrawDebugText(); //右腕
+	    parts_[static_cast<int>(IPlayerParts::ear)]->DrawDebugText();       //両耳
+	    parts_[static_cast<int>(IPlayerParts::left_Ear)]->DrawDebugText();  //左耳
+	    parts_[static_cast<int>(IPlayerParts::right_Ear)]->DrawDebugText(); //右耳
+#pragma endregion
+
+		ImGui::EndChild();
+	}
+	ImGui::End();
+#endif // _DEBUG
+
+
 }
 
 void Player::OnCollision(int hpCount) { 
@@ -206,7 +228,7 @@ void Player::PlayerDead() { isDead_ = true; }
 
 int Player::IsStartFrash() { return this->isFrashStart_; }
 
-int Player::IsFrashing() { return this->isFrashing_; }
+int Player::IsFrashing() { return this->isInvisible_; }
 
 // パーツを作る
 void Player::CreateParts() {
@@ -359,16 +381,12 @@ void Player::Unrivaled() {
 
 	if (isFrashStart_) {
 
-		if (--frashTimer < 0 && isFrashing_ == false) {
-			isFrashing_ = true;
+		if (--frashTimer < 0 && isInvisible_ == false) {
+			isInvisible_ = true;
 			frashTimer = kInterval;
-		} else if (--frashTimer < 0 && isFrashing_ == true) {
-			isFrashing_ = false;
+		} else if (--frashTimer < 0 && isInvisible_ == true) {
+			isInvisible_ = false;
 			frashTimer = kInterval;
 		}
 	}
-	ImGui::Checkbox("Start", &isFrashStart_);
-	ImGui::Checkbox("Frag", &isFrashing_);
-	ImGui::Text("time = %d", frashTimer);
-
 }

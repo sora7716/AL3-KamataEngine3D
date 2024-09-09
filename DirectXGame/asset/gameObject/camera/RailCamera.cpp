@@ -48,19 +48,14 @@ void RailCamera::Update() {
 	//worldTransform_.translation_ = Math::CatmullRomPosition(controlPoints_, t_);
 	//worldTransform_.rotation_ = Math::CatmullRomPosition(controlPoints_, t_);
 	
+	DrawDebugText();
+
 	// ワールド行列を再計算
 	worldTransform_.UpdateMatrix();
 	// カメラのオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = ~worldTransform_.matWorld_;
 
-	#ifdef _DEBUG
-	// カメラの座標を画面に表示する処理
-	ImGui::Begin("Camera");
-	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::Text("t%f", t_);
-	ImGui::End();
-#endif // _DEBUG
+
 
 	
 }
@@ -83,6 +78,19 @@ void RailCamera::Draw() {
 	for (size_t i = 0; i < segmentCount; i++) {
 		PrimitiveDrawer::GetInstance()->DrawLine3d(pointsDrawing[i], pointsDrawing[i + 1], {1.0f, 0.0f, 0.0f, 1.0f});
 	}
+}
+
+void RailCamera::DrawDebugText() {
+
+#ifdef _DEBUG
+	// カメラの座標を画面に表示する処理
+	ImGui::Text("Camera");
+	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::Text("t%f", t_);
+
+#endif // _DEBUG
+
 }
 
 // ビュープロジェクションのゲッター

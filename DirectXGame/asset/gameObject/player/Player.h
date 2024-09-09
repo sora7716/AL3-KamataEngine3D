@@ -52,6 +52,8 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
+	void DrawDebugText();
+
 	/// <summary>
 	/// 衝突したときの処理
 	/// </summary>
