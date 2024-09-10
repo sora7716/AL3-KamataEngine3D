@@ -63,7 +63,7 @@ private:
 
 
 	WorldTransform worldTransform_; //ワールドトランスフォーム
-	Sprite* sprites[7];//スプライトの数
+	Sprite* sprites_[7];//スプライトの数
 
 	int score_ = 0000000;//スコア
 };

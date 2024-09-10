@@ -183,6 +183,11 @@ public://メンバ関数
 	/// <param name="skyDome">スカイドーム</param>
 	void SetSkyDome(SkyDome* skyDome);
 
+	/// <summary>
+	/// プレイヤーのスケール
+	/// </summary>
+	void SetScale(const Vector3& scale);
+
 private: // メンバ関数
 
 	/// <summary>

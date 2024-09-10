@@ -35,7 +35,7 @@ void Score::Initialize() {
 	for (int i = 0; i < 7; ++i) {
 		//数字のテクスチャを使用してスプライトを作成し、配列に格納する
 		//スプライトの位置は、各数字に対して横方向に50ピクセルずつずらして配置する
-		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + (i * 50), 0.5f});
+		sprites_[i] = Sprite::Create(numberTexture[i], {0.5f + (i * 50), 0.5f});
 	}
 
 }
@@ -45,7 +45,7 @@ void Score::Update() {
 
 	for (int i = 0; i < 7; ++i) {
 		//最初はイージングさせたいため、Initialize関数で指定したX座標に設定する
-		sprites[i]->SetPosition({worldTransform_.translation_.x + (i * 50), 0.5f});
+		sprites_[i]->SetPosition({worldTransform_.translation_.x + (i * 50), 0.5f});
 	}
 
 	//関数呼び出し
@@ -59,13 +59,12 @@ void Score::Update() {
 void Score::Draw() {
 	// スコアの桁数を計算する
 	CalculateDigits();
-
 	for (int i = 0; i < 7; ++i) {
 		// スプライトに対応する桁の数字のテクスチャを設定する
-		sprites[i]->SetTextureHandle(numberTexture[digits[i]]);
+		sprites_[i]->SetTextureHandle(numberTexture[digits[i]]);
 
 		// スプライトを描画する
-		sprites[i]->Draw();
+		sprites_[i]->Draw();
 	}
  
 }

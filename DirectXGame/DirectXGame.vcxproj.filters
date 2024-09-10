@@ -162,6 +162,9 @@
     <ClCompile Include="asset\gameObject\warp\Warp.cpp">
       <Filter>asset\ゲームオブジェクト</Filter>
     </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\parent\EnemyParent.cpp">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -319,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\warp\Warp.h">
       <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\parent\EnemyParent.h">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

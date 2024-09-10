@@ -190,6 +190,9 @@ bool Player::IsWarpSpawn() { return isWarpSpawn_; }
 // セッタースカイドーム
 void Player::SetSkyDome(SkyDome* skyDome) { skyDome_ = skyDome; }
 
+// プレイヤーのスケール
+void Player::SetScale(const Vector3& scale) { worldTransform_.scale_ = scale; }
+
 // パーツを作る
 void Player::CreateParts() {
 	// プレイヤーパーツ(頭)

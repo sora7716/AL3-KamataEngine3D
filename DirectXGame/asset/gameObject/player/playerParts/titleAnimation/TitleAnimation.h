@@ -38,6 +38,17 @@ private://メンバ関数
 	/// </summary>
 	void ArmRotate();
 
+	/// <summary>
+	/// 大きくなったり小さくなったりする
+	/// </summary>
+	void BigAndSmall();
+
+	/// <summary>
+	/// 見回す
+	/// </summary>
+	/// <param name="isStart">見回すのを始めるかどうかのフラグ</param>
+	void LookAround(bool &isStart);
+
 public://静的メンバ変数
 
 	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
