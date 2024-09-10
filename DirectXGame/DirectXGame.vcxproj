@@ -129,6 +129,7 @@
     <ClCompile Include="asset\math\easing\Easing.cpp" />
     <ClCompile Include="asset\math\Math.cpp" />
     <ClCompile Include="asset\scene\game\GameScene.cpp" />
+    <ClCompile Include="asset\scene\title\select\Select.cpp" />
     <ClCompile Include="asset\scene\title\TitleScene.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="asset\math\easing\Easing.h" />
     <ClInclude Include="asset\math\Math.h" />
     <ClInclude Include="asset\scene\game\GameScene.h" />
+    <ClInclude Include="asset\scene\title\select\Select.h" />
     <ClInclude Include="asset\scene\title\TitleScene.h" />
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="base\DirectXCommon.h" />

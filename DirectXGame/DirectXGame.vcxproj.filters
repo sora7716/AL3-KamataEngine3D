@@ -165,6 +165,9 @@
     <ClCompile Include="asset\gameObject\enemy\parent\EnemyParent.cpp">
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="asset\scene\title\select\Select.cpp">
+      <Filter>kamataEngine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -325,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\enemy\parent\EnemyParent.h">
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\title\select\Select.h">
+      <Filter>kamataEngine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

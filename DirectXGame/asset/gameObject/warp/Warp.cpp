@@ -63,5 +63,5 @@ void Warp::Spawn() {
 		sizeEasing_ = endFrame; // フレームを固定
 		size_ = end;            // サイズを最後のやつに設定
 	}
-	size_ = Math::Lerp(begin, end, Easing::EaseOutElastic(sizeEasing_ / endFrame)); // 線形補間
+	size_ = Math::Lerp(begin, end, Easing::OutElastic(sizeEasing_ / endFrame)); // 線形補間
 }

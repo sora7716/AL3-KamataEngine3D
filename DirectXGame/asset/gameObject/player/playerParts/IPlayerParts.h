@@ -101,6 +101,12 @@ public: // メンバ関数
 	};
 
 	/// <summary>
+	/// アニメーションを行うかどうかのフラグのセット
+	/// </summary>
+	/// <param name="isAnimation">アニメーションを行うか</param>
+	void SetIsAnimation(bool isAnimation) { isAnimation_ = isAnimation; }
+
+	/// <summary>
 	/// ポジションのゲッター
 	/// </summary>
 	/// <returns></returns>
@@ -139,4 +145,5 @@ protected: // メンバ変数
 	
 	bool parts_Fly_ = false;
 	bool parts_IsDead_ = false;
+	bool isAnimation_ = true;//アニメーションをするかどうかのフラグ
 };

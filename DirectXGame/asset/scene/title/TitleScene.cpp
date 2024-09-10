@@ -40,7 +40,6 @@ void TitleScene::Initialize() {
 	// プレイヤー
 	player_ = make_unique<Player>();                                  // 生成
 	player_->Initialize(create_.get(), &viewProjection_);             // 初期化
-	player_->SetPearent(&railCamera_->GetWorldTransform());           // 親子関係
 	player_->SetPosition({0.0f, 0.0f, 20.0f});                        // 位置
 	player_->SetRotation({0.0f, -numbers::pi_v<float> / 2.0f, 0.0f}); // 角度
 	SetPartisPositionAndAngle();                                      // パーツの角度と位置
@@ -55,6 +54,10 @@ void TitleScene::Initialize() {
 	skyDome_->SetRotation({});                                                       // ローテーションの設定
 	skyDome_->SetTranslation({});
 
+	//セレクト画面
+	selectScene_ = make_unique<Select>();
+	selectScene_->Initialize(player_.get(),railCamera_.get());
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -68,7 +71,15 @@ void TitleScene::Initialize() {
 
 // 更新
 void TitleScene::Update() {
-	titleAnimation_->Update();
+	//プレイヤーのアニメーション
+	titleAnimation_->Update(selectScene_->IsHome());
+	//セレクト画面への遷移
+	selectScene_->Update();
+	//ホームじゃなかったら
+	if (!selectScene_->IsHome()) {
+		SetPartisPositionAndAngle();//パーツの角度やポジションを元に戻す
+		player_->SetScale({1.0f, 1.0f, 1.0f});//プレイヤーの大きさを元に戻す
+	}
 	ChangePhaseUpdate();
 }
 
@@ -152,7 +163,7 @@ void TitleScene::ChangePhaseUpdate() {
 		if (fade_->IsFinished()) {
 			phase_ = Phase::kMain;
 		}
-		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		}
@@ -162,7 +173,7 @@ void TitleScene::ChangePhaseUpdate() {
 		// プレイヤーの更新
 		player_->Update();
 		// メインの処理
-		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		}
@@ -214,9 +225,12 @@ void TitleScene::SetPartisPositionAndAngle() {
 	player_->SetPartsAngle(IPlayerParts::head, {0.0f, numbers::pi_v<float> / 2.0f, 0.0f}); // 頭
 	player_->SetPartsAngle(IPlayerParts::body, {0.0f, 0.0f, 0.0f});                        // 体
 	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                         // 腕
-	player_->SetPartsAngle(IPlayerParts::left_arm, {0.0f, 0.0f, 2.3f});                    // 左腕
-	player_->SetPartsAngle(IPlayerParts::right_arm, {0.0f, 0.0f, 2.3f});                   // 右腕
+	player_->SetPartsAngle(IPlayerParts::left_arm, {0.3f, 5.6f, 2.3f});                    // 左腕
+	player_->SetPartsAngle(IPlayerParts::right_arm, {-0.3f, -5.6f, 2.3f});                 // 右腕
 	player_->SetPartsAngle(IPlayerParts::ear, {1.0f, 1.5f, 0.0f});                         // 耳
 	player_->SetPartsAngle(IPlayerParts::left_ear, {0.0f, 0.0f, 0.0f});                    // 左耳
 	player_->SetPartsAngle(IPlayerParts::right_ear, {0.0f, 0.0f, 0.0f});                   // 右耳
+
+	// アニメーションを止める
+	player_->SetPartsIsAnimation(IPlayerParts::arm, false); // 腕
 }

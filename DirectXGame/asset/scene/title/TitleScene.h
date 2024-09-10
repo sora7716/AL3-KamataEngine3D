@@ -14,6 +14,7 @@
 #include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/player/playerParts/titleAnimation/TitleAnimation.h"
+#include "asset/scene/title/select/Select.h"
 
 #include <memory>
 using namespace std;
@@ -100,13 +101,19 @@ private:
 	bool isFinished_; // 終了フラグ
 	Phase phase_ = Phase::kFadeIn;//現在のフェーズ
 	ViewProjection viewProjection_;//ビュープロジェクション
-	unique_ptr<Fade> fade_ = nullptr;    // フェード
-	unique_ptr<Create> create_ = nullptr;//モデルクリエイト
-	unique_ptr<Player> player_ = nullptr;//プレイヤー
-	unique_ptr<SkyDome> skyDome_ = nullptr; // 天球
+	// フェード
+	unique_ptr<Fade> fade_ = nullptr;    
+	// モデルクリエイト
+	unique_ptr<Create> create_ = nullptr;
+	// プレイヤー
+	unique_ptr<Player> player_ = nullptr;
+	// 天球
+	unique_ptr<SkyDome> skyDome_ = nullptr;
 	// レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
 	//タイトルアニメーション
-	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;//タイトルのアニメーション
+	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;
+	//セレクト画面
+	unique_ptr<Select> selectScene_ = nullptr;
 };

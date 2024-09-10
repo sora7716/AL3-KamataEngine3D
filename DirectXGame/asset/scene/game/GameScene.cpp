@@ -270,7 +270,7 @@ void GameScene::UpdateField() {
 			enemyPhaseNum = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
 		}
 		for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum]; i++) {
-			int randomNum = rand() % 3;//敵の状態をランダムにする
+			int randomNum = rand() % 3;                                                                                     // 敵の状態をランダムにする
 			Enemy* enemy = new Enemy();                                                                                     // 生成
 			enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[i]); // 初期化
 			enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // 敵の親をセットする
@@ -367,4 +367,7 @@ void GameScene::SetPartisPositionAndAngle() {
 	player_->SetPartsAngle(IPlayerParts::arm, {0.0f, 0.0f, 0.0f});                           // 腕
 	player_->SetPartsAngle(IPlayerParts::left_arm, {0.3f, -0.91f, 2.7f});                    // 左腕
 	player_->SetPartsAngle(IPlayerParts::right_arm, {-0.3f, 0.91f, 2.7f});                   // 右腕
+	// アニメーションをするかどうか
+	player_->SetPartsIsAnimation(IPlayerParts::left_arm, false);  // 左腕
+	player_->SetPartsIsAnimation(IPlayerParts::right_arm, false); // 右腕
 }

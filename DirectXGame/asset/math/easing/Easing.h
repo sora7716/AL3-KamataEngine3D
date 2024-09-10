@@ -5,45 +5,44 @@
 /// <summary>
 /// イージング
 /// </summary>
-class Easing{
+class Easing {
 public:
-
 	/// <summary>
-	/// �R���X�g���N�^
+	/// コンストラクタ
 	/// </summary>
 	Easing() = default;
 
 	/// <summary>
-	/// �f�X�g���N�^
+	/// デストラクタ
 	/// </summary>
 	~Easing() = default;
 
 	/// <summary>
-	/// �C��
+	/// イン
 	/// </summary>
-	/// <param name="frame">�t���[��</param>
-	/// <returns>�C�[�W���O</returns>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
 	static float In(float frame);
 
 	/// <summary>
-	/// �A�E�g
+	/// アウト
 	/// </summary>
-	/// <param name="frame">�t���[��</param>
-	/// <returns>�C�[�W���O</returns>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
 	static float Out(float frame);
 
 	/// <summary>
-	/// �C���A�E�g
+	/// インアウト
 	/// </summary>
-	/// <param name="frame">�t���[��</param>
-	/// <returns>�C�[�W���O</returns>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
 	static float InOut(float frame);
 
 	/// <summary>
-	/// �C���o�b�N
+	/// インバック
 	/// </summary>
-	/// <param name="frame">�t���[��</param>
-	/// <returns>�C�[�W���O</returns>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
 	static float InBack(float frame);
 
 	/// <summary>
@@ -54,10 +53,44 @@ public:
 	static float OutBack(float frame);
 
 	/// <summary>
-	/// イーズアウトエラスティック
+	/// アウトエラスティック
 	/// </summary>
 	/// <param name="frame">フレーム</param>
-	/// <returns></returns>
-	static float EaseOutElastic(float frame);
-};
+	/// <returns>イージング</returns>
+	static float OutElastic(float frame);
 
+	/// <summary>
+	/// インアウトエクスポ
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float InOutExpo(float frame);
+
+	/// <summary>
+	/// インアウトバック
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float InOutBack(float frame);
+
+	/// <summary>
+	/// アウトバウンス
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float OutBounce(float frame);
+
+	/// <summary>
+	/// インアウトバウンス
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float InOutBounce(float frame);
+
+	/// <summary>
+	/// インアウトクォート
+	/// </summary>
+	/// <param name="frame"></param>
+	/// <returns></returns>
+	static float InOutQuart(float frame);
+};

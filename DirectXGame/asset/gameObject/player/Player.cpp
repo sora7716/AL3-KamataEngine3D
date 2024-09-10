@@ -161,9 +161,15 @@ void Player::SetPartsPosition(IPlayerParts::PartsName partsName, const Vector3& 
 }
 
 // パーツの角度
-void Player::SetPartsAngle(IPlayerParts::PartsName partsType, const Vector3& angle) {
+void Player::SetPartsAngle(IPlayerParts::PartsName partsName, const Vector3& angle) {
 	// 値をセット
-	parts_[(int)partsType]->SetAngle(angle);
+	parts_[(int)partsName]->SetAngle(angle);
+}
+
+// アニメーションを行うかどうかのフラグのセッター
+void Player::SetPartsIsAnimation(IPlayerParts::PartsName partsName, bool isAnimation) {
+	// 値をセット
+	parts_[(int)partsName]->SetIsAnimation(isAnimation);
 }
 
 // パーツの位置のゲッター

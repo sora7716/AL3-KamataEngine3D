@@ -135,6 +135,13 @@ public://メンバ関数
 	void SetPartsAngle(IPlayerParts::PartsName partsName, const Vector3& angle);
 
 	/// <summary>
+	/// アニメーションを行うかどうかのフラグのセッター
+	/// </summary>
+	/// <param name="partsName">パーツの部位</param>
+	/// <param name="isAnimation">アニメーションを行うかどうか</param>
+	void SetPartsIsAnimation(IPlayerParts::PartsName partsName, bool isAnimation);
+
+	/// <summary>
 	/// パーツの位置のゲッター
 	/// </summary>
 	/// <param name="partsName">パーツの部位</param>

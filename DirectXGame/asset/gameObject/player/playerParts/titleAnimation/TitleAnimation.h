@@ -1,5 +1,6 @@
 #pragma once
 #include <Vector3.h>
+#define oneLap std::numbers::pi_v<float> * 2.0f
 
 //前方宣言
 class Player;
@@ -29,7 +30,8 @@ public://メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="isHome">ホームかどうかのフラグ</param>
+	void Update(bool isHome);
 
 private://メンバ関数
 
@@ -49,14 +51,21 @@ private://メンバ関数
 	/// <param name="isStart">見回すのを始めるかどうかのフラグ</param>
 	void LookAround(bool &isStart);
 
+	/// <summary>
+	/// 腕を落とす
+	/// </summary>
+	void ArmDrop();
+
 public://静的メンバ変数
 
 	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
-	static inline const int kAnimationInterval = 60;//アニメーションがスタートするまでの時間
+	static inline const int kAnimationInterval = 1200;//アニメーションがスタートするまでの時間
+	static inline const int kAnimationMaximumNumber = 3;
 
 private://メンバ変数
 	Player* player_ = nullptr;//プレイヤー
-	int animationStartTimer = 0;//アニメーションを開始するまでのタイマー
-	bool isAnimationStart = false;//アニメーションをスタートするかどうかのフラグ
-	bool isAnimationEnd = false;//アニメーションが終了したかどうかのフラグ
+	int animationStartTimer_ = 0;//アニメーションを開始するまでのタイマー
+	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
+	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
+	int animationNumber_ = 0;//アニメーションをする番号
 };
