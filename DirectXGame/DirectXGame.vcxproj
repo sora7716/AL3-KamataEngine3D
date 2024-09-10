@@ -112,6 +112,7 @@
     <ClCompile Include="asset\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="asset\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="asset\gameObject\enemy\Enemy.cpp" />
+    <ClCompile Include="asset\gameObject\enemy\parent\EnemyParent.cpp" />
     <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp" />
     <ClCompile Include="asset\gameObject\fade\Fade.cpp" />
     <ClCompile Include="asset\gameObject\hp\Hp.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="asset\failLoad\CSVFailLoading.h" />
     <ClInclude Include="asset\gameObject\camera\RailCamera.h" />
     <ClInclude Include="asset\gameObject\enemy\Enemy.h" />
+    <ClInclude Include="asset\gameObject\enemy\parent\EnemyParent.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h" />
     <ClInclude Include="asset\gameObject\enemy\statePattern\state\EnemyState.h" />
     <ClInclude Include="asset\gameObject\fade\Fade.h" />

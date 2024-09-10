@@ -6,13 +6,15 @@ using namespace std;
 void CSVFailLoading::Initialize() { failDataCommands_ = LoadData("Resources/csvFail/enemyPop.csv"); }
 
 // 更新
-void CSVFailLoading::Update() { UpdatePopCommand(failDataCommands_, position_, waitTime_); }
+void CSVFailLoading::Update() { UpdatePopCommand(failDataCommands_, position_, phase_); }
 
 // 位置のゲッター
-vector<Vector3> CSVFailLoading::GetPosition() { return position_; }
+vector<Vector3> CSVFailLoading::GetPosition() { 
+	return position_; 
+}
 
-// 待つ時間のゲッター
-vector<int32_t> CSVFailLoading::GetWaitTime() { return waitTime_; }
+// フェーズのゲッター
+vector<int32_t> CSVFailLoading::GetPhase() { return phase_; }
 
 // 読み込み
 std::stringstream CSVFailLoading::LoadData(std::string failName) {
@@ -28,7 +30,7 @@ std::stringstream CSVFailLoading::LoadData(std::string failName) {
 }
 
 // コマンドの更新
-void CSVFailLoading::UpdatePopCommand(stringstream& failDataCommands, vector<Vector3>& position, vector<int32_t>& waitTime) {
+void CSVFailLoading::UpdatePopCommand(stringstream& failDataCommands, vector<Vector3>& position, vector<int32_t>& phase) {
 	// 1行分の文字列を入れる変数
 	std::string line;
 	// コマンドを実行ループ
@@ -65,14 +67,12 @@ void CSVFailLoading::UpdatePopCommand(stringstream& failDataCommands, vector<Vec
 			// 敵を発生させる
 			Vector3 newPosition = {x, y, z};
 			position.push_back(newPosition);
-		} else if (word.find("WAIT") == 0) {
+		} else if (word.find("PHASE") == 0) {
 			getline(line_stream, word, ',');
 			// 待ち時間
 			int32_t newWaitTime = atoi(word.c_str());
 			// 待機時間
-			waitTime.push_back(newWaitTime); // どれくらい待機するか
-			// コマンドのループを抜ける
-			break;
+			phase.push_back(newWaitTime); // どれくらい待機するか
 		}
 	}
 }

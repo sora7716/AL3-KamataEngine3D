@@ -9,6 +9,7 @@
 #include "imgui.h"
 #endif // _DEBUG
 
+
 // コンストラクタ
 GameScene::GameScene() {}
 
@@ -58,15 +59,6 @@ void GameScene::Initialize() {
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
 	player_->SetSkyDome(skyDome_.get());
 
-	// 障害物
-	for (int i = 0; i < kEnemyBeginNum; i++) {
-		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPos = {10, 0, 50.0f};
-		newEnemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPos);
-		newEnemy->SetParent(&skyDome_->GetWorldTransform());
-		enemis_.push_back(newEnemy); // moveでunique_ptrを転送
-	}
-
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();
 	fieldChangeFade_->Initialize();
@@ -78,6 +70,12 @@ void GameScene::Initialize() {
 	// 敵の表示する場所
 	enemyPopCommand_ = make_unique<CSVFailLoading>();
 	enemyPopCommand_->Initialize();
+
+	// 敵の親クラス
+	enemyParent_ = make_unique<EnemyParent>();
+	enemyParent_->Initialize();
+	enemyParent_->SetParent(&skyDome_->GetWorldTransform()); // 親を設定
+
 	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
 	playerHp_->Initialize();
@@ -97,7 +95,7 @@ void GameScene::Update() {
 	for (auto position : enemyPopCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
-	for (auto time : enemyPopCommand_->GetWaitTime()) {
+	for (auto time : enemyPopCommand_->GetPhase()) {
 		ImGui::Text("%d", time);
 	}
 	ImGui::End();
@@ -138,7 +136,9 @@ void GameScene::Draw() {
 	if (fieldStatus_ == FieldStatus::kMain) {
 		// 障害物
 		for (auto* enemy : enemis_) {
-			enemy->Draw();
+			if (enemy) {
+				enemy->Draw();
+			}
 		}
 	}
 	// 天球
@@ -255,8 +255,25 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
+	// 敵の親クラス
+	enemyParent_->Update();
 	// 障害物のpopするコマンド
 	enemyPopCommand_->Update();
+	static int32_t enemyPhaseNum = -1; // 仮の敵の数
+	if (!isSetEnemyPos) {
+		enemis_.clear(); // 敵を削除
+		enemyPhaseNum++; // 敵のフェーズを進めていく
+		if (enemyPhaseNum >= (int32_t)enemyPopCommand_->GetPhase().size()) {
+			enemyPhaseNum = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
+		}
+		for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum]; i++) {
+			Enemy* enemy = new Enemy();                                                                                     // 生成
+			enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[i]); // 初期化
+			enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // スカイドームを親にする
+			enemis_.push_back(enemy);                                                                                       // 敵を生成する
+			isSetEnemyPos = true;                                                                                           // 敵のポジションをセット
+		}
+	}
 	// フェードの時間をスカイドームの進むスピードに合わせる
 	if (fadeTime_ > 0.3f) {
 		fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
@@ -280,10 +297,6 @@ void GameScene::UpdateField() {
 	warp_->Update(player_->IsWarpSpawn());
 	// フェードを入れた処理
 	if (fieldStatus_ == FieldStatus::kFadeIn) {
-		static int enemyNum = kEnemyBeginNum;
-		for (int i = 0; i < enemyNum; i++) {
-			enemis_[i]->SetPosition(enemyPopCommand_->GetPosition()[i]);
-		}
 		fieldChangeFade_->Update(fieldFadeColor_); // 更新
 		if (fieldChangeFade_->IsFinished()) {
 			fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
@@ -299,7 +312,9 @@ void GameScene::UpdateField() {
 		// 障害物
 		for (auto* enemy : enemis_) {
 			if (enemy) {
-				enemy->Update();
+				if (enemy) {
+					enemy->Update();
+				}
 			}
 		}
 		// スカイドームが-1280より上に行ったら
@@ -319,6 +334,7 @@ void GameScene::UpdateField() {
 			player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
 			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
 			warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
+			isSetEnemyPos = false;                                        // 敵の位置を再設定
 			// 現在のスカイドームの状態
 			if (isSkyDive_) {
 				isSkyDive_ = false; // falseを設定

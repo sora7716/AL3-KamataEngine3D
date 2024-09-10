@@ -37,10 +37,10 @@ public://メンバ関数
 	std::vector<Vector3>GetPosition();
 
 	/// <summary>
-	/// 待つ時間のゲッター
+	/// フェーズのゲッター
 	/// </summary>
-	/// <returns>waitTime</returns>
-	std::vector<int32_t> GetWaitTime();
+	/// <returns>phase</returns>
+	std::vector<int32_t> GetPhase();
 
 private: // メンバ変数
 
@@ -54,11 +54,11 @@ private: // メンバ変数
 	/// コマンドの更新
 	/// </summary>
 	/// <param name="failDataCommands">コマンドを格納しておく変数</param>
-	void UpdatePopCommand(std::stringstream& failDataCommands, std::vector<Vector3>& position, std::vector<int32_t>& waitTime);
+	void UpdatePopCommand(std::stringstream& failDataCommands, std::vector<Vector3>& position, std::vector<int32_t>& phase);
 
 private://メンバ変数
 	std::stringstream failDataCommands_;//ファイルデータを格納しておく変数
 	std::vector<Vector3>position_;//データに書いてあった位置を格納しておく変数
-	std::vector<int32_t> waitTime_;   // 待機時間のカウンタを保持するための変数
+	std::vector<int32_t> phase_;   // 待機時間のカウンタを保持するための変数
 };
 

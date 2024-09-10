@@ -18,6 +18,7 @@
 #include "asset/gameObject/player/command/ICommand.h"
 #include "asset/gameObject/player/command/InputHandler.h"
 #include "asset/gameObject/enemy/Enemy.h"
+#include "asset/gameObject/enemy/parent/EnemyParent.h"
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/fade/Fade.h"
 #include "asset/gameObject/score/Score.h"
@@ -122,7 +123,7 @@ public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
 	static inline const float kScoreSource = 1.0f;//スコアの元
-	static inline const int kEnemyBeginNum = 4;//障害物の最初にある数
+	static inline const int kEnemyBeginNum = 3;//障害物の最初にある数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -139,6 +140,7 @@ private: // メンバ変数
 	unique_ptr<Create> create_ = nullptr;
 	//プレイヤークラス
 	unique_ptr<Player> player_ = nullptr;
+	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};//プレイヤーのパーツ
 	//レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
@@ -149,7 +151,8 @@ private: // メンバ変数
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
 	vector<Enemy*> enemis_;
-	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};
+	bool isSetEnemyPos = false;//敵の位置を設定したか
+	unique_ptr<EnemyParent> enemyParent_ = nullptr;//障害物の親クラス
 	// CSVファイルロード
 	unique_ptr<CSVFailLoading> enemyPopCommand_ = nullptr;
 	//天球

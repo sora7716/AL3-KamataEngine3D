@@ -108,6 +108,7 @@ void PlayerBody::Animation() {
 #pragma region 腕クラスの定義
 void PlayerArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
+	model = nullptr;
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
@@ -228,6 +229,7 @@ void PlayerRight_Arm::Draw() {
 void PlayerEar::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	assert(model);
+	model = nullptr;
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();

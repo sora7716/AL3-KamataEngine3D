@@ -128,7 +128,9 @@ AABB Enemy::GetAABB() {
 }
 
 // 座標のセッター
-void Enemy::SetPosition(Vector3 position) { worldTransform_.translation_ = position; }
+void Enemy::SetPosition(Vector3 position) { 
+	worldTransform_.translation_ = position; 
+}
 
 //親のセッター
 void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

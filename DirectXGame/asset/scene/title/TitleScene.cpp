@@ -207,7 +207,7 @@ void TitleScene::SetPartisPositionAndAngle() {
 	player_->SetPartsPosition(IPlayerParts::arm, {0.0f, -0.98f, 0.0f});      // 腕
 	player_->SetPartsPosition(IPlayerParts::left_arm, {0.0f, 0.0f, 2.0f});   // 左腕
 	player_->SetPartsPosition(IPlayerParts::right_arm, {0.0f, 0.0f, -2.0f}); // 右腕
-	player_->SetPartsPosition(IPlayerParts::ear, {0.0f, 1.0f, 0.0f});        // 耳
+	player_->SetPartsPosition(IPlayerParts::ear, {0.0f, 2.0f, 0.0f});        // 耳
 	player_->SetPartsPosition(IPlayerParts::left_ear, {-1.5f, 0.0f, 0.0f});  // 左耳
 	player_->SetPartsPosition(IPlayerParts::right_ear, {1.5f, 0.0f, 0.0f});  // 右耳
 	// 角度
