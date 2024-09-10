@@ -26,7 +26,10 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, Vector3 pos
 	actions_[2] = new EnemyVerticalMove(); // 縦移動のとき
 	actions_[0]->Initialize();             // 初期化
 	status_ = actions_[0]->GetStatus();    // ステータスを得る
+	
 }
+
+
 // 敵のステータスのメンバ関数ポインタの初期化
 void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(Enemy&) = {
     static_cast<void (IEnemyState::*)(Enemy&)>(&EnemyStay::Exce),
@@ -36,9 +39,7 @@ void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(Enemy&) = {
 
 // 更新
 void Enemy::Update() {
-	if (score_>1) {
-		status_ = 2;
-	}
+	status_ = randomNum_;//ランダムな数字にする
 	//  現在のフェーズを実行
 	(actions_[status_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(status_)])(*this);
 	// 行列の更新
@@ -110,5 +111,5 @@ void Enemy::SetPosition(Vector3 position) { worldTransform_.translation_ = posit
 // 親のセッター
 void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
-// スコアのセッター
-void Enemy::SetScore(int score) { score_ = score; }
+// 敵の状態のセッター
+void Enemy::SetStatus(int randomNum) { randomNum_ = randomNum; }

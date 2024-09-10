@@ -88,10 +88,10 @@ public: // メンバ関数
 	void SetParent(const WorldTransform* parent);
 
 	/// <summary>
-	/// スコアのセッター
+	/// 敵の状態のセッター
 	/// </summary>
 	/// <param name="score"></param>
-	void SetScore(int score);
+	void SetStatus(int score);
 
 public: // 静的メンバ変数
 
@@ -113,6 +113,6 @@ private: // メンバ変数
 	IEnemyState*actions_[IEnemyState::kStatusNum];
 	//ステータス
 	int status_ = IEnemyState::kStatusNum;
-	//スコア
-	int score_ = 0;
+	//敵の状態
+	int randomNum_ = 0;
 };

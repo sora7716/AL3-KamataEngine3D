@@ -1,6 +1,8 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <cstdlib>
+#include <ctime>
 
 #include "AxisIndicator.h"
 #include "ImGuiManager.h"
@@ -22,6 +24,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	viewProjection_.Initialize();
+	srand(static_cast<uint32_t>(time(nullptr))); // 動きをランダムにさせる関数
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -267,12 +270,15 @@ void GameScene::UpdateField() {
 			enemyPhaseNum = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
 		}
 		for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum]; i++) {
+			int randomNum = rand() % 3;//敵の状態をランダムにする
 			Enemy* enemy = new Enemy();                                                                                     // 生成
 			enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[i]); // 初期化
-			enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // スカイドームを親にする
-			enemy->SetScore(static_cast<int>(score_));                                                                      // スコアをセット
-			enemis_.push_back(enemy);                                                                                       // 敵を生成する
-			isSetEnemyPos = true;                                                                                           // 敵のポジションをセット
+			enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // 敵の親をセットする
+			if (score_ > 1) {
+				enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット
+			}
+			enemis_.push_back(enemy); // 敵を生成する
+			isSetEnemyPos = true;     // 敵のポジションをセット
 		}
 	}
 	// フェードの時間をスカイドームの進むスピードに合わせる
