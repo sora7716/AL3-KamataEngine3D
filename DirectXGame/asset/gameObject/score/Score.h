@@ -39,5 +39,4 @@ private:
 	int score_ = 0000000;
 
 	int scoreUpTimer_ = 0;
-
 };

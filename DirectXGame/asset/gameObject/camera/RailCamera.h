@@ -39,11 +39,6 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
-	/// デバッグテキストの描画
-	/// </summary>
-	void DrawDebugText();
-
-	/// <summary>
 	/// ビュープロジェクションのゲッター
 	/// </summary>
 	/// <returns>ビュープロジェクション</returns>

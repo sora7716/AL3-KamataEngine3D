@@ -3,18 +3,17 @@
 #include "asset/math/Aithmetic.h"
 #include "asset/math/collision/Collision.h"
 #include "asset/gameObject/player/playerParts/PlayerParts.h"
+#include "asset/gameObject/player/patricle/DeathParticles.h"
 
 //前方宣言(苦肉の策)
 class ViewProjection;
 class Create;
-class Hp;
 
 /// <summary>
 /// プレイヤー
 /// </summary>
 class Player {
-public://列挙型
-
+public: // 列挙型
 	// プレイヤーの状態
 	enum class Phase {
 		kStart, // 始まり
@@ -22,17 +21,15 @@ public://列挙型
 		kDeth,  // 死亡
 	};
 
-
-public://メンバ関数
-
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	Player() = default;
 
-    /// <summary>
+	/// <summary>
 	/// デストラクタ
-    /// </summary>
+	/// </summary>
 	~Player() = default;
 
 	/// <summary>
@@ -51,8 +48,6 @@ public://メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
-
-	void DrawDebugText();
 
 	/// <summary>
 	/// 衝突したときの処理
@@ -95,7 +90,7 @@ public://メンバ関数
 	/// 位置のセッター
 	/// </summary>
 	/// <param name="position">位置</param>
-	void SetPosition(const Vector3& position); 
+	void SetPosition(const Vector3& position);
 
 	/// <summary>
 	/// 角度のセッター
@@ -139,14 +134,14 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="partsName">パーツの部位</param>
 	/// <returns>position</returns>
-	Vector3 GetPartsPosition(IPlayerParts::PartsName partsName)const;
+	Vector3 GetPartsPosition(IPlayerParts::PartsName partsName) const;
 
 	/// <summary>
 	/// パーツの角度のゲッター
 	/// </summary>
 	/// <param name="partsName">パーツの部位</param>
 	/// <returns></returns>
-	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName)const;
+	Vector3 GetPartsAngle(IPlayerParts::PartsName partsName) const;
 
 	/// <summary>
 	/// プレイヤーの消滅
@@ -157,8 +152,9 @@ public://メンバ関数
 
 	int IsFrashing();
 
-private: // メンバ関数
+	bool IsDead() { return this->isDead_; }
 
+private: // メンバ関数
 	/// <summary>
 	/// パーツを作る
 	/// </summary>
@@ -171,16 +167,15 @@ private: // メンバ関数
 
 #pragma region 右腕を飛ばす
 
-	//角度も動かす
+	// 角度も動かす
 	void Right_Arm_MoveAngle();
 
-	//衝突時、座標を動かす
+	// 衝突時、座標を動かす
 	void Right_Arm_MovePosition();
-	
+
 	void Right_Arm_Fly();
 
 #pragma endregion
-
 
 #pragma region 左腕を飛ばす
 
@@ -192,9 +187,38 @@ private: // メンバ関数
 	void Left_Arm_Fly();
 
 #pragma endregion
-	
-	//無敵時間
+
+	// 無敵時間
 	void Unrivaled();
+
+	/// <summary>
+	/// パーティクルの初期化
+	/// </summary>
+	void InitializeParticles();
+
+#pragma region 頭を飛ばす
+
+	void Head_MoveAngle();//角度
+
+	void Ear_MovePosition();//耳の座標
+
+	void Head_MovePosition();//座標
+
+	void Head_Fly();
+
+#pragma endregion 
+	
+#pragma region 体を飛ばす
+
+	void Body_MoveAngle();//角度
+
+	void Body_MovePosition();//座標
+
+	void Body_Fly();
+
+#pragma endregion
+
+	
 
 public://静的メンバ変数
 
@@ -221,6 +245,7 @@ private://メンバ変数
 
 	//パーツ
 	std::unique_ptr<IPlayerParts> parts_[IPlayerParts::PartsNum] = {nullptr};
+	std::unique_ptr<IDeathParticle> particles_[IDeathParticle::particleNum] = {nullptr};
 
 	// クリエイトクラス
 	Create* create_ = nullptr; 
@@ -236,5 +261,8 @@ private://メンバ変数
 	bool isInvisible_ = false;
 
 	int coolTimer = 0;
+	
+	int parts_FlyTimer = 0;
+	bool isShot_ = false; // パーティクルが発射されてるか
 
 };

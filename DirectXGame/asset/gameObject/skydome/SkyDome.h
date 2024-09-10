@@ -51,8 +51,6 @@ public: // メンバ関数
 	/// <returns>velocityZ</returns>
 	float GetVelocityZ() const;
 
-	void DrawDebugText();
-
 private: // メンバ関数
 
 	/// <summary>

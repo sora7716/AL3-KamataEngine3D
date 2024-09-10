@@ -25,7 +25,13 @@ void SkyDome::Initialize(Model* model, ViewProjection* viewProjection) {
 // 更新
 void SkyDome::Update(bool isMove, bool isTitle) {
 
-	DrawDebugText();
+	#ifdef _DEBUG
+	ImGui::Begin("skyDome");
+	DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
+	DragFloat("velocityZ", &velocityZ, 0.1f);
+	ImGui::Text("addTime:%d", velocityZAddTime);
+	ImGui::End();
+#endif // _DEBUG
 
 	// スカイドームを移動
 	if (isMove) {
@@ -73,15 +79,4 @@ void SkyDome::VelocityAdd() {
 		velocityZ++;//速度を加算
 		velocityZAddTime = kAddTimeInterval;//時間をリセット
 	}
-}
-
-void SkyDome::DrawDebugText() {
-
-#ifdef _DEBUG
-		Text("\nskyDome");
-		DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-		DragFloat("velocityZ", &velocityZ, 0.1f);
-		ImGui::Text("addTime:%d", velocityZAddTime);
-#endif // _DEBUG
-
 }

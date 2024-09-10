@@ -237,61 +237,65 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
-	//フェードの時間をスカイドームの進むスピードに合わせる
-	if (fadeTime_ > 0.3f) {
-		fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
-	}
-	// デバックカメラ
-	DebugCameraMove();
-	// レールカメラ
-	railCamera_->Update();
 	// プレイヤー
 	player_->Update();
-	// 天球
-	skyDome_->Update(!fieldChangeFade_->IsFinished());
-	// 障害物
-	for (auto* enemy : enemis_) {
-		enemy->Update();
-	}
-	//スコアの計算
-	score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
-	bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
-	//スコアの表示用の計算
-	bitmapFont_->Update();
-	// フェードを入れた処理
-	if (fieldStatus_ == FieldStatus::kFadeIn) {
-		fieldChangeFade_->Update(fieldFadeColor_); // 更新
-		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kMain;                                        // フェードインが終了したら
-			fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
-			// スカイダイブかどうか
-			if (isSkyDive_) {
-				isSkyDive_ = false;      // falseを設定
-				fieldFadeColor_ = BLACK; // 色を黒色に設定
-			} else {
-				isSkyDive_ = true;       // trueに設定
-				fieldFadeColor_ = WHITE; // 白色に設定
+
+	if (!player_->IsDead()) {
+		// フェードの時間をスカイドームの進むスピードに合わせる
+		if (fadeTime_ > 0.3f) {
+			fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
+		}
+		// デバックカメラ
+		DebugCameraMove();
+		// レールカメラ
+		railCamera_->Update();
+
+		// 天球
+		skyDome_->Update(!fieldChangeFade_->IsFinished());
+		// 障害物
+		for (auto* enemy : enemis_) {
+			enemy->Update();
+		}
+		// スコアの計算
+		score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
+		bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
+		// スコアの表示用の計算
+		bitmapFont_->Update();
+		// フェードを入れた処理
+		if (fieldStatus_ == FieldStatus::kFadeIn) {
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
+				// スカイダイブかどうか
+				if (isSkyDive_) {
+					isSkyDive_ = false;      // falseを設定
+					fieldFadeColor_ = BLACK; // 色を黒色に設定
+				} else {
+					isSkyDive_ = true;       // trueに設定
+					fieldFadeColor_ = WHITE; // 白色に設定
+				}
+			}
+		} else if (fieldStatus_ == FieldStatus::kMain) {
+			// スカイドームが-1280より上に行ったら
+			if (skyDome_->GetWorldTransform().z < -1280.0f) {
+				fieldStatus_ = FieldStatus::kFadeOut;
+			}
+			// 衝突判定
+			CheackOnCollision();
+			// コマンド
+			UpdateCommand();
+		} else {
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kFadeIn;                          // フェードアウトが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_); // スタートできるように設定
+				skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
+				player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
 			}
 		}
-	} else if (fieldStatus_ == FieldStatus::kMain) {
-		// スカイドームが-1280より上に行ったら
-		if (skyDome_->GetWorldTransform().z < -1280.0f) {
-			fieldStatus_ = FieldStatus::kFadeOut;
-		}
-		// 衝突判定
-		CheackOnCollision();
-		// コマンド
-		UpdateCommand();
-	} else {
-		fieldChangeFade_->Update(fieldFadeColor_); // 更新
-		if (fieldChangeFade_->IsFinished()) {
-			fieldStatus_ = FieldStatus::kFadeIn;                                     // フェードアウトが終了したら
-			fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_);            // スタートできるように設定
-			skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});                         // スカイドームの位置をリセット
-			player_->SetPosition({0.0f, 0.0f, 50.0f});                               // プレイヤーの位置をリセット
-		}
+		playerHp_->Update();
 	}
-	playerHp_->Update();
 }
 
 // パーツの位置と角度のセッターをまとめた

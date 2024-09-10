@@ -59,11 +59,6 @@ public: // メンバ関数
 	/// </summary>
 	virtual void Draw() = 0;
 
-	/// <summary>
-	/// デバッグテキストの描画
-	/// </summary>
-	virtual void DrawDebugText() = 0;
-
 #pragma endregion
 
 	/// <summary>
