@@ -69,8 +69,13 @@ void GameScene::Initialize() {
 	fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_);
 
 	// スコア
-	bitmapFont_ = make_unique<Score>();
-	bitmapFont_->Initialize();
+	for (int i = 0; i < 4; i++) {
+		bitmapFont_[i] = make_unique<Score>();
+		bitmapFont_[i]->Initialize();
+	}
+
+	bitmapFont_[1]->SetScale({35.5f, 56.f});
+	
 
 	enemyCommand_ = make_unique<CSVFailLoading>();
 	enemyCommand_->Initialize();
@@ -89,6 +94,16 @@ void GameScene::Update() {
 	for (auto position : enemyCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
+
+	static Vector3 fontPosition[3] = {
+	    {18.f,  90.f, 0.f},
+        {367.f, 37.f, 0.f},
+        {200.f, 98.f, 0.f}
+    };
+
+	bitmapFont_[1]->SetPosition(fontPosition[0]);
+	bitmapFont_[2]->SetPosition(fontPosition[1]);
+	bitmapFont_[3]->SetPosition(fontPosition[2]);
 }
 
 // 描画
@@ -146,7 +161,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	bitmapFont_->Draw();
+	for (auto& bitmapFont : bitmapFont_) {
+		bitmapFont->Draw();
+	}
+
+	bitmapFont_[2]->TextDraw();    //スコア用のテキスト
+	bitmapFont_[3]->HighTextDraw();//ハイスコア用のテキスト
 
 	playerHp_->Draw();
 
@@ -258,9 +278,14 @@ void GameScene::UpdateField() {
 		}
 		// スコアの計算
 		score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
-		bitmapFont_->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	
+		bitmapFont_[0]->SetScore(static_cast<int>(score_)); // スコアの値をセット
+		bitmapFont_[1]->SetScore(static_cast<int>(score_)); // スコアの値をセット
 		// スコアの表示用の計算
-		bitmapFont_->Update();
+		bitmapFont_[0]->Update(50);
+		bitmapFont_[1]->Update(25);
+		bitmapFont_[2]->TextUpdate();
+		bitmapFont_[3]->TextUpdate();
 		// フェードを入れた処理
 		if (fieldStatus_ == FieldStatus::kFadeIn) {
 			fieldChangeFade_->Update(fieldFadeColor_); // 更新

@@ -29,24 +29,30 @@ void Score::Initialize() {
 
 #pragma endregion
 
-	///ワールドトランスフォームの初期化
+	textTexture[0] = TextureManager::Load("score/scoreText.png");
+	textTexture[1] = TextureManager::Load("score/highScoreText.png");
+
+	/// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	//X座標を指定
+	// X座標を指定
 	worldTransform_.translation_.x = -370.0f;
-	
+
 	for (int i = 0; i < 7; ++i) {
-		//数字のテクスチャを使用してスプライトを作成し、配列に格納する
-		//スプライトの位置は、各数字に対して横方向に50ピクセルずつずらして配置する
-		sprites[i] = Sprite::Create(numberTexture[i], {0.5f + (i * 50), 0.5f});
+		scoreSprites[i] = Sprite::Create(numberTexture[i], {0, -90});
 	}
 
+	for (int i = 0; i < 2; i++) {
+		textSprites[i] = Sprite::Create(textTexture[i], {0, 0});
+	}
 }
 
-void Score::Update() {
+void Score::Update(int width) {
 
 	for (int i = 0; i < 7; ++i) {
+
+		scoreSprites[i]->SetSize(scale_);
 		//最初はイージングさせたいため、Initialize関数で指定したX座標に設定する
-		sprites[i]->SetPosition({worldTransform_.translation_.x + (i * 50), 0.5f});
+		scoreSprites[i]->SetPosition({worldTransform_.translation_.x + (i * width), worldTransform_.translation_.y});
 	}
 
 	//関数呼び出し
@@ -56,32 +62,49 @@ void Score::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
+void Score::TextUpdate() {
+
+	for (int i = 0; i < 2; i++) {
+		textSprites[i]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
+	}
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+}
+
 void Score::Draw() {
 
 	// スコアの桁数を計算する
-	CalculateDigits(score_);
+	CalculateDigits();
 
 	for (int i = 0; i < 7; ++i) {
 		// スプライトに対応する桁の数字のテクスチャを設定する
-		sprites[i]->SetTextureHandle(numberTexture[digits[i]]);
+		scoreSprites[i]->SetTextureHandle(numberTexture[digits[i]]);
 
 		// スプライトを描画する
-		sprites[i]->Draw();
+		scoreSprites[i]->Draw();
 	}
- 
 }
+
+void Score::TextDraw() { textSprites[0]->Draw(); }
+
+void Score::HighTextDraw() { textSprites[1]->Draw(); }
 
 //スコアのセッター
 void Score::SetScore(int score) { score_ = score; }
 
-void Score::CalculateDigits(int score) {
+void Score::SetScale(Vector2 scale) { scale_ = scale; }
+
+void Score::SetPosition(const Vector3& position) { worldTransform_.translation_ = position;}
+
+void Score::CalculateDigits() {
 
 	for (int i = 6; i >= 0; --i) {
 		// スコアの一桁を取り出し、digits 配列に格納する
-		digits[i] = score % 10;
+		digits[i] = score_ % 10;
 
 		// スコアを10で割って次の桁へ移動する
-		score /= 10;
+		score_ /= 10;
 	}
 }
 
