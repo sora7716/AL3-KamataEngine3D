@@ -12,7 +12,8 @@ class IEnemyState {
 public://列挙型
 	enum class Status {
 		kStay,//止まっている
-		kMove,//動く
+		kLateralMove,//横に動く
+		kVerticalMove,//縦に動く 
 		phaseEmpty,//フェーズが何も入っていない
 	};
 

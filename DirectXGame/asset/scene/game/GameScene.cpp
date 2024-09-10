@@ -9,7 +9,6 @@
 #include "imgui.h"
 #endif // _DEBUG
 
-
 // コンストラクタ
 GameScene::GameScene() {}
 
@@ -75,6 +74,7 @@ void GameScene::Initialize() {
 	enemyParent_ = make_unique<EnemyParent>();
 	enemyParent_->Initialize();
 	enemyParent_->SetParent(&skyDome_->GetWorldTransform()); // 親を設定
+	enemyParent_->SetSkyDome(skyDome_.get());                // スカイドームの設定
 
 	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
@@ -270,6 +270,7 @@ void GameScene::UpdateField() {
 			Enemy* enemy = new Enemy();                                                                                     // 生成
 			enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[i]); // 初期化
 			enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // スカイドームを親にする
+			enemy->SetScore(static_cast<int>(score_));                                                                      // スコアをセット
 			enemis_.push_back(enemy);                                                                                       // 敵を生成する
 			isSetEnemyPos = true;                                                                                           // 敵のポジションをセット
 		}
@@ -335,6 +336,7 @@ void GameScene::UpdateField() {
 			player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
 			warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
 			isSetEnemyPos = false;                                        // 敵の位置を再設定
+			enemyParent_->SetPosition({});                                // 敵の親の座標を再設定
 			// 現在のスカイドームの状態
 			if (isSkyDive_) {
 				isSkyDive_ = false; // falseを設定

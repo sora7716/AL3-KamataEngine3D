@@ -142,8 +142,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene->Initialize();
 
 #ifdef _DEBUG
-#endif // ゲームシーンからスタート
 	scene = Scene::kGame;
+#endif // ゲームシーンからスタート
 
 	// メインループ
 	while (true) {

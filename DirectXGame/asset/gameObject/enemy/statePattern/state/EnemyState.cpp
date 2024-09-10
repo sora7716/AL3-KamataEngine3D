@@ -6,28 +6,31 @@
 void EnemyStay::Initialize() { status_ = Status::kStay; }
 
 // 止まっている状態から動く状態への変更
-void EnemyStay::ChangePhase() { status_ = Status::kMove; }
+void EnemyStay::ChangePhase() { status_ = Status::kLateralMove; }
 
 // 止まっている時
 void EnemyStay::Exce(Enemy& enemy) {
 	enemy.StatusStay(); // 止まる状態
-	if (enemy.IsStatusChange()) {
-		ChangePhase();                  // ステータスを変更
-		enemy.SetIsStatusChange(false); // ステータス変更のフラグをfalseに設定
-	}
 }
 
-// 動いているときの初期化
-void EnemyLateralMove::Initialize() { status_ = Status::kMove; }
+// 横に動いているときの初期化
+void EnemyLateralMove::Initialize() { status_ = Status::kLateralMove; }
 
-// 動いている状態から止まっている状態へ変更
+// 横に動いている状態から止まっている状態へ変更
 void EnemyLateralMove::ChangePhase() { status_ = Status::kStay; }
 
-// 動いているとき
+// 横に動いているとき
 void EnemyLateralMove::Exce(Enemy& enemy) {
 	enemy.StatusLateralMove(); // 横移動の状態
-	if (enemy.IsStatusChange()) {
-		ChangePhase();                  // ステータスを変更
-		enemy.SetIsStatusChange(false); // ステータス変更のフラグをfalseに設定
-	}
+}
+
+//縦に動いているときの初期化
+void EnemyVerticalMove::Initialize() { status_ = Status::kVerticalMove; }
+
+void EnemyVerticalMove::ChangePhase() {}
+
+//縦に動いているとき
+void EnemyVerticalMove::Exce(Enemy& enemy) { 
+	//縦移動の状態
+	enemy.StatusVerticalMove();
 }

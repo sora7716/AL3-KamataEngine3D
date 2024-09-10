@@ -8,9 +8,7 @@
 #include <imgui.h>
 #endif // _DEBUG
 
-
-Score::~Score() {}
-
+//初期化
 void Score::Initialize() {
 
 	// スコア
@@ -42,6 +40,7 @@ void Score::Initialize() {
 
 }
 
+//更新
 void Score::Update() {
 
 	for (int i = 0; i < 7; ++i) {
@@ -56,9 +55,10 @@ void Score::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
+//描画
 void Score::Draw() {
 	// スコアの桁数を計算する
-	CalculateDigits(score_);
+	CalculateDigits();
 
 	for (int i = 0; i < 7; ++i) {
 		// スプライトに対応する桁の数字のテクスチャを設定する
@@ -73,17 +73,22 @@ void Score::Draw() {
 //スコアのセッター
 void Score::SetScore(int score) { score_ = score; }
 
-void Score::CalculateDigits(int score) {
+//スコアのゲッター
+int Score::GetScore() { return score_; }
+
+//桁数を求める
+void Score::CalculateDigits() {
 
 	for (int i = 6; i >= 0; --i) {
 		// スコアの一桁を取り出し、digits 配列に格納する
-		digits[i] = score % 10;
+		digits[i] = score_ % 10;
 
 		// スコアを10で割って次の桁へ移動する
-		score /= 10;
+		score_ /= 10;
 	}
 }
 
+//スコアの登場
 void Score::EaseMove() {
 
 	// フレーム数を管理する変数（静的にして状態を保持）

@@ -6,7 +6,8 @@
 #ifdef _DEBUG
 #include "imgui.h"
 #endif // _DEBUG
-
+#include "asset/gameObject/player/Player.h"
+#include "asset/gameObject/score/Score.h"
 #include "asset/math/Aithmetic.h"
 using namespace std;
 using namespace std::numbers;
@@ -20,95 +21,71 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, Vector3 pos
 	worldTransform_.translation_ = position; // 初期位置を設定
 	firstPos = position;                     // 初期位置を設定
 	// ステータスを設定
-	actions_[0] = new EnemyStay();        // 止まっているとき
-	actions_[1] = new EnemyLateralMove(); // 動いて切るとき
-	actions_[0]->Initialize();            // 初期化
-	status_ = actions_[0]->GetStatus();   // ステータスを得る
+	actions_[0] = new EnemyStay();         // 止まっているとき
+	actions_[1] = new EnemyLateralMove();  // 横移動のとき
+	actions_[2] = new EnemyVerticalMove(); // 縦移動のとき
+	actions_[0]->Initialize();             // 初期化
+	status_ = actions_[0]->GetStatus();    // ステータスを得る
 }
 // 敵のステータスのメンバ関数ポインタの初期化
 void (IEnemyState::*IEnemyState::EnemyPhaseTable[])(Enemy&) = {
     static_cast<void (IEnemyState::*)(Enemy&)>(&EnemyStay::Exce),
     static_cast<void (IEnemyState::*)(Enemy&)>(&EnemyLateralMove::Exce),
+    static_cast<void (IEnemyState::*)(Enemy&)>(&EnemyVerticalMove::Exce),
 };
 
 // 更新
 void Enemy::Update() {
-
-	// 現在のステータスの算出
-	//status_ = actions_[(int)status_]->GetStatus();
-	// 現在のステータスに上書き
-	//actions_[(int)status_]->SetStatus(status_);
-	// 現在のフェーズを実行
+	if (score_>1) {
+		status_ = 2;
+	}
+	//  現在のフェーズを実行
 	(actions_[status_]->*IEnemyState::EnemyPhaseTable[static_cast<size_t>(status_)])(*this);
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 #ifdef _DEBUG
 	ImGui::Begin("enemy");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::Text("status:%d", status_);
 	ImGui::End();
 #endif // _DEBUG
-
 }
 
 // 描画
-void Enemy::Draw() {
+void Enemy::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
-	model_->Draw(worldTransform_, *viewProjection_); 
-}
-
-//衝突したとき
-void Enemy::OnCollision() { 
-	worldTransform_.translation_.x += 5.0f;
-}
+// 衝突したとき
+void Enemy::OnCollision() { worldTransform_.translation_.x += 5.0f; }
 
 // 止まっているとき
-void Enemy::StatusStay() {
-	const int kChangeSecond = 120;
-	static int chageTime = kChangeSecond; // n秒間だけまつ
-	if (chageTime > 0) {
-		chageTime--;
-	} else {
-		isStatusChange_ = true; // 状態を変更
-		chageTime = kChangeSecond; // 時間を再設定
-	}
-}
+void Enemy::StatusStay() { worldTransform_.rotation_ += Vector3(1.0f, 1.0f, 1.0f); }
 
 // 横移動しているとき
 void Enemy::StatusLateralMove() {
-	const int kChangeSecond = 500;//切り替えまでの時間
-	static float width = 1.0f;// 振れ幅
-	static float theta = 1.0f;// 角度
+	worldTransform_.rotation_ = {}; // 角度を初期化
+	static float width = 1.0f;      // 振れ幅
+	static float theta = 1.0f;      // 角度
 	if (width < 10) {
-		width += 0.01f;//振れ幅をだんだん増やす
+		width += 0.01f; // 振れ幅をだんだん増やす
 	}
 	worldTransform_.translation_.x = width * std::sin(theta) - firstPos.x; // サイン波
-	theta += pi_v<float> / 60.0f;// 揺らすスピード
-
-	static int chageTime = kChangeSecond;// n秒間だけまつ
-	if (chageTime > 0) {
-		chageTime--;
-	} else {
-		isStatusChange_ = true; // 状態を変更
-		chageTime = kChangeSecond; // 時間を再設定
-		width = 1.0f;//振れ幅を再設定
-		firstPos = worldTransform_.translation_ * -1.0f;
-	}
-#ifdef _DEBUG
-	ImGui::Text("%d", chageTime);
-#endif // _DEBUG
-
+	theta += pi_v<float> / 60.0f;                                          // 揺らすスピード
 }
 
-// ステータスが変わったかどうか
-bool Enemy::IsStatusChange() { return isStatusChange_; }
-
-// ステータスが変わったかどうかのセッター
-void Enemy::SetIsStatusChange(bool isStatusChange) {
-	isStatusChange_ = isStatusChange; 
+// 縦移動
+void Enemy::StatusVerticalMove() {
+	worldTransform_.rotation_ = {}; // 角度を初期化
+	static float width = 1.0f;      // 振れ幅
+	static float theta = 1.0f;      // 角度
+	if (width < 10) {
+		width += 0.01f; // 振れ幅をだんだん増やす
+	}
+	worldTransform_.translation_.y = width * std::sin(theta) + firstPos.y; // サイン波
+	theta += pi_v<float> / 60.0f;                                          // 揺らすスピード
 }
 
 // ワールド座標のゲッター
-Vector3 Enemy::GetWorldPosition() { 
+Vector3 Enemy::GetWorldPosition() {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得(ワールド座標)
@@ -128,9 +105,10 @@ AABB Enemy::GetAABB() {
 }
 
 // 座標のセッター
-void Enemy::SetPosition(Vector3 position) { 
-	worldTransform_.translation_ = position; 
-}
+void Enemy::SetPosition(Vector3 position) { worldTransform_.translation_ = position; }
 
-//親のセッター
+// 親のセッター
 void Enemy::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
+
+// スコアのセッター
+void Enemy::SetScore(int score) { score_ = score; }

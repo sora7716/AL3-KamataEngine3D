@@ -57,19 +57,12 @@ public: // メンバ関数
 	/// 横移動しているとき
 	/// </summary>
 	void StatusLateralMove();
+
+	/// <summary>
+	/// 縦移動
+	/// </summary>
+	void StatusVerticalMove();
 #pragma endregion
-
-	/// <summary>
-	/// ステータスが変わったかどうか
-	/// </summary>
-	/// <returns>ステータスが変わったかどうかのフラグ</returns>
-	bool IsStatusChange();
-
-	/// <summary>
-	/// ステータスが変わったかどうかのセッター
-	/// </summary>
-	/// <param name="isStatusChange">ステータスのフラグに設定したい値</param>
-	void SetIsStatusChange(bool isStatusChange);
 
 	/// <summary>
 	/// ワールド座標のゲッター
@@ -94,6 +87,12 @@ public: // メンバ関数
 	/// <param name="parent">親</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// スコアのセッター
+	/// </summary>
+	/// <param name="score"></param>
+	void SetScore(int score);
+
 public: // 静的メンバ変数
 
 	// オブジェクトの衝突判定のサイズ
@@ -114,7 +113,6 @@ private: // メンバ変数
 	IEnemyState*actions_[IEnemyState::kStatusNum];
 	//ステータス
 	int status_ = IEnemyState::kStatusNum;
-	//ステータスをチェンジ
-	bool isStatusChange_ = false;
-	bool isDead_ = false;
+	//スコア
+	int score_ = 0;
 };

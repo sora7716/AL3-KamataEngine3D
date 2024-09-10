@@ -1,5 +1,9 @@
 #pragma once
 #include "WorldTransform.h"
+
+//前方宣言
+class SkyDome;
+
 /// <summary>
 /// 障害物の親クラス
 /// </summary>
@@ -39,6 +43,19 @@ public:  // メンバ関数
 	/// <returns>ワールドトランスフォーム</returns>
 	WorldTransform& GetWorldTransform();
 
+	/// <summary>
+	/// ポジションのセッター
+	/// </summary>
+	/// <param name="position">位置</param>
+	void SetPosition(Vector3 position);
+
+	/// <summary>
+	/// スカイドームのセッター
+	/// </summary>
+	/// <param name="skyDome"></param>
+	void SetSkyDome(SkyDome* skyDome);
+
 private: // メンバ変数
 	WorldTransform worldTransform_;//ワールドトランスフォーム
+	SkyDome* skyDome_ = nullptr;//スカイドーム
 };
