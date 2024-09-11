@@ -9,7 +9,7 @@ void EnemyParent::Initialize() {
 
 // 更新
 void EnemyParent::Update() {
-	worldTransform_.translation_.z -= skyDome_->GetVelocityZ();
+	//worldTransform_.translation_.z -= skyDome_->GetVelocityZ();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
