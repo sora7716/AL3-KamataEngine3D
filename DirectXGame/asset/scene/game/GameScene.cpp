@@ -77,6 +77,8 @@ void GameScene::Initialize() {
 	enemyParent_->Initialize();
 	enemyParent_->SetParent(&skyDome_->GetWorldTransform()); // 親を設定
 	enemyParent_->SetSkyDome(skyDome_.get());                // スカイドームの設定
+	enemyPopCommand_ = make_unique<CSVFailLoading>();//敵の発生コマンド
+	enemyPopCommand_->Initialize();//敵の発生コマンドの初期化
 
 	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
