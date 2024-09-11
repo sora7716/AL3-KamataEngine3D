@@ -11,6 +11,7 @@
 #include "imgui.h"
 #endif // _DEBUG
 
+
 // コンストラクタ
 TitleScene::TitleScene() { isFinished_ = false; }
 
@@ -18,7 +19,7 @@ TitleScene::TitleScene() { isFinished_ = false; }
 TitleScene::~TitleScene() {}
 
 // 初期化
-void TitleScene::Initialize() {
+void TitleScene::Initialize(bool isSound) {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -54,9 +55,16 @@ void TitleScene::Initialize() {
 	skyDome_->SetRotation({});                                                       // ローテーションの設定
 	skyDome_->SetTranslation({});
 
-	//セレクト画面
+	// セレクト画面
 	selectScene_ = make_unique<Select>();
 	selectScene_->Initialize(player_.get(),railCamera_.get());
+
+	// BGM
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav");// 読み込み
+	if (isSound) {
+		soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
+	}
+	
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -163,10 +171,10 @@ void TitleScene::ChangePhaseUpdate() {
 		if (fade_->IsFinished()) {
 			phase_ = Phase::kMain;
 		}
-		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
+		/*if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
-		}
+		}*/
 
 		break;
 	case Phase::kMain:
@@ -176,6 +184,9 @@ void TitleScene::ChangePhaseUpdate() {
 		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
+		}
+		if (Input::GetInstance()->PushKey(DIK_R)) {
+			audio_->StopWave(soundPlayHandle_); // BGM停止
 		}
 		break;
 	case Phase::kFadeOut:

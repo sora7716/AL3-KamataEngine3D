@@ -35,7 +35,7 @@ void ChangeScene() {
 		}
 		if (titleScene == nullptr) {
 			titleScene = new TitleScene();
-			titleScene->Initialize();
+			titleScene->Initialize(false);
 		}
 		break;
 	case Scene::kGame:
@@ -53,7 +53,7 @@ void ChangeScene() {
 		}
 		if (gameScene == nullptr) {
 			gameScene = new GameScene();
-			gameScene->Initialize();
+			gameScene->Initialize(false);
 		}
 		break;
 	}

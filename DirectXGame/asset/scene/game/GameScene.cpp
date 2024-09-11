@@ -18,7 +18,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {}
 
 // 初期化
-void GameScene::Initialize() {
+void GameScene::Initialize(bool isSound) {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -87,10 +87,18 @@ void GameScene::Initialize() {
 	warp_ = make_unique<Warp>();
 	warp_->Initialize(create_->GetModel(create_->typeWarp), &viewProjection_);
 	warp_->SetParent(&skyDome_->GetWorldTransform());
+
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav"); // 読み込み
+	if (isSound) {
+		soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
+	}
 }
 
 // 更新
 void GameScene::Update() {
+	if (isFinished_ == true) {
+		audio_->StopWave(soundPlayHandle_); // BGM停止
+	}
 	// フィールドの更新
 	UpdateField();
 #ifdef _DEBUG

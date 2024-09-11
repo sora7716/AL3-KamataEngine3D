@@ -63,7 +63,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(bool isSound = true);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -118,6 +118,7 @@ private://メンバ関数
 	/// パーツの位置と角度のセッターをまとめた
 	/// </summary>
 	void SetPartisPositionAndAngle();
+
 
 public://静的メンバ変数
 
@@ -175,4 +176,9 @@ private: // メンバ変数
 	unique_ptr<Hp> playerHp_ = nullptr;
 	//ワープポイント
 	unique_ptr<Warp> warp_ = nullptr;
+
+	// BGM
+	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
+	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
+
 };

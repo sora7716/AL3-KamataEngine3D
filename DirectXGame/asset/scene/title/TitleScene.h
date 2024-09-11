@@ -44,7 +44,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(bool isSound = true);
 
 	/// <summary>
 	/// 更新
@@ -112,8 +112,11 @@ private:
 	// レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
-	//タイトルアニメーション
+	// タイトルアニメーション
 	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;
-	//セレクト画面
+	// セレクト画面
 	unique_ptr<Select> selectScene_ = nullptr;
+	// BGM
+	uint32_t soundDataHandle_ = 0;// BGM読み込む為のハンドル
+	uint32_t soundPlayHandle_ = 0;// BGMを再生する為のハンドル
 };
