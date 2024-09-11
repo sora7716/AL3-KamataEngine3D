@@ -24,7 +24,7 @@ void Create::ModelCreate() {
 	models_[(int)typePlayerLeft_Ear] = Model::CreateFromOBJ("left_ear", true);//左耳
 	models_[(int)typePlayerRight_Ear] = Model::CreateFromOBJ("right_ear", true);//右耳
 	//障害物
-	models_[(int)typeEnemy] = Model::CreateFromOBJ("enemy", true);
+	models_[(int)typeEnemy] = Model::CreateFromOBJ("toge", true);
 	//天球
 	models_[(int)typeSkyDome] = Model::CreateFromOBJ("SkyEntyu", true);
 	//デスパーティクル

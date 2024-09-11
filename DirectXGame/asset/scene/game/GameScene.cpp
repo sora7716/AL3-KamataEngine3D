@@ -295,8 +295,9 @@ void GameScene::UpdateField() {
 			}
 			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum]; i++) {
 				int randomNum = rand() % 3;                                                                                     // 敵の状態をランダムにする
+				uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
 				Enemy* enemy = new Enemy();                                                                                     // 生成
-				enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[i]); // 初期化
+				enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[enemyRandomNum]); // 初期化
 				enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // 敵の親をセットする
 				if (score_ > 1) {
 					enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット

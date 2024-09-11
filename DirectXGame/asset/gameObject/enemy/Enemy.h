@@ -96,9 +96,9 @@ public: // メンバ関数
 public: // 静的メンバ変数
 
 	// オブジェクトの衝突判定のサイズ
-	static inline const float kWidth = 1.0f;  // 横幅
-	static inline const float kHeight = 1.0f; // 立幅
-	static inline const float kDepth = 1.0f;  // 深さ
+	static inline const float kWidth = 2.0f;  // 横幅
+	static inline const float kHeight = 2.0f; // 立幅
+	static inline const float kDepth = 2.0f;  // 深さ
 
 private: // メンバ変数
 	// モデル
