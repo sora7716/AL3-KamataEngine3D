@@ -156,7 +156,7 @@ void TitleScene::ChangePhaseUpdate() {
 	switch (phase_) {
 	case Phase::kFadeIn:
 		// プレイヤーの更新
-		//player_->Update();
+		player_->Update();
 		// フェードイン
 		fade_->Update(); // フェードの更新処理
 		// TitleFontUpdate();
@@ -171,7 +171,7 @@ void TitleScene::ChangePhaseUpdate() {
 		break;
 	case Phase::kMain:
 		// プレイヤーの更新
-		//player_->Update();
+		player_->Update();
 		// メインの処理
 		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 			phase_ = Phase::kFadeOut;

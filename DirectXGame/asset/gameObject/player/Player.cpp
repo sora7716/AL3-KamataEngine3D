@@ -36,11 +36,6 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	CreateParts();
 	InitializeParts();
 	InitializeParticles();
-
-	bulletModel_ = Model::Create();
-	bulletWorldTransform_.Initialize();
-	bulletWorldTransform_.translation_ = worldTransform_.translation_;
-	bulletWorldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
 }
 
 // 更新
@@ -61,35 +56,6 @@ void Player::Update(float firePos) {
 		// パーツの更新
 		for (auto& playerPart : parts_) {
 			playerPart->Update();
-		}
-
-		static Vector3 begin = {};
-		static Vector3 end = {};
-		static float frame = 0;
-		float endFrame = 60;
-		static bool isReverse = false;
-		bulletWorldTransform_.translation_ = worldTransform_.translation_;
-		if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_ && !isReverse) {
-			begin = worldTransform_.translation_;
-			end = Vector3(0.0f, 0.0f, 100.0f);
-			isPressSpace_ = true;
-			frame = 0.0f;
-		}
-		if (isPressSpace_) {
-			if (frame++ > endFrame) {
-				frame = endFrame;
-				isReverse = true;
-				isPressSpace_ = false;
-				frame = 0.0f;
-			}
-			bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f, 0.0f, 30.0f), end, frame / endFrame);
-		}
-		if (isReverse) {
-			if (frame++ > endFrame) {
-				frame = endFrame;
-				isReverse = false;
-			}
-			bulletWorldTransform_.translation_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), worldTransform_.translation_, Easing::InOut(frame / endFrame));
 		}
 		if (hpCount_ < 3) {
 			(this->*parts_flyTable[hpCount_])();
@@ -257,7 +223,6 @@ void Player::SceneTransition() {
 
 }
 
-int Player::IsStartFrash() { return this->isFrashStart_; }
 // 無敵時間がスタートするかどうかのフラグ
 bool Player::IsStartFrash() { return this->isFrashStart_; }
 

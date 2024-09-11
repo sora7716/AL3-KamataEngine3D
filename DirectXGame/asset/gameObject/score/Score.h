@@ -70,6 +70,7 @@ private:
 	Sprite* scoreSprites[7];
 	Sprite* textSprites[2];
 
+	int score_ = 0000000;
 
 	int scoreUpTimer_ = 0;
 	Vector2 scale_ = {71, 112};

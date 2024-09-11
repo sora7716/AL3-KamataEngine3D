@@ -189,8 +189,6 @@ public: // メンバ関数
 	void SetSkyDome(SkyDome* skyDome);
 	void SceneTransition();
 
-	int IsStartFrash();
-
 	/// <summary>
 	/// プレイヤーのスケール
 	/// </summary>
@@ -320,7 +318,6 @@ private://メンバ変数
 
 	bool isWarpSpawn_ = false;//ワープポイントのスポーンするかどうかのフラグ
 	SkyDome* skyDome_ = nullptr;//スカイドーム
-	int coolTimer = 0;
 	
 	int parts_FlyTimer = 0;
 	bool isParticleShot_ = false; // パーティクルが発射されてるか
