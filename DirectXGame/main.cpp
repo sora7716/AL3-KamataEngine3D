@@ -20,7 +20,7 @@ Scene scene = Scene::kUnknow;
 GameScene* gameScene = nullptr;
 TitleScene* titleScene = nullptr;
 ResultScene* resultScene = nullptr;
-
+static int gameScore = 0;
 static int highScore = 0;
 
 void ChangeScene() {
@@ -49,6 +49,7 @@ void ChangeScene() {
 		if (gameScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kResult;
+			gameScore = (int)gameScene->GetScore();
 			highScore = gameScene->GetHighScore();
 			// 旧シーンの削除
 			delete gameScene;
@@ -57,11 +58,11 @@ void ChangeScene() {
 			resultScene = new ResultScene();
 			resultScene->Initialize();
 			resultScene->SetIsFinished(false);
+			resultScene->SetScore(gameScore);
 		}
 		if (gameScene == nullptr) {
 			gameScene = new GameScene();
 			gameScene->Initialize();
-		
 		}
 		break;
 	case Scene::kResult:
@@ -74,12 +75,13 @@ void ChangeScene() {
 			titleScene = new TitleScene();
 			titleScene->Initialize();
 			titleScene->SetIsFinished(false);
+		
 		}
 		if (resultScene == nullptr) {
 			resultScene = new ResultScene();
 			resultScene->Initialize();
 		}
-
+		break;
 	}
 }
 
@@ -165,7 +167,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 	// タイトルシーンの初期化
-	scene = Scene::kTitle;
+	scene = Scene::kGame;
 	titleScene = new TitleScene();
 	titleScene->Initialize();
 

@@ -31,6 +31,11 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ハイスコアを描画
+	/// </summary>
+	void HighScoreDraw();
+
 	//スコア用のテキスト描画
 	void TextDraw();
 

@@ -13,8 +13,6 @@
 #include <memory>
 using namespace std;
 
-class GameScene;
-
 /// <summary>
 /// リザルトシーン
 /// </summary>
@@ -66,7 +64,9 @@ public: // メンバ関数
 	/// <param name="isFinished"></param>
 	void SetIsFinished(const bool& isFinished);
 
-	static inline const float kFadeTimer = 5;
+	void SetScore(int score) { gameScore_ = score; }
+
+	static inline const float kFadeTimer = 3;
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -81,6 +81,8 @@ private: // メンバ変数
 
 	ResultState phase_ = ResultState::kMain;
 
+	unique_ptr<Score> score_;
 	unique_ptr<Fade> fade_;
+	int gameScore_ = 0000000;
 
 };

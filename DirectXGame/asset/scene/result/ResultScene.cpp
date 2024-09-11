@@ -1,6 +1,13 @@
 #include "ResultScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "asset/scene/game/GameScene.h"
+
+#ifdef _DEBUG
+#include <imgui.h>
+using namespace ImGui;
+#endif // _DEBUG
+
 
 ResultScene::ResultScene() {}
 
@@ -16,9 +23,14 @@ void ResultScene::Initialize() {
 	fade_ = make_unique<Fade>();                       // フェードの生成
 	fade_->Initialize();                               // フェードの初期化
 	fade_->FadeStart(Fade::Status::FadeIn, kFadeTimer); // フェードイン初期化
+
+	score_ = make_unique<Score>();
+	score_->Initialize();
 }
 
 void ResultScene::Update() {
+
+	static Vector3 fontPosition = {480, 290, 0};
 
 	switch (phase_) {
 	case ResultState::kFadeIn:
@@ -37,7 +49,12 @@ void ResultScene::Update() {
 		break;
 	
 	case ResultState::kMain:
+	
+		score_->Update(50);
+		score_->SetPosition(fontPosition);
 		
+		score_->SetScore(static_cast<int>(gameScore_));
+
 		if (input_->TriggerKey(DIK_ESCAPE)) {
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
@@ -85,6 +102,9 @@ void ResultScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	// フェード
+	fade_->Draw(commandList);
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -96,6 +116,8 @@ void ResultScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	score_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

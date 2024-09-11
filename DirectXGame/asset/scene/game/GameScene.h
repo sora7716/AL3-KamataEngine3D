@@ -86,6 +86,9 @@ public: // メンバ関数
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
 
+	float GetScore() { return score_; }
+	void SetScore(float score) { score_ = score; }
+
 	int GetHighScore() { return highScore_; }
 	void SetHighScore(int highScore) { highScore_ = highScore; }
 

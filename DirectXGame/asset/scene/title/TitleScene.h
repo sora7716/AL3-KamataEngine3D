@@ -87,7 +87,7 @@ private: // メンバ変数
 	void SetPartisPositionAndAngle();
 
 public: // メンバ関数
-	static inline const float kFadeTime = 5; // フェードをしてほしい時間
+	static inline const float kFadeTime = 3; // フェードをしてほしい時間
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
