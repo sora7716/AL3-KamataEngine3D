@@ -56,10 +56,15 @@ private://メンバ関数
 	/// </summary>
 	void ArmDrop();
 
+	/// <summary>
+	/// 下を見る
+	/// </summary>
+	void LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRight, bool& isLeftDrop);
+
 public://静的メンバ変数
 
 	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
-	static inline const int kAnimationInterval = 1200;//アニメーションがスタートするまでの時間
+	static inline const int kAnimationInterval = 60;//アニメーションがスタートするまでの時間
 	static inline const int kAnimationMaximumNumber = 3;
 
 private://メンバ変数
@@ -68,4 +73,5 @@ private://メンバ変数
 	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
 	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
 	int animationNumber_ = 0;//アニメーションをする番号
+	float frame = 0.0f;
 };

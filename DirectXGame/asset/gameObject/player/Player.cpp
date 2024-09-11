@@ -273,15 +273,15 @@ void Player::EarShot(float firePos) {
 			frame = 0.0f;
 		}
 		leftEarPosition_ = Math::Bezier(beginPos, beginPos + Vector3(-50.0f, 0.0f, -30.0f), endPos, frame / endFrame); // ベジエ曲線で動きをつけている
-		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::Out(frame / endFrame));                                  // 大きさを変える
+		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::OutSine(frame / endFrame));                                  // 大きさを変える
 	}
 	if (isReverse) {
 		if (frame++ > endFrame) {
 			frame = endFrame;
 			isReverse = false;
 		}
-		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(-50.0f, 0.0f, 30.0f), {-1.55f, 0.0f, 0.0f}, Easing::InOut(frame / endFrame));
-		leftEarSize_ = Math::Lerp(endSize, beginSize, Easing::In(frame / endFrame)); // 大きさを変える
+		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(-50.0f, 0.0f, 30.0f), {-1.55f, 0.0f, 0.0f}, Easing::InOutSine(frame / endFrame));
+		leftEarSize_ = Math::Lerp(endSize, beginSize, Easing::InSine(frame / endFrame)); // 大きさを変える
 		if (leftEarSize_ < beginSize) {
 			leftEarSize_ = beginSize; // サイズをbeginSizeより下に行かないようにする
 		}

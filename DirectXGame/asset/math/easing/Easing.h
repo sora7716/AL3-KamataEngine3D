@@ -22,21 +22,21 @@ public:
 	/// </summary>
 	/// <param name="frame">フレーム</param>
 	/// <returns>イージング</returns>
-	static float In(float frame);
+	static float InSine(float frame);
 
 	/// <summary>
 	/// アウト
 	/// </summary>
 	/// <param name="frame">フレーム</param>
 	/// <returns>イージング</returns>
-	static float Out(float frame);
+	static float OutSine(float frame);
 
 	/// <summary>
 	/// インアウト
 	/// </summary>
 	/// <param name="frame">フレーム</param>
 	/// <returns>イージング</returns>
-	static float InOut(float frame);
+	static float InOutSine(float frame);
 
 	/// <summary>
 	/// インバック
@@ -58,6 +58,13 @@ public:
 	/// <param name="frame">フレーム</param>
 	/// <returns>イージング</returns>
 	static float OutElastic(float frame);
+
+	/// <summary>
+	/// インエクスポ
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float InExpo(float frame);
 
 	/// <summary>
 	/// インアウトエクスポ
@@ -90,7 +97,14 @@ public:
 	/// <summary>
 	/// インアウトクォート
 	/// </summary>
-	/// <param name="frame"></param>
-	/// <returns></returns>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
 	static float InOutQuart(float frame);
+
+	/// <summary>
+	/// インアウトシーク
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	static float InOutCirc(float frame);
 };

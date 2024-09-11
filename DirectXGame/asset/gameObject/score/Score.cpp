@@ -102,7 +102,7 @@ void Score::EaseMove() {
 	}
 
 	// イージングの値を計算する（フレーム数を正規化して使用）
-	float easing = Easing::In(frame / endFrame);
+	float easing = Easing::InSine(frame / endFrame);
 
 	// イージングの開始位置を設定（初回のみ）
 	static float begin = worldTransform_.translation_.x;

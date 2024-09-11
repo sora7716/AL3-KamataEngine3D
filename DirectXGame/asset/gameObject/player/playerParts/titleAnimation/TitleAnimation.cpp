@@ -17,16 +17,21 @@ void TitleAnimation::Initialize(Player* player) {
 
 // 更新
 void TitleAnimation::Update(bool isHome) {
-	if (!isHome) {//ホームじゃなかったらアニメーションを終わらせる
+	if (!isHome) { // ホームじゃなかったらアニメーションを終わらせる
 		isAnimationEnd_ = true;
+		frame = 0.0f; // フレーム数をリセット
 	}
 	if (animationStartTimer_-- < 0) {
-		isAnimationStart_ = true;//タイマーがゼロになったらアニメーション開始
+		isAnimationStart_ = true; // タイマーがゼロになったらアニメーション開始
 	}
-	if (isAnimationEnd_) {//アニメーションが終わったら
-		animationStartTimer_ = kAnimationInterval; // 時間を元に戻す
-		isAnimationEnd_ = false;                   // アニメーション終了フラグをfalse
-		isAnimationStart_ = false;                 // アニメーション開始フラグをfalse
+	if (isAnimationEnd_) { // アニメーションが終わったら
+		if (!isHome) {
+			animationStartTimer_ = 60;
+		} else {
+			animationStartTimer_ = kAnimationInterval; // 時間を元に戻す
+		}
+		isAnimationEnd_ = false;   // アニメーション終了フラグをfalse
+		isAnimationStart_ = false; // アニメーション開始フラグをfalse
 		// アニメーションの番号を加算していき最大数を超えたら0に戻す
 		if (animationNumber_ >= kAnimationMaximumNumber - 1) {
 			animationNumber_ = 0;
@@ -58,7 +63,6 @@ void TitleAnimation::ArmRotate() {
 
 	static float begin = player_->GetPartsAngle(IPlayerParts::arm).y; // 最初の位置
 	float end = oneLap * 3.0f;                                        // 最後の位置
-	static float frame = 0.0f;                                        // フレーム
 	float endFrame = 300.0f;                                          // エンドフレーム
 	static bool isRotateReverse = false;                              // 逆回転
 	static float result{};                                            // 結果
@@ -85,7 +89,6 @@ void TitleAnimation::ArmRotate() {
 void TitleAnimation::BigAndSmall() {
 	float beginScale = 1.0f;          // 最初のスケール
 	float endScale = 3.0f;            // 最後のスケール
-	static float frame = 0.0f;        // フレーム
 	float endFrame = 300.0f;          // 最後のフレーム
 	static float result = 0.0f;       // 結果を入れる
 	static bool isBig = true;         // 大きくなる時のフラグ
@@ -108,9 +111,9 @@ void TitleAnimation::BigAndSmall() {
 		}
 	}
 	if (isBig) { // 大きくなっているときの線形補間
-		result = Math::Lerp(beginScale, endScale, Easing::Out(frame / endFrame));
+		result = Math::Lerp(beginScale, endScale, Easing::OutSine(frame / endFrame));
 	} else if (isSmall) { // 元の大きさに戻るときの線形補間
-		result = Math::Lerp(endScale, beginScale, Easing::Out(frame / endFrame));
+		result = Math::Lerp(endScale, beginScale, Easing::OutSine(frame / endFrame));
 	}
 	player_->SetScale({result, result, result}); // スケールのセット
 	LookAround(isLookAround);                    // 見回す
@@ -121,7 +124,6 @@ void TitleAnimation::LookAround(bool& isStart) {
 	float rightAngleY = 1.0f;  // 右向く角度
 	float middleAngleY = 1.5f; // 正面を向く角度
 	float leftAngleY = 2.0f;   // 左を向く角度
-	static float frame = 0.0f;
 	float endFrame = 120.0f;
 	float result = 0.0f;
 	static float isRight = true; // 右向こうとしているときのフラグ
@@ -162,45 +164,31 @@ void TitleAnimation::ArmDrop() {
 	float armEnd = -8.0f;                                                           // 最終的に行きつく場所
 	static float leftResult = 0.0f;                                                 // 左の結果
 	static float rightResult = 0.0f;                                                // 右の結果
-	static float frame = 0.0f;                                                      // フレーム数
 	float endFrame = 120;                                                           // 最後のフレーム数
 	static bool isLeftDrop = true;                                                  // 左を落とす
 	static bool isRightDrop = false;                                                // 右を落とす
 	static bool isUndoLeft = false;                                                 // 左を戻す
 	static bool isUndoRight = false;                                                // 右を戻す
-	static bool isStayTime = false;                                                 // 少し待つ時間のフラグ
+	static bool isLookDown = false;                                                 // 少し待つ時間のフラグ
 	static int stayTime = 0;                                                        // 少し待つ時間
-	const int kSteyTimeLimit = 30;                                                  // 少し待つ時間のリミット
 	if (frame++ > endFrame) {
 		if (isLeftDrop) { // 左腕を落とし終わったとき
 			frame = 0.0f;
 			isLeftDrop = false;
 			isRightDrop = true;
 		} else if (isRightDrop) { // 右腕を落とし終わったとき
-			frame = endFrame;
+			frame = 0.0f;
 			isRightDrop = false;
-			isStayTime = true;
+			isLookDown = true;
 		} else if (isUndoLeft) { // 左腕を拾いに行くとき
 			frame = 0.0f;
 			isUndoLeft = false;
 			isUndoRight = true;
-		} else if (isUndoRight) { // 右腕を拾いに行くとき
-			frame = 0.0f;
-			isUndoRight = false;
-			isLeftDrop = true;
-			isAnimationEnd_ = true;
 		}
 	}
 
-	if (isStayTime) { // 少し待つ時間
-		if (stayTime++ > kSteyTimeLimit) {
-			stayTime = 0;
-			isStayTime = false;
-			isRightDrop = false;
-			isUndoLeft = true;
-			frame = 0.0f;
-		}
-	}
+	// 下を見る
+	LookDown(isLookDown,isUndoLeft,isUndoRight,isLeftDrop);
 
 	if (isLeftDrop) { // 左腕を落とすための線形補間
 		leftResult = Math::Lerp(leftBegin, armEnd, Easing::OutBounce(frame / endFrame));
@@ -213,6 +201,38 @@ void TitleAnimation::ArmDrop() {
 	}
 	player_->SetPartsPosition(IPlayerParts::left_arm, {0.0f, leftResult, 2.0f});    // 位置をセット
 	player_->SetPartsPosition(IPlayerParts::right_arm, {0.0f, rightResult, -2.0f}); // 位置をセット
+}
+
+// 下を見る
+void TitleAnimation::LookDown(bool& isLookDown,bool &isUndoLeft,bool &isUndoRight,bool &isLeftDrop) {
+	float begin = 0.0f;//最初の角度
+	float end = -0.6f;//最後の角度
+	float endFrame = 120;//最後のフレーム
+	static float result = 0.0f;//結果を格納
+	static bool isLookUp = false;//上を見るフラグ
+	if (frame++ > endFrame) {
+		if (isLookDown) {//下を見終わったとき
+			frame = 0.0f;
+			isLookDown = false;
+			isUndoLeft = true;
+		} else if (isUndoRight) {//右腕を広い終わった時
+			frame = 0.0f;
+			isUndoRight = false;
+			isLookUp = true;
+		}
+		else if (isLookUp) {
+			frame = 0.0f;
+			isLookUp = false;
+			isLeftDrop = true;
+			isAnimationEnd_ = true;
+		}
+	}
+	if (isLookDown) {//下を見るときの線形補間
+		result = Math::Lerp(begin, end, Easing::InSine(frame / endFrame));
+	} else if (isLookUp) {//上を見るときの線形補間
+		result = Math::Lerp(end, begin, Easing::OutSine(frame / endFrame));
+	}
+	player_->SetPartsAngle(IPlayerParts::head, {result, player_->GetPartsAngle(IPlayerParts::head).y, 0.0f});//頭の角度を設定
 }
 
 #pragma endregion

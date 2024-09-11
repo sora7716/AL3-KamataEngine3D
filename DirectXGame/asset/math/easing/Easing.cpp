@@ -5,13 +5,13 @@ using namespace std;
 using namespace std::numbers;
 
 // イン
-float Easing::In(float frame) { return 1 - cosf((frame * float(M_PI) / 2)); }
+float Easing::InSine(float frame) { return 1 - cosf((frame * float(M_PI) / 2)); }
 
 // アウト
-float Easing::Out(float frame) { return sinf((frame * float(M_PI)) / 2); }
+float Easing::OutSine(float frame) { return sinf((frame * float(M_PI)) / 2); }
 
 // インアウト
-float Easing::InOut(float frame) { return -(cosf(float(M_PI) * frame) - 1) / 2; }
+float Easing::InOutSine(float frame) { return -(cosf(float(M_PI) * frame) - 1) / 2; }
 
 // インバック
 float Easing::InBack(float frame) {
@@ -41,6 +41,9 @@ float Easing::OutElastic(float frame) {
 	}
 }
 
+// インエクスポ
+float Easing::InExpo(float frame) { return (frame == 0.0f) ? 0.0f : std::pow(2.0f, 10.0f * frame - 10.0f); }
+
 // インアウトエクスポ
 float Easing::InOutExpo(float frame) {
 	if (frame == 0.0f) {
@@ -66,7 +69,7 @@ float Easing::InOutBack(float frame) {
 	}
 }
 
-//アウトバウンス
+// アウトバウンス
 float Easing::OutBounce(float frame) {
 	if (frame < 1 / 2.75f) {
 		return 7.5625f * frame * frame;
@@ -82,7 +85,7 @@ float Easing::OutBounce(float frame) {
 	}
 }
 
-//インアウトバウンス
+// インアウトバウンス
 float Easing::InOutBounce(float frame) {
 	if (frame < 0.5f) {
 		return (1.0f - OutBounce(1.0f - 2.0f * frame)) / 2.0f;
@@ -96,5 +99,14 @@ float Easing::InOutQuart(float frame) {
 		return 8.0f * frame * frame * frame * frame;
 	} else {
 		return 1.0f - std::pow(-2.0f * frame + 2.0f, 4.0f) / 2.0f;
+	}
+}
+
+// インアウトシーク
+float Easing::InOutCirc(float frame) {
+	if (frame < 0.5f) {
+		return (1.0f - std::sqrt(1.0f - std::pow(2.0f * frame, 2.0f))) / 2.0f;
+	} else {
+		return (std::sqrt(1.0f - std::pow(-2.0f * frame + 2.0f, 2.0f)) + 1.0f) / 2.0f;
 	}
 }
