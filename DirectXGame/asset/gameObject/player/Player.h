@@ -148,11 +148,17 @@ public: // メンバ関数
 	/// </summary>
 	void PlayerDead();
 
+	void SceneTransition();
+
 	int IsStartFrash();
 
 	int IsFrashing();
 
 	bool IsDead() { return this->isDead_; }
+
+	bool IsParticleShot() { return this->isParticleShot_; }
+
+	bool IsSceneTransition() { return this->isSceneTransition; }
 
 private: // メンバ関数
 	/// <summary>
@@ -217,7 +223,6 @@ private: // メンバ関数
 	void Body_Fly();
 
 #pragma endregion
-
 	
 
 public://静的メンバ変数
@@ -263,6 +268,7 @@ private://メンバ変数
 	int coolTimer = 0;
 	
 	int parts_FlyTimer = 0;
-	bool isShot_ = false; // パーティクルが発射されてるか
+	bool isParticleShot_ = false; // パーティクルが発射されてるか
+	bool isSceneTransition = false; //シーンを遷移するか
 
 };

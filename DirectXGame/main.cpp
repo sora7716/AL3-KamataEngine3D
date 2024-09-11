@@ -34,6 +34,7 @@ void ChangeScene() {
 			gameScene = new GameScene();
 			gameScene->Initialize();
 			gameScene->SetIsFinished(false);
+			gameScene->SetHighScore(highScore);
 		}
 		if (titleScene == nullptr) {
 			titleScene = new TitleScene();
@@ -43,9 +44,9 @@ void ChangeScene() {
 	case Scene::kGame:
 
 		if (gameScene->IsFinished()) {
-			gameScene->SetHighScore(highScore);
 			// シーンの切り替え
 			scene = Scene::kTitle;
+			highScore = gameScene->GetHighScore();
 			// 旧シーンの削除
 			delete gameScene;
 			gameScene = nullptr;
@@ -57,6 +58,7 @@ void ChangeScene() {
 		if (gameScene == nullptr) {
 			gameScene = new GameScene();
 			gameScene->Initialize();
+		
 		}
 		break;
 	}

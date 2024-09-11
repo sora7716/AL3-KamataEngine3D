@@ -259,7 +259,7 @@ void GameScene::UpdateField() {
 	// プレイヤー
 	player_->Update();
 	bitmapFont_[0]->SetScore(static_cast<int>(score_)); // スコアの値をセット
-	bitmapFont_[1]->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
 	// スコアの表示用の計算
 	bitmapFont_[0]->Update(50);
 	bitmapFont_[1]->Update(25);
@@ -321,6 +321,20 @@ void GameScene::UpdateField() {
 			}
 		}
 		playerHp_->Update();
+	} else {
+
+		if (player_->IsParticleShot()) {
+
+			if (score_ >= highScore_) {
+				highScore_ = (int)score_;
+			}
+
+			player_->SceneTransition();
+
+			if (player_->IsSceneTransition()) {
+				isFinished_ = true;
+			}
+		}
 	}
 }
 

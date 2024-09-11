@@ -45,7 +45,7 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 // 更新
 void Player::Update() {
 
-	if (!isShot_) {
+	if (!isParticleShot_) {
 
 		MoveLimit();
 
@@ -102,7 +102,7 @@ void Player::Update() {
 		}
 	}
 	
-	if (isShot_) {
+	if (isParticleShot_) {
 		for (auto& playerDeathParticles : particles_) {
 			if (playerDeathParticles) {
 				playerDeathParticles->Update();
@@ -124,12 +124,12 @@ void Player::Draw() {
 
 	// パーツの描画
 	for (auto& playerPart : parts_) {
-		if (!isShot_) {
+		if (!isParticleShot_) {
 			playerPart->Draw();
 		}
 	}
 
-	if (isShot_) {
+	if (isParticleShot_) {
 		for (auto& playerDeathParticles : particles_) {
 			if (playerDeathParticles) {
 				playerDeathParticles->Draw();
@@ -227,9 +227,21 @@ void Player::PlayerDead() {
 	Player::Body_Fly();
 
 	if (++parts_FlyTimer >= 90) {
-		isShot_ = true;
+		isParticleShot_ = true;
 	}
 	
+}
+
+void Player::SceneTransition() {
+
+	for (auto& playerDeathParticles : particles_) {
+		if (playerDeathParticles) {
+			if (playerDeathParticles->GetIsFinished()) {
+				isSceneTransition = true;
+			}
+		}
+	}
+
 }
 
 int Player::IsStartFrash() { return this->isFrashStart_; }
@@ -404,7 +416,7 @@ void Player::InitializeParticles() {
 	particles_[static_cast<int>(IDeathParticle::head)]->Initialize(create_->GetModel(create_->typeDeathParticles), viewProjection_, parts_[static_cast<int>(IPlayerParts::head)]->GetPosition());
 	particles_[static_cast<int>(IDeathParticle::head)]->SetParent(&parts_[static_cast<int>(IPlayerParts::head)]->GetWorldTransform());
 	// 体のデスパーティクル
-	particles_[static_cast<int>(IDeathParticle::body)] = make_unique<BodyDeathParticles>();
+	particles_[static_cast<int>(IDeathParticle::body)] = make_unique <BodyDeathParticles>();
 	particles_[static_cast<int>(IDeathParticle::body)]->Initialize(create_->GetModel(create_->typeDeathParticles), viewProjection_, parts_[static_cast<int>(IPlayerParts::body)]->GetPosition());
 	particles_[static_cast<int>(IDeathParticle::body)]->SetParent(&parts_[static_cast<int>(IPlayerParts::body)]->GetWorldTransform());
 }

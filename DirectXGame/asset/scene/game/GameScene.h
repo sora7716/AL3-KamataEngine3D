@@ -86,6 +86,8 @@ public: // メンバ関数
 	int GetHighScore() { return highScore_; }
 	void SetHighScore(int highScore) { highScore_ = highScore; }
 
+	
+
 private: // メンバ関数
 	/// <summary>
 	/// デバックカメラ
