@@ -178,6 +178,12 @@
       <Filter>asset\ゲームオブジェクト</Filter>
     </ClCompile>
     <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\buttom\SelectButton.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\buttom\ISelectButton.cpp">
       <Filter>kamataEngine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -354,7 +360,13 @@
       <Filter>asset\シーン</Filter>
     </ClInclude>
     <ClInclude Include="asset\gameObject\titleFont\TitleFont.h">
-      <Filter>kamataEngine\ヘッダー ファイル</Filter>
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\buttom\SelectButton.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\buttom\ISelectButton.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

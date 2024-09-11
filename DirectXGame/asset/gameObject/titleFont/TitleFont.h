@@ -5,12 +5,12 @@
 class Model;
 class ViewProjection;
 class TitleFont {
-public:  // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	TitleFont() = default;
-	
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -21,7 +21,7 @@ public:  // メンバ関数
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model*model,ViewProjection*viewProjection);
+	void Initialize(Model* model, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -33,11 +33,23 @@ public:  // メンバ関数
 	/// </summary>
 	void Draw();
 
+private: // メンバ関数
+	/// <summary>
+	/// フォントの動き
+	/// </summary>
+	void MoveFont();
+
 private: // メンバ変数
-	//モデル
+	// モデル
 	Model* model_ = nullptr;
-	//ビュープロジェクション
+	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
-	//ワールドトランスフォーム
+	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
+	// 現在のフレーム
+	float frame_ = 0.0;
+	//タイトルを設置する
+	bool isPut = true;
+	//元の位置に戻す
+	bool isBack_ = false;
 };

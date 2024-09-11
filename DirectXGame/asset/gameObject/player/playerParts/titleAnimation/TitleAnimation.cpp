@@ -43,7 +43,7 @@ void TitleAnimation::Update(bool isHome) {
 	} else if (isAnimationStart_) {
 		animationStartTimer_ = 0;
 		// アニメーション
-		(this->*animationTable[animationNumber_])();
+		//(this->*animationTable[animationNumber_])();
 	}
 #ifdef _DEBUG
 	ImGui::Begin("animation");

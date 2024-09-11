@@ -8,14 +8,15 @@
 #include "WorldTransform.h"
 
 #include "DebugCamera.h"
-#include "asset/gameObject/fade/Fade.h"
 #include "asset/create/Create.h"
-#include "asset/gameObject/player/Player.h"
 #include "asset/gameObject/camera/RailCamera.h"
-#include "asset/gameObject/skydome/SkyDome.h"
+#include "asset/gameObject/fade/Fade.h"
+#include "asset/gameObject/player/Player.h"
 #include "asset/gameObject/player/playerParts/titleAnimation/TitleAnimation.h"
-#include "asset/scene/title/select/Select.h"
+#include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/titleFont/TitleFont.h"
+#include "asset/gameObject/titleFont/buttom/SelectButton.h"
+#include "asset/scene/title/select/Select.h"
 
 #include <memory>
 using namespace std;
@@ -70,7 +71,6 @@ public: // メンバ関数
 	void SetIsFinished(const bool& isFinished);
 
 private: // メンバ変数
-
 	/// <summary>
 	/// 更新処理のフェーズの変更
 	/// </summary>
@@ -86,24 +86,24 @@ private: // メンバ変数
 	/// </summary>
 	void SetPartisPositionAndAngle();
 
-public: // メンバ関数
+public:                                      // メンバ関数
 	static inline const float kFadeTime = 5; // フェードをしてほしい時間
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-	bool isDebugCameraActive_ = false;// デバックカメラをオンにするか
+	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	bool isFinished_; // 終了フラグ
-	Phase phase_ = Phase::kFadeIn;//現在のフェーズ
-	ViewProjection viewProjection_;//ビュープロジェクション
+	bool isFinished_;               // 終了フラグ
+	Phase phase_ = Phase::kFadeIn;  // 現在のフェーズ
+	ViewProjection viewProjection_; // ビュープロジェクション
 	// フェード
-	unique_ptr<Fade> fade_ = nullptr;    
+	unique_ptr<Fade> fade_ = nullptr;
 	// モデルクリエイト
 	unique_ptr<Create> create_ = nullptr;
 	// プレイヤー
@@ -113,10 +113,13 @@ private:
 	// レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
-	//タイトルアニメーション
+	// タイトルアニメーション
 	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;
-	//セレクト画面
+	// セレクト画面
 	unique_ptr<Select> selectScene_ = nullptr;
-	//タイトルフォント
+	// タイトルフォント
 	unique_ptr<TitleFont> titleFont_ = nullptr;
-};
+	// セレクト画面で使用するボタン
+	unique_ptr<ISelectButton> selectButtons_[ISelectButton::kButtonNum] = {nullptr};
+}
+;

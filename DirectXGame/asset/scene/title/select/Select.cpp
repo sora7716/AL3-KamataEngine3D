@@ -41,10 +41,14 @@ void Select::Update() {
 // ホームかどうかのフラグ
 bool Select::IsHome() { return isHome_; }
 
+// セレクト画面への遷移フラグ
+bool Select::IsMoveSelect() { return isMoveSelect_; }
+
+//フレームのゲッター
+float Select::GetFrame() { return frame_; }
+
 // セレクト画面へ遷移
 void Select::SelectScene() {
-	// フレーム
-	const float kEndFrame = 120; // 最大フレーム
 	// カメラ
 	static Vector3 cameraBegin = camera_->GetWorldTransform().translation_; // カメラの初期位置
 	Vector3 cameraEnd = {-3.0f, 0.0f, 10.0f};                               // カメラの移動する先

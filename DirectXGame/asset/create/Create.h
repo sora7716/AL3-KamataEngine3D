@@ -23,21 +23,29 @@ public: // 構造体や列挙型
 		kDeathParticles,
 		kWarp,
 		kTitleFont,
+		kStart,      // スタートの文字
+		kStart_Back, // スタートの背景
+		kRule,       // ルールの文字
+		kRule_Back,  // ルールの背景
 		kModelNum,
     };
-    using ObjectType=Type;//エイリアス
-	ObjectType typePlayerHead = Type::kPlayerHead;//プレイヤー
+	using ObjectType = Type;                       // エイリアス
+	ObjectType typePlayerHead = Type::kPlayerHead; // プレイヤー
 	ObjectType typePlayerBody = Type::kPlayerBody;
 	ObjectType typePlayerLeft_Arm = Type::kPlayerLeft_Arm;
 	ObjectType typePlayerRight_Arm = Type::kPlayerRight_Arm;
 	ObjectType typePlayerLeft_Ear = Type::kPlayerLeft_Ear;
 	ObjectType typePlayerRight_Ear = Type::kPlayerRight_Ear;
-	ObjectType typeEnemy = Type::kEnemy;//障害物
-	ObjectType typeSkyDome = Type::kSkyDome;//天球
-	ObjectType typeWarp = Type::kWarp;//ワープポインタ
-	ObjectType typeDeathParticles = Type::kDeathParticles;//デスパーティクル
-	ObjectType typeTitleFont = Type::kTitleFont;//タイトルフォント
-    static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
+	ObjectType typeEnemy = Type::kEnemy;                                // 障害物
+	ObjectType typeSkyDome = Type::kSkyDome;                            // 天球
+	ObjectType typeWarp = Type::kWarp;                                  // ワープポインタ
+	ObjectType typeDeathParticles = Type::kDeathParticles;              // デスパーティクル
+	ObjectType typeTitleFont = Type::kTitleFont;                        // タイトルフォント
+	ObjectType typeStart = Type::kStart;                                // スタートの文字
+	ObjectType typeStart_Back = Type::kStart_Back;                      // スタートの背景
+	ObjectType typeRule = Type::kRule;                                  // ルールの文字
+	ObjectType typeRule_Back = Type::kRule_Back;                        // ルールの背景
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
 	/// <summary>

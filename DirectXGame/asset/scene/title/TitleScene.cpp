@@ -61,6 +61,16 @@ void TitleScene::Initialize() {
 	//タイトルフォント
 	titleFont_ = make_unique<TitleFont>();//生成
 	titleFont_->Initialize(create_->GetModel(create_->typeTitleFont), &viewProjection_);//初期化
+
+	//セレクト画面で使用するボタン
+	//スタートボタンの背景
+	selectButtons_[(int)ISelectButton::typeStart_Back] = make_unique<StartBackButton>();
+	selectButtons_[(int)ISelectButton::typeStart_Back]->Initialize(create_->GetModel(create_->typeStart_Back), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetParent(&railCamera_->GetWorldTransform());
+	// スタートボタン
+	selectButtons_[(int)ISelectButton::typeStart] = make_unique<StartButton>();
+	selectButtons_[(int)ISelectButton::typeStart]->Initialize(create_->GetModel(create_->typeStart), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeStart]->SetParent(&selectButtons_[(int)ISelectButton::typeStart_Back]->GetWorldTransform());
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -115,6 +125,10 @@ void TitleScene::Draw() {
 	//タイトルフォント
 	titleFont_->Draw();
 
+	// セレクトボタンボタン
+	selectButtons_[0]->Draw();
+	selectButtons_[1]->Draw();
+
 	// フェード
 	fade_->Draw(commandList);
 
@@ -148,6 +162,11 @@ void TitleScene::ChangePhaseUpdate() {
 	titleAnimation_->Update(selectScene_->IsHome());
 	// セレクト画面への遷移
 	selectScene_->Update();
+	//セレクトボタンボタン
+	selectButtons_[0]->Update();
+	selectButtons_[1]->Update();
+	selectButtons_[0]->SetFrame(selectScene_->GetFrame());
+	selectButtons_[0]->SetIsBottonLarp(selectScene_->IsMoveSelect());
 	// ホームじゃなかったら
 	if (!selectScene_->IsHome()) {
 		SetPartisPositionAndAngle();           // パーツの角度やポジションを元に戻す
@@ -172,7 +191,7 @@ void TitleScene::ChangePhaseUpdate() {
 		if (fade_->IsFinished()) {
 			phase_ = Phase::kMain;
 		}
-		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
+		if (Input::GetInstance()->PushKey(DIK_ESCAPE)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		}

@@ -33,6 +33,14 @@ void Create::ModelCreate() {
 	models_[(int)typeWarp] = Model::CreateFromOBJ("warp", true);
 	//タイトルフォント
 	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
+	//スタートの文字
+	models_[(int)typeStart] = Model::CreateFromOBJ("start_moji", true);
+	//スタートの背景
+	models_[(int)typeStart_Back] = Model::CreateFromOBJ("start_back", true);
+	//ルールの文字
+	models_[(int)typeRule] = Model::CreateFromOBJ("rule_moji", true);
+	//ルールの背景
+	models_[(int)typeRule_Back] = Model::CreateFromOBJ("rule_back", true);
 }
 
 // テクスチャをクリエイト

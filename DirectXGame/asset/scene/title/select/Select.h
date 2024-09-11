@@ -39,12 +39,28 @@ public:  // メンバ関数
 	/// <returns>isHome</returns>
 	bool IsHome();
 
+	/// <summary>
+	/// セレクト画面への遷移フラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsMoveSelect();
+
+	/// <summary>
+	/// フレームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	float GetFrame();
+
 private:
 
 	/// <summary>
 	/// セレクト画面へ遷移
 	/// </summary>
 	void SelectScene();
+
+public://静的メンバ変数
+
+	static inline const float kEndFrame = 120.0f;//最大フレーム
 
 private: // メンバ変数
 	//カメラ
