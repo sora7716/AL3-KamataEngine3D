@@ -92,7 +92,7 @@ WorldTransform& SkyDome::GetWorldTransform() {
 void SkyDome::VelocityAdd() {
 	// 時間を計測
 	if (velocityZAddTime_-- < 0) {
-		velocityZ_++;                         // 速度を加算
+		velocityZ_+=0.5f;                         // 速度を加算
 		velocityZAddTime_ = kAddTimeInterval; // 時間をリセット
 	}
 }

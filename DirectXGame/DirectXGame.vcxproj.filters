@@ -159,9 +159,6 @@
     <ClCompile Include="asset\math\easing\Easing.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
-    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
-      <Filter>kamataEngine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="asset\gameObject\player\patricle\DeathParticles.cpp">
       <Filter>asset\ゲームオブジェクト\player\particle</Filter>
     </ClCompile>
@@ -175,6 +172,12 @@
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClCompile>
     <ClCompile Include="asset\scene\title\select\Select.cpp">
+      <Filter>asset\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp">
       <Filter>kamataEngine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -338,9 +341,6 @@
     <ClInclude Include="asset\gameObject\enemy\parent\EnemyParent.h">
       <Filter>asset\ゲームオブジェクト\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="asset\scene\title\select\Select.h">
-      <Filter>kamataEngine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="asset\gameObject\hp\Hp.h">
       <Filter>kamataEngine\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -349,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="asset\gameObject\player\patricle\DeathParticles.h">
       <Filter>asset\ゲームオブジェクト\player\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\title\select\Select.h">
+      <Filter>asset\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\TitleFont.h">
+      <Filter>kamataEngine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

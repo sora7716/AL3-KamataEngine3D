@@ -57,7 +57,7 @@ protected:
 
 	static inline const float kDuration = 2.0f;
 
-	static inline const float kSpeed = 0.08f;
+	static inline const float kSpeed = 0.8f;
 	static inline const float pi = 3.14f;
 	static inline const float kAngleUnit = (2 * pi) / kNumParticles;
 	bool isFinished_ = false;

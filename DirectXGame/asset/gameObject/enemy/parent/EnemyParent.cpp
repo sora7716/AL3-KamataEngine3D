@@ -8,7 +8,10 @@ void EnemyParent::Initialize() {
 }
 
 // 更新
-void EnemyParent::Update() {
+void EnemyParent::Update(int score_) {
+	if (score_ > 500) {
+		worldTransform_.rotation_.z += 0.1f;
+	}
 	worldTransform_.translation_.z -= skyDome_->GetVelocityZ();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();

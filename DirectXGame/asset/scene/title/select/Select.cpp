@@ -12,6 +12,7 @@ void Select::Initialize(Player* player, RailCamera* camera) {
 	player_ = player;
 	// カメラを受け取る
 	camera_ = camera;
+	frame_ = 0.0f;//フレーム数を再設定
 }
 
 // 更新

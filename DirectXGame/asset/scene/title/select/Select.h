@@ -51,8 +51,14 @@ private: // メンバ変数
 	RailCamera* camera_ = nullptr;
 	//プレイヤー
 	Player* player_ = nullptr;
+	//セレクト画面に遷移フラグ
 	bool isMoveSelect_ = false;
+	//ゲームルール画面に遷移フラグ
+	bool isMoveGemeRule_ = false;
+	//ボタンを押したかどうかのフラグ
 	bool wasButtonPressed_ = false;
+	//線形補間に使用するフレーム
 	float frame_ = 0.0f;
+	//元の画面にいるかどうか
 	bool isHome_ = true;
 };

@@ -58,6 +58,9 @@ void TitleScene::Initialize() {
 	selectScene_ = make_unique<Select>();
 	selectScene_->Initialize(player_.get(),railCamera_.get());
 
+	//タイトルフォント
+	titleFont_ = make_unique<TitleFont>();//生成
+	titleFont_->Initialize(create_->GetModel(create_->typeTitleFont), &viewProjection_);//初期化
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -71,15 +74,7 @@ void TitleScene::Initialize() {
 
 // 更新
 void TitleScene::Update() {
-	//プレイヤーのアニメーション
-	titleAnimation_->Update(selectScene_->IsHome());
-	//セレクト画面への遷移
-	selectScene_->Update();
-	//ホームじゃなかったら
-	if (!selectScene_->IsHome()) {
-		SetPartisPositionAndAngle();//パーツの角度やポジションを元に戻す
-		player_->SetScale({1.0f, 1.0f, 1.0f});//プレイヤーの大きさを元に戻す
-	}
+	//更新処理のフェーズ管理
 	ChangePhaseUpdate();
 }
 
@@ -117,6 +112,9 @@ void TitleScene::Draw() {
 	// プレイヤー
 	player_->Draw();
 
+	//タイトルフォント
+	titleFont_->Draw();
+
 	// フェード
 	fade_->Draw(commandList);
 
@@ -146,12 +144,23 @@ void TitleScene::SetIsFinished(const bool& isFinished) { isFinished_ = isFinishe
 
 // 更新処理のフェーズの変更
 void TitleScene::ChangePhaseUpdate() {
+	// プレイヤーのアニメーション
+	titleAnimation_->Update(selectScene_->IsHome());
+	// セレクト画面への遷移
+	selectScene_->Update();
+	// ホームじゃなかったら
+	if (!selectScene_->IsHome()) {
+		SetPartisPositionAndAngle();           // パーツの角度やポジションを元に戻す
+		player_->SetScale({1.0f, 1.0f, 1.0f}); // プレイヤーの大きさを元に戻す
+	}
+	//タイトルフォントの更新
+	titleFont_->Update();
 	// レールカメラ
 	railCamera_->Update();
 	// デバックカメラ
 	DebugCameraMove();
 	// スカイドーム
-	skyDome_->Update(false, false);
+	skyDome_->Update(false, true);
 
 	switch (phase_) {
 	case Phase::kFadeIn:
@@ -173,7 +182,7 @@ void TitleScene::ChangePhaseUpdate() {
 		// プレイヤーの更新
 		player_->Update();
 		// メインの処理
-		if (Input::GetInstance()->PushKey(DIK_RETURN)) {
+		if (Input::GetInstance()->PushKey(DIK_ESCAPE)) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		}

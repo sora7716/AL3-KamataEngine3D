@@ -29,7 +29,8 @@ public:  // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	/// <param name="score_">スコア</param>
+	void Update(int score_);
 
 	/// <summary>
 	/// 親クラスのセット

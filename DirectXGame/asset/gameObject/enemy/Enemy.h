@@ -95,10 +95,11 @@ public: // メンバ関数
 
 public: // 静的メンバ変数
 
+	static inline const float kRot = 10.0f;//回転する速さ
 	// オブジェクトの衝突判定のサイズ
-	static inline const float kWidth = 1.0f;  // 横幅
-	static inline const float kHeight = 1.0f; // 立幅
-	static inline const float kDepth = 1.0f;  // 深さ
+	static inline const float kWidth = 2.0f;  // 横幅
+	static inline const float kHeight = 2.0f; // 立幅
+	static inline const float kDepth = 2.0f;  // 深さ
 
 private: // メンバ変数
 	// モデル
@@ -110,7 +111,7 @@ private: // メンバ変数
 	//初期位置
 	Vector3 firstPos = {};
 	// 障害物の状態
-	IEnemyState*actions_[IEnemyState::kStatusNum];
+	IEnemyState* actions_[IEnemyState::kStatusNum] = {nullptr};
 	//ステータス
 	int status_ = IEnemyState::kStatusNum;
 	//敵の状態
