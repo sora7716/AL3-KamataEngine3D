@@ -24,9 +24,8 @@ public: // 構造体や列挙型
 		kWarp,
 		kTitleFont,
 		kStart,      // スタートの文字
-		kStart_Back, // スタートの背景
 		kRule,       // ルールの文字
-		kRule_Back,  // ルールの背景
+		kButtonBack,  // ルールの背景
 		kModelNum,
     };
 	using ObjectType = Type;                       // エイリアス
@@ -42,9 +41,8 @@ public: // 構造体や列挙型
 	ObjectType typeDeathParticles = Type::kDeathParticles;              // デスパーティクル
 	ObjectType typeTitleFont = Type::kTitleFont;                        // タイトルフォント
 	ObjectType typeStart = Type::kStart;                                // スタートの文字
-	ObjectType typeStart_Back = Type::kStart_Back;                      // スタートの背景
 	ObjectType typeRule = Type::kRule;                                  // ルールの文字
-	ObjectType typeRule_Back = Type::kRule_Back;                        // ルールの背景
+	ObjectType typeButtonBack = Type::kButtonBack;                        //ボタンの背景
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数

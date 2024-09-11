@@ -41,7 +41,6 @@ public:  // メンバ関数
 
 	/// <summary>
 	/// セレクト画面への遷移フラグ
-	/// </summary>
 	/// <returns></returns>
 	bool IsMoveSelect();
 
@@ -72,7 +71,7 @@ private: // メンバ変数
 	//ゲームルール画面に遷移フラグ
 	bool isMoveGemeRule_ = false;
 	//ボタンを押したかどうかのフラグ
-	bool wasButtonPressed_ = false;
+	bool isWasButtonPressed_ = false;
 	//線形補間に使用するフレーム
 	float frame_ = 0.0f;
 	//元の画面にいるかどうか

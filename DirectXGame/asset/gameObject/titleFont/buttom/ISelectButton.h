@@ -55,7 +55,7 @@ public: // メンバ関数
 	/// ボタンの線形補間フラグのセッター
 	/// </summary>
 	/// <param name="isBottonLarp">ボタンの線形補間フラグ</param>
-	void SetIsBottonLarp(bool isBottonLarp);
+	void SetIsButtonLarp(bool isBottonLarp);
 
 	/// <summary>
 	/// フレーム
@@ -74,5 +74,5 @@ protected: // メンバ変数
 	float frame_ = 0.0f;
 
 	//線形補間を開始するかのフラグ
-	bool isBottanLerp_ = true;
+	bool isButtonLerp_ = false;
 };

@@ -19,14 +19,14 @@ void Select::Initialize(Player* player, RailCamera* camera) {
 void Select::Update() {
 	Input* input = Input::GetInstance();
 	// マウスの左クリックでisMoveSelect_を切り替える
-	if (input->TriggerKey(DIK_SPACE) && !wasButtonPressed_) {
-		wasButtonPressed_ = true; // ボタンを押したかどうか
+	if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
+		isWasButtonPressed_ = true; // ボタンを押したかどうか
 		isMoveSelect_ ^= true;    // 状態を反転
 		frame_ = 0;               // アニメーション用フレームをリセット
 	}
 
 	// カメラとプレイヤーを移動させる
-	if (wasButtonPressed_) {
+	if (isWasButtonPressed_) {
 		SelectScene();
 	}
 
@@ -61,7 +61,7 @@ void Select::SelectScene() {
 	// アニメーションの進行度を管理
 	if (frame_++ > kEndFrame) {
 		frame_ = kEndFrame;        // フレームで固定
-		wasButtonPressed_ = false; // ボタンを押したかどうかのフラグをリセット
+		isWasButtonPressed_ = false; // ボタンを押したかどうかのフラグをリセット
 		// ホームかどうか
 		if (isMoveSelect_) {
 			isHome_ = false;
@@ -72,11 +72,11 @@ void Select::SelectScene() {
 
 	// カメラとプレイヤーの位置と回転の補間
 	if (isMoveSelect_) {                                                                         // 動かす
-		cameraResult = Math::Lerp(cameraBegin, cameraEnd, frame_ / kEndFrame);                   // カメラの位置を線形補間する
-		playerAngleResultY = Math::Lerp(playerAngleBeginY, playerAngleEndY, frame_ / kEndFrame); // プレイヤーの角度を線形補間する
+		cameraResult = Math::Lerp(cameraBegin, cameraEnd, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
+		playerAngleResultY = Math::Lerp(playerAngleBeginY, playerAngleEndY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
 	} else if (!isMoveSelect_) {                                                                 // 元の位置に戻る
-		cameraResult = Math::Lerp(cameraEnd, cameraBegin, frame_ / kEndFrame);                   // カメラの位置を線形補間する
-		playerAngleResultY = Math::Lerp(playerAngleEndY, playerAngleBeginY, frame_ / kEndFrame); // プレイヤーの角度を線形補間する
+		cameraResult = Math::Lerp(cameraEnd, cameraBegin, Easing::InOutCirc(frame_ / kEndFrame));              // カメラの位置を線形補間する
+		playerAngleResultY = Math::Lerp(playerAngleEndY, playerAngleBeginY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
 	}
 
 	// カメラとプレイヤーの更新

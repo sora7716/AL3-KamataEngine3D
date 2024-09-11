@@ -65,12 +65,22 @@ void TitleScene::Initialize() {
 	//セレクト画面で使用するボタン
 	//スタートボタンの背景
 	selectButtons_[(int)ISelectButton::typeStart_Back] = make_unique<StartBackButton>();
-	selectButtons_[(int)ISelectButton::typeStart_Back]->Initialize(create_->GetModel(create_->typeStart_Back), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeStart_Back]->Initialize(create_->GetModel(create_->typeButtonBack), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeStart_Back]->SetParent(&railCamera_->GetWorldTransform());
 	// スタートボタン
 	selectButtons_[(int)ISelectButton::typeStart] = make_unique<StartButton>();
 	selectButtons_[(int)ISelectButton::typeStart]->Initialize(create_->GetModel(create_->typeStart), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeStart]->SetParent(&selectButtons_[(int)ISelectButton::typeStart_Back]->GetWorldTransform());
+
+	// ルールボタンの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back] = make_unique<RuleBackButton>();
+	selectButtons_[(int)ISelectButton::typeRule_Back]->Initialize(create_->GetModel(create_->typeButtonBack), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetParent(&railCamera_->GetWorldTransform());
+	// ルールボタン
+	selectButtons_[(int)ISelectButton::typeRule] = make_unique<RuleButton>();
+	selectButtons_[(int)ISelectButton::typeRule]->Initialize(create_->GetModel(create_->typeRule), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeRule]->SetParent(&selectButtons_[(int)ISelectButton::typeRule_Back]->GetWorldTransform());
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -126,8 +136,9 @@ void TitleScene::Draw() {
 	titleFont_->Draw();
 
 	// セレクトボタンボタン
-	selectButtons_[0]->Draw();
-	selectButtons_[1]->Draw();
+	for (auto& selectButton : selectButtons_) {
+		selectButton->Draw();
+	}
 
 	// フェード
 	fade_->Draw(commandList);
@@ -163,10 +174,14 @@ void TitleScene::ChangePhaseUpdate() {
 	// セレクト画面への遷移
 	selectScene_->Update();
 	//セレクトボタンボタン
-	selectButtons_[0]->Update();
-	selectButtons_[1]->Update();
-	selectButtons_[0]->SetFrame(selectScene_->GetFrame());
-	selectButtons_[0]->SetIsBottonLarp(selectScene_->IsMoveSelect());
+	//  セレクトボタンボタン
+	for (auto& selectButton : selectButtons_) {
+		selectButton->Update();
+	}
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());
 	// ホームじゃなかったら
 	if (!selectScene_->IsHome()) {
 		SetPartisPositionAndAngle();           // パーツの角度やポジションを元に戻す
