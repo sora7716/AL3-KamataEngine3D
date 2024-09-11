@@ -97,6 +97,8 @@ void Score::SetScale(Vector2 scale) { scale_ = scale; }
 
 void Score::SetPosition(const Vector3& position) { worldTransform_.translation_ = position;}
 
+void Score::SetTextPosition(const Vector3& position) { worldTransform_.translation_ = position; }
+
 void Score::CalculateDigits() {
 
 	for (int i = 6; i >= 0; --i) {

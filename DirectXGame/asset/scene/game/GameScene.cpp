@@ -102,8 +102,8 @@ void GameScene::Update() {
     };
 
 	bitmapFont_[1]->SetPosition(fontPosition[0]);
-	bitmapFont_[2]->SetPosition(fontPosition[1]);
-	bitmapFont_[3]->SetPosition(fontPosition[2]);
+	bitmapFont_[2]->SetTextPosition(fontPosition[1]);
+	bitmapFont_[3]->SetTextPosition(fontPosition[2]);
 }
 
 // 描画
@@ -164,9 +164,8 @@ void GameScene::Draw() {
 	for (auto& bitmapFont : bitmapFont_) {
 		bitmapFont->Draw();
 	}
-
-	bitmapFont_[2]->TextDraw();    //スコア用のテキスト
-	bitmapFont_[3]->HighTextDraw();//ハイスコア用のテキスト
+	bitmapFont_[2]->TextDraw();
+	bitmapFont_[3]->HighTextDraw();
 
 	playerHp_->Draw();
 
@@ -259,6 +258,13 @@ void GameScene::CheackOnCollision() {
 void GameScene::UpdateField() {
 	// プレイヤー
 	player_->Update();
+	bitmapFont_[0]->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	bitmapFont_[1]->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	// スコアの表示用の計算
+	bitmapFont_[0]->Update(50);
+	bitmapFont_[1]->Update(25);
+	bitmapFont_[2]->TextUpdate();
+	bitmapFont_[3]->TextUpdate();
 
 	if (!player_->IsDead()) {
 		// フェードの時間をスカイドームの進むスピードに合わせる
@@ -279,13 +285,8 @@ void GameScene::UpdateField() {
 		// スコアの計算
 		score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
 	
-		bitmapFont_[0]->SetScore(static_cast<int>(score_)); // スコアの値をセット
-		bitmapFont_[1]->SetScore(static_cast<int>(score_)); // スコアの値をセット
-		// スコアの表示用の計算
-		bitmapFont_[0]->Update(50);
-		bitmapFont_[1]->Update(25);
-		bitmapFont_[2]->TextUpdate();
-		bitmapFont_[3]->TextUpdate();
+		
+		
 		// フェードを入れた処理
 		if (fieldStatus_ == FieldStatus::kFadeIn) {
 			fieldChangeFade_->Update(fieldFadeColor_); // 更新

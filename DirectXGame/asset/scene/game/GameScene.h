@@ -83,6 +83,9 @@ public: // メンバ関数
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
 
+	int GetHighScore() { return highScore_; }
+	void SetHighScore(int highScore) { highScore_ = highScore; }
+
 private: // メンバ関数
 	/// <summary>
 	/// デバックカメラ
@@ -113,6 +116,8 @@ private: // メンバ関数
 	/// パーツの位置と角度のセッターをまとめた
 	/// </summary>
 	void SetPartisPositionAndAngle();
+
+	
 
 public: // 静的メンバ変数
 	static inline const float kFieldChangeFadeTime = 1.0f;
@@ -164,5 +169,6 @@ private: // メンバ変数
 	GamePhase gamePhase_ = GamePhase::kStart;
 	//残機
 	unique_ptr<Hp> playerHp_ = nullptr;
+	int highScore_ = 0;
 
 };
