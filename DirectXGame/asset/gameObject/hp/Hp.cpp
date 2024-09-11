@@ -23,9 +23,6 @@ void Hp::Initialize() {
 
 void Hp::Update() {
 
-	/*ImGui::Begin("hp");
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
-	ImGui::End();*/
 
 	worldTransform_.UpdateMatrix();
 }
