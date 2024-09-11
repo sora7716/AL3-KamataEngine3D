@@ -73,5 +73,5 @@ private://メンバ変数
 	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
 	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
 	int animationNumber_ = 0;//アニメーションをする番号
-	float frame = 0.0f;
+	float frame_ = 0.0f;
 };

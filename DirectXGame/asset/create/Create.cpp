@@ -31,6 +31,8 @@ void Create::ModelCreate() {
 	models_[(int)typeDeathParticles] = Model::CreateFromOBJ("deathParticles", true);
 	//ワープポイント
 	models_[(int)typeWarp] = Model::CreateFromOBJ("warp", true);
+	//タイトルフォント
+	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
 }
 
 // テクスチャをクリエイト

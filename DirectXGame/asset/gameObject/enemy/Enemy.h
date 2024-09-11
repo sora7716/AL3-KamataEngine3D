@@ -95,6 +95,7 @@ public: // メンバ関数
 
 public: // 静的メンバ変数
 
+	static inline const float kRot = 10.0f;//回転する速さ
 	// オブジェクトの衝突判定のサイズ
 	static inline const float kWidth = 2.0f;  // 横幅
 	static inline const float kHeight = 2.0f; // 立幅

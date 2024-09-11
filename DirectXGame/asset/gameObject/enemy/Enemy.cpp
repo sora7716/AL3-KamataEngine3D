@@ -59,30 +59,30 @@ void Enemy::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 void Enemy::OnCollision() { worldTransform_.translation_.x += 5.0f; }
 
 // 止まっているとき
-void Enemy::StatusStay() { worldTransform_.rotation_ += Vector3(1.0f, 1.0f, 1.0f); }
+void Enemy::StatusStay() { worldTransform_.rotation_ += Vector3(kRot, kRot, kRot); }
 
 // 横移動しているとき
 void Enemy::StatusLateralMove() {
-	worldTransform_.rotation_ = {}; // 角度を初期化
+	worldTransform_.rotation_ += Vector3(kRot, kRot, kRot);
 	static float width = 1.0f;      // 振れ幅
 	static float theta = 1.0f;      // 角度
 	if (width < 10) {
 		width += 0.01f; // 振れ幅をだんだん増やす
 	}
 	worldTransform_.translation_.x = width * std::sin(theta) - firstPos.x; // サイン波
-	theta += pi_v<float> / 60.0f;                                          // 揺らすスピード
+	theta += pi_v<float> / 120.0f;                                          // 揺らすスピード
 }
 
 // 縦移動
 void Enemy::StatusVerticalMove() {
-	worldTransform_.rotation_ = {}; // 角度を初期化
+	worldTransform_.rotation_ += Vector3(kRot, kRot, kRot);
 	static float width = 1.0f;      // 振れ幅
 	static float theta = 1.0f;      // 角度
 	if (width < 10) {
 		width += 0.01f; // 振れ幅をだんだん増やす
 	}
 	worldTransform_.translation_.y = width * std::sin(theta) + firstPos.y; // サイン波
-	theta += pi_v<float> / 60.0f;                                          // 揺らすスピード
+	theta += pi_v<float> / 120.0f;                                          // 揺らすスピード
 }
 
 // ワールド座標のゲッター

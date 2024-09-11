@@ -79,6 +79,7 @@ void GameScene::Initialize() {
 	enemyParent_->SetSkyDome(skyDome_.get());                // スカイドームの設定
 	enemyPopCommand_ = make_unique<CSVFailLoading>();//敵の発生コマンド
 	enemyPopCommand_->Initialize();//敵の発生コマンドの初期化
+	enemyPhaseNum_ = -1; //最初の敵の数の初期化
 
 	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
@@ -283,23 +284,22 @@ void GameScene::UpdateField() {
 
 	if (!player_->IsDead()) {
 		// 敵の親クラス
-		enemyParent_->Update();
+		enemyParent_->Update((int)score_);
 		// 障害物のpopするコマンド
 		enemyPopCommand_->Update();
-		static int32_t enemyPhaseNum = -1; // 仮の敵の数
 		if (!isSetEnemyPos) {
 			enemis_.clear(); // 敵を削除
-			enemyPhaseNum++; // 敵のフェーズを進めていく
-			if (enemyPhaseNum >= (int32_t)enemyPopCommand_->GetPhase().size()) {
-				enemyPhaseNum = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
+			enemyPhaseNum_++; // 敵のフェーズを進めていく
+			if (enemyPhaseNum_ >= (int32_t)enemyPopCommand_->GetPhase().size()) {
+				enemyPhaseNum_ = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
 			}
-			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum]; i++) {
+			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum_]; i++) {
 				int randomNum = rand() % 3;                                                                                     // 敵の状態をランダムにする
 				uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
 				Enemy* enemy = new Enemy();                                                                                     // 生成
 				enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[enemyRandomNum]); // 初期化
 				enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // 敵の親をセットする
-				if (score_ > 1) {
+				if (score_ > 100) {
 					enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット
 				}
 				enemis_.push_back(enemy); // 敵を生成する

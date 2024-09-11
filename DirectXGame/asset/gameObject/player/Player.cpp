@@ -298,6 +298,7 @@ void Player::EarShot(float firePos) {
 		isEarShot_ = true;                     // 耳を飛ばすフラグをtrue
 		isShotFirstTime_ = true;               // 1回目かどうかのフラグをtrue
 		frame = 0.0f;                          // フレームを0に設定
+		parts_[(int)IPlayerParts::ear]->SetIsAnimation(false);//耳をアニメーションを止める
 	}
 	if (isEarShot_) {
 		if (frame++ > endFrame) {
@@ -319,6 +320,9 @@ void Player::EarShot(float firePos) {
 		if (leftEarSize_ < beginSize) {
 			leftEarSize_ = beginSize; // サイズをbeginSizeより下に行かないようにする
 		}
+	} else {
+		parts_[(int)IPlayerParts::ear]->SetIsAnimation(true); // 耳をアニメーションを止める
+
 	}
 	if (isReverse || isEarShot_) {
 		// 位置を設定

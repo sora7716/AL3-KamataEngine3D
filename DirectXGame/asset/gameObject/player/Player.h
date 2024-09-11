@@ -274,7 +274,7 @@ private: // メンバ関数
 public://静的メンバ変数
 
 	///キャラクターの移動速度
-	static inline const float kCharacterSpeed = 0.2f;
+	static inline const float kCharacterSpeed = 0.5f;
 	// オブジェクトの衝突判定のサイズ
 	static inline const float kWidth = 4.5f;  // 横幅
 	static inline const float kHeight = 4.5f; // 立幅

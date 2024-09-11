@@ -22,6 +22,7 @@ public: // 構造体や列挙型
 		kSkyDome,
 		kDeathParticles,
 		kWarp,
+		kTitleFont,
 		kModelNum,
     };
     using ObjectType=Type;//エイリアス
@@ -34,7 +35,8 @@ public: // 構造体や列挙型
 	ObjectType typeEnemy = Type::kEnemy;//障害物
 	ObjectType typeSkyDome = Type::kSkyDome;//天球
 	ObjectType typeWarp = Type::kWarp;//ワープポインタ
-	ObjectType typeDeathParticles = Type::kDeathParticles;
+	ObjectType typeDeathParticles = Type::kDeathParticles;//デスパーティクル
+	ObjectType typeTitleFont = Type::kTitleFont;//タイトルフォント
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

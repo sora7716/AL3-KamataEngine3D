@@ -15,6 +15,7 @@
 #include "asset/gameObject/skydome/SkyDome.h"
 #include "asset/gameObject/player/playerParts/titleAnimation/TitleAnimation.h"
 #include "asset/scene/title/select/Select.h"
+#include "asset/gameObject/titleFont/TitleFont.h"
 
 #include <memory>
 using namespace std;
@@ -116,4 +117,6 @@ private:
 	unique_ptr<TitleAnimation> titleAnimation_ = nullptr;
 	//セレクト画面
 	unique_ptr<Select> selectScene_ = nullptr;
+	//タイトルフォント
+	unique_ptr<TitleFont> titleFont_ = nullptr;
 };

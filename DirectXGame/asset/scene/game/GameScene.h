@@ -156,6 +156,7 @@ private: // メンバ変数
 	vector<Enemy*> enemis_;
 	bool isSetEnemyPos = false;//敵の位置を設定したか
 	unique_ptr<EnemyParent> enemyParent_ = nullptr;//障害物の親クラス
+	int32_t enemyPhaseNum_ = -1;              // 最初の敵の数の初期化
 	// CSVファイルロード
 	unique_ptr<CSVFailLoading> enemyPopCommand_ = nullptr;
 	//天球
