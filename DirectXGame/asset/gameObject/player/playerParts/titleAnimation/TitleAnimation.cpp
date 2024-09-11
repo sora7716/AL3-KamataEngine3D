@@ -13,7 +13,7 @@ void TitleAnimation::Initialize(Player* player) {
 	assert(player);
 	player_ = player;                          // プレイヤーを受け取る
 	animationStartTimer_ = kAnimationInterval; // アニメーションを開始するまでの時間の設定
-	frame_ = 0.0f;//フレームの再設定
+	frame_ = 0.0f;                             // フレームの再設定
 }
 
 // 更新
@@ -33,6 +33,7 @@ void TitleAnimation::Update(bool isHome) {
 		}
 		isAnimationEnd_ = false;   // アニメーション終了フラグをfalse
 		isAnimationStart_ = false; // アニメーション開始フラグをfalse
+		frame_ = 0.0f;             // フレームを戻す
 		// アニメーションの番号を加算していき最大数を超えたら0に戻す
 		if (animationNumber_ >= kAnimationMaximumNumber - 1) {
 			animationNumber_ = 0;
@@ -67,6 +68,9 @@ void TitleAnimation::ArmRotate() {
 	float endFrame = 300.0f;                                          // エンドフレーム
 	static bool isRotateReverse = false;                              // 逆回転
 	static float result{};                                            // 結果
+	if (isAnimationEnd_) {                                            // フラグをリセット
+		isRotateReverse = false;
+	}
 	// 一回目の回転
 	if (frame_++ > endFrame) {
 		if (!isRotateReverse) {
@@ -95,6 +99,11 @@ void TitleAnimation::BigAndSmall() {
 	static bool isBig = true;         // 大きくなる時のフラグ
 	static bool isLookAround = false; // 見回すときのフレーム
 	static bool isSmall = false;      // 小さくなる時のフレーム
+	if (isAnimationEnd_) {            // フラグをリセット
+		isBig = true;
+		isLookAround = false;
+		isSmall = false;
+	}
 	if (frame_++ > endFrame) {
 		if (isBig) { // 大きくなりっ来た時の処理
 			frame_ = 0.0f;
@@ -127,9 +136,14 @@ void TitleAnimation::LookAround(bool& isStart) {
 	float leftAngleY = 2.0f;   // 左を向く角度
 	float endFrame = 120.0f;
 	float result = 0.0f;
-	static float isRight = true; // 右向こうとしているときのフラグ
-	static bool isLeft = false;  // 左向こうとしているときのフラグ
-	static bool isUndo = false;  // 正面向こうとしているときのフラグ
+	static bool isRight = true; // 右向こうとしているときのフラグ
+	static bool isLeft = false; // 左向こうとしているときのフラグ
+	static bool isUndo = false; // 正面向こうとしているときのフラグ
+	if (isAnimationEnd_) {      // フラグをリセット
+		isRight = true;
+		isLeft = false;
+		isUndo = false;
+	}
 	if (isStart) {
 		if (frame_++ > endFrame) {
 			if (isRight) { // 右向いているときの処理
@@ -171,7 +185,13 @@ void TitleAnimation::ArmDrop() {
 	static bool isUndoLeft = false;                                                 // 左を戻す
 	static bool isUndoRight = false;                                                // 右を戻す
 	static bool isLookDown = false;                                                 // 少し待つ時間のフラグ
-	static int stayTime = 0;                                                        // 少し待つ時間
+	if (isAnimationEnd_) {                                                          // フラグをリセット
+		isLeftDrop = true;
+		isRightDrop = false;
+		isUndoLeft = false;
+		isUndoRight = false;
+		isLookDown = false;
+	}
 	if (frame_++ > endFrame) {
 		if (isLeftDrop) { // 左腕を落とし終わったとき
 			frame_ = 0.0f;
@@ -189,7 +209,7 @@ void TitleAnimation::ArmDrop() {
 	}
 
 	// 下を見る
-	LookDown(isLookDown,isUndoLeft,isUndoRight,isLeftDrop);
+	LookDown(isLookDown, isUndoLeft, isUndoRight, isLeftDrop);
 
 	if (isLeftDrop) { // 左腕を落とすための線形補間
 		leftResult = Math::Lerp(leftBegin, armEnd, Easing::OutBounce(frame_ / endFrame));
@@ -205,35 +225,37 @@ void TitleAnimation::ArmDrop() {
 }
 
 // 下を見る
-void TitleAnimation::LookDown(bool& isLookDown,bool &isUndoLeft,bool &isUndoRight,bool &isLeftDrop) {
-	float begin = 0.0f;//最初の角度
-	float end = -0.6f;//最後の角度
-	float endFrame = 120;//最後のフレーム
-	static float result = 0.0f;//結果を格納
-	static bool isLookUp = false;//上を見るフラグ
+void TitleAnimation::LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRight, bool& isLeftDrop) {
+	float begin = 0.0f;           // 最初の角度
+	float end = -0.6f;            // 最後の角度
+	float endFrame = 120;         // 最後のフレーム
+	static float result = 0.0f;   // 結果を格納
+	static bool isLookUp = false; // 上を見るフラグ
+	if (isAnimationEnd_) {        // フラグをリセット
+		isLookUp = false;
+	}
 	if (frame_++ > endFrame) {
-		if (isLookDown) {//下を見終わったとき
+		if (isLookDown) { // 下を見終わったとき
 			frame_ = 0.0f;
 			isLookDown = false;
 			isUndoLeft = true;
-		} else if (isUndoRight) {//右腕を広い終わった時
+		} else if (isUndoRight) { // 右腕を広い終わった時
 			frame_ = 0.0f;
 			isUndoRight = false;
 			isLookUp = true;
-		}
-		else if (isLookUp) {
+		} else if (isLookUp) {
 			frame_ = 0.0f;
 			isLookUp = false;
 			isLeftDrop = true;
 			isAnimationEnd_ = true;
 		}
 	}
-	if (isLookDown) {//下を見るときの線形補間
+	if (isLookDown) { // 下を見るときの線形補間
 		result = Math::Lerp(begin, end, Easing::InSine(frame_ / endFrame));
-	} else if (isLookUp) {//上を見るときの線形補間
+	} else if (isLookUp) { // 上を見るときの線形補間
 		result = Math::Lerp(end, begin, Easing::OutSine(frame_ / endFrame));
 	}
-	player_->SetPartsAngle(IPlayerParts::head, {result, player_->GetPartsAngle(IPlayerParts::head).y, 0.0f});//頭の角度を設定
+	player_->SetPartsAngle(IPlayerParts::head, {result, player_->GetPartsAngle(IPlayerParts::head).y, 0.0f}); // 頭の角度を設定
 }
 
 #pragma endregion

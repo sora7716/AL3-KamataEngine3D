@@ -111,7 +111,7 @@ private: // メンバ変数
 	//初期位置
 	Vector3 firstPos = {};
 	// 障害物の状態
-	IEnemyState*actions_[IEnemyState::kStatusNum];
+	IEnemyState* actions_[IEnemyState::kStatusNum] = {nullptr};
 	//ステータス
 	int status_ = IEnemyState::kStatusNum;
 	//敵の状態

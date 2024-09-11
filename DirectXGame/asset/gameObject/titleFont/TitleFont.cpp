@@ -15,7 +15,6 @@ void TitleFont::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = model;//モデルを受け取る
 	viewProjection_ = viewProjection;//ビュープロジェクションを受け取る
 	worldTransform_.Initialize();//ワールドトランスフォームの初期化
-	worldTransform_.rotation_.y = pi_v<float> / 2.0f;//角度を設定
 }
 
 //更新

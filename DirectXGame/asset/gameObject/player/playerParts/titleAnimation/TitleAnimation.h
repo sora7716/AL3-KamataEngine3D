@@ -64,7 +64,7 @@ private://メンバ関数
 public://静的メンバ変数
 
 	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
-	static inline const int kAnimationInterval = 1200;//アニメーションがスタートするまでの時間
+	static inline const int kAnimationInterval = 60;//アニメーションがスタートするまでの時間
 	static inline const int kAnimationMaximumNumber = 3;
 
 private://メンバ変数
