@@ -79,6 +79,9 @@
     <Filter Include="asset\プロセス\command">
       <UniqueIdentifier>{6a94c590-57e3-4b4b-ac72-a37d52a1c31d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\ゲームオブジェクト\player\particle">
+      <UniqueIdentifier>{798530ba-733a-476d-8c57-74a005f2a3d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -155,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="asset\math\easing\Easing.cpp">
       <Filter>asset\プロセス</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
+      <Filter>kamataEngine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\patricle\DeathParticles.cpp">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
     </ClCompile>
     <ClCompile Include="asset\gameObject\hp\Hp.cpp">
       <Filter>asset\ゲームオブジェクト</Filter>
@@ -331,6 +340,15 @@
     </ClInclude>
     <ClInclude Include="asset\scene\title\select\Select.h">
       <Filter>kamataEngine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\hp\Hp.h">
+      <Filter>kamataEngine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\patricle\IDeathParticle.h">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\patricle\DeathParticles.h">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

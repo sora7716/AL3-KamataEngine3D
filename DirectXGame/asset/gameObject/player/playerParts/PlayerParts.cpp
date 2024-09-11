@@ -62,7 +62,6 @@ void PlayerHead::Animation() {
 	worldTransform_.translation_.y = width * sin(theta) + position_.y;
 	theta += 1.0f / 15.0f;
 }
-
 #pragma endregion
 
 //=============================================================================================================
@@ -168,7 +167,7 @@ void PlayerLeft_Arm::Initialize(Model* model, ViewProjection* viewProjection) {
 void PlayerLeft_Arm::Update() {
 	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
-	ImGui::Begin("leftArm");
+	ImGui::Begin("left_arm");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
 	ImGui::DragFloat3("translate", &position_.x, 0.01f);
@@ -217,7 +216,7 @@ void PlayerRight_Arm::Update() {
 
 	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
-	ImGui::Begin("rightArm");
+	ImGui::Begin("right_arm");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
 	ImGui::DragFloat3("translate", &position_.x, 0.01f);
@@ -312,7 +311,7 @@ void PlayerLeft_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
 void PlayerLeft_Ear::Update() {
 	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
-	ImGui::Begin("leftEar");
+	ImGui::Begin("left_ear");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
 	ImGui::DragFloat3("translate", &position_.x, 0.01f);
@@ -346,7 +345,7 @@ void PlayerRight_Ear::Initialize(Model* model, ViewProjection* viewProjection) {
 void PlayerRight_Ear::Update() {
 	SetSRT(); // SRTのセッター
 #ifdef _DEBUG
-	ImGui::Begin("rightEar");
+	ImGui::Begin("right_ear");
 	ImGui::DragFloat3("scale", &size_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &angle_.x, 0.01f);
 	ImGui::DragFloat3("translate", &position_.x, 0.01f);
@@ -356,6 +355,7 @@ void PlayerRight_Ear::Update() {
 }
 
 void PlayerRight_Ear::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
 
 #pragma endregion
 

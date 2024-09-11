@@ -20,6 +20,7 @@ public: // 構造体や列挙型
 		kPlayerRight_Ear,
 		kEnemy,
 		kSkyDome,
+		kDeathParticles,
 		kWarp,
 		kModelNum,
     };
@@ -33,6 +34,7 @@ public: // 構造体や列挙型
 	ObjectType typeEnemy = Type::kEnemy;//障害物
 	ObjectType typeSkyDome = Type::kSkyDome;//天球
 	ObjectType typeWarp = Type::kWarp;//ワープポインタ
+	ObjectType typeDeathParticles = Type::kDeathParticles;
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

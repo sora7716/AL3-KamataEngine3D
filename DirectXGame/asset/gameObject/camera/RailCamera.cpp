@@ -48,19 +48,24 @@ void RailCamera::Update() {
 	//worldTransform_.translation_ = Math::CatmullRomPosition(controlPoints_, t_);
 	//worldTransform_.rotation_ = Math::CatmullRomPosition(controlPoints_, t_);
 	
-	// ワールド行列を再計算
-	worldTransform_.UpdateMatrix();
-	// カメラのオブジェクトのワールド行列からビュー行列を計算する
-	viewProjection_.matView = ~worldTransform_.matWorld_;
-
-	#ifdef _DEBUG
+	
+#ifdef _DEBUG
 	// カメラの座標を画面に表示する処理
 	ImGui::Begin("Camera");
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::Text("t%f", t_);
 	ImGui::End();
+
 #endif // _DEBUG
+
+
+	// ワールド行列を再計算
+	worldTransform_.UpdateMatrix();
+	// カメラのオブジェクトのワールド行列からビュー行列を計算する
+	viewProjection_.matView = ~worldTransform_.matWorld_;
+
+
 
 	
 }

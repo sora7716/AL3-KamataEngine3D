@@ -72,7 +72,16 @@ void GameScene::Initialize() {
 	// 敵の表示する場所
 	enemyPopCommand_ = make_unique<CSVFailLoading>();
 	enemyPopCommand_->Initialize();
+	for (int i = 0; i < 4; i++) {
+		bitmapFont_[i] = make_unique<Score>();
+		bitmapFont_[i]->Initialize();
+	}
 
+	bitmapFont_[1]->SetScale({35.5f, 56.f});
+	
+
+	enemyCommand_ = make_unique<CSVFailLoading>();
+	enemyCommand_->Initialize();
 	// 敵の親クラス
 	enemyParent_ = make_unique<EnemyParent>();
 	enemyParent_->Initialize();
@@ -98,6 +107,17 @@ void GameScene::Update() {
 	for (auto position : enemyPopCommand_->GetPosition()) {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
+
+	static Vector3 fontPosition[3] = {
+	    {18.f,  90.f, 0.f},
+        {367.f, 37.f, 0.f},
+        {200.f, 98.f, 0.f}
+    };
+
+	bitmapFont_[1]->SetPosition(fontPosition[0]);
+	bitmapFont_[2]->SetTextPosition(fontPosition[1]);
+	bitmapFont_[3]->SetTextPosition(fontPosition[2]);
+}
 	for (auto time : enemyPopCommand_->GetPhase()) {
 		ImGui::Text("%d", time);
 	}
@@ -165,10 +185,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	for (auto& bitmapFont : bitmapFont_) {
+		bitmapFont->Draw();
+	}
+	bitmapFont_[2]->TextDraw();
+	bitmapFont_[3]->HighTextDraw();
 
-	// スコアの表示
-	bitmapFont_->Draw();
-	// プレイヤーのHP
 	playerHp_->Draw();
 
 	// スプライト描画後処理
@@ -348,6 +370,86 @@ void GameScene::UpdateField() {
 				isSkyDive_ = false; // falseを設定
 			} else {
 				isSkyDive_ = true; // trueに設定
+			}
+		}
+	}
+	// プレイヤー
+	player_->Update();
+	bitmapFont_[0]->SetScore(static_cast<int>(score_)); // スコアの値をセット
+	bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
+	// スコアの表示用の計算
+	bitmapFont_[0]->Update(50);
+	bitmapFont_[1]->Update(25);
+	bitmapFont_[2]->TextUpdate();
+	bitmapFont_[3]->TextUpdate();
+
+	if (!player_->IsDead()) {
+		// フェードの時間をスカイドームの進むスピードに合わせる
+		if (fadeTime_ > 0.3f) {
+			fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
+		}
+		// デバックカメラ
+		DebugCameraMove();
+		// レールカメラ
+		railCamera_->Update();
+
+		// 天球
+		skyDome_->Update(!fieldChangeFade_->IsFinished());
+		// 障害物
+		for (auto* enemy : enemis_) {
+			enemy->Update();
+		}
+		// スコアの計算
+		score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
+	
+		
+		
+		// フェードを入れた処理
+		if (fieldStatus_ == FieldStatus::kFadeIn) {
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
+				// スカイダイブかどうか
+				if (isSkyDive_) {
+					isSkyDive_ = false;      // falseを設定
+					fieldFadeColor_ = BLACK; // 色を黒色に設定
+				} else {
+					isSkyDive_ = true;       // trueに設定
+					fieldFadeColor_ = WHITE; // 白色に設定
+				}
+			}
+		} else if (fieldStatus_ == FieldStatus::kMain) {
+			// スカイドームが-1280より上に行ったら
+			if (skyDome_->GetWorldTransform().z < -1280.0f) {
+				fieldStatus_ = FieldStatus::kFadeOut;
+			}
+			// 衝突判定
+			CheackOnCollision();
+			// コマンド
+			UpdateCommand();
+		} else {
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kFadeIn;                          // フェードアウトが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_); // スタートできるように設定
+				skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
+				player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
+			}
+		}
+		playerHp_->Update();
+	} else {
+
+		if (player_->IsParticleShot()) {
+
+			if (score_ >= highScore_) {
+				highScore_ = (int)score_;
+			}
+
+			player_->SceneTransition();
+
+			if (player_->IsSceneTransition()) {
+				isFinished_ = true;
 			}
 		}
 	}

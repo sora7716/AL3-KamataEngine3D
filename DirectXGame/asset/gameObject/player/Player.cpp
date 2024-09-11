@@ -35,29 +35,65 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	// パーツの生成
 	CreateParts();
 	InitializeParts();
+	InitializeParticles();
+
+	bulletModel_ = Model::Create();
+	bulletWorldTransform_.Initialize();
+	bulletWorldTransform_.translation_ = worldTransform_.translation_;
+	bulletWorldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
 }
 
 // 更新
 void Player::Update(float firePos) {
 
-	if (isDead_) {
-		return;
-	}
+	if (!isParticleShot_) {
 
-	MoveLimit();
+		MoveLimit();
 
 #ifdef _DEBUG
-	ImGui::Begin("player");
-	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
-	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::End();
+		ImGui::Begin("player");
+		ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
+		ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+		ImGui::End();
 #endif // _DEBUG
 
-	// パーツの更新
-	for (auto& playerPart : parts_) {
-		playerPart->Update();
-	}
 
+		// パーツの更新
+		for (auto& playerPart : parts_) {
+			playerPart->Update();
+		}
+
+		static Vector3 begin = {};
+		static Vector3 end = {};
+		static float frame = 0;
+		float endFrame = 60;
+		static bool isReverse = false;
+		bulletWorldTransform_.translation_ = worldTransform_.translation_;
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE) && !isPressSpace_ && !isReverse) {
+			begin = worldTransform_.translation_;
+			end = Vector3(0.0f, 0.0f, 100.0f);
+			isPressSpace_ = true;
+			frame = 0.0f;
+		}
+		if (isPressSpace_) {
+			if (frame++ > endFrame) {
+				frame = endFrame;
+				isReverse = true;
+				isPressSpace_ = false;
+				frame = 0.0f;
+			}
+			bulletWorldTransform_.translation_ = Math::Bezier(begin, begin + Vector3(20.0f, 0.0f, 30.0f), end, frame / endFrame);
+		}
+		if (isReverse) {
+			if (frame++ > endFrame) {
+				frame = endFrame;
+				isReverse = false;
+			}
+			bulletWorldTransform_.translation_ = Math::Bezier(end, end + Vector3(20.0f, 0.0f, 30.0f), worldTransform_.translation_, Easing::InOut(frame / endFrame));
+		}
+		if (hpCount_ < 3) {
+			(this->*parts_flyTable[hpCount_])();
+		}
 	if (skyDome_) {
 		// 耳を飛ばす
 		EarShot(firePos);
@@ -67,11 +103,20 @@ void Player::Update(float firePos) {
 		(this->*parts_flyTable[hpCount_])();
 	}
 
-	if (--coolTimer >= 0) {
-		Unrivaled();
-	} else {
-		isFrashStart_ = false;
-		isInvisible_ = false;
+		if (--coolTimer >= 0) {
+			Unrivaled();
+		} else {
+			isFrashStart_ = false;
+			isInvisible_ = false;
+		}
+	}
+	
+	if (isParticleShot_) {
+		for (auto& playerDeathParticles : particles_) {
+			if (playerDeathParticles) {
+				playerDeathParticles->Update();
+			}
+		}
 	}
 
 	// 行列の更新
@@ -81,20 +126,30 @@ void Player::Update(float firePos) {
 // 描画
 void Player::Draw() {
 
-	if (isDead_ || isInvisible_) {
+	if (isInvisible_) {
 		return;
 	}
 
 	// パーツの描画
 	for (auto& playerPart : parts_) {
-		playerPart->Draw();
+		if (!isParticleShot_) {
+			playerPart->Draw();
+		}
 	}
+
+	if (isParticleShot_) {
+		for (auto& playerDeathParticles : particles_) {
+			if (playerDeathParticles) {
+				playerDeathParticles->Draw();
+			}
+		}
+	}
+
 }
 
-// 衝突したとき
-void Player::OnCollision(int hpCount) {
-
-	hpCount_ = hpCount;
+void Player::OnCollision(int hpCount) { 
+	
+	hpCount_ = hpCount; 
 
 	isFrashStart_ = true;
 
@@ -178,9 +233,31 @@ Vector3 Player::GetPartsPosition(IPlayerParts::PartsName partsName) const { retu
 // パーツの角度のゲッター
 Vector3 Player::GetPartsAngle(IPlayerParts::PartsName partsName) const { return parts_[(int)partsName]->GetAngle(); }
 
-// プレイヤーの消滅
-void Player::PlayerDead() { isDead_ = true; }
+void Player::PlayerDead() { 
+	isDead_ = true; 
 
+	Player::Head_Fly();
+	Player::Body_Fly();
+
+	if (++parts_FlyTimer >= 90) {
+		isParticleShot_ = true;
+	}
+	
+}
+
+void Player::SceneTransition() {
+
+	for (auto& playerDeathParticles : particles_) {
+		if (playerDeathParticles) {
+			if (playerDeathParticles->GetIsFinished()) {
+				isSceneTransition = true;
+			}
+		}
+	}
+
+}
+
+int Player::IsStartFrash() { return this->isFrashStart_; }
 // 無敵時間がスタートするかどうかのフラグ
 bool Player::IsStartFrash() { return this->isFrashStart_; }
 
@@ -300,15 +377,16 @@ void Player::Right_Arm_MoveAngle() {
 	static float right_ArmAngle = 1.0f;
 	right_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetAngle({right_ArmAngle, right_ArmAngle, right_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetAngle(Vector3(right_ArmAngle));
 }
 
 void Player::Right_Arm_MovePosition() {
 
 	// 右腕の新しい位置を計算
 	Vector3 right_ArmPos = {
-	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().x - 0.10f, parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().y - 0.40f,
-	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().z - 0.75f};
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().x - 0.20f, 
+		parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().y - 0.50f,
+	    parts_[static_cast<int>(IPlayerParts::right_arm)]->GetPosition().z - 0.85f};
 
 	// 新しい位置を設定
 	parts_[static_cast<int>(IPlayerParts::right_arm)]->SetPosition(right_ArmPos);
@@ -343,7 +421,7 @@ void Player::Left_Arm_MoveAngle() {
 	static float left_ArmAngle = 1.0f;
 	left_ArmAngle++;
 
-	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetAngle({left_ArmAngle, left_ArmAngle, left_ArmAngle});
+	parts_[static_cast<int>(IPlayerParts::left_arm)]->SetAngle(Vector3(left_ArmAngle));
 }
 
 void Player::Left_Arm_MovePosition() {
@@ -391,12 +469,101 @@ void Player::Unrivaled() {
 	const int kInterval = 15;  // どれくらいのスパンで点滅させるか
 	// 無敵時間の時に処理する
 	if (isFrashStart_) {
+
 		if (--frashTimer < 0 && isInvisible_ == false) {
-			isInvisible_ = true;    // 透明化
-			frashTimer = kInterval; // 時間を設定
+			isInvisible_ = true;
+			frashTimer = kInterval;
 		} else if (--frashTimer < 0 && isInvisible_ == true) {
-			isInvisible_ = false;   // 非透明化
-			frashTimer = kInterval; // 時間を設定
+			isInvisible_ = false;
+			frashTimer = kInterval;
 		}
 	}
 }
+
+void Player::InitializeParticles() {
+	// 頭のデスパーティクル
+	particles_[static_cast<int>(IDeathParticle::head)] = make_unique<HeadDeathParticles>();
+	particles_[static_cast<int>(IDeathParticle::head)]->Initialize(create_->GetModel(create_->typeDeathParticles), viewProjection_, parts_[static_cast<int>(IPlayerParts::head)]->GetPosition());
+	particles_[static_cast<int>(IDeathParticle::head)]->SetParent(&parts_[static_cast<int>(IPlayerParts::head)]->GetWorldTransform());
+	// 体のデスパーティクル
+	particles_[static_cast<int>(IDeathParticle::body)] = make_unique <BodyDeathParticles>();
+	particles_[static_cast<int>(IDeathParticle::body)]->Initialize(create_->GetModel(create_->typeDeathParticles), viewProjection_, parts_[static_cast<int>(IPlayerParts::body)]->GetPosition());
+	particles_[static_cast<int>(IDeathParticle::body)]->SetParent(&parts_[static_cast<int>(IPlayerParts::body)]->GetWorldTransform());
+}
+
+#pragma region 頭が吹っ飛ぶ処理
+
+void Player::Head_MoveAngle() {
+
+	static float headAngle = 1.0f;
+	headAngle += 1.f / 15.f;
+
+	parts_[static_cast<int>(IPlayerParts::head)]->SetAngle({headAngle, headAngle, headAngle});
+
+}
+
+void Player::Ear_MovePosition() {
+
+	Vector3 earPos = {
+	    parts_[static_cast<int>(IPlayerParts::ear)]->GetPosition().x,
+	    parts_[static_cast<int>(IPlayerParts::ear)]->GetPosition().y + 0.1f,
+	    parts_[static_cast<int>(IPlayerParts::ear)]->GetPosition().z ,
+	};
+
+	parts_[static_cast<int>(IPlayerParts::ear)]->SetPosition(earPos);
+}
+
+void Player::Head_MovePosition() {
+
+	Ear_MovePosition();
+
+	Vector3 headPos = {
+	    parts_[static_cast<int>(IPlayerParts::head)]->GetPosition().x,
+	    parts_[static_cast<int>(IPlayerParts::head)]->GetPosition().y + 0.1f,
+	    parts_[static_cast<int>(IPlayerParts::head)]->GetPosition().z,
+	};
+
+	parts_[static_cast<int>(IPlayerParts::head)]->SetPosition(headPos);
+
+}
+
+void Player::Head_Fly() {
+
+	Player::Head_MoveAngle();
+
+	Player::Head_MovePosition();
+}
+
+#pragma endregion 
+
+#pragma region 体が吹っ飛ぶ処理
+
+void Player::Body_MoveAngle() {
+
+	static float bodyAngle = 1.0f;
+	bodyAngle += 1.f / 15.f;
+
+	parts_[static_cast<int>(IPlayerParts::body)]->SetAngle({bodyAngle, bodyAngle, bodyAngle});
+
+}
+
+void Player::Body_MovePosition() {
+
+	Vector3 bodyPos = {
+	    parts_[static_cast<int>(IPlayerParts::body)]->GetPosition().x,
+	    parts_[static_cast<int>(IPlayerParts::body)]->GetPosition().y - 0.085f,
+	    parts_[static_cast<int>(IPlayerParts::body)]->GetPosition().z,
+	};
+
+	parts_[static_cast<int>(IPlayerParts::body)]->SetPosition(bodyPos);
+
+}
+
+void Player::Body_Fly() {
+
+	Player::Body_MoveAngle();
+
+	Player::Body_MovePosition();
+}
+
+#pragma endregion

@@ -33,9 +33,8 @@ using namespace std;
 /// ゲームシーン
 /// </summary>
 class GameScene {
-public://列挙型
-
-	//フィールドの状態
+public: // 列挙型
+	// フィールドの状態
 	enum class FieldStatus {
 		kFadeIn,
 		kMain,
@@ -87,8 +86,12 @@ public: // メンバ関数
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
 
-private://メンバ関数
+	int GetHighScore() { return highScore_; }
+	void SetHighScore(int highScore) { highScore_ = highScore; }
 
+	
+
+private: // メンバ関数
 	/// <summary>
 	/// デバックカメラ
 	/// </summary>
@@ -135,19 +138,19 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	//クリエイトクラス
+
+	// クリエイトクラス
 	unique_ptr<Create> create_ = nullptr;
-	//プレイヤークラス
+	// プレイヤークラス
 	unique_ptr<Player> player_ = nullptr;
 	unique_ptr<IPlayerParts> playerParts_[IPlayerParts::PartsNum] = {nullptr};//プレイヤーのパーツ
 	//レールカメラ
 	unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform railCameraWorldTransform_;
-	//コマンド
-	ICommand * lateralMovement_ = nullptr;//横移動
-	ICommand * verticalMvement_ = nullptr;//縦移動
-	//インプットハンドラ
+	// コマンド
+	ICommand* lateralMovement_ = nullptr; // 横移動
+	ICommand* verticalMvement_ = nullptr; // 縦移動
+	// インプットハンドラ
 	unique_ptr<InputHandler> inputHandler_ = nullptr;
 	//障害物
 	vector<Enemy*> enemis_;
@@ -159,13 +162,13 @@ private: // メンバ変数
 	unique_ptr<SkyDome> skyDome_ = nullptr;
 	bool isSkyDive_ = true;
 	Vector4 fieldFadeColor_ = WHITE;
-	//フェードスプライト(フィールドを変更)
+	// フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
-	float fadeTime_ = kFieldChangeFadeTime;//フェードする時間
-	//フィールドの状態
+	float fadeTime_ = kFieldChangeFadeTime; // フェードする時間
+	// フィールドの状態
 	FieldStatus fieldStatus_ = FieldStatus::kMain;
-	//スコア
-	unique_ptr<Score> bitmapFont_ = nullptr;
+	// スコア
+	unique_ptr<Score> bitmapFont_[4] = {nullptr};
 	float score_ = 0;//現在のスコア
 	//終了フラグ
 	bool isFinished_ = false;
@@ -173,6 +176,8 @@ private: // メンバ変数
 	GamePhase gamePhase_ = GamePhase::kStart;
 	//残機
 	unique_ptr<Hp> playerHp_ = nullptr;
+	int highScore_ = 0;
+
 	//ワープポイント
 	unique_ptr<Warp> warp_ = nullptr;
 };
