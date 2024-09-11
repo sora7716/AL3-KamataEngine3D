@@ -89,4 +89,7 @@ private: // メンバ変数
 
 	WorldTransform worldTransform_;
 
+	uint32_t textureHandle_ = 0u;
+	Sprite* sprite = nullptr;
+
 };

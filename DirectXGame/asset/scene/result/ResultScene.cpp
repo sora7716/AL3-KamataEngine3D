@@ -32,6 +32,9 @@ void ResultScene::Initialize() {
 	worldTransform_.translation_.x = -720.f;
 	score_->SetScale({0,0});
 
+	textureHandle_ = TextureManager::Load("resultBackGround.png");
+	sprite = Sprite::Create(textureHandle_, {0, 0});
+
 }
 
 void ResultScene::Update() {
@@ -97,6 +100,7 @@ void ResultScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	sprite->Draw();
 	score_->Draw();
 
 	// スプライト描画後処理
