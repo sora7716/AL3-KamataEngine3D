@@ -52,6 +52,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void EaseMove();
+
 	/// <summary>
 	/// 終了フラグのゲッター
 	/// </summary>
@@ -79,10 +81,12 @@ private: // メンバ変数
 	
 	bool isFinished_ = false;
 
-	ResultState phase_ = ResultState::kMain;
+	ResultState phase_ = ResultState::kFadeIn;
 
 	unique_ptr<Score> score_;
 	unique_ptr<Fade> fade_;
 	int gameScore_ = 0000000;
+
+	WorldTransform worldTransform_;
 
 };

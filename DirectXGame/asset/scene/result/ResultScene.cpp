@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "asset/scene/game/GameScene.h"
+#include "asset/math/easing/Easing.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -26,11 +27,15 @@ void ResultScene::Initialize() {
 
 	score_ = make_unique<Score>();
 	score_->Initialize();
+
+	worldTransform_.Initialize();
+	worldTransform_.translation_.x = -720.f;
+	score_->SetScale({0,0});
+
 }
 
 void ResultScene::Update() {
-
-	static Vector3 fontPosition = {480, 290, 0};
+	Vector3 fontPosition = {worldTransform_.translation_.x, 245, 0};
 
 	switch (phase_) {
 	case ResultState::kFadeIn:
@@ -50,8 +55,11 @@ void ResultScene::Update() {
 	
 	case ResultState::kMain:
 	
-		score_->Update(50);
+		score_->Update(100);
 		score_->SetPosition(fontPosition);
+		score_->SetScale({142, 224});
+		
+		ResultScene::EaseMove();
 		
 		score_->SetScore(static_cast<int>(gameScore_));
 
@@ -64,6 +72,8 @@ void ResultScene::Update() {
 
 	case ResultState::kFadeOut:
 
+		score_->SetScore(static_cast<int>(gameScore_));
+
 		fade_->Update();
 		if (fade_->IsFinished()) {
 			isFinished_ = true;
@@ -72,7 +82,7 @@ void ResultScene::Update() {
 		break;
 
 	}
-
+	worldTransform_.UpdateMatrix();
 }
 
 void ResultScene::Draw() {
@@ -87,6 +97,7 @@ void ResultScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	score_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -104,6 +115,7 @@ void ResultScene::Draw() {
 
 	// フェード
 	fade_->Draw(commandList);
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -117,12 +129,31 @@ void ResultScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	score_->Draw();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void ResultScene::EaseMove() {
+
+	static float frame = 0;
+
+	static float endFrame = 120;
+
+	if (frame != endFrame) {
+		++frame;
+	}
+
+	float easing = Easing::OutBounce(frame / endFrame);
+
+	static float begin = worldTransform_.translation_.x;
+	static float end = 280;
+
+	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
+
 }
 
 bool ResultScene::IsFinished() const { return this->isFinished_; }
