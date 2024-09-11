@@ -49,25 +49,22 @@ void Player::Update(float firePos) {
 		ImGui::Begin("player");
 		ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
 		ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+
 		ImGui::End();
 #endif // _DEBUG
-
 
 		// パーツの更新
 		for (auto& playerPart : parts_) {
 			playerPart->Update();
 		}
-		if (hpCount_ < 3) {
+		if (skyDome_) {
+			// 耳を飛ばす
+			EarShot(firePos);
+		}
+
+	    if (hpCount_ < 3) {
 			(this->*parts_flyTable[hpCount_])();
 		}
-	if (skyDome_) {
-		// 耳を飛ばす
-		EarShot(firePos);
-	}
-
-	if (hpCount_ < 3) {
-		(this->*parts_flyTable[hpCount_])();
-	}
 
 		if (--coolTimer >= 0) {
 			Unrivaled();
