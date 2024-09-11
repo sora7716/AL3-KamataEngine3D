@@ -272,7 +272,7 @@ void GameScene::CheackOnCollision() {
 // フィールドの更新
 void GameScene::UpdateField() {
 	// プレイヤー
-	player_->Update();
+	player_->Update(skyDome_->GetTranslation().z);
 	bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
 	bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
 	// スコアの表示用の計算
