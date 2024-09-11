@@ -333,10 +333,8 @@ void GameScene::UpdateField() {
 				fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
 				// スカイダイブかどうか
 				if (isSkyDive_) {
-					isSkyDive_ = false;      // falseを設定
 					fieldFadeColor_ = BLACK; // 色を黒色に設定
 				} else {
-					isSkyDive_ = true;       // trueに設定
 					fieldFadeColor_ = WHITE; // 白色に設定
 				}
 			}
