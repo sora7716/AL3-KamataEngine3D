@@ -56,7 +56,13 @@ public:  // メンバ関数
 	/// <param name="skyDome"></param>
 	void SetSkyDome(SkyDome* skyDome);
 
+public://静的メンバ変数
+	static inline const int kRotateRandomInterval = 300;
+
 private: // メンバ変数
 	WorldTransform worldTransform_;//ワールドトランスフォーム
 	SkyDome* skyDome_ = nullptr;//スカイドーム
+	int randomNum_ = 0;//ランダムな数字を入れる
+	bool isRotateRandom_ = false;//回転をランダムにする
+	int rotateRandomTime_ = kRotateRandomInterval;//回転をランダムにする時間
 };

@@ -77,9 +77,9 @@ void GameScene::Initialize() {
 	enemyParent_->Initialize();
 	enemyParent_->SetParent(&skyDome_->GetWorldTransform()); // 親を設定
 	enemyParent_->SetSkyDome(skyDome_.get());                // スカイドームの設定
-	enemyPopCommand_ = make_unique<CSVFailLoading>();//敵の発生コマンド
-	enemyPopCommand_->Initialize();//敵の発生コマンドの初期化
-	enemyPhaseNum_ = -1; //最初の敵の数の初期化
+	enemyPopCommand_ = make_unique<CSVFailLoading>();        // 敵の発生コマンド
+	enemyPopCommand_->Initialize();                          // 敵の発生コマンドの初期化
+	enemyPhaseNum_ = -1;                                     // 最初の敵の数の初期化
 
 	// プレイヤーのHP
 	playerHp_ = make_unique<Hp>();
@@ -288,17 +288,22 @@ void GameScene::UpdateField() {
 		// 障害物のpopするコマンド
 		enemyPopCommand_->Update();
 		if (!isSetEnemyPos) {
-			enemis_.clear(); // 敵を削除
+			enemis_.clear();  // 敵を削除
 			enemyPhaseNum_++; // 敵のフェーズを進めていく
 			if (enemyPhaseNum_ >= (int32_t)enemyPopCommand_->GetPhase().size()) {
 				enemyPhaseNum_ = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
 			}
 			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum_]; i++) {
-				int randomNum = rand() % 3;                                                                                     // 敵の状態をランダムにする
+				int randomNum = rand() % 3; // 敵の状態をランダムにする
+				uint32_t preEnemyRadomNum = 65;
+				preEnemyRadomNum = preEnemyRadomNum; // ひとつ前のナンバー
 				uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
-				Enemy* enemy = new Enemy();                                                                                     // 生成
+				if (preEnemyRadomNum == enemyRandomNum) { // 値が同じだったときにもう一度ランド関数を読み込む
+					enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
+				}
+				Enemy* enemy = new Enemy();                                                                                                  // 生成
 				enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[enemyRandomNum]); // 初期化
-				enemy->SetParent(&enemyParent_->GetWorldTransform());                                                           // 敵の親をセットする
+				enemy->SetParent(&enemyParent_->GetWorldTransform());                                                                        // 敵の親をセットする
 				if (score_ > 100) {
 					enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット
 				}
