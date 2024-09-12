@@ -177,9 +177,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	for (auto& bitmapFont : bitmapFont_) {
-		bitmapFont->Draw();
-	}
+	
+	bitmapFont_[0]->Draw();
+	bitmapFont_[1]->HighScoreDraw();
 	bitmapFont_[2]->TextDraw();
 	bitmapFont_[3]->HighTextDraw();
 

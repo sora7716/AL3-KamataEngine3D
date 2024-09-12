@@ -86,6 +86,9 @@ public: // メンバ関数
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
 
+	float GetScore() { return score_; }
+	void SetScore(float score) { score_ = score; }
+
 	int GetHighScore() { return highScore_; }
 	void SetHighScore(int highScore) { highScore_ = highScore; }
 
@@ -163,6 +166,8 @@ private: // メンバ変数
 	unique_ptr<SkyDome> skyDome_ = nullptr;
 	bool isSkyDive_ = true;
 	Vector4 fieldFadeColor_ = WHITE;
+	//シーンのフェード
+	unique_ptr<Fade> sceneFade_ = nullptr;
 	// フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	float fadeTime_ = kFieldChangeFadeTime; // フェードする時間

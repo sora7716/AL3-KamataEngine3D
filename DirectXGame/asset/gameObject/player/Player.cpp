@@ -49,6 +49,7 @@ void Player::Update(float firePos) {
 		ImGui::Begin("player");
 		ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
 		ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+
 		ImGui::End();
 #endif // _DEBUG
 
@@ -56,12 +57,13 @@ void Player::Update(float firePos) {
 		for (auto& playerPart : parts_) {
 			playerPart->Update();
 		}
-		if (hpCount_ < 3) {
-			(this->*parts_flyTable[hpCount_])();
-		}
 		if (skyDome_) {
 			// 耳を飛ばす
 			EarShot(firePos);
+		}
+
+	    if (hpCount_ < 3) {
+			(this->*parts_flyTable[hpCount_])();
 		}
 
 		if (--coolTimer >= 0) {
@@ -128,7 +130,7 @@ void Player::MoveLimit() {
 
 	const float kLimitMoveX = 32.6f;
 	float kLimitmoveY[2];
-	kLimitmoveY[0] = 17.2f, kLimitmoveY[1] = 19.6f;
+	kLimitmoveY[0] = 17.2f, kLimitmoveY[1] = 18.2f;
 
 	worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, -kLimitMoveX, kLimitMoveX);
 	worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, -kLimitmoveY[0], kLimitmoveY[1]);

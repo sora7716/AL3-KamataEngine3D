@@ -8,16 +8,19 @@
 #include "asset/scene/game/GameScene.h"
 
 #include "asset/scene/title/TitleScene.h"
+#include "asset/scene/result/ResultScene.h"
 enum class Scene {
 	kUnknow = 0,
 	kTitle,
 	kGame,
+	kResult
 };
 // 現在のシーン
 Scene scene = Scene::kUnknow;
 GameScene* gameScene = nullptr;
 TitleScene* titleScene = nullptr;
-
+ResultScene* resultScene = nullptr;
+static int gameScore = 0;
 static int highScore = 0;
 
 void ChangeScene() {
@@ -45,20 +48,38 @@ void ChangeScene() {
 
 		if (gameScene->IsFinished()) {
 			// シーンの切り替え
-			scene = Scene::kTitle;
+			scene = Scene::kResult;
+			gameScore = (int)gameScene->GetScore();
 			highScore = gameScene->GetHighScore();
 			// 旧シーンの削除
 			delete gameScene;
 			gameScene = nullptr;
 			// 新シーンの生成と初期化
-			titleScene = new TitleScene();
-			titleScene->Initialize();
-			titleScene->SetIsFinished(false);
+			resultScene = new ResultScene();
+			resultScene->Initialize();
+			resultScene->SetIsFinished(false);
+			resultScene->SetScore(gameScore);
 		}
 		if (gameScene == nullptr) {
 			gameScene = new GameScene();
 			gameScene->Initialize();
+		}
+		break;
+	case Scene::kResult:
+
+		if (resultScene->IsFinished()) {
+			scene = Scene::kTitle;
+			delete resultScene;
+			resultScene = nullptr;
+			// 新シーンの生成と初期化
+			titleScene = new TitleScene();
+			titleScene->Initialize();
+			titleScene->SetIsFinished(false);
 		
+		}
+		if (resultScene == nullptr) {
+			resultScene = new ResultScene();
+			resultScene->Initialize();
 		}
 		break;
 	}
@@ -74,6 +95,10 @@ void UpdateScene() {
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		break;
+	case Scene::kResult:
+		//リザルトシーンのマイフレーム処理
+		resultScene->Update();
+		break;
 	}
 }
 
@@ -86,6 +111,10 @@ void DrawScene() {
 	case Scene::kGame:
 		// ゲームシーンの描画
 		gameScene->Draw();
+		break;
+	case Scene::kResult:
+		// リザルトシーンのマイフレーム処理
+		resultScene->Draw();
 		break;
 	}
 }
@@ -146,6 +175,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
+	resultScene = new ResultScene();
+	resultScene->Initialize();
+
 #ifdef _DEBUG
 	//scene = Scene::kGame;
 #endif // ゲームシーンからスタート
@@ -166,6 +198,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// シーンの切り替え
 		ChangeScene();
 		UpdateScene();
+		if (input->TriggerKey(DIK_F10)) {
+			win->SetFullscreen(true);
+		} else if(input->TriggerKey(DIK_F11)){
+			win->SetFullscreen(false);
+		}
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -188,6 +225,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 各種解放
 	delete titleScene;
 	delete gameScene;
+	delete resultScene;
 	// 3Dモデル解放
 	Model::StaticFinalize();
 	audio->Finalize();

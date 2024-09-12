@@ -83,6 +83,20 @@ void Score::Draw() {
 	}
 }
 
+void Score::HighScoreDraw() {
+
+	CalculateDigits();
+
+	for (int i = 0; i < 7; ++i) { // スコアの桁数を計算する
+		// スプライトに対応する桁の数字のテクスチャを設定する
+		scoreSprites[i]->SetTextureHandle(numberTexture[digits[i]]);
+
+		// スプライトを描画する
+		scoreSprites[i]->Draw();
+	}
+
+}
+
 void Score::TextDraw() { textSprites[0]->Draw(); }
 
 void Score::HighTextDraw() { textSprites[1]->Draw(); }

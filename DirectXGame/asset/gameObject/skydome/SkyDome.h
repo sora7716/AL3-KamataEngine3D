@@ -20,7 +20,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isMove">スカイドームが動くかのフラグ</param>
 	/// <param name="isTitle">タイトル画面化のフラグm</param>
-	void Update(bool isMove = true, bool isTitle = false);
+	void Update(bool isMove = true, bool isTitle = false,bool isResult = false);
 
 	/// <summary>
 	/// 描画
