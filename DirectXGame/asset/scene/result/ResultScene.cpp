@@ -42,6 +42,10 @@ void ResultScene::Initialize() {
 	skyDome_ = make_unique<SkyDome>();
 	skyDome_->Initialize(create_->GetModel(create_->typeResultSkyDome), &viewProjection_);
 
+	// BGM
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/result3.wav"); // 読み込み
+	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
+
 }
 
 void ResultScene::Update() {
@@ -197,4 +201,6 @@ void ResultScene::EaseMoveOut() {
 bool ResultScene::IsFinished() const { return this->isFinished_; }
 
 void ResultScene::SetIsFinished(const bool& isFinished) { this->isFinished_ = isFinished; }
+
+void ResultScene::BGMStop() { audio_->StopWave(soundPlayHandle_); }
 

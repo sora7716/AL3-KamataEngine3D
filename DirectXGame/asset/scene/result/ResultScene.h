@@ -72,6 +72,11 @@ public: // メンバ関数
 
 	void SetScore(int score) { gameScore_ = score; }
 
+	/// <summary>
+	/// BGMを止める関数
+	/// </summary>
+	void BGMStop();
+
 	static inline const float kFadeTimer = 3;
 
 private: // メンバ変数
@@ -97,4 +102,7 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	unique_ptr<SkyDome> skyDome_;
 
+	// BGM
+	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
+	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
 };

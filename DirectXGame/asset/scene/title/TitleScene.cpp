@@ -85,6 +85,10 @@ void TitleScene::Initialize() {
 	selectButtons_[(int)ISelectButton::typeSelectButton]->Initialize(create_->GetModel(create_->typeSelectButton), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeSelectButton]->SetParent(&railCamera_->GetWorldTransform());
 
+	// BGM
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav"); // 読み込み
+	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
+
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
@@ -170,6 +174,8 @@ bool TitleScene::IsFinished() const { return isFinished_; }
 
 // 終了フラグのセッター
 void TitleScene::SetIsFinished(const bool& isFinished) { isFinished_ = isFinished; }
+
+void TitleScene::BGMStop() { audio_->StopWave(soundPlayHandle_); }
 
 // 更新処理のフェーズの変更
 void TitleScene::ChangePhaseUpdate() {

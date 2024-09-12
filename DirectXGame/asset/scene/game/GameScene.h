@@ -92,6 +92,10 @@ public: // メンバ関数
 	int GetHighScore() { return highScore_; }
 	void SetHighScore(int highScore) { highScore_ = highScore; }
 
+	/// <summary>
+	/// BGMを止める関数
+	/// </summary>
+	void BGMStop();
 	
 
 private: // メンバ関数
@@ -186,4 +190,8 @@ private: // メンバ変数
 
 	//ワープポイント
 	unique_ptr<Warp> warp_ = nullptr;
+
+	// BGM
+	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
+	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
 };

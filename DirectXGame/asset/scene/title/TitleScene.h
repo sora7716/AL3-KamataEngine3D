@@ -70,6 +70,11 @@ public: // メンバ関数
 	/// <param name="isFinished"></param>
 	void SetIsFinished(const bool& isFinished);
 
+	/// <summary>
+	/// BGMを止める関数
+	/// </summary>
+	void BGMStop();
+
 private: // メンバ変数
 	/// <summary>
 	/// 更新処理のフェーズの変更
@@ -121,5 +126,9 @@ private:
 	unique_ptr<TitleFont> titleFont_ = nullptr;
 	// セレクト画面で使用するボタン
 	unique_ptr<ISelectButton> selectButtons_[ISelectButton::kButtonNum] = {nullptr};
+
+	// BGM
+	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
+	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
 }
 ;
