@@ -48,13 +48,6 @@ public: // 構造体や列挙型
 	ObjectType typeButtonBack = Type::kButtonBack;                      // ボタンの背景
 	ObjectType typeSelectButton = Type::kSelectButton;                  // セレクトする用のボタン
 	ObjectType typeResultSkyDome = Type::kResultSkyDome;                // リザルト天球
-	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
-	ObjectType typeEnemy = Type::kEnemy;//障害物
-	ObjectType typeSkyDome = Type::kSkyDome;//天球
-	ObjectType typeWarp = Type::kWarp;//ワープポインタ
-	ObjectType typeDeathParticles = Type::kDeathParticles;//デスパーティクル
-	ObjectType typeTitleFont = Type::kTitleFont;//タイトルフォント
-	ObjectType typeResultSkyDome = Type::kResultSkyDome;//リザルト天球
 	ObjectType typeResultText = Type::kResultText;// リザルト天球
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 

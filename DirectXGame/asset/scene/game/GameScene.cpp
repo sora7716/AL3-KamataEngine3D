@@ -103,16 +103,7 @@ void GameScene::Update() {
 	
 	// フィールドの更新
 	UpdateField();
-#ifdef _DEBUG
-	ImGui::Begin("enemyPopCommand");
-	for (auto position : enemyPopCommand_->GetPosition()) {
-		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
-	}
-
 }
-
-// 更新
-void GameScene::Update() { GameScene::ChangePhase();}
 
 // 描画
 void GameScene::Draw() {
