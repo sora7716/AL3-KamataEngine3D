@@ -24,6 +24,7 @@ public: // 構造体や列挙型
 		kWarp,
 		kTitleFont,
 		kResultSkyDome,
+		kResultText,
 		kModelNum,
     };
     using ObjectType=Type;//エイリアス
@@ -39,6 +40,7 @@ public: // 構造体や列挙型
 	ObjectType typeDeathParticles = Type::kDeathParticles;//デスパーティクル
 	ObjectType typeTitleFont = Type::kTitleFont;//タイトルフォント
 	ObjectType typeResultSkyDome = Type::kResultSkyDome;//リザルト天球
+	ObjectType typeResultText = Type::kResultText;// リザルト天球
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
 
 public: // メンバ関数

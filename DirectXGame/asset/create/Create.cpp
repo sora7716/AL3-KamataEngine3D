@@ -35,6 +35,7 @@ void Create::ModelCreate() {
 	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
 	//リザルト天球
 	models_[(int)typeResultSkyDome] = Model::CreateFromOBJ("skydome", true);
+	models_[(int)typeResultText] = Model::CreateFromOBJ("pressSpace", true);
 }
 
 // テクスチャをクリエイト

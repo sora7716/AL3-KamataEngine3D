@@ -15,6 +15,8 @@
 #include <memory>
 using namespace std;
 
+class SceneText;
+
 /// <summary>
 /// リザルトシーン
 /// </summary>
@@ -87,17 +89,19 @@ private: // メンバ変数
 
 	ResultState phase_ = ResultState::kFadeIn;
 
-	unique_ptr<Score> score_;
-	unique_ptr<Fade> fade_;
+	unique_ptr<Score> score_ = nullptr;
+	unique_ptr<Fade> fade_ = nullptr;
 	int gameScore_ = 0000000;
 
-	unique_ptr<Create> create_;
+	unique_ptr<Create> create_  = nullptr;
 
 	ViewProjection viewProjection_;
 	WorldTransform worldTransform_;
-	unique_ptr<SkyDome> skyDome_;
+	unique_ptr<SkyDome> skyDome_ = nullptr;
 
 	float frame[2] = {0, 0};
 	float endFrame[2] = {120, 100};
+
+	unique_ptr<SceneText> sceneText_ = nullptr;
 
 };

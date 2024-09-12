@@ -1,8 +1,9 @@
 #include "ResultScene.h"
 #include "TextureManager.h"
 #include <cassert>
-#include "asset/scene/game/GameScene.h"
 #include "asset/math/easing/Easing.h"
+#include "asset/math/Math.h"
+#include "asset/gameObject/text/SceneText.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -42,12 +43,17 @@ void ResultScene::Initialize() {
 	skyDome_ = make_unique<SkyDome>();
 	skyDome_->Initialize(create_->GetModel(create_->typeResultSkyDome), &viewProjection_);
 
+	sceneText_ = make_unique<SceneText>();
+	sceneText_->Initialize(create_->GetModel(create_->typeResultText), &viewProjection_);
+
+
 }
 
 void ResultScene::Update() {
 	Vector3 fontPosition = {worldTransform_.translation_.x, 245, 0};
 
 	skyDome_->Update(false, false, true);
+	sceneText_->Update();
 
 	switch (phase_) {
 	case ResultState::kFadeIn:
@@ -131,6 +137,8 @@ void ResultScene::Draw() {
 	/// </summary>
 
 	skyDome_->Draw();
+
+	sceneText_->Draw();
 
 	// フェード
 	fade_->Draw(commandList);

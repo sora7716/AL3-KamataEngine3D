@@ -322,5 +322,5 @@ private://メンバ変数
 	int parts_FlyTimer = 0;//パーツを飛ばすタイマー
 	bool isParticleShot_ = false; // パーティクルが発射されてるか
 	bool isSceneTransition = false; //シーンを遷移するか
-
+	bool isEarReverse = false;  // 戻ってくる用のフラグ
 };
