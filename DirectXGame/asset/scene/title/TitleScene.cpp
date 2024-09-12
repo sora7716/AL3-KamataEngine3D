@@ -225,10 +225,10 @@ void TitleScene::ChangePhaseUpdate() {
 		// プレイヤーの更新
 		player_->Update();
 		// メインの処理
-		/*if (titleFont_->IsGameStartAnimation()) {
+		if (titleFont_->IsGameStartAnimation()) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
-		}*/
+		}
 		break;
 	case Phase::kFadeOut:
 		// フェードアウト

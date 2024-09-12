@@ -117,4 +117,5 @@ protected: // メンバ変数
 	bool isSelectChangeColor_ = false;//色を変えるフラグ
 	bool isSelectStart_ = false;//上を選択
 	bool isSelectRule_ = false;//下を選択
+	bool isButtonBack_ = false;//ボタンを戻す
 };

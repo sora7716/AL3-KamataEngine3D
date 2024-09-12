@@ -10,15 +10,14 @@ void ISelectButton::ButtonLerp() {
 	float endY = -3.0f;
 	float beginZ = 30.0f;
 	float endZ = 10.0f;
-	static bool isBack = false;
 	float endFrame = Select::kEndFrame;
 	if (isButtonLerp_ && frame_ >= endFrame) {
-		isBack = true;
+		isButtonBack_ = true;
 	}
 	if (isButtonLerp_) {
 		worldTransform_.translation_.x = Math::Lerp(beginX, endY, Easing::OutSine(frame_ / endFrame));
 		worldTransform_.translation_.z = Math::Lerp(beginZ, endZ, Easing::OutSine(frame_ / endFrame));
-	} else if (isBack) {
+	} else if (isButtonBack_) {
 		worldTransform_.translation_.x = Math::Lerp(endY, beginX, Easing::OutSine(frame_ / endFrame));
 		worldTransform_.translation_.z = Math::Lerp(endZ, beginZ, Easing::OutSine(frame_ / endFrame));
 	}

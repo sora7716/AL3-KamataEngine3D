@@ -26,8 +26,10 @@ static int highScore = 0;
 void ChangeScene() {
 	switch (scene) {
 	case Scene::kTitle:
-
-		if (titleScene->IsFinished()) {
+		if (titleScene == nullptr) {
+			titleScene = new TitleScene();
+			titleScene->Initialize();
+		}else if (titleScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kGame;
 			// 旧シーンの削除
@@ -39,10 +41,7 @@ void ChangeScene() {
 			gameScene->SetIsFinished(false);
 			gameScene->SetHighScore(highScore);
 		}
-		if (titleScene == nullptr) {
-			titleScene = new TitleScene();
-			titleScene->Initialize();
-		}
+		
 		break;
 	case Scene::kGame:
 
@@ -166,17 +165,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	primitiveDrawer->Initialize();
 #pragma endregion
 
-	// タイトルシーンの初期化
+	//// タイトルシーンの初期化
 	scene = Scene::kTitle;
-	titleScene = new TitleScene();
-	titleScene->Initialize();
+	//titleScene = new TitleScene();
 
-	// ゲームシーンの初期化
-	gameScene = new GameScene();
-	gameScene->Initialize();
+	//// ゲームシーンの初期化
+	//gameScene = new GameScene();
 
-	resultScene = new ResultScene();
-	resultScene->Initialize();
+	////
+	//resultScene = new ResultScene();
 
 #ifdef _DEBUG
 	//scene = Scene::kGame;
@@ -193,8 +190,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
-		// タイトルシーンの毎フレーム処理
-		titleScene->Update();
 		// シーンの切り替え
 		ChangeScene();
 		UpdateScene();

@@ -156,10 +156,14 @@ void SelectButton::Update() {
 		}
 	}
 	if (isSelectStart_&&Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-		isGameStart_ ^= true;//ゲームスタートをクリックしたとき
+		isGameStart_ = true;//ゲームスタートをクリックしたとき
+	} else {
+		isGameStart_ = false;
 	}
 	if (isSelectRule_ && Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-		isGameRule_ ^= true;//ゲームルールをクリックしたとき
+		isGameRule_ = true;//ゲームルールをクリックしたとき
+	} else {
+		isGameRule_ = false;
 	}
 
 	worldTransform_.translation_.y = positionY;
