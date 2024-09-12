@@ -259,12 +259,12 @@ void TitleAnimation::LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRi
 }
 
 void TitleAnimation::FallDown() { 
-	static Vector3 begin = player_->GetWorldTransform().translation_;
-	Vector3 end = {0.0f, -11.0f, 30.0f}; 
-	float endFrame = 120.0f;
-	if (animationFrame_++ > endFrame) {
-		if (isGameStartAnimation_)
-	}
+	//static Vector3 begin = player_->GetWorldTransform().translation_;
+	//Vector3 end = {0.0f, -11.0f, 30.0f}; 
+	//float endFrame = 120.0f;
+	//if (animationFrame_++ > endFrame) {
+	//	if (isGameStartAnimation_)
+	//}
 
 }
 
