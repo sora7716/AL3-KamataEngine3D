@@ -45,8 +45,10 @@ void TitleAnimation::Update(bool isHome) {
 		}
 	} else if (isAnimationStart_) {
 		animationStartTimer_ = 0;
-		// アニメーション
-		//(this->*animationTable[animationNumber_])();
+		if (!isGameStartAnimation_) {
+			// アニメーション
+			(this->*animationTable[animationNumber_])();
+		}
 	}
 	if (isGameStartAnimation_) {
 		FallDown();
@@ -274,14 +276,14 @@ void TitleAnimation::FallDown() {
 	static Vector3 resultAngle = {};
 	Vector3 endAngle = {0.0f, std::numbers::pi_v<float> / 2.0f, std::numbers::pi_v<float>};
 	if (animationFrame_++ > endFrame) {
-		if (isGameStartAnimation_) {
-			animationFrame_ = 0.0f;
-			isGameStartAnimation_ = false;
-		}
+	    if (isGameStartAnimation_) {
+	        animationFrame_ = 0.0f;
+	        isGameStartAnimation_ = false;
+	    }
 	}
 	if (isGameStartAnimation_) {
-		resultPos = Math::Bezier(beginPos, middlePos, endPos, animationFrame_ / endFrame);
-		resultAngle = Math::Lerp(beginAngle, endAngle, animationFrame_ / endFrame);
+	    resultPos = Math::Bezier(beginPos, middlePos, endPos, animationFrame_ / endFrame);
+	    resultAngle = Math::Lerp(beginAngle, endAngle, animationFrame_ / endFrame);
 	}
 	player_->SetPosition(resultPos);
 	player_->SetRotation(resultAngle);*/
@@ -293,6 +295,7 @@ void TitleAnimation::FallDown() {
 	Vector3 endCameraAngle = {0.13f, -std::numbers::pi_v<float>, 0.0f};
 	static Vector3 resultCameraPos = {};
 	static Vector3 resultCameraAngle = {};
+	/*static Vector3 beginPlayerPos = */
 	if (animationFrame_++ > endFrame) {
 		isMoveGameScene_ = true;
 		if (isCameraMove_) {
@@ -301,7 +304,7 @@ void TitleAnimation::FallDown() {
 		}
 	}
 	if (isCameraMove_) {
-		resultCameraPos = Math::Bezier(beginCameraPos, middleCameraPos ,endCameraPos, animationFrame_ / endFrame);
+		resultCameraPos = Math::Bezier(beginCameraPos, middleCameraPos, endCameraPos, animationFrame_ / endFrame);
 		resultCameraAngle = Math::Lerp(beginCameraAngle, endCameraAngle, animationFrame_ / endFrame);
 	}
 	camera_->SetTranslation(resultCameraPos);

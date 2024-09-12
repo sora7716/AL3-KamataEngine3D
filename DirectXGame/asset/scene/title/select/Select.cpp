@@ -12,7 +12,7 @@ void Select::Initialize(Player* player, RailCamera* camera) {
 	player_ = player;
 	// カメラを受け取る
 	camera_ = camera;
-	frame_ = 0.0f;//フレーム数を再設定
+	frame_ = 0.0f; // フレーム数を再設定
 }
 
 // 更新
@@ -21,10 +21,13 @@ void Select::Update() {
 	// マウスの左クリックでisMoveSelect_を切り替える
 	if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
 		isWasButtonPressed_ = true; // ボタンを押したかどうか
-		isMoveSelect_ ^= true;    // 状態を反転
-		frame_ = 0;               // アニメーション用フレームをリセット
+		isMoveSelect_ ^= true;      // 状態を反転
+		frame_ = 0;                 // アニメーション用フレームをリセット
+	} else if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
+		isWasButtonPressed_ = true; // ボタンを押したかどうか
+		isMoveSelect_ = false;      // 状態をfalse
+		frame_ = 0;                 // アニメーション用フレームをリセット
 	}
-
 	// カメラとプレイヤーを移動させる
 	if (isWasButtonPressed_) {
 		SelectScene();
@@ -44,7 +47,7 @@ bool Select::IsHome() { return isHome_; }
 // セレクト画面への遷移フラグ
 bool Select::IsMoveSelect() { return isMoveSelect_; }
 
-//フレームのゲッター
+// フレームのゲッター
 float Select::GetFrame() { return frame_; }
 
 // セレクト画面へ遷移
@@ -60,7 +63,7 @@ void Select::SelectScene() {
 
 	// アニメーションの進行度を管理
 	if (frame_++ > kEndFrame) {
-		frame_ = kEndFrame;        // フレームで固定
+		frame_ = kEndFrame;          // フレームで固定
 		isWasButtonPressed_ = false; // ボタンを押したかどうかのフラグをリセット
 		// ホームかどうか
 		if (isMoveSelect_) {
@@ -71,11 +74,11 @@ void Select::SelectScene() {
 	}
 
 	// カメラとプレイヤーの位置と回転の補間
-	if (isMoveSelect_) {                                                                     // 動かす
+	if (isMoveSelect_) {                                                                                         // 動かす
 		cameraResult = Math::Lerp(cameraBegin, cameraEnd, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleBeginY, playerAngleEndY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
-	} else if (!isMoveSelect_) {                                                                 // 元の位置に戻る
-		cameraResult = Math::Lerp(cameraEnd, cameraBegin, Easing::InOutCirc(frame_ / kEndFrame));              // カメラの位置を線形補間する
+	} else if (!isMoveSelect_) {                                                                                 // 元の位置に戻る
+		cameraResult = Math::Lerp(cameraEnd, cameraBegin, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleEndY, playerAngleBeginY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
 	}
 

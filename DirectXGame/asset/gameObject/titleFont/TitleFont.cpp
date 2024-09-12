@@ -52,7 +52,7 @@ void TitleFont::SetIsSelectGameStart(bool isSelectGameStart) { isSelectGameStart
 void TitleFont::MoveFont() {
 	static float begin = worldTransform_.translation_.y; // 最初の位置
 	float end = 2.8f;                                    // 最後の位置
-	float endFrame = 120;
+	float endFrame = 60;
 	if (frame_++ > endFrame) {
 		if (isPut) {
 			frame_ = 0.0f;

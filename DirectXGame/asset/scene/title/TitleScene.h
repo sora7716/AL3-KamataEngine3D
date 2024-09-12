@@ -92,6 +92,11 @@ private: // メンバ変数
 	/// </summary>
 	void SetPartisPositionAndAngle();
 
+	/// <summary>
+	/// セレクト画面への遷移
+	/// </summary>
+	void SetSelectUpdate();
+
 public: // メンバ関数
 	static inline const float kFadeTime = 3; // フェードをしてほしい時間
 
