@@ -193,4 +193,8 @@ private: // メンバ変数
 
 	//ワープポイント
 	unique_ptr<Warp> warp_ = nullptr;
+	// フレーム数を管理する変数（静的にして状態を保持）
+	float frame = 0;
+	// イージングの終了フレーム数
+	float endFrame = 50;
 };

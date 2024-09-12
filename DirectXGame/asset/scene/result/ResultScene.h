@@ -97,4 +97,7 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	unique_ptr<SkyDome> skyDome_;
 
+	float frame[2] = {0, 0};
+	float endFrame[2] = {120, 100};
+
 };

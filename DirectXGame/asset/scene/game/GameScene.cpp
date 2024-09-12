@@ -95,6 +95,7 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_.x = -370.f;
+
 }
 
 // 更新
@@ -399,6 +400,8 @@ void GameScene::ChangePhase() {
 
 	Vector3 textFontPosition = {worldTransform_.translation_.x, 37.f, 0.f};
 
+	
+
 	switch (gamePhase_) {
 	case GamePhase::kStart:
 
@@ -411,6 +414,9 @@ void GameScene::ChangePhase() {
 		skyDome_->Update(!fieldChangeFade_->IsFinished());
 
 #pragma region ビットマップフォント
+
+		bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
+		bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
 
 		//スコア
 		bitmapFont_[0]->Update(50);
@@ -460,19 +466,13 @@ void GameScene::ChangePhase() {
 
 void GameScene::EaseTextMove() {
 
-	// フレーム数を管理する変数（静的にして状態を保持）
-	static float frame = 0;
-
-	// イージングの終了フレーム数
-	static float endFrame = 25;
-
 	if (frame != endFrame) {
 		// フレーム数が終了フレームに達していない場合、フレーム数を増やす
 		++frame;
 	}
 
 	// イージングの値を計算する（フレーム数を正規化して使用）
-	float easing = Easing::InSine(frame / endFrame);
+	float easing = Easing::OutSine(frame / endFrame);
 
 	// イージングの開始位置を設定（初回のみ）
 	static float begin = worldTransform_.translation_.x;

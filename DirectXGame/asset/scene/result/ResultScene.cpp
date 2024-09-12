@@ -158,15 +158,11 @@ void ResultScene::Draw() {
 
 void ResultScene::EaseMove() {
 
-	static float frame = 0;
-
-	static float endFrame = 120;
-
-	if (frame != endFrame) {
-		++frame;
+	if (frame[0] != endFrame[0]) {
+		++frame[0];
 	}
 
-	float easing = Easing::OutBounce(frame / endFrame);
+	float easing = Easing::OutBounce(frame[0] / endFrame[0]);
 
 	static float begin = worldTransform_.translation_.x;
 	static float end = 280;
@@ -177,15 +173,11 @@ void ResultScene::EaseMove() {
 
 void ResultScene::EaseMoveOut() {
 
-	static float frame = 0;
-
-	static float endFrame = 100;
-
-	if (frame != endFrame) {
-		++frame;
+	if (frame[1] != endFrame[1]) {
+		++frame[1];
 	}
 
-	float easing = Easing::InBack(frame / endFrame);
+	float easing = Easing::InBack(frame[1] / endFrame[1]);
 
 	static float begin = worldTransform_.translation_.x;
 	static float end = 1300;
