@@ -4,13 +4,13 @@
 
 //前方宣言
 class Player;
+class RailCamera;
 
 /// <summary>
 /// タイトルのアニメーション
 /// </summary>
 class TitleAnimation {
-public://メンバ関数
-
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -25,7 +25,7 @@ public://メンバ関数
 	/// 初期化
 	/// </summary>
 	/// <param name="playerParts"></param>
-	void Initialize(Player* player);
+	void Initialize(Player* player, RailCamera* camera);
 
 	/// <summary>
 	/// 更新
@@ -39,8 +39,13 @@ public://メンバ関数
 	/// <param name="isGameStartAnimation"></param>
 	void SetIsGameStartAnimation(bool isGameStartAnimation) { isGameStartAnimation_ = isGameStartAnimation; }
 
-private: // メンバ関数
+	/// <summary>
+	/// ゲームシーンに遷移したかどうかのフラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsMoveGameScene() { return isMoveGameScene_; };
 
+private: // メンバ関数
 	/// <summary>
 	/// 腕を回転させる
 	/// </summary>
@@ -55,7 +60,7 @@ private: // メンバ関数
 	/// 見回す
 	/// </summary>
 	/// <param name="isStart">見回すのを始めるかどうかのフラグ</param>
-	void LookAround(bool &isStart);
+	void LookAround(bool& isStart);
 
 	/// <summary>
 	/// 腕を落とす
@@ -72,18 +77,21 @@ private: // メンバ関数
 	/// </summary>
 	void FallDown();
 
-public://静的メンバ変数
-
-	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
-	static inline const int kAnimationInterval = 1200;//アニメーションがスタートするまでの時間
+public:                                                // 静的メンバ変数
+	static void (TitleAnimation::*animationTable[])(); // メンバ関数ポインタテーブル
+	static inline const int kAnimationInterval = 1200; // アニメーションがスタートするまでの時間
 	static inline const int kAnimationMaximumNumber = 3;
 
-private://メンバ変数
-	Player* player_ = nullptr;//プレイヤー
+private: // メンバ変数
+	Player* player_ = nullptr; // プレイヤー
+	RailCamera* camera_ = nullptr;//カメラ
 	int animationStartTimer_ = 0;//アニメーションを開始するまでのタイマー
 	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
 	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
 	int animationNumber_ = 0;//アニメーションをする番号
 	float animationFrame_ = 0.0f;//待機時間のアニメーションフレーム
 	bool isGameStartAnimation_ = false;//ゲームがスタートするときのアニメーション
+
+	bool isCameraMove_ = true;//カメラの動くアニメーション
+	bool isMoveGameScene_ = false;//ゲームシーンに遷移
 };

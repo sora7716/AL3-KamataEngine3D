@@ -107,3 +107,6 @@ void RailCamera::SetTranslation(Vector3 translation) { worldTransform_.translati
 
 // ローテションのセッター
 void RailCamera::SetRotation(Vector3 rotation) { worldTransform_.rotation_ = rotation; }
+
+//親子付け
+void RailCamera::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

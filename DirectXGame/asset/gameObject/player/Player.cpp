@@ -291,9 +291,8 @@ void Player::EarShot(float firePos) {
 	static float endSize = 0.2f;                                // 終わりの大きさ
 	static float frame = 0;                                     // 現在のフレーム数
 	float endFrame = 60.0f / (skyDome_->GetVelocityZ() * 0.2f); // 最終的になってほしいフレーム数
-	static bool isReverse = false;                              // 戻ってくる用のフラグ
 	leftEarPosition_ = {};                                      // 最初のポジション
-	isWarpSpawn_ = isReverse;                                   // 戻ってくるフラグの代入
+	isWarpSpawn_ = isEarReverse;                                   // 戻ってくるフラグの代入
 	if (firePos < -800 && !isShotFirstTime_) {
 		beginPos = leftEarPosition_;           // 初めの位置を設定
 		endPos = Vector3(0.0f, 0.0f, -100.0f); // 終わりの位置の設定
@@ -305,17 +304,17 @@ void Player::EarShot(float firePos) {
 	if (isEarShot_) {
 		if (frame++ > endFrame) {
 			frame = endFrame;   // 現在のフレームを最終的になってほしいフレームで固定
-			isReverse = true;   // 戻ってくるフラグをtrue
+			isEarReverse = true;   // 戻ってくるフラグをtrue
 			isEarShot_ = false; // 耳を飛ばすフラグをfalse
 			frame = 0.0f;
 		}
 		leftEarPosition_ = Math::Bezier(beginPos, beginPos + Vector3(-50.0f, 0.0f, -30.0f), endPos, frame / endFrame); // ベジエ曲線で動きをつけている
 		leftEarSize_ = Math::Lerp(beginSize, endSize, Easing::OutSine(frame / endFrame));                              // 大きさを変える
 	}
-	if (isReverse) {
+	if (isEarReverse) {
 		if (frame++ > endFrame) {
 			frame = endFrame;
-			isReverse = false;
+			isEarReverse = false;
 		}
 		leftEarPosition_ = Math::Bezier(endPos, endPos + Vector3(-50.0f, 0.0f, 30.0f), {-1.55f, 0.0f, 0.0f}, Easing::InOutSine(frame / endFrame));
 		leftEarSize_ = Math::Lerp(endSize, beginSize, Easing::InSine(frame / endFrame)); // 大きさを変える
@@ -326,7 +325,7 @@ void Player::EarShot(float firePos) {
 		parts_[(int)IPlayerParts::ear]->SetIsAnimation(true); // 耳をアニメーションを止める
 
 	}
-	if (isReverse || isEarShot_) {
+	if (isEarReverse || isEarShot_) {
 		// 位置を設定
 		parts_[static_cast<int>(IPlayerParts::left_ear)]->SetPosition(leftEarPosition_);
 		parts_[static_cast<int>(IPlayerParts::left_ear)]->SetSize({leftEarSize_, leftEarSize_, leftEarSize_});

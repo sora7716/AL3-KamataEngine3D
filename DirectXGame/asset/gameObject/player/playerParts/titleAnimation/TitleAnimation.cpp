@@ -1,4 +1,5 @@
 #include "TitleAnimation.h"
+#include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/player/Player.h"
 #include "asset/math/Math.h"
 #include <cassert>
@@ -8,12 +9,14 @@
 #endif // _DEBUG
 
 // 初期化
-void TitleAnimation::Initialize(Player* player) {
+void TitleAnimation::Initialize(Player* player, RailCamera* camera) {
 	// Nullチェック
 	assert(player);
 	player_ = player;                          // プレイヤーを受け取る
+	assert(camera);                            // Nullチェック
+	camera_ = camera;                          // カメラを受け取る
 	animationStartTimer_ = kAnimationInterval; // アニメーションを開始するまでの時間の設定
-	animationFrame_ = 0.0f;                             // フレームの再設定
+	animationFrame_ = 0.0f;                    // フレームの再設定
 }
 
 // 更新
@@ -33,7 +36,7 @@ void TitleAnimation::Update(bool isHome) {
 		}
 		isAnimationEnd_ = false;   // アニメーション終了フラグをfalse
 		isAnimationStart_ = false; // アニメーション開始フラグをfalse
-		animationFrame_ = 0.0f;             // フレームを戻す
+		animationFrame_ = 0.0f;    // フレームを戻す
 		// アニメーションの番号を加算していき最大数を超えたら0に戻す
 		if (animationNumber_ >= kAnimationMaximumNumber - 1) {
 			animationNumber_ = 0;
@@ -44,6 +47,9 @@ void TitleAnimation::Update(bool isHome) {
 		animationStartTimer_ = 0;
 		// アニメーション
 		//(this->*animationTable[animationNumber_])();
+	}
+	if (isGameStartAnimation_) {
+		FallDown();
 	}
 #ifdef _DEBUG
 	ImGui::Begin("animation");
@@ -258,14 +264,48 @@ void TitleAnimation::LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRi
 	player_->SetPartsAngle(IPlayerParts::head, {result, player_->GetPartsAngle(IPlayerParts::head).y, 0.0f}); // 頭の角度を設定
 }
 
-void TitleAnimation::FallDown() { 
-	//static Vector3 begin = player_->GetWorldTransform().translation_;
-	//Vector3 end = {0.0f, -11.0f, 30.0f}; 
-	//float endFrame = 120.0f;
-	//if (animationFrame_++ > endFrame) {
-	//	if (isGameStartAnimation_)
-	//}
-
+void TitleAnimation::FallDown() {
+	/*static Vector3 beginPos = player_->GetWorldTransform().translation_;
+	Vector3 middlePos = {0.0f, .0f, 30.0f};
+	Vector3 endPos = {0.0f, -100.0f, 50.0f};
+	static Vector3 resultPos = {};
+	float endFrame = 120.0f;
+	static Vector3 beginAngle = player_->GetWorldTransform().rotation_;
+	static Vector3 resultAngle = {};
+	Vector3 endAngle = {0.0f, std::numbers::pi_v<float> / 2.0f, std::numbers::pi_v<float>};
+	if (animationFrame_++ > endFrame) {
+		if (isGameStartAnimation_) {
+			animationFrame_ = 0.0f;
+			isGameStartAnimation_ = false;
+		}
+	}
+	if (isGameStartAnimation_) {
+		resultPos = Math::Bezier(beginPos, middlePos, endPos, animationFrame_ / endFrame);
+		resultAngle = Math::Lerp(beginAngle, endAngle, animationFrame_ / endFrame);
+	}
+	player_->SetPosition(resultPos);
+	player_->SetRotation(resultAngle);*/
+	float endFrame = 120.0f;
+	static Vector3 beginCameraPos = camera_->GetWorldTransform().translation_;
+	static Vector3 beginCameraAngle = camera_->GetWorldTransform().rotation_;
+	Vector3 middleCameraPos = {18.0f, 1.8f, 16.0f};
+	Vector3 endCameraPos = {0.0f, 3.2f, 32.0};
+	Vector3 endCameraAngle = {0.13f, -std::numbers::pi_v<float>, 0.0f};
+	static Vector3 resultCameraPos = {};
+	static Vector3 resultCameraAngle = {};
+	if (animationFrame_++ > endFrame) {
+		isMoveGameScene_ = true;
+		if (isCameraMove_) {
+			animationFrame_ = 0.0f;
+			isCameraMove_ = false;
+		}
+	}
+	if (isCameraMove_) {
+		resultCameraPos = Math::Bezier(beginCameraPos, middleCameraPos ,endCameraPos, animationFrame_ / endFrame);
+		resultCameraAngle = Math::Lerp(beginCameraAngle, endCameraAngle, animationFrame_ / endFrame);
+	}
+	camera_->SetTranslation(resultCameraPos);
+	camera_->SetRotation(resultCameraAngle);
 }
 
 #pragma endregion

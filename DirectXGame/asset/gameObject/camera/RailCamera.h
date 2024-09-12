@@ -62,6 +62,12 @@ public: // メンバ関数
 	/// <param name="rotation">セットしたいrotation</param>
 	void SetRotation(Vector3 rotation);
 
+	/// <summary>
+	/// 親子付け
+	/// </summary>
+	/// <param name="parent">親</param>
+	void SetParent(const WorldTransform* parent);
+
 private: // メンバ変数
 
 	WorldTransform worldTransform_;  // ワールド変換データ
