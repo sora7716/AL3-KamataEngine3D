@@ -22,11 +22,20 @@ void SceneText::Initialize(Model* model, ViewProjection* viewProjection) {
 
 void SceneText::Update() {
 
+	ImGui::Begin("sceneText");
+	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::End();
 	worldTransform_.UpdateMatrix();
 }
 
 void SceneText::Draw() {
 
 	model_->Draw(worldTransform_, *viewProjection_);
+
+}
+
+void SceneText::SetPosition(const Vector3& position) {
+
+	worldTransform_.translation_ = position;
 
 }

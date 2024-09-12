@@ -35,7 +35,7 @@ void Create::ModelCreate() {
 	models_[(int)typeTitleFont] = Model::CreateFromOBJ("title", true);
 	//リザルト天球
 	models_[(int)typeResultSkyDome] = Model::CreateFromOBJ("skydome", true);
-	models_[(int)typeResultText] = Model::CreateFromOBJ("pressSpace", true);
+	models_[(int)typeSceneText] = Model::CreateFromOBJ("pressSpace", true);
 	//スタートの文字
 	models_[(int)typeStart] = Model::CreateFromOBJ("start_moji", true);
 	//ルールの文字
