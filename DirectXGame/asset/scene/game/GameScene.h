@@ -166,6 +166,8 @@ private: // メンバ変数
 	unique_ptr<SkyDome> skyDome_ = nullptr;
 	bool isSkyDive_ = true;
 	Vector4 fieldFadeColor_ = WHITE;
+	//シーンのフェード
+	unique_ptr<Fade> sceneFade_ = nullptr;
 	// フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	float fadeTime_ = kFieldChangeFadeTime; // フェードする時間

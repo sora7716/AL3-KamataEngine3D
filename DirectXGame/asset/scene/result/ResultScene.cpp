@@ -20,6 +20,8 @@ void ResultScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	viewProjection_.Initialize();
+
 	// フェード
 	fade_ = make_unique<Fade>();                       // フェードの生成
 	fade_->Initialize();                               // フェードの初期化
@@ -30,15 +32,22 @@ void ResultScene::Initialize() {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_.x = -720.f;
-	score_->SetScale({0,0});
+	worldTransform_.scale_.x = 142.f;
+	worldTransform_.scale_.y = 224.f;
+	score_->SetScale({0, 0});
 
-	textureHandle_ = TextureManager::Load("resultBackGround.png");
-	sprite = Sprite::Create(textureHandle_, {0, 0});
+	create_ = make_unique<Create>();
+	create_->ModelCreate();
+
+	skyDome_ = make_unique<SkyDome>();
+	skyDome_->Initialize(create_->GetModel(create_->typeResultSkyDome), &viewProjection_);
 
 }
 
 void ResultScene::Update() {
 	Vector3 fontPosition = {worldTransform_.translation_.x, 245, 0};
+
+	skyDome_->Update(false, false, true);
 
 	switch (phase_) {
 	case ResultState::kFadeIn:
@@ -75,6 +84,12 @@ void ResultScene::Update() {
 
 	case ResultState::kFadeOut:
 
+		score_->Update(100);
+		score_->SetPosition(fontPosition);
+		score_->SetScale({142, 224});
+
+		ResultScene::EaseMoveOut();
+
 		score_->SetScore(static_cast<int>(gameScore_));
 
 		fade_->Update();
@@ -100,8 +115,6 @@ void ResultScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite->Draw();
-	score_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -116,6 +129,8 @@ void ResultScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	skyDome_->Draw();
 
 	// フェード
 	fade_->Draw(commandList);
@@ -133,7 +148,7 @@ void ResultScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-
+	score_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -155,6 +170,25 @@ void ResultScene::EaseMove() {
 
 	static float begin = worldTransform_.translation_.x;
 	static float end = 280;
+
+	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
+
+}
+
+void ResultScene::EaseMoveOut() {
+
+	static float frame = 0;
+
+	static float endFrame = 100;
+
+	if (frame != endFrame) {
+		++frame;
+	}
+
+	float easing = Easing::InBack(frame / endFrame);
+
+	static float begin = worldTransform_.translation_.x;
+	static float end = 1300;
 
 	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
 

@@ -9,6 +9,8 @@
 
 #include "asset/gameObject/fade/Fade.h"
 #include "asset/gameObject/score/Score.h"
+#include "asset/create/Create.h"
+#include "asset/gameObject/skydome/SkyDome.h"
 
 #include <memory>
 using namespace std;
@@ -54,6 +56,8 @@ public: // メンバ関数
 
 	void EaseMove();
 
+	void EaseMoveOut();
+
 	/// <summary>
 	/// 終了フラグのゲッター
 	/// </summary>
@@ -87,9 +91,10 @@ private: // メンバ変数
 	unique_ptr<Fade> fade_;
 	int gameScore_ = 0000000;
 
-	WorldTransform worldTransform_;
+	unique_ptr<Create> create_;
 
-	uint32_t textureHandle_ = 0u;
-	Sprite* sprite = nullptr;
+	ViewProjection viewProjection_;
+	WorldTransform worldTransform_;
+	unique_ptr<SkyDome> skyDome_;
 
 };

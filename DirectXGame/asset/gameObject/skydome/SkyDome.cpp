@@ -26,7 +26,7 @@ void SkyDome::Initialize(Model* model, ViewProjection* viewProjection) {
 }
 
 // 更新
-void SkyDome::Update(bool isMove, bool isTitle) {
+void SkyDome::Update(bool isMove, bool isTitle,bool isResult) {
 	// スカイドームを移動
 	if (isMove) {
 		if (velocityZ_ >= kLimitVelocity) {
@@ -40,6 +40,10 @@ void SkyDome::Update(bool isMove, bool isTitle) {
 	}
 	if (isTitle) {
 		worldTransform_.rotation_.y += 0.005f; // 回転
+	}
+	if (isResult) {
+		worldTransform_.translation_.z = 0.0f;
+		worldTransform_.rotation_.x += 0.0005f;
 	}
 #ifdef _DEBUG
 	Begin("skyDome");
