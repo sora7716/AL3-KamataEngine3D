@@ -80,6 +80,10 @@ void TitleScene::Initialize() {
 	selectButtons_[(int)ISelectButton::typeRule] = make_unique<RuleButton>();
 	selectButtons_[(int)ISelectButton::typeRule]->Initialize(create_->GetModel(create_->typeRule), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeRule]->SetParent(&selectButtons_[(int)ISelectButton::typeRule_Back]->GetWorldTransform());
+	// セレクトする用のボタン
+	selectButtons_[(int)ISelectButton::typeSelectButton] = make_unique<SelectButton>();
+	selectButtons_[(int)ISelectButton::typeSelectButton]->Initialize(create_->GetModel(create_->typeSelectButton), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectButton]->SetParent(&railCamera_->GetWorldTransform());
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -173,15 +177,24 @@ void TitleScene::ChangePhaseUpdate() {
 	titleAnimation_->Update(selectScene_->IsHome());
 	// セレクト画面への遷移
 	selectScene_->Update();
-	//セレクトボタンボタン
 	//  セレクトボタンボタン
 	for (auto& selectButton : selectButtons_) {
 		selectButton->Update();
 	}
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());
+	//線形補間のゲッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());//スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());//ルールの背景
+	selectButtons_[(int)ISelectButton::typeSelectButton]->SetIsButtonLarp(selectScene_->IsMoveSelect());//セレクトボタン
+	//フレームのゲッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());//スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());//ルールの背景
+	selectButtons_[(int)ISelectButton::typeSelectButton]->SetFrame(selectScene_->GetFrame());//セレクトボタン
+	//選択したかのセッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());  // ルールの背景
+	//スタートボタンを決定したら
+	titleFont_->SetIsSelectGameStart(selectButtons_[(int)ISelectButton::typeSelectButton]->IsGameStart());
+
 	// ホームじゃなかったら
 	if (!selectScene_->IsHome()) {
 		SetPartisPositionAndAngle();           // パーツの角度やポジションを元に戻す
@@ -206,20 +219,16 @@ void TitleScene::ChangePhaseUpdate() {
 		if (fade_->IsFinished()) {
 			phase_ = Phase::kMain;
 		}
-		if (Input::GetInstance()->PushKey(DIK_ESCAPE)) {
-			phase_ = Phase::kFadeOut;
-			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
-		}
 
 		break;
 	case Phase::kMain:
 		// プレイヤーの更新
 		player_->Update();
 		// メインの処理
-		if (Input::GetInstance()->PushKey(DIK_ESCAPE)) {
+		/*if (titleFont_->IsGameStartAnimation()) {
 			phase_ = Phase::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
-		}
+		}*/
 		break;
 	case Phase::kFadeOut:
 		// フェードアウト

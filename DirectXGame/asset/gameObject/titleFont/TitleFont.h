@@ -33,6 +33,18 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ゲームスタートを選択したかのフラグのセッター
+	/// </summary>
+	/// <param name="isSelectGameStart"></param>
+	void SetIsSelectGameStart(bool isSelectGameStart);
+
+	/// <summary>
+	/// ゲームをスタートさせるかのフラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsGameStartAnimation() { return isGameStartAnimation_; };
+
 private: // メンバ関数
 	/// <summary>
 	/// フォントの動き
@@ -52,4 +64,10 @@ private: // メンバ変数
 	bool isPut = true;
 	//元の位置に戻す
 	bool isBack_ = false;
+	//少し待つ
+	float stayTime_ = 0.0f;
+	//ゲームをスタートする
+	bool isGameStartAnimation_ = false;
+	//ゲームスタートを選択したかのフラグ
+	bool isSelectGameStart_ = false;
 };

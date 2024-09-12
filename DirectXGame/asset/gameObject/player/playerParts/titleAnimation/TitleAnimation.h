@@ -61,6 +61,11 @@ private://メンバ関数
 	/// </summary>
 	void LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRight, bool& isLeftDrop);
 
+	/// <summary>
+	/// 下に落ちに行く
+	/// </summary>
+	void FallDown();
+
 public://静的メンバ変数
 
 	static void (TitleAnimation::*animationTable[])();//メンバ関数ポインタテーブル
@@ -73,5 +78,6 @@ private://メンバ変数
 	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
 	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
 	int animationNumber_ = 0;//アニメーションをする番号
-	float frame_ = 0.0f;
+	float idolAnimationFrame_ = 0.0f;//待機時間のアニメーションフレーム
+	bool isGameStartAnimation_ = false;//ゲームがスタートするときのアニメーション
 };

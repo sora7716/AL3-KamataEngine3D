@@ -23,11 +23,12 @@ public: // 構造体や列挙型
 		kDeathParticles,
 		kWarp,
 		kTitleFont,
-		kStart,      // スタートの文字
-		kRule,       // ルールの文字
-		kButtonBack,  // ルールの背景
+		kStart,
+		kRule,
+		kButtonBack,
+		kSelectButton,
 		kModelNum,
-    };
+	};
 	using ObjectType = Type;                       // エイリアス
 	ObjectType typePlayerHead = Type::kPlayerHead; // プレイヤー
 	ObjectType typePlayerBody = Type::kPlayerBody;
@@ -42,7 +43,8 @@ public: // 構造体や列挙型
 	ObjectType typeTitleFont = Type::kTitleFont;                        // タイトルフォント
 	ObjectType typeStart = Type::kStart;                                // スタートの文字
 	ObjectType typeRule = Type::kRule;                                  // ルールの文字
-	ObjectType typeButtonBack = Type::kButtonBack;                        //ボタンの背景
+	ObjectType typeButtonBack = Type::kButtonBack;                      // ボタンの背景
+	ObjectType typeSelectButton = Type::kSelectButton;                  // セレクトする用のボタン
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
@@ -80,7 +82,7 @@ public: // メンバ関数
 	/// <returns>テクスチャハンドル</returns>
 	uint32_t GetTextureHandle(Create::Type subscript) const;
 
-private: // メンバ変数
-	std::vector<Model*> models_;//モデル
-	std::vector<uint32_t> textureHandle_;//テクスチャ
+private:// メンバ変数
+	std::vector<Model*> models_;          // モデル
+	std::vector<uint32_t> textureHandle_; // テクスチャ
 };

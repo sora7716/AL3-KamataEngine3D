@@ -132,3 +132,39 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 };
+
+/// <summary>
+/// ルールのボタン
+/// </summary>
+class SelectButton : public ISelectButton {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	SelectButton() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~SelectButton() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="create"></param>
+	/// <param name="viewProjection"></param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+private://メンバ変数
+	float positionY = 0.0f;//Y座標
+};

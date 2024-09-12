@@ -1,6 +1,8 @@
 #include "SelectButton.h"
 #include "Model.h"
 #include "ViewProjection.h"
+#include "asset/scene/title/select/Select.h"
+#include "input/Input.h"
 #ifdef _DEBUG
 #include "imgui.h"
 #endif // _DEBUG
@@ -8,11 +10,11 @@
 
 // 初期化
 void StartButton::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);                    // Nullチェック
-	model_ = model;                   // モデルを受け取る
-	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
-	worldTransform_.Initialize();//ワールドトランスフォームの初期化
-	worldTransform_.translation_.z = 0.6f;//z座標を設定
+	assert(model);                         // Nullチェック
+	model_ = model;                        // モデルを受け取る
+	viewProjection_ = viewProjection;      // ビュープロジェクションを受け取る
+	worldTransform_.Initialize();          // ワールドトランスフォームの初期化
+	worldTransform_.translation_.z = 0.6f; // z座標を設定
 }
 
 // 更新
@@ -32,16 +34,16 @@ void StartButton::Update() {
 // 描画
 void StartButton::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
-//初期化
+// 初期化
 void StartBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);                    // Nullチェック
-	model_ = model;                   // モデルを受け取る
-	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
-	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
-	worldTransform_.translation_ = {-10.0f, 1.2f, 10.0f};//座標の設定
+	assert(model);                                        // Nullチェック
+	model_ = model;                                       // モデルを受け取る
+	viewProjection_ = viewProjection;                     // ビュープロジェクションを受け取る
+	worldTransform_.Initialize();                         // ワールドトランスフォームの初期化
+	worldTransform_.translation_ = {-10.0f, 1.2f, 10.0f}; // 座標の設定
 }
 
-//更新
+// 更新
 void StartBackButton::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("startBack");
@@ -50,25 +52,31 @@ void StartBackButton::Update() {
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
 #endif // _DEBUG
-	//ボタンの線形補間
+	// ボタンの線形補間
 	ButtonLerp();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
 
-//描画
-void StartBackButton::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+// 描画
+void StartBackButton::Draw() {
+	if (!isSelectChangeColor_) {
+		model_->Draw(worldTransform_, *viewProjection_);
+	} else {
+		model_->Draw(worldTransform_, *viewProjection_, textureHandle_);
+	}
+}
 
-//初期化
+// 初期化
 void RuleBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);                                       // Nullチェック
-	model_ = model;                                      // モデルを受け取る
-	viewProjection_ = viewProjection;                    // ビュープロジェクションを受け取る
-	worldTransform_.Initialize();                        // ワールドトランスフォームの初期化
+	assert(model);                                         // Nullチェック
+	model_ = model;                                        // モデルを受け取る
+	viewProjection_ = viewProjection;                      // ビュープロジェクションを受け取る
+	worldTransform_.Initialize();                          // ワールドトランスフォームの初期化
 	worldTransform_.translation_ = {-10.0f, -1.5f, 10.0f}; // 座標の設定
 }
 
-//更新
+// 更新
 void RuleBackButton::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("ruleBack");
@@ -83,20 +91,26 @@ void RuleBackButton::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-//描画
-void RuleBackButton::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
-
-//初期化
-void RuleButton::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);                         // Nullチェック
-	model_ = model;                        // モデルを受け取る
-	viewProjection_ = viewProjection;      // ビュープロジェクションを受け取る
-	worldTransform_.Initialize();          // ワールドトランスフォームの初期化
-	worldTransform_.translation_.z = 0.6f; // z座標を設定
-	worldTransform_.rotation_.y = std::numbers::pi_v<float>; //y座標の角度を設定
+// 描画
+void RuleBackButton::Draw() {
+	if (!isSelectChangeColor_) {
+		model_->Draw(worldTransform_, *viewProjection_);
+	} else {
+		model_->Draw(worldTransform_, *viewProjection_, textureHandle_);
+	}
 }
 
-//更新
+// 初期化
+void RuleButton::Initialize(Model* model, ViewProjection* viewProjection) {
+	assert(model);                                           // Nullチェック
+	model_ = model;                                          // モデルを受け取る
+	viewProjection_ = viewProjection;                        // ビュープロジェクションを受け取る
+	worldTransform_.Initialize();                            // ワールドトランスフォームの初期化
+	worldTransform_.translation_.z = 0.6f;                   // z座標を設定
+	worldTransform_.rotation_.y = std::numbers::pi_v<float>; // y座標の角度を設定
+}
+
+// 更新
 void RuleButton::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("rule");
@@ -110,5 +124,54 @@ void RuleButton::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-//描画
+// 描画
 void RuleButton::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+// 初期化
+void SelectButton::Initialize(Model* model, ViewProjection* viewProjection) {
+	assert(model);                    // Nullチェック
+	model_ = model;                   // モデルを受け取る
+	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
+	worldTransform_.Initialize();     // ワールドトランスフォームの初期化
+	worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+	worldTransform_.translation_.z = 10.0f;
+	worldTransform_.translation_.x = -3.2f;
+	positionY = 1.0f;
+}
+
+// 更新
+void SelectButton::Update() {
+	if (isButtonLerp_ && frame_ >= Select::kEndFrame) {
+		if (Input::GetInstance()->TriggerKey(DIK_W)) {
+			positionY = 1.0f;//ゲームスタートを選択
+		} else if (Input::GetInstance()->TriggerKey(DIK_S)) {
+			positionY = -1.5f;//ゲームルールを選択1
+		}
+		if (positionY >= 1.0f) {//ゲームスタートを選択したときに色を変更
+			isSelectStart_ = true;
+			isSelectRule_ = false;
+		} else if (positionY <= -1.5f) {//ゲームルールを選択したときに色を変更
+			isSelectStart_ = false;
+			isSelectRule_ = true;
+		}
+	}
+	if (isSelectStart_&&Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		isGameStart_ ^= true;//ゲームスタートをクリックしたとき
+	}
+	if (isSelectRule_ && Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		isGameRule_ ^= true;//ゲームルールをクリックしたとき
+	}
+
+	worldTransform_.translation_.y = positionY;
+	worldTransform_.UpdateMatrix();
+#ifdef _DEBUG
+	ImGui::Begin("selectButton");
+	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::End();
+#endif // _DEBUG
+}
+
+// 描画
+void SelectButton::Draw() {}
