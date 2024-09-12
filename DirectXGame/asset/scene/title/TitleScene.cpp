@@ -181,10 +181,9 @@ void TitleScene::BGMStop() { audio_->StopWave(soundPlayHandle_); }
 void TitleScene::ChangePhaseUpdate() {
 	// プレイヤーのアニメーション
 	titleAnimation_->Update(selectScene_->IsHome());
-	//
 	if (!titleAnimation_->IsMoveGameScene()) {
 		// セレクトシーンに遷移
-		selectScene_->Update(titleAnimation_->IsMoveGameScene());
+		selectScene_->Update();
 		//  セレクトボタンボタン
 		for (auto& selectButton : selectButtons_) {
 			selectButton->Update();

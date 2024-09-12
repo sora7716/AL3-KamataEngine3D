@@ -31,7 +31,7 @@ public:  // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(bool isMoveGameScene);
+	void Update();
 
 	/// <summary>
 	/// ホームかどうかのフラグ
