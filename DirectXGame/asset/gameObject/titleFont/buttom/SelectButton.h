@@ -4,7 +4,7 @@
 /// <summary>
 /// スタートのボタン
 /// </summary>
-class StartButton:public ISelectButton {
+class StartButton : public ISelectButton {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -21,7 +21,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="create"></param>
 	/// <param name="viewProjection"></param>
-	void Initialize(Model* model, ViewProjection* viewProjection)override;
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新
@@ -65,6 +65,16 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private: // メンバ関数
+
+	/// <summary>
+	/// 選択時のアニメーション
+	/// </summary>
+	void Animation();
+
+private: // メンバ変数
+	float positionY_ = 0.0f;//現在の位置
 };
 
 /// <summary>
@@ -98,6 +108,15 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private: // メンバ関数
+	/// <summary>
+	/// 選択時のアニメーション
+	/// </summary>
+	void Animation();
+
+private:                     // メンバ変数
+	float positionY_ = 0.0f; // 現在の位置
 };
 
 /// <summary>
@@ -165,6 +184,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
-private://メンバ変数
-	float positionY = 0.0f;//Y座標
+private:                    // メンバ変数
+	float positionY = 0.0f; // Y座標
 };

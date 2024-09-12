@@ -31,7 +31,7 @@ public:  // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(int phase);
 
 	/// <summary>
 	/// ホームかどうかのフラグ

@@ -1,29 +1,58 @@
 #pragma once
 #include "WorldTransform.h"
 
+//前方宣言
 class Model;
 class ViewProjection;
 
+/// <summary>
+/// スペースを押せのクラス
+/// </summary>
 class SceneText {
 
-public:
+public://メンバ関数
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Initialize(Model* model, ViewProjection *viewProjection);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
-	const WorldTransform& GetPosition() const { return worldTransform_; }
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns>ワールドトランスフォーム</returns>
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
 
+	/// <summary>
+	/// 位置のセッター
+	/// </summary>
+	/// <param name="position">位置</param>
 	void SetPosition(const Vector3& position);
 
-private:
+	/// <summary>
+	/// 親子付け
+	/// </summary>
+	/// <param name="parent">親</param>
+	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; };
 
-	Model* model_ = nullptr;
+private://メンバ関数
 
-	ViewProjection* viewProjection_ = nullptr;
+	Model* model_ = nullptr;//モデル
 
-	WorldTransform worldTransform_;
+	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
+
+	WorldTransform worldTransform_;//ワールドトランスフォーム
 
 };

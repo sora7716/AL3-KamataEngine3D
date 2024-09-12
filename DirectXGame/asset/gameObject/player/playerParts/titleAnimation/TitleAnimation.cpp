@@ -57,6 +57,7 @@ void TitleAnimation::Update(bool isHome) {
 	ImGui::Begin("animation");
 	ImGui::Text("animation:%d", animationStartTimer_);
 	ImGui::Text("animationNumber:%d", animationNumber_);
+	ImGui::Checkbox("isGameStartAnimation", &isGameStartAnimation_);
 	ImGui::End();
 #endif // _DEBUG
 }
@@ -102,7 +103,7 @@ void TitleAnimation::ArmRotate() {
 void TitleAnimation::BigAndSmall() {
 	float beginScale = 1.0f;          // 最初のスケール
 	float endScale = 3.0f;            // 最後のスケール
-	float endFrame = 300.0f;          // 最後のフレーム
+	float endFrame = 180.0f;          // 最後のフレーム
 	static float result = 0.0f;       // 結果を入れる
 	static bool isBig = true;         // 大きくなる時のフラグ
 	static bool isLookAround = false; // 見回すときのフレーム
@@ -129,9 +130,9 @@ void TitleAnimation::BigAndSmall() {
 		}
 	}
 	if (isBig) { // 大きくなっているときの線形補間
-		result = Math::Lerp(beginScale, endScale, Easing::OutSine(animationFrame_ / endFrame));
+		result = Math::Lerp(beginScale, endScale, Easing::OutQuad(animationFrame_ / endFrame));
 	} else if (isSmall) { // 元の大きさに戻るときの線形補間
-		result = Math::Lerp(endScale, beginScale, Easing::OutSine(animationFrame_ / endFrame));
+		result = Math::Lerp(endScale, beginScale, Easing::OutBounce(animationFrame_ / endFrame));
 	}
 	player_->SetScale({result, result, result}); // スケールのセット
 	LookAround(isLookAround);                    // 見回す
@@ -291,7 +292,7 @@ void TitleAnimation::FallDown() {
 	static Vector3 beginCameraPos = camera_->GetWorldTransform().translation_;
 	static Vector3 beginCameraAngle = camera_->GetWorldTransform().rotation_;
 	Vector3 middleCameraPos = {18.0f, 1.8f, 16.0f};
-	Vector3 endCameraPos = {0.0f, 3.2f, 32.0};
+	Vector3 endCameraPos = {0.5f, 3.2f, 32.0};
 	Vector3 endCameraAngle = {0.13f, -std::numbers::pi_v<float>, 0.0f};
 	static Vector3 resultCameraPos = {};
 	static Vector3 resultCameraAngle = {};
@@ -304,7 +305,7 @@ void TitleAnimation::FallDown() {
 		}
 	}
 	if (isCameraMove_) {
-		resultCameraPos = Math::Bezier(beginCameraPos, middleCameraPos, endCameraPos, animationFrame_ / endFrame);
+		resultCameraPos = Math::BezierS(beginCameraPos, middleCameraPos, endCameraPos, animationFrame_ / endFrame);
 		resultCameraAngle = Math::Lerp(beginCameraAngle, endCameraAngle, animationFrame_ / endFrame);
 	}
 	camera_->SetTranslation(resultCameraPos);

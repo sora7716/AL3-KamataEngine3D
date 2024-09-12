@@ -86,9 +86,11 @@ void TitleScene::Initialize() {
 	selectButtons_[(int)ISelectButton::typeSelectButton]->Initialize(create_->GetModel(create_->typeSelectButton), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeSelectButton]->SetParent(&railCamera_->GetWorldTransform());
 
-	//シーンテキスト
-	sceneText_ = make_unique<SceneText>();
-	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_);
+	// シーンテキスト
+	sceneText_ = make_unique<SceneText>();                                               // 生成
+	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_); // 初期化
+	sceneText_->SetParent(&railCamera_->GetWorldTransform());                            // 親子付け
+	sceneText_->SetPosition({-0.2f, -3.51f, 0.0f});                                      // 位置を0に設定
 
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav"); // 読み込み
@@ -114,9 +116,13 @@ void TitleScene::Initialize() {
 void TitleScene::Update() {
 	// 更新処理のフェーズ管理
 	ChangePhaseUpdate();
-
-	sceneText_->Update();
-	sceneText_->SetPosition(Vector3(-0.43f,-3.3f,11.f));
+	// スペースを押せのやつ
+	PressSpaceMove();
+#ifdef _DEBUG
+	ImGui::Begin("titleScene");
+	ImGui::Text("phase%d", phase_);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 // 描画
@@ -157,10 +163,8 @@ void TitleScene::Draw() {
 	titleFont_->Draw();
 
 	// セレクトボタンボタン
-	if (phase_ == Phase::kMain||phase_==Phase::kFadeIn) {
-		for (auto& selectButton : selectButtons_) {
-			selectButton->Draw();
-		}
+	for (auto& selectButton : selectButtons_) {
+		selectButton->Draw();
 	}
 
 	sceneText_->Draw();
@@ -212,9 +216,25 @@ void TitleScene::ChangePhaseUpdate() {
 	DebugCameraMove();
 	// スカイドーム
 	skyDome_->Update(false, true);
-
-	
-
+	// セレクトシーンに遷移
+	selectScene_->Update((int)phase_);
+	//  セレクトボタンボタン
+	for (auto& selectButton : selectButtons_) {
+		selectButton->Update();
+	}
+	//ゲームが始まるときのアニメーションが開始するフラグをセットする
+	titleAnimation_->SetIsGameStartAnimation(titleFont_->IsGameStartAnimation());
+	// 線形補間のゲッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());   // スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());    // ルールの背景
+	selectButtons_[(int)ISelectButton::typeSelectButton]->SetIsButtonLarp(selectScene_->IsMoveSelect()); // セレクトボタン
+	// フレームのゲッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());   // スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());    // ルールの背景
+	selectButtons_[(int)ISelectButton::typeSelectButton]->SetFrame(selectScene_->GetFrame()); // セレクトボタン
+	// 選択したかのセッター
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());   // ルールの背景
 	switch (phase_) {
 	case Phase::kFadeIn:
 		// プレイヤーの更新
@@ -227,11 +247,13 @@ void TitleScene::ChangePhaseUpdate() {
 		}
 		// セレクト画面
 		SetSelectUpdate();
-
-		PlayerSE();
+		// クリックしたときの音
+		PressButtonSE();
 
 		break;
 	case Phase::kMain:
+		// クリックしたときの音
+		PressButtonSE();
 		// プレイヤーの更新
 		player_->Update();
 		// セレクト画面
@@ -299,46 +321,60 @@ void TitleScene::SetPartisPositionAndAngle() {
 	player_->SetPartsIsAnimation(IPlayerParts::arm, false); // 腕
 }
 
-void TitleScene::PlayerSE() {
+void TitleScene::PressButtonSE() {
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		sePlayHandle_[0] = audio_->PlayWave(seDateHandle_[0], false);
 	}
 
-	if (input_->TriggerKey(DIK_W)) {
+	if (input_->TriggerKey(DIK_W) && selectScene_->IsMoveSelect()) {
 		sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
 	}
 
-	if (input_->TriggerKey(DIK_S)) {
+	if (input_->TriggerKey(DIK_S) && selectScene_->IsMoveSelect()) {
 		sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
 	}
 }
 
-void TitleScene::SetSelectUpdate() {
-	// メインの処理
-	if (titleFont_->IsGameStartAnimation()) {
-		phase_ = Phase::kAnimation;
-		titleAnimation_->SetIsGameStartAnimation(titleFont_->IsGameStartAnimation());
-	}
-	if (!titleAnimation_->IsMoveGameScene()) {
-		// セレクトシーンに遷移
-		selectScene_->Update();
-		//  セレクトボタンボタン
-		for (auto& selectButton : selectButtons_) {
-			selectButton->Update();
+// スペースを押せのフォントの動き
+void TitleScene::PressSpaceMove() {
+	sceneText_->Update();
+	float beginPos = 0.0f;
+	float endPos = 12.51f;
+	float endFrame = 60;
+	static float result = 0.0f;
+	if (isTextMove_) {
+		if (textFrame_++ > endFrame) {
+			textFrame_ = endFrame;
+			isTextMove_ = false;
+			sceneText_->SetParent(nullptr);
 		}
 	}
-	// 線形補間のゲッター
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());   // スタートの背景
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsButtonLarp(selectScene_->IsMoveSelect());    // ルールの背景
-	selectButtons_[(int)ISelectButton::typeSelectButton]->SetIsButtonLarp(selectScene_->IsMoveSelect()); // セレクトボタン
-	// フレームのゲッター
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());   // スタートの背景
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());    // ルールの背景
-	selectButtons_[(int)ISelectButton::typeSelectButton]->SetFrame(selectScene_->GetFrame()); // セレクトボタン
-	// 選択したかのセッター
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());   // ルールの背景
-	// スタートボタンを決定したら
-	titleFont_->SetIsSelectGameStart(selectButtons_[(int)ISelectButton::typeSelectButton]->IsGameStart());
+	if (titleFont_->IsGameStartAnimation()) {
+		isTextBack_ = true;
+	}
+	if (isTextBack_) {
+		if (textFrame_-- < 0.0f) {
+			textFrame_ = 0.0f;
+			isTextBack_ = false;
+			sceneText_->SetParent(&railCamera_->GetWorldTransform());
+		}
+	}
+	
+	result = Math::Lerp(beginPos, endPos, Easing::InOutCubic(textFrame_ / endFrame));
+	sceneText_->SetPosition({
+	    sceneText_->GetWorldTransform().translation_.x,
+	    sceneText_->GetWorldTransform().translation_.y,
+	    result,
+	});
+}
+
+void TitleScene::SetSelectUpdate() {
+	// メインの処理
+	if (selectButtons_[(int)ISelectButton::typeSelectButton]->IsGameStart()) {
+		phase_ = Phase::kAnimation;
+		// スタートボタンを決定したら
+		titleFont_->SetIsSelectGameStart(selectButtons_[(int)ISelectButton::typeSelectButton]->IsGameStart());
+	}
+	
 }

@@ -285,3 +285,11 @@ Vector3 Math::Bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, fl
 	Vector3 p = Lerp(p0p1, p1p2, t); // 上記2つの補間結果をさらに補間
 	return p;
 }
+
+// 三次元ベジエ曲線(球面線形補間ver)
+Vector3 Math::BezierS(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t) {
+	Vector3 p0p1 = SLerp(p0, p1, t);  // p0とp1の間を補間
+	Vector3 p1p2 = SLerp(p1, p2, t);  // p1とp2の間を補間
+	Vector3 p = SLerp(p0p1, p1p2, t); // 上記2つの補間結果をさらに補間
+	return p;
+}

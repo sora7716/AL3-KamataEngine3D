@@ -41,6 +41,7 @@ void StartBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;                     // ビュープロジェクションを受け取る
 	worldTransform_.Initialize();                         // ワールドトランスフォームの初期化
 	worldTransform_.translation_ = {-10.0f, 1.2f, 10.0f}; // 座標の設定
+	positionY_ = worldTransform_.translation_.y;          // Y座標設定
 }
 
 // 更新
@@ -54,6 +55,11 @@ void StartBackButton::Update() {
 #endif // _DEBUG
 	// ボタンの線形補間
 	ButtonLerp();
+	if (isSelectChangeColor_) {
+		Animation();
+	} else {
+		worldTransform_.translation_.y = positionY_;
+	}
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
@@ -67,6 +73,14 @@ void StartBackButton::Draw() {
 	}
 }
 
+// 選択時のアニメーション
+void StartBackButton::Animation() {
+	static float width = 0.2f;
+	static float theta = 1.0f;
+	worldTransform_.translation_.y = width * sin(theta) + positionY_;
+	theta += 1.0f / 5.0f;
+}
+
 // 初期化
 void RuleBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);                                         // Nullチェック
@@ -74,6 +88,7 @@ void RuleBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;                      // ビュープロジェクションを受け取る
 	worldTransform_.Initialize();                          // ワールドトランスフォームの初期化
 	worldTransform_.translation_ = {-10.0f, -1.5f, 10.0f}; // 座標の設定
+	positionY_ = worldTransform_.translation_.y;           // Y座標設定
 }
 
 // 更新
@@ -85,6 +100,11 @@ void RuleBackButton::Update() {
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
 #endif // _DEBUG
+	if (isSelectChangeColor_) {
+		Animation();
+	} else {
+		worldTransform_.translation_.y = positionY_;
+	}
 	// ボタンの線形補間
 	ButtonLerp();
 	// 行列の更新
@@ -98,6 +118,13 @@ void RuleBackButton::Draw() {
 	} else {
 		model_->Draw(worldTransform_, *viewProjection_, textureHandle_);
 	}
+}
+// 選択時のアニメーション
+void RuleBackButton::Animation() {
+	static float width = 0.2f;
+	static float theta = 1.0f;
+	worldTransform_.translation_.y = width * sin(theta) + positionY_;
+	theta += 1.0f / 5.0f;
 }
 
 // 初期化
@@ -143,28 +170,29 @@ void SelectButton::Initialize(Model* model, ViewProjection* viewProjection) {
 void SelectButton::Update() {
 	if (isButtonLerp_ && frame_ >= Select::kEndFrame) {
 		if (Input::GetInstance()->TriggerKey(DIK_W)) {
-			positionY = 1.0f;//ゲームスタートを選択
+			positionY = 1.0f; // ゲームスタートを選択
 		} else if (Input::GetInstance()->TriggerKey(DIK_S)) {
-			positionY = -1.5f;//ゲームルールを選択1
+			positionY = -1.5f; // ゲームルールを選択1
 		}
-		if (positionY >= 1.0f) {//ゲームスタートを選択したときに色を変更
+		if (positionY >= 1.0f) { // ゲームスタートを選択したときに色を変更
 			isSelectStart_ = true;
 			isSelectRule_ = false;
-		} else if (positionY <= -1.5f) {//ゲームルールを選択したときに色を変更
+		} else if (positionY <= -1.5f) { // ゲームルールを選択したときに色を変更
 			isSelectStart_ = false;
 			isSelectRule_ = true;
 		}
+		if (isSelectStart_ && Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			isGameStart_ = true; // ゲームスタートをクリックしたとき
+		} else {
+			isGameStart_ = false;
+		}
+		if (isSelectRule_ && Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			isGameRule_ = true; // ゲームルールをクリックしたとき
+		} else {
+			isGameRule_ = false;
+		}
 	}
-	if (isSelectStart_&&Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-		isGameStart_ = true;//ゲームスタートをクリックしたとき
-	} else {
-		isGameStart_ = false;
-	}
-	if (isSelectRule_ && Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-		isGameRule_ = true;//ゲームルールをクリックしたとき
-	} else {
-		isGameRule_ = false;
-	}
+	
 
 	worldTransform_.translation_.y = positionY;
 	worldTransform_.UpdateMatrix();
@@ -173,6 +201,8 @@ void SelectButton::Update() {
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::Text("frame:%f", frame_);
+	ImGui::Checkbox("isGameStartPress", &isGameStart_);
 	ImGui::End();
 #endif // _DEBUG
 }

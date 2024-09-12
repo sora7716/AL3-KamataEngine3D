@@ -4,13 +4,13 @@
 using namespace std;
 using namespace std::numbers;
 
-// イン
+// インサイン
 float Easing::InSine(float frame) { return 1 - cosf((frame * float(M_PI) / 2)); }
 
-// アウト
+// アウトサイン
 float Easing::OutSine(float frame) { return sinf((frame * float(M_PI)) / 2); }
 
-// インアウト
+// インアウトサイン
 float Easing::InOutSine(float frame) { return -(cosf(float(M_PI) * frame) - 1) / 2; }
 
 // インバック
@@ -110,3 +110,28 @@ float Easing::InOutCirc(float frame) {
 		return (std::sqrt(1.0f - std::pow(-2.0f * frame + 2.0f, 2.0f)) + 1.0f) / 2.0f;
 	}
 }
+
+// インアウトクビック
+float Easing::InOutCubic(float frame) { return (frame < 0.5f) ? 4.0f * frame * frame * frame : 1.0f - std::powf(-2.0f * frame + 2.0f, 3.0f) / 2.0f; }
+
+// インエラスティック
+float Easing::InElastic(float frame) {
+	const float c4 = (2.0f * pi_v<float>) / 3.0f;
+
+	if (frame == 0.0f) {
+		return 0.0f;
+	} else if (frame == 1.0f) {
+		return 1.0f;
+	} else {
+		return -std::powf(2.0f, 10.0f * frame - 10.0f) * std::sinf((frame * 10.0f - 10.75f) * c4);
+	}
+}
+
+// インバウンス
+float Easing::InBounce(float frame) { return 1.0f - OutBounce(1 - frame); }
+
+// アウトシーク
+float Easing::OutCirc(float frame) { return std::sqrtf(1.0f - std::powf(frame - 1.0f, 2.0f)); }
+
+//アウトクワァッド
+float Easing::OutQuad(float frame) { return 1.0f - (1.0f - frame) * (1.0f - frame); }

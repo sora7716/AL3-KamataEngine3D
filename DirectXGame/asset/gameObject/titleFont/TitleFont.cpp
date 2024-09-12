@@ -27,16 +27,23 @@ void TitleFont::Update() {
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::Checkbox("isSelectGameStart", &isSelectGameStart_);
+	ImGui::Checkbox("isGameStartAnimation", &isGameStartAnimation_);
+	ImGui::Text("stayTime:%f", stayTime_);
+	ImGui::Checkbox("isBack", &isBack_);
+	ImGui::Text("frame:%f", frame_);
 	ImGui::End();
+#endif // _DEBUG
+
 	if (isSelectGameStart_) {
-		isBack_ ^= true;
+		isBack_ = true;
 		stayTime_ = 120.0f;
-	}
+		isSelectGameStart_ = false;
+	} 
 	if (stayTime_ > 0.0f) {
 		stayTime_--;
 		frame_ = 0.0f;
 	}
-#endif // _DEBUG
 	MoveFont();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();

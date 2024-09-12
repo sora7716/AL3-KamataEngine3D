@@ -16,17 +16,19 @@ void Select::Initialize(Player* player, RailCamera* camera) {
 }
 
 // 更新
-void Select::Update() {
+void Select::Update(int phase) {
 	Input* input = Input::GetInstance();
-	// マウスの左クリックでisMoveSelect_を切り替える
-	if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
-		isWasButtonPressed_ = true; // ボタンを押したかどうか
-		isMoveSelect_ ^= true;      // 状態を反転
-		frame_ = 0;                 // アニメーション用フレームをリセット
-	} else if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
-		isWasButtonPressed_ = true; // ボタンを押したかどうか
-		isMoveSelect_ = false;      // 状態をfalse
-		frame_ = 0;                 // アニメーション用フレームをリセット
+	if (phase != 2) {
+		// マウスの左クリックでisMoveSelect_を切り替える
+		if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
+			isWasButtonPressed_ = true; // ボタンを押したかどうか
+			isMoveSelect_ ^= true;      // 状態を反転
+			frame_ = 0;                 // アニメーション用フレームをリセット
+		} else if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
+			isWasButtonPressed_ = true; // ボタンを押したかどうか
+			isMoveSelect_ = false;      // 状態をfalse
+			frame_ = 0;                 // アニメーション用フレームをリセット
+		}
 	}
 	// カメラとプレイヤーを移動させる
 	if (isWasButtonPressed_) {
@@ -37,6 +39,8 @@ void Select::Update() {
 	ImGui::Begin("select");
 	ImGui::Text("frame:%f", frame_);
 	ImGui::Checkbox("isMoveSelect:", &isMoveSelect_);
+	ImGui::Checkbox("isWasButtonPressed:", &isWasButtonPressed_);
+	ImGui::Text("phase:%d", phase);
 	ImGui::End();
 #endif // _DEBUG
 }

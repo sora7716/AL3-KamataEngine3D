@@ -91,7 +91,7 @@ private: // メンバ変数
 	int animationNumber_ = 0;//アニメーションをする番号
 	float animationFrame_ = 0.0f;//待機時間のアニメーションフレーム
 	bool isGameStartAnimation_ = false;//ゲームがスタートするときのアニメーション
+	bool isMoveGameScene_ = false;//ゲームシーンに遷移
 
 	bool isCameraMove_ = true;//カメラの動くアニメーション
-	bool isMoveGameScene_ = false;//ゲームシーンに遷移
 };
