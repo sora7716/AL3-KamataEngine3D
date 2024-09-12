@@ -46,6 +46,7 @@ void ResultScene::Initialize() {
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/result3.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
+	audio_->SetVolume(soundDataHandle_, 0.5f);
 
 	seDateHandle_ = audio_->LoadWave("sound/SE/button1.mp3");
 

@@ -97,7 +97,7 @@ void GameScene::Initialize() {
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
-	audio_->SetVolume(soundDataHandle_, 0.35f);
+	audio_->SetVolume(soundDataHandle_, 0.5f);
 	
 
 	// SE
