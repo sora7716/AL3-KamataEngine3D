@@ -237,6 +237,8 @@ void TitleScene::ChangePhaseUpdate() {
 		}
 		break;
 		case Phase::kAnimation: 
+			// プレイヤーの更新
+		    player_->Update();
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 			break;
 	case Phase::kFadeOut:
