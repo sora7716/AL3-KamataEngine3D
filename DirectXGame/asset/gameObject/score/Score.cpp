@@ -62,13 +62,21 @@ void Score::Update(int width) {
 
 void Score::TextUpdate() {
 
-	for (int i = 0; i < 2; i++) {
-		textSprites[i]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
-	}
+	textSprites[0]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
+
+void Score::HighTextUpdate() {
+	
+	textSprites[1]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+
+}
+
 
 void Score::Draw() {
 	// スコアの桁数を計算する

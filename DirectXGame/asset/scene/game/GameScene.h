@@ -128,6 +128,8 @@ private: // メンバ関数
 	//フェーズチェンジ
 	void ChangePhase();
 
+	void EaseTextMove();
+
 public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
@@ -141,6 +143,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;                 // ビュープロジェクション
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
+	WorldTransform worldTransform_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

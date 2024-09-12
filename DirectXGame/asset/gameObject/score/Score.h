@@ -26,6 +26,8 @@ public:
 
 	void TextUpdate();
 
+	void HighTextUpdate();
+
 	/// <summary>
 	/// 描画
 	/// </summary>

@@ -92,6 +92,9 @@ void GameScene::Initialize() {
 	warp_ = make_unique<Warp>();
 	warp_->Initialize(create_->GetModel(create_->typeWarp), &viewProjection_);
 	warp_->SetParent(&skyDome_->GetWorldTransform());
+
+	worldTransform_.Initialize();
+	worldTransform_.translation_.x = -370.f;
 }
 
 // 更新
@@ -254,118 +257,115 @@ void GameScene::CheackOnCollision() {
 // フィールドの更新
 void GameScene::UpdateField() {
 
-	if (gamePhase_ == GamePhase::kMain) {
+	// プレイヤー
+	player_->Update(skyDome_->GetTranslation().z);
+	bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
+	bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
+	// スコアの表示用の計算
+	bitmapFont_[0]->Update(50);
+	bitmapFont_[1]->Update(25);
+	bitmapFont_[2]->TextUpdate();
+	bitmapFont_[3]->TextUpdate();
 
-		// プレイヤー
-		player_->Update(skyDome_->GetTranslation().z);
-		bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
-		bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
-		// スコアの表示用の計算
-		bitmapFont_[0]->Update(50);
-		bitmapFont_[1]->Update(25);
-		bitmapFont_[2]->TextUpdate();
-		bitmapFont_[3]->TextUpdate();
-
-		if (!player_->IsDead()) {
-			// 敵の親クラス
-			enemyParent_->Update((int)score_);
-			// 障害物のpopするコマンド
-			enemyPopCommand_->Update();
-			if (!isSetEnemyPos) {
-				enemis_.clear();  // 敵を削除
-				enemyPhaseNum_++; // 敵のフェーズを進めていく
-				if (enemyPhaseNum_ >= (int32_t)enemyPopCommand_->GetPhase().size()) {
-					enemyPhaseNum_ = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
+	if (!player_->IsDead()) {
+		// 敵の親クラス
+		enemyParent_->Update((int)score_);
+		// 障害物のpopするコマンド
+		enemyPopCommand_->Update();
+		if (!isSetEnemyPos) {
+			enemis_.clear();  // 敵を削除
+			enemyPhaseNum_++; // 敵のフェーズを進めていく
+			if (enemyPhaseNum_ >= (int32_t)enemyPopCommand_->GetPhase().size()) {
+				enemyPhaseNum_ = (int32_t)enemyPopCommand_->GetPhase().size() - 1; // 敵のフェーズがコマンドの数より多いと最大値-1した値を入れる
+			}
+			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum_]; i++) {
+				int randomNum = rand() % 3; // 敵の状態をランダムにする
+				uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
+				Enemy* enemy = new Enemy();                                                                                                  // 生成
+				enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[enemyRandomNum]); // 初期化
+				enemy->SetParent(&enemyParent_->GetWorldTransform());                                                                        // 敵の親をセットする
+				if (score_ > 100) {
+					enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット
 				}
-				for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum_]; i++) {
-					int randomNum = rand() % 3; // 敵の状態をランダムにする
-					uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
-					Enemy* enemy = new Enemy();                                                                                                  // 生成
-					enemy->Initialize(create_->GetModel(create_->typeEnemy), &viewProjection_, enemyPopCommand_->GetPosition()[enemyRandomNum]); // 初期化
-					enemy->SetParent(&enemyParent_->GetWorldTransform());                                                                        // 敵の親をセットする
-					if (score_ > 100) {
-						enemy->SetStatus(static_cast<int>(randomNum)); // スコアをセット
-					}
-					enemis_.push_back(enemy); // 敵を生成する
-					isSetEnemyPos = true;     // 敵のポジションをセット
+				enemis_.push_back(enemy); // 敵を生成する
+				isSetEnemyPos = true;     // 敵のポジションをセット
+			}
+		}
+		// フェードの時間をスカイドームの進むスピードに合わせる
+		if (fadeTime_ > 0.3f) {
+			fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
+		}
+		// デバックカメラ
+		DebugCameraMove();
+		// レールカメラ
+		railCamera_->Update();
+
+		// 天球
+		skyDome_->Update(!fieldChangeFade_->IsFinished());
+		// 障害物
+		for (auto* enemy : enemis_) {
+			enemy->Update();
+		}
+		// スコアの計算
+		score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
+
+		// ワープ
+		warp_->Update(player_->IsWarpSpawn());
+		// フェードを入れた処理
+		if (fieldStatus_ == FieldStatus::kFadeIn) {
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
+				// スカイダイブかどうか
+				if (isSkyDive_) {
+					fieldFadeColor_ = BLACK; // 色を黒色に設定
+				} else {
+					fieldFadeColor_ = WHITE; // 白色に設定
 				}
 			}
-			// フェードの時間をスカイドームの進むスピードに合わせる
-			if (fadeTime_ > 0.3f) {
-				fadeTime_ = kFieldChangeFadeTime - skyDome_->GetVelocityZ() / 10.0f;
+		} else if (fieldStatus_ == FieldStatus::kMain) {
+			// スカイドームが-1280より上に行ったら
+			if (skyDome_->GetWorldTransform().translation_.z < -1280.0f) {
+				fieldStatus_ = FieldStatus::kFadeOut;
 			}
-			// デバックカメラ
-			DebugCameraMove();
-			// レールカメラ
-			railCamera_->Update();
-
-			// 天球
-			skyDome_->Update(!fieldChangeFade_->IsFinished());
-			// 障害物
-			for (auto* enemy : enemis_) {
-				enemy->Update();
-			}
-			// スコアの計算
-			score_ += skyDome_->GetVelocityZ() / 100.0f * kScoreSource;
-
-			// ワープ
-			warp_->Update(player_->IsWarpSpawn());
-			// フェードを入れた処理
-			if (fieldStatus_ == FieldStatus::kFadeIn) {
-				fieldChangeFade_->Update(fieldFadeColor_); // 更新
-				if (fieldChangeFade_->IsFinished()) {
-					fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
-					fieldChangeFade_->FadeStart(Fade::Status::FadeOut, fadeTime_); // スタートできるように設定
-					// スカイダイブかどうか
-					if (isSkyDive_) {
-						fieldFadeColor_ = BLACK; // 色を黒色に設定
-					} else {
-						fieldFadeColor_ = WHITE; // 白色に設定
-					}
-				}
-			} else if (fieldStatus_ == FieldStatus::kMain) {
-				// スカイドームが-1280より上に行ったら
-				if (skyDome_->GetWorldTransform().translation_.z < -1280.0f) {
-					fieldStatus_ = FieldStatus::kFadeOut;
-				}
-				// 衝突判定
-				CheackOnCollision();
-				// コマンド
-				UpdateCommand();
-			} else {
-				fieldChangeFade_->Update(fieldFadeColor_); // 更新
-				if (fieldChangeFade_->IsFinished()) {
-					fieldStatus_ = FieldStatus::kFadeIn;                          // フェードアウトが終了したら
-					fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_); // スタートできるように設定
-					skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
-					player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
-					player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
-					warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
-					isSetEnemyPos = false;                                        // 敵の位置を再設定
-					enemyParent_->SetPosition({});                                // 敵の親の座標を再設定
-					// 現在のスカイドームの状態
-					if (isSkyDive_) {
-						isSkyDive_ = false; // falseを設定
-					} else {
-						isSkyDive_ = true; // trueに設定
-					}
-				}
-			}
-			playerHp_->Update();
+			// 衝突判定
+			CheackOnCollision();
+			// コマンド
+			UpdateCommand();
 		} else {
-
-			if (player_->IsParticleShot()) {
-
-				if (score_ >= highScore_) {
-					highScore_ = (int)score_;
+			fieldChangeFade_->Update(fieldFadeColor_); // 更新
+			if (fieldChangeFade_->IsFinished()) {
+				fieldStatus_ = FieldStatus::kFadeIn;                          // フェードアウトが終了したら
+				fieldChangeFade_->FadeStart(Fade::Status::FadeIn, fadeTime_); // スタートできるように設定
+				skyDome_->SetTranslation({0.0f, 0.0f, 1252.0f});              // スカイドームの位置をリセット
+				player_->SetPosition({0.0f, 0.0f, 50.0f});                    // プレイヤーの位置をリセット
+				player_->SetIsShotFirstTime(false);                           // 耳の飛ばしたかのフラグをリセット
+				warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
+				isSetEnemyPos = false;                                        // 敵の位置を再設定
+				enemyParent_->SetPosition({});                                // 敵の親の座標を再設定
+				// 現在のスカイドームの状態
+				if (isSkyDive_) {
+					isSkyDive_ = false; // falseを設定
+				} else {
+					isSkyDive_ = true; // trueに設定
 				}
+			}
+		}
+		playerHp_->Update();
+	} else {
 
-				player_->SceneTransition();
+		if (player_->IsParticleShot()) {
 
-				if (player_->IsSceneTransition()) {
-					sceneFade_->FadeStart(Fade::Status::FadeOut, scenefadeTimer_);
-					gamePhase_ = GamePhase::kEnd;
-				}
+			if (score_ >= highScore_) {
+				highScore_ = (int)score_;
+			}
+
+			player_->SceneTransition();
+
+			if (player_->IsSceneTransition()) {
+				sceneFade_->FadeStart(Fade::Status::FadeOut, scenefadeTimer_);
+				gamePhase_ = GamePhase::kEnd;
 			}
 		}
 	}
@@ -392,11 +392,12 @@ void GameScene::SetPartisPositionAndAngle() {
 
 void GameScene::ChangePhase() {
 
-	static Vector3 fontPosition[3] = {
+	static Vector3 fontPosition[2] = {
 	    {18.f,  90.f, 0.f},
-        {367.f, 37.f, 0.f},
         {200.f, 98.f, 0.f}
     };
+
+	Vector3 textFontPosition = {worldTransform_.translation_.x, 37.f, 0.f};
 
 	switch (gamePhase_) {
 	case GamePhase::kStart:
@@ -411,14 +412,20 @@ void GameScene::ChangePhase() {
 
 #pragma region ビットマップフォント
 
+		//スコア
 		bitmapFont_[0]->Update(50);
-		bitmapFont_[1]->Update(25);
 		bitmapFont_[2]->TextUpdate();
-		bitmapFont_[3]->TextUpdate();
+
+		//ハイスコア
+		bitmapFont_[1]->Update(25);
+		bitmapFont_[3]->HighTextUpdate();
+
 
 		bitmapFont_[1]->SetPosition(fontPosition[0]);
-		bitmapFont_[2]->SetTextPosition(fontPosition[1]);
-		bitmapFont_[3]->SetTextPosition(fontPosition[2]);
+		bitmapFont_[2]->SetTextPosition(textFontPosition);
+		bitmapFont_[3]->SetTextPosition(fontPosition[1]);
+
+		EaseTextMove();
 
 #pragma endregion
 
@@ -438,6 +445,9 @@ void GameScene::ChangePhase() {
 		break;
 	case GamePhase::kEnd:
 
+		bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
+		bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
+
 		sceneFade_->Update();
 		if (sceneFade_->IsFinished()) {
 			GameScene::isFinished_ = true;
@@ -445,5 +455,31 @@ void GameScene::ChangePhase() {
 
 		break;
 	}
+	worldTransform_.UpdateMatrix();
+}
 
+void GameScene::EaseTextMove() {
+
+	// フレーム数を管理する変数（静的にして状態を保持）
+	static float frame = 0;
+
+	// イージングの終了フレーム数
+	static float endFrame = 25;
+
+	if (frame != endFrame) {
+		// フレーム数が終了フレームに達していない場合、フレーム数を増やす
+		++frame;
+	}
+
+	// イージングの値を計算する（フレーム数を正規化して使用）
+	float easing = Easing::InSine(frame / endFrame);
+
+	// イージングの開始位置を設定（初回のみ）
+	static float begin = worldTransform_.translation_.x;
+
+	// イージングの終了位置
+	static float end = 367.f;
+
+	// 開始位置と終了位置の間をイージングによって補間する
+	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
 }
