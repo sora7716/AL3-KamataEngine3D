@@ -236,6 +236,7 @@ void TitleScene::ChangePhaseUpdate() {
 		player_->Update();
 		// セレクト画面
 		SetSelectUpdate();
+		PlayerSE();
 		break;
 	case Phase::kAnimation:
 		// プレイヤーの更新
