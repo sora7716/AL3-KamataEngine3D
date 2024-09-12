@@ -58,7 +58,7 @@ void ResultScene::Update() {
 			phase_ = ResultState::kMain;
 		}
 
-		if (input_->TriggerKey(DIK_ESCAPE)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
 		}
@@ -75,7 +75,7 @@ void ResultScene::Update() {
 		
 		score_->SetScore(static_cast<int>(gameScore_));
 
-		if (input_->TriggerKey(DIK_ESCAPE)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
 		}
