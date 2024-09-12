@@ -97,7 +97,7 @@ private: // メンバ変数
 	/// <summary>
 	/// セレクト画面への遷移
 	/// </summary>
-	void SetSelectUpdate();
+	void GameStart();
 
 public: // メンバ関数
 	void PressButtonSE();
@@ -106,6 +106,11 @@ public: // メンバ関数
 	/// スペースを押せのフォントの動き
 	/// </summary>
 	void PressSpaceMove();
+
+	/// <summary>
+	/// セレクトボタンの更新処理をまとめた
+	/// </summary>
+	void SelectButtonUpdate();
 
 public:                                      // メンバ関数
 	static inline const float kFadeTime = 3; // フェードをしてほしい時間

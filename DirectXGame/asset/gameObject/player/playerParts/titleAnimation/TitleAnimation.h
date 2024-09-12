@@ -45,6 +45,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	bool IsMoveGameScene() { return isMoveGameScene_; };
 
+	/// <summary>
+	/// ゲームシーンに変更フラグ
+	/// </summary>
+	/// <returns></returns>
+	bool IsChangeGameScene() { return isChangeGameScene_; }
+
 private: // メンバ関数
 	/// <summary>
 	/// 腕を回転させる
@@ -94,4 +100,6 @@ private: // メンバ変数
 	bool isMoveGameScene_ = false;//ゲームシーンに遷移
 
 	bool isCameraMove_ = true;//カメラの動くアニメーション
+	bool isPlayerMove_ = false;//プレイヤーが動く
+	bool isChangeGameScene_ = false;//ゲームシーンに変更
 };

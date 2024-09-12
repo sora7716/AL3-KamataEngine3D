@@ -16,7 +16,7 @@ void TitleFont::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;       // ビュープロジェクションを受け取る
 	worldTransform_.Initialize();           // ワールドトランスフォームの初期化
 	worldTransform_.translation_.z = 15.0f; // z座標を宣言
-	worldTransform_.translation_.y = 8.0f;  // y座標を宣言
+	worldTransform_.translation_.y = 17.0f;  // y座標を宣言
 	frame_ = 0.0f;                          // フレームの初期化
 }
 

@@ -30,7 +30,7 @@ void TitleAnimation::Update(bool isHome) {
 	}
 	if (isAnimationEnd_) { // アニメーションが終わったら
 		if (!isHome) {
-			animationStartTimer_ = 60;
+			animationStartTimer_ = 180;
 		} else {
 			animationStartTimer_ = kAnimationInterval; // 時間を元に戻す
 		}
@@ -52,12 +52,22 @@ void TitleAnimation::Update(bool isHome) {
 	}
 	if (isGameStartAnimation_) {
 		FallDown();
+		player_->SetScale({1.0f, 1.0f, 1.0f});
+		// プレイヤーのスケールを調整
+		// 位置
+		player_->SetPartsPosition(IPlayerParts::left_ear, {-1.5f, 0.0f, 0.0f}); // 左耳
+		player_->SetPartsPosition(IPlayerParts::right_ear, {1.5f, 0.0f, 0.0f}); // 右耳
+		                                                                        // 角度
+		player_->SetPartsAngle(IPlayerParts::left_ear, {0.0f, 0.0f, 0.0f});     // 左耳
+		player_->SetPartsAngle(IPlayerParts::right_ear, {0.0f, 0.0f, 0.0f});    // 右耳
 	}
 #ifdef _DEBUG
 	ImGui::Begin("animation");
 	ImGui::Text("animation:%d", animationStartTimer_);
 	ImGui::Text("animationNumber:%d", animationNumber_);
 	ImGui::Checkbox("isGameStartAnimation", &isGameStartAnimation_);
+	ImGui::Checkbox("isCameraMove", &isCameraMove_);
+	ImGui::Checkbox("isPlayerMove", &isPlayerMove_);
 	ImGui::End();
 #endif // _DEBUG
 }
@@ -68,7 +78,7 @@ void (TitleAnimation::*TitleAnimation::animationTable[])() = {
     &ArmDrop,
 };
 
-#pragma region アニメーション
+#pragma region 待機アニメーション
 // 腕を回転させる
 void TitleAnimation::ArmRotate() {
 
@@ -267,49 +277,128 @@ void TitleAnimation::LookDown(bool& isLookDown, bool& isUndoLeft, bool& isUndoRi
 	player_->SetPartsAngle(IPlayerParts::head, {result, player_->GetPartsAngle(IPlayerParts::head).y, 0.0f}); // 頭の角度を設定
 }
 
+#pragma endregion
+
 void TitleAnimation::FallDown() {
-	/*static Vector3 beginPos = player_->GetWorldTransform().translation_;
-	Vector3 middlePos = {0.0f, .0f, 30.0f};
-	Vector3 endPos = {0.0f, -100.0f, 50.0f};
-	static Vector3 resultPos = {};
-	float endFrame = 120.0f;
-	static Vector3 beginAngle = player_->GetWorldTransform().rotation_;
-	static Vector3 resultAngle = {};
-	Vector3 endAngle = {0.0f, std::numbers::pi_v<float> / 2.0f, std::numbers::pi_v<float>};
-	if (animationFrame_++ > endFrame) {
-	    if (isGameStartAnimation_) {
-	        animationFrame_ = 0.0f;
-	        isGameStartAnimation_ = false;
-	    }
-	}
-	if (isGameStartAnimation_) {
-	    resultPos = Math::Bezier(beginPos, middlePos, endPos, animationFrame_ / endFrame);
-	    resultAngle = Math::Lerp(beginAngle, endAngle, animationFrame_ / endFrame);
-	}
-	player_->SetPosition(resultPos);
-	player_->SetRotation(resultAngle);*/
-	float endFrame = 120.0f;
+	// エンドフレーム
+	float endFrame = 300.0f;
+	// カメラ
 	static Vector3 beginCameraPos = camera_->GetWorldTransform().translation_;
 	static Vector3 beginCameraAngle = camera_->GetWorldTransform().rotation_;
-	Vector3 middleCameraPos = {18.0f, 1.8f, 16.0f};
-	Vector3 endCameraPos = {0.5f, 3.2f, 32.0};
-	Vector3 endCameraAngle = {0.13f, -std::numbers::pi_v<float>, 0.0f};
+	Vector3 middleCameraPos = {18.0f, 1.8f, 30.0f};
+	Vector3 endCameraPos = {0.5f, 3.2f, 50.0};
+	Vector3 endCameraAngle = {0.0f, -std::numbers::pi_v<float>, 0.0f};
 	static Vector3 resultCameraPos = {};
 	static Vector3 resultCameraAngle = {};
-	/*static Vector3 beginPlayerPos = */
+
+	// プレイヤー
+	static Vector3 beginPlayerPos = player_->GetWorldTransform().translation_;
+	Vector3 middlePlayerPos = {5.0f, 4.0f, -20.0f};
+	Vector3 endPlayerPos = {0.0f, -50.42f, -50.0f};
+	static Vector3 beginPlayerAngle = player_->GetWorldTransform().rotation_;
+	Vector3 middlePlayerAngle = {-1.6f, 0.03f, 1.56f};
+	Vector3 endPlayerAngle = {-1.53f, -0.471f, 1.57f};
+	static Vector3 resultPlayerAngle = player_->GetWorldTransform().rotation_;
+	static Vector3 resultPlayerPos = player_->GetWorldTransform().translation_;
+	// プレイヤーパーツ
+	//  位置
+	static Vector3 partsBeginPos[6] = {
+	    {0.0f, 1.0f,   0.0f }, //  頭
+	    {0.0f, -2.25f, 0.0f }, //  体
+	    {0.0f, -0.98f, 0.0f }, //  腕
+	    {0.0f, 0.0f,   2.0f }, //  左腕
+	    {0.0f, 0.0f,   -2.0f}, //  右腕
+	    {0.0f, 2.0f,   0.0f }, //  耳
+	};
+	static Vector3 partsEndPos[6] = {
+	    {-2.59f, 0.54f,  0.0f }, //  頭
+	    {0.0f,   -1.43f, 0.0f }, //  体
+	    {-0.5f,  0.13f,  0.0f }, //  腕
+	    {0.0f,   0.0f,   2.0f }, //  左腕
+	    {0.0f,   0.0f,   -2.0f}, //  右腕
+	    {-2.65f, 1.86f,  0.0f }  //  耳
+	};
+	static Vector3 partsResultPos[6] = {
+	    {0.0f, 1.0f,   0.0f }, //  頭
+	    {0.0f, -2.25f, 0.0f }, //  体
+	    {0.0f, -0.98f, 0.0f }, //  腕
+	    {0.0f, 0.0f,   2.0f }, //  左腕
+	    {0.0f, 0.0f,   -2.0f}, //  右腕
+	    {0.0f, 2.0f,   0.0f }, //  耳
+	};
+	// 角度
+	static Vector3 partsBeginAngle[6] = {
+	    {0.0f,  std::numbers::pi_v<float> / 2.0f, 0.0f}, //  頭
+	    {0.0f,  0.0f,	                         0.0f}, //  体
+	    {0.0f,  0.0f,	                         0.0f}, //  腕
+	    {0.3f,  5.6f,	                         2.3f}, //  左腕
+	    {-0.3f, -5.6f,	                        2.3f}, //  右腕
+	    {1.0f,  1.5f,	                         0.0f}, //  耳
+	};
+	static Vector3 partsEndAngle[6] = {
+	    {-0.49f, std::numbers::pi_v<float> / 2.0f, 0.0f }, //  頭
+	    {0.0f,   0.0f,	                         1.13f}, //  体
+	    {0.0f,   0.0f,	                         1.12f}, //  腕
+	    {-1.41f, 5.6f,	                         1.53f}, //  左腕
+	    {1.41f,  0.0f,	                         1.44f}, //  右腕
+	    {1.0f,   1.5f,	                         0.0f }, //  耳
+	};
+	static Vector3 partsResultAngle[6] = {
+	    {0.0f,  std::numbers::pi_v<float> / 2.0f, 0.0f}, //  頭
+	    {0.0f,  0.0f,	                         0.0f}, //  体
+	    {0.0f,  0.0f,	                         0.0f}, //  腕
+	    {0.3f,  5.6f,	                         2.3f}, //  左腕
+	    {-0.3f, -5.6f,	                        2.3f}, //  右腕
+	    {1.0f,  1.5f,	                         0.0f}, //  耳
+	};
 	if (animationFrame_++ > endFrame) {
 		isMoveGameScene_ = true;
 		if (isCameraMove_) {
 			animationFrame_ = 0.0f;
 			isCameraMove_ = false;
+			isPlayerMove_ = true;
+		} else if (isPlayerMove_) {
+			animationFrame_ = 0.0f;
+			isPlayerMove_ = false;
+			isChangeGameScene_ = true;
 		}
 	}
-	if (isCameraMove_) {
+	if (isCameraMove_) { // カメラの移動
+		// プレイヤーの初期化
+		resultPlayerAngle = player_->GetWorldTransform().rotation_;
+		resultPlayerPos = player_->GetWorldTransform().translation_;
+		// 位置
+		partsResultAngle[0] = {0.0f, std::numbers::pi_v<float> / 2.0f, 0.0f}; //  頭
+		partsResultAngle[1] = {0.0f, 0.0f, 0.0f};                             //  体
+		partsResultAngle[2] = {0.0f, 0.0f, 0.0f};                             //  腕
+		partsResultAngle[3] = {0.3f, 5.6f, 2.3f};                             // 左腕
+		partsResultAngle[4] = {-0.3f, -5.6f, 2.3f};                           // 右腕
+		partsResultAngle[5] = {1.0f, 1.5f, 0.0f};                             // 耳
+		// 角度
+		partsResultPos[0] = {0.0f, 1.0f, 0.0f};   //  頭
+		partsResultPos[1] = {0.0f, -2.25f, 0.0f}; //  体
+		partsResultPos[2] = {0.0f, -0.98f, 0.0f}; //  腕
+		partsResultPos[3] = {0.0f, 0.0f, 2.0f};   // 左腕
+		partsResultPos[4] = {0.0f, 0.0f, -2.0f};  // 右腕
+		partsResultPos[5] = {0.0f, 2.0f, 0.0f};   // 耳
 		resultCameraPos = Math::BezierS(beginCameraPos, middleCameraPos, endCameraPos, animationFrame_ / endFrame);
 		resultCameraAngle = Math::Lerp(beginCameraAngle, endCameraAngle, animationFrame_ / endFrame);
+	} else if (isPlayerMove_) { // プイレイヤーの移動
+		resultPlayerPos = Math::BezierS(beginPlayerPos, middlePlayerPos, endPlayerPos, Easing::InBack(animationFrame_ / endFrame));
+		resultPlayerAngle = Math::BezierS(beginPlayerAngle, middlePlayerAngle, endPlayerAngle, Easing::InSine(animationFrame_ / endFrame));
+		for (int i = 0; i < 6; i++) {
+			partsResultPos[i] = Math::Lerp(partsBeginPos[i], partsEndPos[i], Easing::OutCirc(animationFrame_ / endFrame));
+			partsResultAngle[i] = Math::Lerp(partsBeginAngle[i], partsEndAngle[i], Easing::OutCirc(animationFrame_ / endFrame));
+		}
 	}
+
+	// 計算結果をセット
 	camera_->SetTranslation(resultCameraPos);
 	camera_->SetRotation(resultCameraAngle);
+	player_->SetPosition(resultPlayerPos);
+	player_->SetRotation(resultPlayerAngle);
+	for (int i = 0; i < 6; i++) {
+		player_->SetPartsPosition((IPlayerParts::Parts)i, partsResultPos[i]);
+		player_->SetPartsAngle((IPlayerParts::Parts)i, partsResultAngle[i]);
+	}
 }
-
-#pragma endregion

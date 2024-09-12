@@ -96,13 +96,15 @@ void GameScene::Initialize() {
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav");// 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);// 再生
+
+	worldTransform_.Initialize();
 }
 
 // 更新
 void GameScene::Update() {
 	
-	// フィールドの更新
-	UpdateField();
+	// シーンの更新
+	ChangePhase();
 }
 
 // 描画
@@ -446,7 +448,7 @@ void GameScene::ChangePhase() {
 
 #pragma endregion
 
-		sceneFade_->Update();
+		sceneFade_->Update(WHITE);
 		if (sceneFade_->IsFinished()) {
 			gamePhase_ = GamePhase::kMain;
 		}
@@ -458,7 +460,7 @@ void GameScene::ChangePhase() {
 		UpdateField();
 
 		bitmapFont_[1]->SetPosition(fontPosition[0]);
-
+		sceneFade_->FadeStart(Fade::Status::FadeOut, scenefadeTimer_);
 		break;
 	case GamePhase::kEnd:
 

@@ -56,7 +56,7 @@ void Enemy::Update() {
 void Enemy::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 // 衝突したとき
-void Enemy::OnCollision() { worldTransform_.translation_.x += 5.0f; }
+void Enemy::OnCollision() {}
 
 // 止まっているとき
 void Enemy::StatusStay() { worldTransform_.rotation_ += Vector3(kRot, kRot, kRot); }

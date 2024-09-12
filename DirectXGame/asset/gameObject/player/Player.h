@@ -45,7 +45,7 @@ public: // メンバ関数
 	/// 更新
 	/// </summary>
 	/// <param name="firePos">耳を飛ばす場所</param>
-	void Update(float firePos = 0.0f);
+	void Update(float firePos = 0.0f,bool isTitle=false);
 
 	/// <summary>
 	/// 描画

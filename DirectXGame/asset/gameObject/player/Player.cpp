@@ -39,11 +39,12 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 }
 
 // 更新
-void Player::Update(float firePos) {
+void Player::Update(float firePos, bool isTitle) {
 
 	if (!isParticleShot_) {
-
-		MoveLimit();
+		if (!isTitle) {
+			MoveLimit();
+		}
 
 #ifdef _DEBUG
 		ImGui::Begin("player");
@@ -52,7 +53,7 @@ void Player::Update(float firePos) {
 		if (ImGui::Button("start")) {
 			hpCount_ = 0;
 		}
-		ImGui::DragInt("hp", &hpCount_,0.01f);
+		ImGui::DragInt("hp", &hpCount_, 0.01f);
 		ImGui::End();
 #endif // _DEBUG
 
@@ -65,7 +66,7 @@ void Player::Update(float firePos) {
 			EarShot(firePos);
 		}
 
-	    if (hpCount_ < 3) {
+		if (hpCount_ < 3) {
 			(this->*parts_flyTable[hpCount_])();
 		}
 
@@ -295,20 +296,20 @@ void Player::EarShot(float firePos) {
 	static float frame = 0;                                     // 現在のフレーム数
 	float endFrame = 60.0f / (skyDome_->GetVelocityZ() * 0.2f); // 最終的になってほしいフレーム数
 	leftEarPosition_ = {};                                      // 最初のポジション
-	isWarpSpawn_ = isEarReverse;                                   // 戻ってくるフラグの代入
+	isWarpSpawn_ = isEarReverse;                                // 戻ってくるフラグの代入
 	if (firePos < -800 && !isShotFirstTime_) {
-		beginPos = leftEarPosition_;           // 初めの位置を設定
-		endPos = Vector3(0.0f, 0.0f, -100.0f); // 終わりの位置の設定
-		isEarShot_ = true;                     // 耳を飛ばすフラグをtrue
-		isShotFirstTime_ = true;               // 1回目かどうかのフラグをtrue
-		frame = 0.0f;                          // フレームを0に設定
-		parts_[(int)IPlayerParts::ear]->SetIsAnimation(false);//耳をアニメーションを止める
+		beginPos = leftEarPosition_;                           // 初めの位置を設定
+		endPos = Vector3(0.0f, 0.0f, -100.0f);                 // 終わりの位置の設定
+		isEarShot_ = true;                                     // 耳を飛ばすフラグをtrue
+		isShotFirstTime_ = true;                               // 1回目かどうかのフラグをtrue
+		frame = 0.0f;                                          // フレームを0に設定
+		parts_[(int)IPlayerParts::ear]->SetIsAnimation(false); // 耳をアニメーションを止める
 	}
 	if (isEarShot_) {
 		if (frame++ > endFrame) {
-			frame = endFrame;   // 現在のフレームを最終的になってほしいフレームで固定
-			isEarReverse = true;   // 戻ってくるフラグをtrue
-			isEarShot_ = false; // 耳を飛ばすフラグをfalse
+			frame = endFrame;    // 現在のフレームを最終的になってほしいフレームで固定
+			isEarReverse = true; // 戻ってくるフラグをtrue
+			isEarShot_ = false;  // 耳を飛ばすフラグをfalse
 			frame = 0.0f;
 		}
 		leftEarPosition_ = Math::Bezier(beginPos, beginPos + Vector3(-50.0f, 0.0f, -30.0f), endPos, frame / endFrame); // ベジエ曲線で動きをつけている
@@ -326,7 +327,6 @@ void Player::EarShot(float firePos) {
 		}
 	} else {
 		parts_[(int)IPlayerParts::ear]->SetIsAnimation(true); // 耳をアニメーションを止める
-
 	}
 	if (isEarReverse || isEarShot_) {
 		// 位置を設定

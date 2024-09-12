@@ -161,11 +161,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	primitiveDrawer->Initialize();
 #pragma endregion
 
-	//// シーンをタイトルシーンで初期化
+	// シーンをタイトルシーンで初期化
 	scene = Scene::kTitle;
 
 #ifdef _DEBUG
-	// scene = Scene::kGame;
+	 //scene = Scene::kGame;
 #endif // ゲームシーンからスタート
 
 	// メインループ
