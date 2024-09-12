@@ -125,6 +125,9 @@ private: // メンバ関数
 	/// </summary>
 	void SetPartisPositionAndAngle();
 
+	//フェーズチェンジ
+	void ChangePhase();
+
 public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
@@ -168,6 +171,7 @@ private: // メンバ変数
 	Vector4 fieldFadeColor_ = WHITE;
 	//シーンのフェード
 	unique_ptr<Fade> sceneFade_ = nullptr;
+	float scenefadeTimer_ = 3;
 	// フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	float fadeTime_ = kFieldChangeFadeTime; // フェードする時間
