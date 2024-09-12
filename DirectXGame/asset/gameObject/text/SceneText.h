@@ -18,6 +18,11 @@ public:
 
 	void SetPosition(const Vector3& position);
 
+
+	void ResultEaseInMove();
+	void ResultEaseOutMove();
+
+
 private:
 
 	Model* model_ = nullptr;
@@ -25,5 +30,8 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 
 	WorldTransform worldTransform_;
+
+	//リザルトシーン用のフレーム
+	float resultFrame[2] = {0, 0};
 
 };

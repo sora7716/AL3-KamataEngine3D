@@ -138,6 +138,7 @@ private:
 	// セレクト画面で使用するボタン
 	unique_ptr<ISelectButton> selectButtons_[ISelectButton::kButtonNum] = {nullptr};
 	unique_ptr<SceneText> sceneText_;
+	WorldTransform worldTransform_;
 	// BGM
 	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
 	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル

@@ -90,6 +90,9 @@ void TitleScene::Initialize() {
 	sceneText_ = make_unique<SceneText>();
 	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_);
 
+	worldTransform_.Initialize();
+	worldTransform_.translation_.y = -3.3f;
+
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
@@ -116,7 +119,9 @@ void TitleScene::Update() {
 	ChangePhaseUpdate();
 
 	sceneText_->Update();
-	sceneText_->SetPosition(Vector3(-0.43f,-3.3f,11.f));
+	sceneText_->SetPosition(Vector3(-0.43f,worldTransform_.translation_.y,11.f));
+
+	
 }
 
 // 描画
@@ -157,14 +162,15 @@ void TitleScene::Draw() {
 	titleFont_->Draw();
 
 	// セレクトボタンボタン
-	if (phase_ == Phase::kMain||phase_==Phase::kFadeIn) {
+	if (phase_ == Phase::kMain || phase_ == Phase::kFadeIn) {
 		for (auto& selectButton : selectButtons_) {
 			selectButton->Draw();
 		}
 	}
 
-	sceneText_->Draw();
-
+	if (phase_ == Phase::kMain || phase_ == Phase::kFadeIn) {
+		sceneText_->Draw();
+	}
 	// フェード
 	fade_->Draw(commandList);
 
@@ -212,7 +218,7 @@ void TitleScene::ChangePhaseUpdate() {
 	DebugCameraMove();
 	// スカイドーム
 	skyDome_->Update(false, true);
-
+	
 	
 
 	switch (phase_) {
@@ -227,7 +233,6 @@ void TitleScene::ChangePhaseUpdate() {
 		}
 		// セレクト画面
 		SetSelectUpdate();
-
 		PlayerSE();
 
 		break;
@@ -240,11 +245,13 @@ void TitleScene::ChangePhaseUpdate() {
 		PlayerSE();
 		break;
 	case Phase::kAnimation:
+
 		// プレイヤーの更新
 		player_->Update();
 		fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);
 		break;
 	case Phase::kFadeOut:
+
 		// フェードアウト
 		fade_->Update();
 		if (fade_->IsFinished()) {
@@ -321,6 +328,7 @@ void TitleScene::SetSelectUpdate() {
 	if (titleFont_->IsGameStartAnimation()) {
 		phase_ = Phase::kAnimation;
 		titleAnimation_->SetIsGameStartAnimation(titleFont_->IsGameStartAnimation());
+	
 	}
 	if (!titleAnimation_->IsMoveGameScene()) {
 		// セレクトシーンに遷移

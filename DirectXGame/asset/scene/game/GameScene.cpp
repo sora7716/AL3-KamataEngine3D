@@ -96,13 +96,16 @@ void GameScene::Initialize() {
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav");// 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);// 再生
+	audio_->SetVolume(soundDataHandle_, 0.25f);
+
+	// SE
+	seDateHandle_[0] = audio_->LoadWave("sound/SE/hit1.mp3");
 }
 
 // 更新
-void GameScene::Update() {
-	
-	// フィールドの更新
-	UpdateField();
+void GameScene::Update() { 
+	//フェーズのチェンジ
+	GameScene::ChangePhase(); 
 }
 
 // 描画
@@ -255,6 +258,8 @@ void GameScene::CheackOnCollision() {
 				// プレイヤーの残機を一個減らす
 				playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
 				player_->OnCollision(playerHp_->GetHpCount());
+				sePlayHandle_[0] = audio_->PlayWave(seDateHandle_[0],false);
+				
 			}
 		}
 	}

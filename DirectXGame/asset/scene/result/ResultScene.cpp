@@ -82,6 +82,7 @@ void ResultScene::Update() {
 		score_->SetScale({142, 224});
 		
 		ResultScene::EaseMove();
+		sceneText_->ResultEaseInMove();
 		
 		score_->SetScore(static_cast<int>(gameScore_));
 
@@ -99,6 +100,7 @@ void ResultScene::Update() {
 		score_->SetScale({142, 224});
 
 		ResultScene::EaseMoveOut();
+		sceneText_->ResultEaseOutMove();
 
 		score_->SetScore(static_cast<int>(gameScore_));
 
