@@ -28,7 +28,7 @@ public: // 構造体や列挙型
 		kButtonBack,
 		kSelectButton,
 		kResultSkyDome,
-		kResultText,
+		kSceneText,
 		kModelNum,
 	};
 	using ObjectType = Type;                       // エイリアス
@@ -50,6 +50,8 @@ public: // 構造体や列挙型
 	ObjectType typeResultSkyDome = Type::kResultSkyDome;                // リザルト天球
 	ObjectType typeResultText = Type::kResultText;// リザルト天球
     static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
+	ObjectType typeSceneText = Type::kSceneText;                      // リザルトテキスト
+    static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); //モデルの数
 
 public: // メンバ関数
 	/// <summary>

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <numbers>
 #define pi_f std::numbers::pi_v<float>;
+#include "asset/gameObject/text/SceneText.h"
 
 #ifdef _DEBUG
 #include "imgui.h"
@@ -85,9 +86,18 @@ void TitleScene::Initialize() {
 	selectButtons_[(int)ISelectButton::typeSelectButton]->Initialize(create_->GetModel(create_->typeSelectButton), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeSelectButton]->SetParent(&railCamera_->GetWorldTransform());
 
+	//シーンテキスト
+	sceneText_ = make_unique<SceneText>();
+	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_);
+
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
+	audio_->SetVolume(soundDataHandle_, 0.25f);
+
+	// SE(SPACEキー押したとき)
+	seDateHandle_[0] = audio_->LoadWave("sound/SE/button1.mp3");
+	seDateHandle_[1] = audio_->LoadWave("sound/SE/select1.mp3");
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -104,6 +114,9 @@ void TitleScene::Initialize() {
 void TitleScene::Update() {
 	// 更新処理のフェーズ管理
 	ChangePhaseUpdate();
+
+	sceneText_->Update();
+	sceneText_->SetPosition(Vector3(-0.43f,-3.3f,11.f));
 }
 
 // 描画
@@ -149,6 +162,8 @@ void TitleScene::Draw() {
 			selectButton->Draw();
 		}
 	}
+
+	sceneText_->Draw();
 
 	// フェード
 	fade_->Draw(commandList);
@@ -198,6 +213,8 @@ void TitleScene::ChangePhaseUpdate() {
 	// スカイドーム
 	skyDome_->Update(false, true);
 
+	
+
 	switch (phase_) {
 	case Phase::kFadeIn:
 		// プレイヤーの更新
@@ -210,6 +227,9 @@ void TitleScene::ChangePhaseUpdate() {
 		}
 		// セレクト画面
 		SetSelectUpdate();
+
+		PlayerSE();
+
 		break;
 	case Phase::kMain:
 		// プレイヤーの更新
@@ -277,6 +297,21 @@ void TitleScene::SetPartisPositionAndAngle() {
 
 	// アニメーションを止める
 	player_->SetPartsIsAnimation(IPlayerParts::arm, false); // 腕
+}
+
+void TitleScene::PlayerSE() {
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		sePlayHandle_[0] = audio_->PlayWave(seDateHandle_[0], false);
+	}
+
+	if (input_->TriggerKey(DIK_W)) {
+		sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
+	}
+
+	if (input_->TriggerKey(DIK_S)) {
+		sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
+	}
 }
 
 void TitleScene::SetSelectUpdate() {

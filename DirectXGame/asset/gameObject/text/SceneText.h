@@ -14,6 +14,10 @@ public:
 
 	void Draw();
 
+	const WorldTransform& GetPosition() const { return worldTransform_; }
+
+	void SetPosition(const Vector3& position);
+
 private:
 
 	Model* model_ = nullptr;

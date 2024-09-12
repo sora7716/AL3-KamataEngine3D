@@ -48,7 +48,7 @@ void ResultScene::Initialize() {
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
 
 	sceneText_ = make_unique<SceneText>();
-	sceneText_->Initialize(create_->GetModel(create_->typeResultText), &viewProjection_);
+	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_);
 
 
 }

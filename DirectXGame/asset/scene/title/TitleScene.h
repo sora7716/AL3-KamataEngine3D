@@ -21,14 +21,16 @@
 #include <memory>
 using namespace std;
 
+class SceneText;
+
 /// <summary>
 /// タイトルシーン
 /// </summary>
 class TitleScene {
 public: // 構造体など
 	enum class Phase {
-		kFadeIn,  // フェードイン
-		kMain,    // メイン部
+		kFadeIn, // フェードイン
+		kMain,   // メイン部
 		kAnimation,
 		kFadeOut, // フェードアウト
 	};
@@ -98,6 +100,9 @@ private: // メンバ変数
 	void SetSelectUpdate();
 
 public: // メンバ関数
+	void PlayerSE();
+
+public:                                      // メンバ関数
 	static inline const float kFadeTime = 3; // フェードをしてほしい時間
 
 private:
@@ -132,8 +137,12 @@ private:
 	unique_ptr<TitleFont> titleFont_ = nullptr;
 	// セレクト画面で使用するボタン
 	unique_ptr<ISelectButton> selectButtons_[ISelectButton::kButtonNum] = {nullptr};
+	unique_ptr<SceneText> sceneText_;
 	// BGM
 	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
 	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
+
+	uint32_t seDateHandle_[2] = {0}; // SEを読み込む為のハンドル
+	uint32_t sePlayHandle_[2] = {0}; // SEを再生する為のハンドル
 }
 ;
