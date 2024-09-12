@@ -61,6 +61,9 @@ void GameScene::Initialize() {
 	skyDome_->Initialize(create_->GetModel(create_->typeSkyDome), &viewProjection_);
 	player_->SetSkyDome(skyDome_.get());
 
+	sceneFade_ = make_unique<Fade>();
+	sceneFade_->Initialize();
+	sceneFade_->FadeStart(Fade::Status::FadeIn, scenefadeTimer_);
 	// フェード
 	fieldChangeFade_ = make_unique<Fade>();
 	fieldChangeFade_->Initialize();
@@ -106,21 +109,10 @@ void GameScene::Update() {
 		ImGui::Text("%f,%f,%f", position.x, position.y, position.z);
 	}
 
-	static Vector3 fontPosition[3] = {
-	    {18.f,  90.f, 0.f},
-        {367.f, 37.f, 0.f},
-        {200.f, 98.f, 0.f}
-    };
-
-	bitmapFont_[1]->SetPosition(fontPosition[0]);
-	bitmapFont_[2]->SetTextPosition(fontPosition[1]);
-	bitmapFont_[3]->SetTextPosition(fontPosition[2]);
-	for (auto time : enemyPopCommand_->GetPhase()) {
-		ImGui::Text("%d", time);
-	}
-	ImGui::End();
-#endif // _DEBUG
 }
+
+// 更新
+void GameScene::Update() { GameScene::ChangePhase();}
 
 // 描画
 void GameScene::Draw() {
@@ -168,6 +160,7 @@ void GameScene::Draw() {
 	warp_->Draw();
 
 	// フェードインとフェードアウトに使うスプライト(この下に3Dモデルをおかないで)
+	sceneFade_->Draw(commandList);
 	fieldChangeFade_->Draw(commandList);
 
 	railCamera_->Draw();
@@ -279,6 +272,7 @@ void GameScene::CheackOnCollision() {
 
 // フィールドの更新
 void GameScene::UpdateField() {
+
 	// プレイヤー
 	player_->Update(skyDome_->GetTranslation().z);
 	bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
@@ -391,7 +385,8 @@ void GameScene::UpdateField() {
 			player_->SceneTransition();
 
 			if (player_->IsSceneTransition()) {
-				isFinished_ = true;
+				sceneFade_->FadeStart(Fade::Status::FadeOut, scenefadeTimer_);
+				gamePhase_ = GamePhase::kEnd;
 			}
 		}
 	}
@@ -414,4 +409,97 @@ void GameScene::SetPartisPositionAndAngle() {
 	// アニメーションをするかどうか
 	player_->SetPartsIsAnimation(IPlayerParts::left_arm, false);  // 左腕
 	player_->SetPartsIsAnimation(IPlayerParts::right_arm, false); // 右腕
+}
+
+void GameScene::ChangePhase() {
+
+	static Vector3 fontPosition[2] = {
+	    {18.f,  90.f, 0.f},
+        {200.f, 98.f, 0.f}
+    };
+
+	Vector3 textFontPosition = {worldTransform_.translation_.x, 37.f, 0.f};
+
+	
+
+	switch (gamePhase_) {
+	case GamePhase::kStart:
+
+		DebugCameraMove();
+
+		player_->Update(skyDome_->GetTranslation().z);
+		// レールカメラ
+		railCamera_->Update();
+		// 天球
+		skyDome_->Update(!fieldChangeFade_->IsFinished());
+
+#pragma region ビットマップフォント
+
+		bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
+		bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
+
+		//スコア
+		bitmapFont_[0]->Update(50);
+		bitmapFont_[2]->TextUpdate();
+
+		//ハイスコア
+		bitmapFont_[1]->Update(25);
+		bitmapFont_[3]->HighTextUpdate();
+
+
+		bitmapFont_[1]->SetPosition(fontPosition[0]);
+		bitmapFont_[2]->SetTextPosition(textFontPosition);
+		bitmapFont_[3]->SetTextPosition(fontPosition[1]);
+
+		EaseTextMove();
+
+#pragma endregion
+
+		sceneFade_->Update();
+		if (sceneFade_->IsFinished()) {
+			gamePhase_ = GamePhase::kMain;
+		}
+
+		break;
+	case GamePhase::kMain:
+
+		// フィールドの更新
+		UpdateField();
+
+		bitmapFont_[1]->SetPosition(fontPosition[0]);
+
+		break;
+	case GamePhase::kEnd:
+
+		bitmapFont_[0]->SetScore(static_cast<int>(score_));     // スコアの値をセット
+		bitmapFont_[1]->SetScore(static_cast<int>(highScore_)); // スコアの値をセット
+
+		sceneFade_->Update();
+		if (sceneFade_->IsFinished()) {
+			GameScene::isFinished_ = true;
+		}
+
+		break;
+	}
+	worldTransform_.UpdateMatrix();
+}
+
+void GameScene::EaseTextMove() {
+
+	if (frame != endFrame) {
+		// フレーム数が終了フレームに達していない場合、フレーム数を増やす
+		++frame;
+	}
+
+	// イージングの値を計算する（フレーム数を正規化して使用）
+	float easing = Easing::OutSine(frame / endFrame);
+
+	// イージングの開始位置を設定（初回のみ）
+	static float begin = worldTransform_.translation_.x;
+
+	// イージングの終了位置
+	static float end = 367.f;
+
+	// 開始位置と終了位置の間をイージングによって補間する
+	worldTransform_.translation_.x = Math::Lerp(begin, end, easing);
 }

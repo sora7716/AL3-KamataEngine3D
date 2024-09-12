@@ -26,6 +26,8 @@ public:
 
 	void TextUpdate();
 
+	void HighTextUpdate();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -79,4 +81,7 @@ private:
 
 	int scoreUpTimer_ = 0;
 	Vector2 scale_ = {71, 112};
+
+	float frame = 0;
+	float endFrame = 50;
 };

@@ -1,8 +1,9 @@
 #include "ResultScene.h"
 #include "TextureManager.h"
 #include <cassert>
-#include "asset/scene/game/GameScene.h"
 #include "asset/math/easing/Easing.h"
+#include "asset/math/Math.h"
+#include "asset/gameObject/text/SceneText.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -46,12 +47,17 @@ void ResultScene::Initialize() {
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/result3.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
 
+	sceneText_ = make_unique<SceneText>();
+	sceneText_->Initialize(create_->GetModel(create_->typeResultText), &viewProjection_);
+
+
 }
 
 void ResultScene::Update() {
 	Vector3 fontPosition = {worldTransform_.translation_.x, 245, 0};
 
 	skyDome_->Update(false, false, true);
+	sceneText_->Update();
 
 	switch (phase_) {
 	case ResultState::kFadeIn:
@@ -62,7 +68,7 @@ void ResultScene::Update() {
 			phase_ = ResultState::kMain;
 		}
 
-		if (input_->TriggerKey(DIK_ESCAPE)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
 		}
@@ -79,7 +85,7 @@ void ResultScene::Update() {
 		
 		score_->SetScore(static_cast<int>(gameScore_));
 
-		if (input_->TriggerKey(DIK_ESCAPE)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
 		}
@@ -136,6 +142,8 @@ void ResultScene::Draw() {
 
 	skyDome_->Draw();
 
+	sceneText_->Draw();
+
 	// フェード
 	fade_->Draw(commandList);
 	
@@ -162,15 +170,11 @@ void ResultScene::Draw() {
 
 void ResultScene::EaseMove() {
 
-	static float frame = 0;
-
-	static float endFrame = 120;
-
-	if (frame != endFrame) {
-		++frame;
+	if (frame[0] != endFrame[0]) {
+		++frame[0];
 	}
 
-	float easing = Easing::OutBounce(frame / endFrame);
+	float easing = Easing::OutBounce(frame[0] / endFrame[0]);
 
 	static float begin = worldTransform_.translation_.x;
 	static float end = 280;
@@ -181,15 +185,11 @@ void ResultScene::EaseMove() {
 
 void ResultScene::EaseMoveOut() {
 
-	static float frame = 0;
-
-	static float endFrame = 100;
-
-	if (frame != endFrame) {
-		++frame;
+	if (frame[1] != endFrame[1]) {
+		++frame[1];
 	}
 
-	float easing = Easing::InBack(frame / endFrame);
+	float easing = Easing::InBack(frame[1] / endFrame[1]);
 
 	static float begin = worldTransform_.translation_.x;
 	static float end = 1300;

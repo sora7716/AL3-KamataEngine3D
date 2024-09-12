@@ -42,6 +42,8 @@ void Score::Initialize() {
 	for (int i = 0; i < 2; i++) {
 		textSprites[i] = Sprite::Create(textTexture[i], {0, 0});
 	}
+
+	
 }
 
 void Score::Update(int width) {
@@ -62,13 +64,21 @@ void Score::Update(int width) {
 
 void Score::TextUpdate() {
 
-	for (int i = 0; i < 2; i++) {
-		textSprites[i]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
-	}
+	textSprites[0]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
+
+void Score::HighTextUpdate() {
+	
+	textSprites[1]->SetPosition({worldTransform_.translation_.x, worldTransform_.translation_.y});
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+
+}
+
 
 void Score::Draw() {
 	// スコアの桁数を計算する
@@ -124,11 +134,7 @@ void Score::CalculateDigits() {
 //スコアの登場
 void Score::EaseMove() {
 
-	// フレーム数を管理する変数（静的にして状態を保持）
-	static float frame = 0;
-
-	// イージングの終了フレーム数
-	static float endFrame = 50;
+	
 
 	if (frame != endFrame) {
 		// フレーム数が終了フレームに達していない場合、フレーム数を増やす

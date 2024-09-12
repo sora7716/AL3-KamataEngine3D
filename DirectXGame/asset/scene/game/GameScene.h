@@ -129,6 +129,11 @@ private: // メンバ関数
 	/// </summary>
 	void SetPartisPositionAndAngle();
 
+	//フェーズチェンジ
+	void ChangePhase();
+
+	void EaseTextMove();
+
 public://静的メンバ変数
 
 	static inline const float kFieldChangeFadeTime = 1.0f;//フィールをフェードする時間
@@ -142,6 +147,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;                 // ビュープロジェクション
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
+	WorldTransform worldTransform_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
@@ -172,6 +178,7 @@ private: // メンバ変数
 	Vector4 fieldFadeColor_ = WHITE;
 	//シーンのフェード
 	unique_ptr<Fade> sceneFade_ = nullptr;
+	float scenefadeTimer_ = 3;
 	// フェードスプライト(フィールドを変更)
 	unique_ptr<Fade> fieldChangeFade_ = nullptr;
 	float fadeTime_ = kFieldChangeFadeTime; // フェードする時間
@@ -194,4 +201,8 @@ private: // メンバ変数
 	// BGM
 	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
 	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
+	// フレーム数を管理する変数（静的にして状態を保持）
+	float frame = 0;
+	// イージングの終了フレーム数
+	float endFrame = 50;
 };
