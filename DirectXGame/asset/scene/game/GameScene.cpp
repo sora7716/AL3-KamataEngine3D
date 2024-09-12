@@ -25,6 +25,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	viewProjection_.Initialize();
 	srand(static_cast<uint32_t>(time(nullptr))); // 動きをランダムにさせる関数
+	worldTransform_.Initialize();
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -94,18 +95,25 @@ void GameScene::Initialize() {
 	warp_->SetParent(&skyDome_->GetWorldTransform());
 
 	// BGM
-	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav");// 読み込み
-	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);// 再生
-	audio_->SetVolume(soundDataHandle_, 0.25f);
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav"); // 読み込み
+	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
+	audio_->SetVolume(soundDataHandle_, 0.35f);
+	
 
 	// SE
 	seDateHandle_[0] = audio_->LoadWave("sound/SE/hit1.mp3");
+	seDateHandle_[1] = audio_->LoadWave("sound/SE/Explosion1.mp3");
+	seDateHandle_[2] = audio_->LoadWave("sound/SE/warpOpen.mp3");
+	seDateHandle_[3] = audio_->LoadWave("sound/SE/warp2.mp3");
+	
 }
 
 // 更新
 void GameScene::Update() { 
 	//フェーズのチェンジ
 	GameScene::ChangePhase(); 
+
+	
 }
 
 // 描画
@@ -258,7 +266,7 @@ void GameScene::CheackOnCollision() {
 				// プレイヤーの残機を一個減らす
 				playerHp_->SetHpCount(playerHp_->GetHpCount() - 1);
 				player_->OnCollision(playerHp_->GetHpCount());
-				sePlayHandle_[0] = audio_->PlayWave(seDateHandle_[0],false);
+				sePlayHandle_[0] = audio_->PlayWave(seDateHandle_[0], false);
 				
 			}
 		}
@@ -328,8 +336,18 @@ void GameScene::UpdateField() {
 
 		// ワープ
 		warp_->Update(player_->IsWarpSpawn());
+
+		if (player_->IsWarpSpawn() && !isWarpOpenSoundPlayed) {
+			sePlayHandle_[2] = audio_->PlayWave(seDateHandle_[2], false);
+			isWarpOpenSoundPlayed = true;
+		}
+
 		// フェードを入れた処理
 		if (fieldStatus_ == FieldStatus::kFadeIn) {
+			if (!isWarpSoundPlayed) {
+				sePlayHandle_[3] = audio_->PlayWave(seDateHandle_[3], false);
+				isWarpSoundPlayed = true;
+			}
 			fieldChangeFade_->Update(fieldFadeColor_); // 更新
 			if (fieldChangeFade_->IsFinished()) {
 				fieldStatus_ = FieldStatus::kMain;                             // フェードインが終了したら
@@ -373,8 +391,9 @@ void GameScene::UpdateField() {
 	} else {
 
 		if (player_->IsParticleShot()) {
-
+			
 			if (score_ >= highScore_) {
+			
 				highScore_ = (int)score_;
 			}
 
@@ -463,6 +482,11 @@ void GameScene::ChangePhase() {
 		UpdateField();
 
 		bitmapFont_[1]->SetPosition(fontPosition[0]);
+
+		if (player_->IsParticleShot() && !isExplosionSoundPlayed) {
+			sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
+			isExplosionSoundPlayed = true; // 音が重複してなってしまうため、音が再生されたらフラグを立てる
+		}
 
 		break;
 	case GamePhase::kEnd:

@@ -282,6 +282,8 @@ public://静的メンバ変数
 
 private://メンバ変数
 
+	
+
 	///ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
@@ -323,4 +325,5 @@ private://メンバ変数
 	bool isParticleShot_ = false; // パーティクルが発射されてるか
 	bool isSceneTransition = false; //シーンを遷移するか
 	bool isEarReverse = false;  // 戻ってくる用のフラグ
+
 };

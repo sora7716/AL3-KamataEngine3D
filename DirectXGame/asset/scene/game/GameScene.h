@@ -206,6 +206,9 @@ private: // メンバ変数
 	// イージングの終了フレーム数
 	float endFrame = 50;
 
-	uint32_t seDateHandle_[3] = {};
-	uint32_t sePlayHandle_[3] = {};
+	uint32_t seDateHandle_[4] = {0,0,0};
+	uint32_t sePlayHandle_[4] = {0,0,0};
+	bool isExplosionSoundPlayed = false;
+	bool isWarpSoundPlayed = false;
+	bool isWarpOpenSoundPlayed = false;
 };

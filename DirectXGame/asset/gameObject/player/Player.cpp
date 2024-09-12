@@ -20,6 +20,7 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 	/// NULLポインタチェック
 	assert(create);
+	
 	create_ = create;
 	/// メンバ変数に引数のデータを記録する
 	viewProjection_ = viewProjection;
@@ -102,6 +103,8 @@ void Player::Draw() {
 			playerPart->Draw();
 		}
 	}
+
+	
 
 	if (isParticleShot_) {
 		for (auto& playerDeathParticles : particles_) {
