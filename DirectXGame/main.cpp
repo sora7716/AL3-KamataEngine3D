@@ -7,14 +7,9 @@
 #include "WinApp.h"
 #include "asset/scene/game/GameScene.h"
 
-#include "asset/scene/title/TitleScene.h"
 #include "asset/scene/result/ResultScene.h"
-enum class Scene {
-	kUnknow = 0,
-	kTitle,
-	kGame,
-	kResult
-};
+#include "asset/scene/title/TitleScene.h"
+enum class Scene { kUnknow = 0, kTitle, kGame, kResult };
 // 現在のシーン
 Scene scene = Scene::kUnknow;
 GameScene* gameScene = nullptr;
@@ -29,9 +24,10 @@ void ChangeScene() {
 		if (titleScene == nullptr) {
 			titleScene = new TitleScene();
 			titleScene->Initialize();
-		}else if (titleScene->IsFinished()) {
+		} else if (titleScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kGame;
+			titleScene->BGMStop();
 			// 旧シーンの削除
 			delete titleScene;
 			titleScene = nullptr;
@@ -41,13 +37,16 @@ void ChangeScene() {
 			gameScene->SetIsFinished(false);
 			gameScene->SetHighScore(highScore);
 		}
-		
+
 		break;
 	case Scene::kGame:
-
-		if (gameScene->IsFinished()) {
+		if (gameScene == nullptr) {
+			gameScene = new GameScene();
+			gameScene->Initialize();
+		} else if (gameScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kResult;
+			gameScene->BGMStop();
 			gameScore = (int)gameScene->GetScore();
 			highScore = gameScene->GetHighScore();
 			// 旧シーンの削除
@@ -59,27 +58,24 @@ void ChangeScene() {
 			resultScene->SetIsFinished(false);
 			resultScene->SetScore(gameScore);
 		}
-		if (gameScene == nullptr) {
-			gameScene = new GameScene();
-			gameScene->Initialize();
-		}
+
 		break;
 	case Scene::kResult:
 
-		if (resultScene->IsFinished()) {
+		if (resultScene == nullptr) {
+			resultScene = new ResultScene();
+			resultScene->Initialize();
+		} else if (resultScene->IsFinished()) {
 			scene = Scene::kTitle;
+			resultScene->BGMStop();
 			delete resultScene;
 			resultScene = nullptr;
 			// 新シーンの生成と初期化
 			titleScene = new TitleScene();
 			titleScene->Initialize();
 			titleScene->SetIsFinished(false);
-		
 		}
-		if (resultScene == nullptr) {
-			resultScene = new ResultScene();
-			resultScene->Initialize();
-		}
+
 		break;
 	}
 }
@@ -95,7 +91,7 @@ void UpdateScene() {
 		gameScene->Update();
 		break;
 	case Scene::kResult:
-		//リザルトシーンのマイフレーム処理
+		// リザルトシーンのマイフレーム処理
 		resultScene->Update();
 		break;
 	}
@@ -167,16 +163,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//// タイトルシーンの初期化
 	scene = Scene::kTitle;
-	//titleScene = new TitleScene();
+	// titleScene = new TitleScene();
 
 	//// ゲームシーンの初期化
-	//gameScene = new GameScene();
+	// gameScene = new GameScene();
 
 	////
-	//resultScene = new ResultScene();
+	// resultScene = new ResultScene();
 
 #ifdef _DEBUG
-	//scene = Scene::kGame;
+	// scene = Scene::kGame;
 #endif // ゲームシーンからスタート
 
 	// メインループ
@@ -195,7 +191,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		UpdateScene();
 		if (input->TriggerKey(DIK_F10)) {
 			win->SetFullscreen(true);
-		} else if(input->TriggerKey(DIK_F11)){
+		} else if (input->TriggerKey(DIK_F11)) {
 			win->SetFullscreen(false);
 		}
 		// 軸表示の更新

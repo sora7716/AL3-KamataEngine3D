@@ -89,10 +89,15 @@ void GameScene::Initialize() {
 	warp_ = make_unique<Warp>();
 	warp_->Initialize(create_->GetModel(create_->typeWarp), &viewProjection_);
 	warp_->SetParent(&skyDome_->GetWorldTransform());
+
+	// BGM
+	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav");// 読み込み
+	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);// 再生
 }
 
 // 更新
 void GameScene::Update() {
+	
 	// フィールドの更新
 	UpdateField();
 #ifdef _DEBUG
@@ -196,6 +201,8 @@ bool GameScene::IsFinished() { return isFinished_; }
 
 // 終了フラグのセッター
 void GameScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
+
+void GameScene::BGMStop() { audio_->StopWave(soundPlayHandle_); }
 
 // デバックカメラ
 void GameScene::DebugCameraMove() {
