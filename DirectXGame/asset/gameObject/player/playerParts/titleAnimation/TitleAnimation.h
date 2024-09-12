@@ -33,7 +33,13 @@ public://メンバ関数
 	/// <param name="isHome">ホームかどうかのフラグ</param>
 	void Update(bool isHome);
 
-private://メンバ関数
+	/// <summary>
+	/// ゲームスタート時のアニメーションを始めるかどうかのフラグ
+	/// </summary>
+	/// <param name="isGameStartAnimation"></param>
+	void SetIsGameStartAnimation(bool isGameStartAnimation) { isGameStartAnimation_ = isGameStartAnimation; }
+
+private: // メンバ関数
 
 	/// <summary>
 	/// 腕を回転させる
@@ -78,6 +84,6 @@ private://メンバ変数
 	bool isAnimationStart_ = false;//アニメーションをスタートするかどうかのフラグ
 	bool isAnimationEnd_ = false;//アニメーションが終了したかどうかのフラグ
 	int animationNumber_ = 0;//アニメーションをする番号
-	float idolAnimationFrame_ = 0.0f;//待機時間のアニメーションフレーム
+	float animationFrame_ = 0.0f;//待機時間のアニメーションフレーム
 	bool isGameStartAnimation_ = false;//ゲームがスタートするときのアニメーション
 };

@@ -29,6 +29,7 @@ public: // 構造体など
 	enum class Phase {
 		kFadeIn,  // フェードイン
 		kMain,    // メイン部
+		kAnimation,
 		kFadeOut, // フェードアウト
 	};
 
