@@ -15,6 +15,12 @@ public: // 列挙型
 		kRule_Back,  // ルールの背景
 		kRule,       // ルールの文字
 		kSelectButton,//セレクトする用のボタン
+		kSelectKeyW_Back,//セレクトボタン(W)の背景
+		kSelectKeyW_moji,//セレクトボタンの文字
+		kSelectKeyS_Back,//セレクトボタン(S)の背景
+		kSelectKeyS_moji,//セレクトボタンの文字
+		kSelectKeyESC_Back,//セレクトボタンの文字
+		kSelectKeyESC_Moji,//セレクトボタンの文字
 		kObjectNum   // オブジェクトの数
 	};
 	using ObjectType = Type;
@@ -23,6 +29,12 @@ public: // 列挙型
 	static inline ObjectType typeRule = Type::kRule;             // ルールの文字
 	static inline ObjectType typeRule_Back = Type::kRule_Back;   // ルールの背景
 	static inline ObjectType typeSelectButton = Type::kSelectButton; // セレクトする用のボタン
+	static inline ObjectType typeSelectKeyW_Back = Type::kSelectKeyW_Back; //セレクトボタン(W)の背景
+	static inline ObjectType typeSelectKeyW_moji = Type::kSelectKeyW_moji; // セレクトボタンの文字
+	static inline ObjectType typeSelectKeyS_Back = Type::kSelectKeyS_Back; // セレクトボタン(S)の背景
+	static inline ObjectType typeSelectKeyS_moji = Type::kSelectKeyS_moji; // セレクトボタンの文字
+	static inline ObjectType typeSelectKeyESC_Back = Type::kSelectKeyESC_Back; // セレクトボタンの文字
+	static inline ObjectType typeSelectKeyESC_Moji = Type::kSelectKeyESC_Moji; // セレクトボタンの文字
 	static inline const uint32_t kButtonNum = static_cast<uint32_t>(Type::kObjectNum);
 
 public: // メンバ関数
@@ -71,7 +83,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isSelectChangeColor"></param>
 	void SetIsSelectChangeColor(bool isSelectChangeColor) { isSelectChangeColor_ = isSelectChangeColor; }
-	
+	void SetPhase(int phase) { phase_ = phase; }
 	/// <summary>
 	/// 上を選択したときのフラグ
 	/// </summary>
@@ -118,4 +130,5 @@ protected: // メンバ変数
 	bool isSelectStart_ = false;//上を選択
 	bool isSelectRule_ = false;//下を選択
 	bool isButtonBack_ = false;//ボタンを戻す
+	int phase_ = 0;
 };

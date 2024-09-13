@@ -29,6 +29,12 @@ public: // 構造体や列挙型
 		kSelectButton,
 		kResultSkyDome,
 		kSceneText,
+		kButtonKeyW_Back,
+		kButtonKeyW_moji,
+		kButtonKeyS_Back,
+		kButtonKeyS_moji,
+		kButtonKeyESC_Back,
+		kButtonKeyESC_Moji,
 		kModelNum,
 	};
 	using ObjectType = Type;                       // エイリアス
@@ -48,8 +54,14 @@ public: // 構造体や列挙型
 	ObjectType typeButtonBack = Type::kButtonBack;                      // ボタンの背景
 	ObjectType typeSelectButton = Type::kSelectButton;                  // セレクトする用のボタン
 	ObjectType typeResultSkyDome = Type::kResultSkyDome;                // リザルト天球
-	ObjectType typeSceneText = Type::kSceneText;                      // リザルトテキスト
-    static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); //モデルの数
+	ObjectType typeSceneText = Type::kSceneText;                        // リザルトテキスト
+	ObjectType typekeyW_Back = Type::kButtonKeyW_Back;                        // セレクトキー(W)
+	ObjectType typekeyW_Moji = Type::kButtonKeyW_moji;                        // セレクトキー(W)
+	ObjectType typekeyS_Back = Type::kButtonKeyS_Back;                        // セレクトキー(S)
+	ObjectType typekeyS_Moji = Type::kButtonKeyS_moji;                        // セレクトキー(S)
+	ObjectType typekeyESC_Back = Type::kButtonKeyESC_Back;                      // セレクトキー(ESC)
+	ObjectType typekeyESC_Moji = Type::kButtonKeyESC_Moji;                      // セレクトキー(ESC)
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
 	/// <summary>

@@ -86,6 +86,30 @@ void TitleScene::Initialize() {
 	selectButtons_[(int)ISelectButton::typeSelectButton] = make_unique<SelectButton>();
 	selectButtons_[(int)ISelectButton::typeSelectButton]->Initialize(create_->GetModel(create_->typeSelectButton), &viewProjection_);
 	selectButtons_[(int)ISelectButton::typeSelectButton]->SetParent(&railCamera_->GetWorldTransform());
+	// セレクトキー(W)の背景
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_Back] = make_unique<SelectKeyW_Back>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_Back]->Initialize(create_->GetModel(create_->typekeyW_Back), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_Back]->SetParent(&selectButtons_[(int)ISelectButton::typeStart_Back]->GetWorldTransform());
+	// セレクトキー(W)の文字
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_moji] = make_unique<SelectKeyW_Moji>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_moji]->Initialize(create_->GetModel(create_->typekeyW_Moji), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyW_moji]->SetParent(&selectButtons_[(int)ISelectButton::typeSelectKeyW_Back]->GetWorldTransform());
+	// セレクトキー(S)の背景
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_Back] = make_unique<SelectKeyS_Back>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_Back]->Initialize(create_->GetModel(create_->typekeyS_Back), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_Back]->SetParent(&selectButtons_[(int)ISelectButton::typeRule_Back]->GetWorldTransform());
+	// セレクトキー(S)の文字
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_moji] = make_unique<SelectKeyS_Moji>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_moji]->Initialize(create_->GetModel(create_->typekeyS_Moji), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyS_moji]->SetParent(&selectButtons_[(int)ISelectButton::typeSelectKeyS_Back]->GetWorldTransform());
+	// セレクトキー(ESC)の背景
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back] = make_unique<SelectKeyESC_Back>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back]->Initialize(create_->GetModel(create_->typekeyESC_Back), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back]->SetParent(&railCamera_->GetWorldTransform());
+	// セレクトキー(ESC)の文字
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji] = make_unique<SelectKeyESC_Moji>();
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->Initialize(create_->GetModel(create_->typekeyESC_Moji), &viewProjection_);
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->SetParent(&selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back]->GetWorldTransform());
 
 	// シーンテキスト
 	sceneText_ = make_unique<SceneText>();                                               // 生成
@@ -387,6 +411,9 @@ void TitleScene::SelectButtonUpdate() {
 	// 選択したかのセッター
 	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
 	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());   // ルールの背景
+	
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back]->SetPhase(static_cast<int>(phase_));
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->SetPhase(static_cast<int>(phase_));
 }
 
 void TitleScene::GameStart() {
