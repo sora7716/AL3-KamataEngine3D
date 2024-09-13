@@ -50,6 +50,12 @@ public:  // メンバ関数
 	/// <returns></returns>
 	float GetFrame();
 
+    /// <summary>
+    /// ルールシーンへ遷移フラグのセッター
+    /// </summary>
+    /// <param name="isRuleScene"></param>
+    void SetIsRuleScene(bool isRuleScene) { isRuleScene_ = isRuleScene; }
+
 private:
 
 	/// <summary>
@@ -76,4 +82,7 @@ private: // メンバ変数
 	float frame_ = 0.0f;
 	//元の画面にいるかどうか
 	bool isHome_ = true;
+
+	//ルールシーンへ遷移フラグ
+	bool isRuleScene_ = false;
 };
