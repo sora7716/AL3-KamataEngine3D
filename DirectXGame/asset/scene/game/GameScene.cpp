@@ -336,9 +336,13 @@ void GameScene::UpdateField() {
 		// ワープ
 		warp_->Update(player_->IsWarpSpawn());
 
+		
+
 		if (player_->IsWarpSpawn() && !isWarpOpenSoundPlayed) {
 			sePlayHandle_[2] = audio_->PlayWave(seDateHandle_[2], false);
 			isWarpOpenSoundPlayed = true;
+		}else if (!player_->IsWarpSpawn()) {
+			isWarpOpenSoundPlayed = false;
 		}
 
 		// フェードを入れた処理
@@ -487,6 +491,8 @@ void GameScene::ChangePhase() {
 		if (player_->IsParticleShot() && !isExplosionSoundPlayed) {
 			sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
 			isExplosionSoundPlayed = true; // 音が重複してなってしまうため、音が再生されたらフラグを立てる
+		} else if (!player_->IsParticleShot()) {
+			isExplosionSoundPlayed = false;
 		}
 
 		break;
