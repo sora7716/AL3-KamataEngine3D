@@ -211,4 +211,5 @@ private: // メンバ変数
 	bool isExplosionSoundPlayed = false;
 	bool isWarpSoundPlayed = false;
 	bool isWarpOpenSoundPlayed = false;
+	bool isGameStart = true;//ゲームが始まったかどうか
 };

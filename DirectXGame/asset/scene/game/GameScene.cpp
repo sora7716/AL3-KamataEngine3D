@@ -96,7 +96,6 @@ void GameScene::Initialize() {
 
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/gameplay1.wav"); // 読み込み
-	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
 	audio_->SetVolume(soundDataHandle_, 0.5f);
 	
 
@@ -300,9 +299,12 @@ void GameScene::UpdateField() {
 			for (int i = 0; i < enemyPopCommand_->GetPhase()[enemyPhaseNum_]; i++) {
 				int randomNum = rand() % 3; // 敵の状態をランダムにする
 				uint32_t preEnemyRadomNum = 65;
-				preEnemyRadomNum = preEnemyRadomNum; // ひとつ前のナンバー
 				uint32_t enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
+				preEnemyRadomNum = enemyRandomNum; // ひとつ前のナンバー
 				if (preEnemyRadomNum == enemyRandomNum) { // 値が同じだったときにもう一度ランド関数を読み込む
+					enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
+				}
+				if (enemyRandomNum == preEnemyRadomNum) {
 					enemyRandomNum = rand() % static_cast<uint32_t>(enemyPopCommand_->GetPosition().size());
 				}
 				Enemy* enemy = new Enemy();                                                                                                  // 生成
@@ -481,6 +483,11 @@ void GameScene::ChangePhase() {
 
 		break;
 	case GamePhase::kMain:
+
+		if (isGameStart) {
+			soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
+			isGameStart = false;//ゲームスタートをfalseにする
+		}
 
 		// フィールドの更新
 		UpdateField();
