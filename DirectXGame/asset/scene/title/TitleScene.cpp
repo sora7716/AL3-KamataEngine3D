@@ -104,6 +104,7 @@ void TitleScene::Initialize() {
 	// SE(SPACEキー押したとき)
 	seDateHandle_[0] = audio_->LoadWave("sound/SE/button1.mp3");
 	seDateHandle_[1] = audio_->LoadWave("sound/SE/select1.mp3");
+	seDateHandle_[2] = audio_->LoadWave("sound/SE/esc.mp3");
 
 #pragma region デバックカメラ
 	debugCamera_ = make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -325,6 +326,10 @@ void TitleScene::PressButtonSE() {
 
 	if (input_->TriggerKey(DIK_S) && selectScene_->IsMoveSelect()) {
 		sePlayHandle_[1] = audio_->PlayWave(seDateHandle_[1], false);
+	}
+
+	if (input_->TriggerKey(DIK_ESCAPE)) {
+		sePlayHandle_[2] = audio_->PlayWave(seDateHandle_[2], false);
 	}
 }
 
