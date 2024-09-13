@@ -59,8 +59,6 @@ public: // 構造体や列挙型
 	ObjectType typeSceneText = Type::kSceneText;                        // リザルトテキスト
 	ObjectType typeRuleMoji = Type::kRuleMoji;                          // ルール説明の文字
 	ObjectType typeRuleBack = Type::kRuleBack;                          // ルール文字の背景
-	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
-	ObjectType typeSceneText = Type::kSceneText;                        // リザルトテキスト
 	ObjectType typekeyW_Back = Type::kButtonKeyW_Back;                        // セレクトキー(W)
 	ObjectType typekeyW_Moji = Type::kButtonKeyW_moji;                        // セレクトキー(W)
 	ObjectType typekeyS_Back = Type::kButtonKeyS_Back;                        // セレクトキー(S)
