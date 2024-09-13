@@ -378,18 +378,18 @@ void SelectKeyESC_Moji::Initialize(Model* model, ViewProjection* viewProjection)
 	viewProjection_ = viewProjection;
 
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = {1, 1, 0.6f};
-	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
-	worldTransform_.translation_ = {.64f, .18f, 1.49f};
-	positionY_ = worldTransform_.translation_.y;
+	worldTransform_.scale_ = {0.4f, 0.4f, 0.4f};
+	worldTransform_.translation_ = {-5.5f, 3.0f, 10.0f};
+	positionX_ = worldTransform_.translation_.x;
 }
 
 void SelectKeyESC_Moji::Update() {
 
 #ifdef _DEBUG
 	ImGui::Begin("KeyESC_Moji");
-	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 	Animation();
@@ -407,6 +407,6 @@ void SelectKeyESC_Moji::Draw() {
 void SelectKeyESC_Moji::Animation() {
 	static float width = 0.1f;
 	static float theta = 1.0f;
-	worldTransform_.translation_.y = width * sin(theta) + positionY_;
+	worldTransform_.translation_.x = width * sin(theta) + positionX_;
 	theta += 1.0f / 5.0f;
 }

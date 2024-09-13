@@ -286,5 +286,5 @@ private:
 	/// </summary>
 	void Animation();
 private:                     // メンバ変数
-	float positionY_ = 0.0f; // 現在の位置
+	float positionX_ = 0.0f; // 現在の位置
 };

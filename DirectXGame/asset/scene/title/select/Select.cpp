@@ -41,7 +41,7 @@ void Select::Update(int phase) {
 		} else if (input->TriggerKey(DIK_ESCAPE)) {
 			isWasButtonPressed_ = true; // ボタンを押したかどうか
 			isMoveSelect_ = false;
-			isRuleSceneNow_ = false;
+			isDrawRuleBack_ = true;
 			frame_ = 0.0f;
 		}
 		if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
@@ -141,12 +141,14 @@ void Select::MoveRule() {
 		if (ruleFrame_++ > kEndFrame) {
 			ruleFrame_ = kEndFrame;
 			isDrawRule_ = false;
-			isDrawRuleBack_ = true;
 		}
-	} else if (isDrawRuleBack_&&!isRuleSceneNow_) {
+	} else if (isDrawRuleBack_) {
 		if (ruleFrame_-- < 0.0f) {
 			ruleFrame_ = 0.0f;
 			isDrawRuleBack_ = false;
+			isRuleSceneNow_ = false;
+			isMoveSelect_ = true;
+			frame_ = kEndFrame;
 		}
 	}
 	ruleBackWorldTransform_.translation_.y = Math::Lerp(ruleBeginPosY, ruleEndPosY, Easing::InOutBack(ruleFrame_ / kEndFrame));

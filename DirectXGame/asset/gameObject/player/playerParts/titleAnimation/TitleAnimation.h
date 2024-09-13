@@ -40,6 +40,12 @@ public: // メンバ関数
 	void SetIsGameStartAnimation(bool isGameStartAnimation) { isGameStartAnimation_ = isGameStartAnimation; }
 
 	/// <summary>
+	/// ルールスクリーンかどうかのフラグのセッター
+	/// </summary>
+	/// <param name="isRuleScreen"></param>
+	void SetIsRuleScreen(bool isRuleScreen) { isRuleScreen_ = isRuleScreen; }
+
+	/// <summary>
 	/// ゲームシーンに遷移したかどうかのフラグ
 	/// </summary>
 	/// <returns></returns>
@@ -102,4 +108,5 @@ private: // メンバ変数
 	bool isCameraMove_ = true;//カメラの動くアニメーション
 	bool isPlayerMove_ = false;//プレイヤーが動く
 	bool isChangeGameScene_ = false;//ゲームシーンに変更
+	bool isRuleScreen_ = false;//ルール画面かどうか
 };

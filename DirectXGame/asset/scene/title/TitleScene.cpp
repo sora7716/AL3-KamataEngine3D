@@ -109,7 +109,7 @@ void TitleScene::Initialize() {
 	// セレクトキー(ESC)の文字
 	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji] = make_unique<SelectKeyESC_Moji>();
 	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->Initialize(create_->GetModel(create_->typekeyESC_Moji), &viewProjection_);
-	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->SetParent(&selectButtons_[(int)ISelectButton::typeSelectKeyESC_Back]->GetWorldTransform());
+	selectButtons_[(int)ISelectButton::typeSelectKeyESC_Moji]->SetParent(&railCamera_->GetWorldTransform());
 
 	// シーンテキスト
 	sceneText_ = make_unique<SceneText>();                                               // 生成
@@ -234,7 +234,7 @@ void TitleScene::BGMStop() { audio_->StopWave(soundPlayHandle_); }
 void TitleScene::ChangePhaseUpdate() {
 	// プレイヤーのアニメーション
 	titleAnimation_->Update(selectScene_->IsHome());
-
+	titleAnimation_->SetIsRuleScreen(selectScene_->IsRuleSceneNow());//ルールの画面かどうかを設定
 	// ホームじゃなかったら
 	if (!selectScene_->IsHome()) {
 		SetPartisPositionAndAngle();           // パーツの角度やポジションを元に戻す

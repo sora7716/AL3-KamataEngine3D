@@ -45,9 +45,12 @@ void TitleAnimation::Update(bool isHome) {
 		}
 	} else if (isAnimationStart_) {
 		animationStartTimer_ = 0;
-		if (!isGameStartAnimation_) {
+		if (!isGameStartAnimation_&&!isRuleScreen_) {
 			// アニメーション
 			(this->*animationTable[animationNumber_])();
+		} else {
+			animationStartTimer_ = 180;
+			animationFrame_ = 0.0f;
 		}
 	}
 	if (isGameStartAnimation_) {
