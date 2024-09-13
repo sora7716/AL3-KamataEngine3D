@@ -47,8 +47,6 @@ public://メンバ関数
 	/// <param name="parent">親</param>
 	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; };
 
-private://メンバ関数
-
 	void ResultEaseInMove();
 	void ResultEaseOutMove();
 

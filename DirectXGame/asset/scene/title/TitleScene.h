@@ -121,7 +121,7 @@ private:
 	Audio* audio_ = nullptr;
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
-
+	WorldTransform worldTransform_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

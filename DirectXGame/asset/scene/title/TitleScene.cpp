@@ -171,9 +171,7 @@ void TitleScene::Draw() {
 		selectButton->Draw();
 	}
 
-	if (phase_ == Phase::kMain || phase_ == Phase::kFadeIn) {
-		sceneText_->Draw();
-	}
+	sceneText_->Draw();
 	// フェード
 	fade_->Draw(commandList);
 
