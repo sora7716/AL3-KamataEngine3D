@@ -50,7 +50,6 @@ void TitleAnimation::Update(bool isHome) {
 			(this->*animationTable[animationNumber_])();
 		} else {
 			animationStartTimer_ = 180;
-			animationFrame_ = 0.0f;
 		}
 	}
 	if (isGameStartAnimation_) {
