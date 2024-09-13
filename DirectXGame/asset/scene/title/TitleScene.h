@@ -157,7 +157,7 @@ private:
 	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
 	uint32_t soundPlayHandle_ = 0; // BGMを再生する為のハンドル
 
-	uint32_t seDateHandle_[2] = {0}; // SEを読み込む為のハンドル
-	uint32_t sePlayHandle_[2] = {0}; // SEを再生する為のハンドル
+	uint32_t seDateHandle_[3] = {0}; // SEを読み込む為のハンドル
+	uint32_t sePlayHandle_[3] = {0}; // SEを再生する為のハンドル
 }
 ;
