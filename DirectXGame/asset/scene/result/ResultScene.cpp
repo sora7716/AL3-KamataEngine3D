@@ -46,6 +46,9 @@ void ResultScene::Initialize() {
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/result3.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true);    // 再生
+	audio_->SetVolume(soundDataHandle_, 0.5f);
+
+	seDateHandle_ = audio_->LoadWave("sound/SE/button1.mp3");
 
 	sceneText_ = make_unique<SceneText>();
 	sceneText_->Initialize(create_->GetModel(create_->typeSceneText), &viewProjection_);
@@ -82,10 +85,12 @@ void ResultScene::Update() {
 		score_->SetScale({142, 224});
 		
 		ResultScene::EaseMove();
+		sceneText_->ResultEaseInMove();
 		
 		score_->SetScore(static_cast<int>(gameScore_));
 
 		if (input_->TriggerKey(DIK_SPACE)) {
+			sePlayHandle_ = audio_->PlayWave(seDateHandle_, false);
 			phase_ = ResultState::kFadeOut;
 			fade_->FadeStart(Fade::Status::FadeOut, kFadeTimer);
 		}
@@ -99,6 +104,7 @@ void ResultScene::Update() {
 		score_->SetScale({142, 224});
 
 		ResultScene::EaseMoveOut();
+		sceneText_->ResultEaseOutMove();
 
 		score_->SetScore(static_cast<int>(gameScore_));
 

@@ -49,10 +49,19 @@ public://メンバ関数
 
 private://メンバ関数
 
+	void ResultEaseInMove();
+	void ResultEaseOutMove();
+
+
+private:
+
 	Model* model_ = nullptr;//モデル
 
 	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
 
 	WorldTransform worldTransform_;//ワールドトランスフォーム
+
+	//リザルトシーン用のフレーム
+	float resultFrame[2] = {0, 0};
 
 };

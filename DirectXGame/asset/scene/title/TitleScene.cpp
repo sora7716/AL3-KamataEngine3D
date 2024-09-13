@@ -93,10 +93,13 @@ void TitleScene::Initialize() {
 	sceneText_->SetParent(&railCamera_->GetWorldTransform());                            // 親子付け
 	sceneText_->SetPosition({-0.2f, -3.51f, 0.0f});                                      // 位置を0に設定
 
+	worldTransform_.Initialize();
+	worldTransform_.translation_.y = -3.3f;
+
 	// BGM
 	soundDataHandle_ = audio_->LoadWave("sound/BGM/title1.wav"); // 読み込み
 	soundPlayHandle_ = audio_->PlayWave(soundDataHandle_, true); // 再生
-	audio_->SetVolume(soundDataHandle_, 0.25f);
+	audio_->SetVolume(soundDataHandle_, 0.5f);
 
 	// SE(SPACEキー押したとき)
 	seDateHandle_[0] = audio_->LoadWave("sound/SE/button1.mp3");
@@ -168,8 +171,9 @@ void TitleScene::Draw() {
 		selectButton->Draw();
 	}
 
-	sceneText_->Draw();
-
+	if (phase_ == Phase::kMain || phase_ == Phase::kFadeIn) {
+		sceneText_->Draw();
+	}
 	// フェード
 	fade_->Draw(commandList);
 
@@ -245,6 +249,7 @@ void TitleScene::ChangePhaseUpdate() {
 		GameStart();
 		break;
 	case Phase::kAnimation:
+
 		// プレイヤーの更新
 		player_->Update(0, true);
 		if (titleAnimation_->IsChangeGameScene()) {
@@ -253,6 +258,7 @@ void TitleScene::ChangePhaseUpdate() {
 		}
 		break;
 	case Phase::kFadeOut:
+
 		// フェードアウト
 		fade_->Update(WHITE);
 		if (fade_->IsFinished()) {
