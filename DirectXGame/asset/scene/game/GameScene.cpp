@@ -378,6 +378,7 @@ void GameScene::UpdateField() {
 				warp_->SetSize(0.0f);                                         // ワープポインタの大きさをリセット
 				isSetEnemyPos = false;                                        // 敵の位置を再設定
 				enemyParent_->SetPosition({});                                // 敵の親の座標を再設定
+				isWarpSoundPlayed = false;
 				// 現在のスカイドームの状態
 				if (isSkyDive_) {
 					isSkyDive_ = false; // falseを設定

@@ -295,7 +295,7 @@ void TitleAnimation::FallDown() {
 
 	// プレイヤー
 	static Vector3 beginPlayerPos = player_->GetWorldTransform().translation_;
-	Vector3 middlePlayerPos = {5.0f, 4.0f, -20.0f};
+	Vector3 middlePlayerPos = {30.0f, 20.0f, -40.0f};
 	Vector3 endPlayerPos = {0.0f, -50.42f, -50.0f};
 	static Vector3 beginPlayerAngle = player_->GetWorldTransform().rotation_;
 	Vector3 middlePlayerAngle = {-1.6f, 0.03f, 1.56f};
