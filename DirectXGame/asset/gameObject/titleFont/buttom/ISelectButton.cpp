@@ -6,10 +6,10 @@
 
 // ボタンの線形補間
 void ISelectButton::ButtonLerp() {
-	static float beginX = -40.0f;
-	float endY = -3.0f;
+	static float beginX = -50.0f;
+	float endY = -5.0f;
 	float beginZ = 30.0f;
-	float endZ = 10.0f;
+	float endZ = 13.0f;
 	float endFrame = Select::kEndFrame;
 	if (isButtonLerp_ && frame_ >= endFrame) {
 		isButtonBack_ = true;

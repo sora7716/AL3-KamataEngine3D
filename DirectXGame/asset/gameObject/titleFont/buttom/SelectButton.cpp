@@ -88,7 +88,7 @@ void RuleBackButton::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = model;                                        // モデルを受け取る
 	viewProjection_ = viewProjection;                      // ビュープロジェクションを受け取る
 	worldTransform_.Initialize();                          // ワールドトランスフォームの初期化
-	worldTransform_.translation_ = {-10.0f, -1.5f, 10.0f}; // 座標の設定
+	worldTransform_.translation_ = {-10.0f, -1.7f, 10.0f}; // 座標の設定
 	positionY_ = worldTransform_.translation_.y;           // Y座標設定
 }
 
