@@ -71,12 +71,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isSelectChangeColor"></param>
 	void SetIsSelectChangeColor(bool isSelectChangeColor) { isSelectChangeColor_ = isSelectChangeColor; }
-
-	/// <summary>
-	/// 現在がルールシーンかどうかのフラグ
-	/// </summary>
-	/// <param name="isRuleSceneNow"></param>
-	void SetIsRuleSceneNow(bool isRuleSceneNow) { isRuleSceneNow_ = isRuleSceneNow; }
 	
 	/// <summary>
 	/// 上を選択したときのフラグ
@@ -124,5 +118,4 @@ protected: // メンバ変数
 	bool isSelectStart_ = false;//上を選択
 	bool isSelectRule_ = false;//下を選択
 	bool isButtonBack_ = false;//ボタンを戻す
-	bool isRuleSceneNow_ = false;//現在がルールシーンなのかのフラグ
 };

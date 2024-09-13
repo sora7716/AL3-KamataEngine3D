@@ -58,7 +58,7 @@ void TitleScene::Initialize() {
 
 	// セレクト画面
 	selectScene_ = make_unique<Select>();
-	selectScene_->Initialize(player_.get(), railCamera_.get());
+	selectScene_->Initialize(player_.get(), railCamera_.get(), create_->GetModel(create_->typeRuleMoji), create_->GetModel(create_->typeRuleBack),&viewProjection_);
 
 	// タイトルフォント
 	titleFont_ = make_unique<TitleFont>();                                               // 生成
@@ -173,6 +173,10 @@ void TitleScene::Draw() {
 	}
 
 	sceneText_->Draw();
+
+	//ルールの描画
+	selectScene_->Draw();
+
 	// フェード
 	fade_->Draw(commandList);
 
@@ -252,8 +256,8 @@ void TitleScene::ChangePhaseUpdate() {
 		// プレイヤーの更新
 		player_->Update(0, true);
 		if (titleAnimation_->IsChangeGameScene()) {
-			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime);//フェードをスタートさせるか
-			phase_ = Phase::kFadeOut;//フェードアウトに変更
+			fade_->FadeStart(Fade::Status::FadeOut, kFadeTime); // フェードをスタートさせるか
+			phase_ = Phase::kFadeOut;                           // フェードアウトに変更
 		}
 		break;
 	case Phase::kFadeOut:
@@ -388,9 +392,6 @@ void TitleScene::SelectButtonUpdate() {
 	// 選択したかのセッター
 	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
 	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());   // ルールの背景
-    //ルールシーンかどうか
-	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());                                                            // スタートの背景
-	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());                                                             // ルールの背景
 }
 
 void TitleScene::GameStart() {

@@ -1,39 +1,59 @@
 #include "Select.h"
 #include "asset/gameObject/camera/RailCamera.h"
 #include "asset/gameObject/player/Player.h"
+#include "Model.h"
+#include "ViewProjection.h"
 #include "input/Input.h"
 #ifdef _DEBUG
 #include "imgui.h"
 #endif // _DEBUG
 
 // 初期化
-void Select::Initialize(Player* player, RailCamera* camera) {
+void Select::Initialize(Player* player, RailCamera* camera, Model* ruleMoji, Model* ruleBack,ViewProjection *viewProjection) {
 	// プレイヤーを受け取る
 	player_ = player;
 	// カメラを受け取る
 	camera_ = camera;
 	frame_ = 0.0f; // フレーム数を再設定
+	ruleMojiModel_ = ruleMoji;
+	ruleBackModel_ = ruleBack;
+	ruleBackWorldTransform_.Initialize();
+	ruleMojiWorldTransform_.Initialize();
+	ruleBackWorldTransform_.parent_ = &camera_->GetWorldTransform();
+	ruleMojiWorldTransform_.parent_ = &ruleBackWorldTransform_;
+	ruleBackWorldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	ruleBackWorldTransform_.translation_.z = 12.0f;
+	ruleBackWorldTransform_.translation_.y = 11.0f;
+	viewProjection_ = viewProjection;
 }
 
 // 更新
 void Select::Update(int phase) {
 	Input* input = Input::GetInstance();
 	if (phase != 2) {
-		// マウスの左クリックでisMoveSelect_を切り替える
-		if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
+		if (!isRuleSceneNow_) {
+			// マウスの左クリックでisMoveSelect_を切り替える
+			if (input->TriggerKey(DIK_SPACE) && !isWasButtonPressed_) {
+				isWasButtonPressed_ = true; // ボタンを押したかどうか
+				isMoveSelect_ ^= true;      // 状態を反転
+				frame_ = 0;                 // アニメーション用フレームをリセット
+			}
+		} else if (input->TriggerKey(DIK_ESCAPE)) {
 			isWasButtonPressed_ = true; // ボタンを押したかどうか
-			isMoveSelect_ ^= true;      // 状態を反転
-			frame_ = 0;                 // アニメーション用フレームをリセット
-		} else if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
+			isMoveSelect_ = false;
+			isRuleSceneNow_ = false;
+			frame_ = 0.0f;
+		}
+		if (isMoveSelect_ && input->TriggerKey(DIK_ESCAPE) && !isWasButtonPressed_) {
 			isWasButtonPressed_ = true; // ボタンを押したかどうか
 			isMoveSelect_ = false;      // 状態をfalse
 			frame_ = 0;                 // アニメーション用フレームをリセット
 		}
 	}
-	//ルールシーン遷移
+	// ルールシーン遷移
 	MoveRule();
 	// カメラとプレイヤーを移動させる
-	if (isWasButtonPressed_ ) {
+	if (isWasButtonPressed_) {
 		SelectScene();
 	}
 
@@ -44,7 +64,25 @@ void Select::Update(int phase) {
 	ImGui::Checkbox("isWasButtonPressed:", &isWasButtonPressed_);
 	ImGui::Text("phase:%d", phase);
 	ImGui::End();
+
+	ImGui::Begin("opeMoji");
+	ImGui::DragFloat3("rotation", &ruleMojiWorldTransform_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("translaiton", &ruleMojiWorldTransform_.translation_.x, 0.1f);
+	ImGui::End();
+
+	ImGui::Begin("opeBack");
+	ImGui::DragFloat3("rotation", &ruleBackWorldTransform_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("translaiton", &ruleBackWorldTransform_.translation_.x, 0.1f);
+	ImGui::End();
 #endif // _DEBUG
+
+	ruleBackWorldTransform_.UpdateMatrix();
+	ruleMojiWorldTransform_.UpdateMatrix();
+}
+
+void Select::Draw() {
+	ruleBackModel_->Draw(ruleBackWorldTransform_, *viewProjection_);
+	ruleMojiModel_->Draw(ruleMojiWorldTransform_, *viewProjection_);
 }
 
 // ホームかどうかのフラグ
@@ -83,7 +121,7 @@ void Select::SelectScene() {
 	if (isMoveSelect_) {                                                                                         // 動かす
 		cameraResult = Math::Lerp(cameraBegin, cameraEnd, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleBeginY, playerAngleEndY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
-	} else if (!isMoveSelect_ && !isRuleSceneNow_) {                                                              // 元の位置に戻る
+	} else if (!isMoveSelect_ && !isRuleSceneNow_) {                                                             // 元の位置に戻る
 		cameraResult = Math::Lerp(cameraEnd, cameraBegin, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleEndY, playerAngleBeginY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
 	}
@@ -97,5 +135,26 @@ void Select::SelectScene() {
 void Select::MoveRule() {
 	if (isRuleScene_) {
 		isRuleSceneNow_ = true;
+		isDrawRule_ = true;
 	}
+	if (isDrawRule_) {
+		if (ruleFrame_++ > kEndFrame) {
+			ruleFrame_ = kEndFrame;
+			isDrawRule_ = false;
+			isDrawRuleBack_ = true;
+		}
+	} else if (isDrawRuleBack_&&!isRuleSceneNow_) {
+		if (ruleFrame_-- < 0.0f) {
+			ruleFrame_ = 0.0f;
+			isDrawRuleBack_ = false;
+		}
+	}
+	ruleBackWorldTransform_.translation_.y = Math::Lerp(ruleBeginPosY, ruleEndPosY, Easing::InOutBack(ruleFrame_ / kEndFrame));
+	playerResultX = Math::Lerp(playerBeginPosX, playerEndPosX, Easing::InOutSine(ruleFrame_ / kEndFrame));
+	player_->SetPosition({playerResultX, player_->GetWorldTransform().translation_.y, player_->GetWorldTransform().translation_.z});
+#ifdef _DEBUG
+	ImGui::Begin("RuleScene");
+	ImGui::Checkbox("isRuleScene_", &isRuleScene_);
+	ImGui::End();
+#endif // _DEBUG
 }

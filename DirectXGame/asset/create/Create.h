@@ -29,6 +29,8 @@ public: // 構造体や列挙型
 		kSelectButton,
 		kResultSkyDome,
 		kSceneText,
+		kRuleMoji,
+		kRuleBack,
 		kModelNum,
 	};
 	using ObjectType = Type;                       // エイリアス
@@ -48,8 +50,10 @@ public: // 構造体や列挙型
 	ObjectType typeButtonBack = Type::kButtonBack;                      // ボタンの背景
 	ObjectType typeSelectButton = Type::kSelectButton;                  // セレクトする用のボタン
 	ObjectType typeResultSkyDome = Type::kResultSkyDome;                // リザルト天球
-	ObjectType typeSceneText = Type::kSceneText;                      // リザルトテキスト
-    static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); //モデルの数
+	ObjectType typeSceneText = Type::kSceneText;                        // リザルトテキスト
+	ObjectType typeRuleMoji = Type::kRuleMoji;                          // ルール説明の文字
+	ObjectType typeRuleBack = Type::kRuleBack;                          // ルール文字の背景
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
 	/// <summary>

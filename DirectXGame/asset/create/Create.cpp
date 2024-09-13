@@ -44,6 +44,10 @@ void Create::ModelCreate() {
 	models_[(int)typeButtonBack] = Model::CreateFromOBJ("rule_back", true);
 	//セレクトする用のボタン
 	models_[(int)typeSelectButton] = Model::Create();
+	//ルールの文字
+	models_[(int)typeRuleMoji] = Model::CreateFromOBJ("Operation_moji", true);
+	//ルールの背景
+	models_[(int)typeRuleBack] = Model::CreateFromOBJ("Operation_Back", true);
 }
 
 // テクスチャをクリエイト

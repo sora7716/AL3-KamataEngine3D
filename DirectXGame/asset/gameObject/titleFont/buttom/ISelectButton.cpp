@@ -17,7 +17,7 @@ void ISelectButton::ButtonLerp() {
 	if (isButtonLerp_) {
 		worldTransform_.translation_.x = Math::Lerp(beginX, endY, Easing::OutSine(frame_ / endFrame));
 		worldTransform_.translation_.z = Math::Lerp(beginZ, endZ, Easing::OutSine(frame_ / endFrame));
-	} else if (isButtonBack_&&!isRuleSceneNow_) {
+	} else if (isButtonBack_) {
 		worldTransform_.translation_.x = Math::Lerp(endY, beginX, Easing::OutSine(frame_ / endFrame));
 		worldTransform_.translation_.z = Math::Lerp(endZ, beginZ, Easing::OutSine(frame_ / endFrame));
 	}
