@@ -63,6 +63,11 @@ private:
 	/// </summary>
 	void SelectScene();
 
+	/// <summary>
+	/// ルール画面
+	/// </summary>
+	void MoveRule();
+
 public://静的メンバ変数
 
 	static inline const float kEndFrame = 120.0f;//最大フレーム
@@ -84,5 +89,7 @@ private: // メンバ変数
 	bool isHome_ = true;
 
 	//ルールシーンへ遷移フラグ
-	bool isRuleScene_ = false;
+	bool isRuleScene_ = false;//ルールシーンに遷移
+	bool isRuleSceneNow_ = false;//現在がルールシーン
+	float ruleFrame_ = 0.0f;//ルールシーンのフレーム
 };

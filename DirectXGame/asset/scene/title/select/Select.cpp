@@ -30,8 +30,10 @@ void Select::Update(int phase) {
 			frame_ = 0;                 // アニメーション用フレームをリセット
 		}
 	}
+	//ルールシーン遷移
+	MoveRule();
 	// カメラとプレイヤーを移動させる
-	if (isWasButtonPressed_) {
+	if (isWasButtonPressed_ ) {
 		SelectScene();
 	}
 
@@ -81,7 +83,7 @@ void Select::SelectScene() {
 	if (isMoveSelect_) {                                                                                         // 動かす
 		cameraResult = Math::Lerp(cameraBegin, cameraEnd, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleBeginY, playerAngleEndY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
-	} else if (!isMoveSelect_) {                                                                                 // 元の位置に戻る
+	} else if (!isMoveSelect_ && !isRuleSceneNow_) {                                                              // 元の位置に戻る
 		cameraResult = Math::Lerp(cameraEnd, cameraBegin, Easing::InOutCirc(frame_ / kEndFrame));                // カメラの位置を線形補間する
 		playerAngleResultY = Math::Lerp(playerAngleEndY, playerAngleBeginY, Easing::InSine(frame_ / kEndFrame)); // プレイヤーの角度を線形補間する
 	}
@@ -89,4 +91,11 @@ void Select::SelectScene() {
 	// カメラとプレイヤーの更新
 	camera_->SetTranslation(cameraResult);                  // resultをセット
 	player_->SetRotation({0.0f, playerAngleResultY, 0.0f}); // resultをセット
+}
+
+// ゲームルール
+void Select::MoveRule() {
+	if (isRuleScene_) {
+		isRuleSceneNow_ = true;
+	}
 }

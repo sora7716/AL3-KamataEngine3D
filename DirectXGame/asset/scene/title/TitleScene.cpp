@@ -370,6 +370,7 @@ void TitleScene::PressSpaceMove() {
 void TitleScene::SelectButtonUpdate() {
 	// セレクトシーンに遷移
 	selectScene_->Update((int)phase_);
+	selectScene_->SetIsRuleScene(selectButtons_[(int)ISelectButton::typeSelectButton]->IsGameRule());
 	//  セレクトボタンボタン
 	for (auto& selectButton : selectButtons_) {
 		selectButton->Update();
@@ -387,6 +388,9 @@ void TitleScene::SelectButtonUpdate() {
 	// 選択したかのセッター
 	selectButtons_[(int)ISelectButton::typeStart_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectStart()); // スタートの背景
 	selectButtons_[(int)ISelectButton::typeRule_Back]->SetIsSelectChangeColor(selectButtons_[(int)ISelectButton::typeSelectButton]->IsSelectRule());   // ルールの背景
+    //ルールシーンかどうか
+	selectButtons_[(int)ISelectButton::typeStart_Back]->SetFrame(selectScene_->GetFrame());                                                            // スタートの背景
+	selectButtons_[(int)ISelectButton::typeRule_Back]->SetFrame(selectScene_->GetFrame());                                                             // ルールの背景
 }
 
 void TitleScene::GameStart() {
