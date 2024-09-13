@@ -48,6 +48,18 @@ void Create::ModelCreate() {
 	models_[(int)typeRuleMoji] = Model::CreateFromOBJ("Operation_moji", true);
 	//ルールの背景
 	models_[(int)typeRuleBack] = Model::CreateFromOBJ("Operation_Back", true);
+	//セレクトキー(W)の背景
+	models_[(int)typekeyW_Back] = Model::CreateFromOBJ("W_button",true);
+	//セレクトキー(W)の文字
+	models_[(int)typekeyW_Moji] = Model::CreateFromOBJ("W_moji", true);
+	// セレクトキー(S)の背景
+	models_[(int)typekeyS_Back] = Model::CreateFromOBJ("S_button", true);
+	// セレクトキー(S)の文字
+	models_[(int)typekeyS_Moji] = Model::CreateFromOBJ("S_moji", true);
+	// セレクトキー(ESC)の背景
+	models_[(int)typekeyESC_Back] = Model::CreateFromOBJ("Escape_back", true);
+	// セレクトキー(ESC)の文字
+	models_[(int)typekeyESC_Moji] = Model::CreateFromOBJ("Escape_moji", true);
 }
 
 // テクスチャをクリエイト

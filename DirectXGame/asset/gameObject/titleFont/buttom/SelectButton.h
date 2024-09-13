@@ -187,3 +187,104 @@ public: // メンバ関数
 private:                    // メンバ変数
 	float positionY = 0.0f; // Y座標
 };
+
+//セレクトキー(W)の背景
+class SelectKeyW_Back : public ISelectButton{
+
+public:
+
+	SelectKeyW_Back() = default;
+
+	~SelectKeyW_Back() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+
+
+};
+
+//セレクトキー(W)の文字
+class SelectKeyW_Moji : public ISelectButton {
+
+public:
+	SelectKeyW_Moji() = default;
+
+	~SelectKeyW_Moji() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+};
+
+// セレクトキー(S)の背景
+class SelectKeyS_Back : public ISelectButton {
+
+public:
+	SelectKeyS_Back() = default;
+
+	~SelectKeyS_Back() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+};
+
+// セレクトキー(S)の文字
+class SelectKeyS_Moji : public ISelectButton {
+
+public:
+	SelectKeyS_Moji() = default;
+
+	~SelectKeyS_Moji() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+};
+
+// セレクトキー(ESC)の背景
+class SelectKeyESC_Back : public ISelectButton {
+
+public:
+	SelectKeyESC_Back() = default;
+
+	~SelectKeyESC_Back() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+};
+
+// セレクトキー(ESC)の文字
+class SelectKeyESC_Moji : public ISelectButton {
+
+public:
+	SelectKeyESC_Moji() = default;
+
+	~SelectKeyESC_Moji() = default;
+
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	void Update() override;
+
+	void Draw() override;
+
+private:
+	/// <summary>
+	/// 選択時のアニメーション
+	/// </summary>
+	void Animation();
+private:                     // メンバ変数
+	float positionY_ = 0.0f; // 現在の位置
+};

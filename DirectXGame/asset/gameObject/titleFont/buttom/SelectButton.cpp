@@ -8,6 +8,7 @@
 #endif // _DEBUG
 #include <cassert>
 
+
 // 初期化
 void StartButton::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);                         // Nullチェック
@@ -208,3 +209,204 @@ void SelectButton::Update() {
 
 // 描画
 void SelectButton::Draw() {}
+
+#pragma region セレクトキー(W)の背景
+void SelectKeyW_Back::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {0.4f, 0.4f, 0.4f};
+	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
+	worldTransform_.translation_.x = -2.7f;
+}
+
+void SelectKeyW_Back::Update() {
+
+#ifdef _DEBUG
+	ImGui::Begin("KeyW_Back");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyW_Back::Draw() {
+
+	model_->Draw(worldTransform_, *viewProjection_);
+
+}
+
+#pragma endregion
+
+//=============================================================================================================================
+
+#pragma region セレクトキー(W)の文字
+
+void SelectKeyW_Moji::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {.6f, .6f, 0.6f};
+	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
+	worldTransform_.translation_.z = .75f;
+}
+
+void SelectKeyW_Moji::Update() {
+
+	#ifdef _DEBUG
+	ImGui::Begin("KeyW_moji");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyW_Moji::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+#pragma endregion 
+
+//=============================================================================================================================
+
+#pragma region セレクトキー(S)の背景
+void SelectKeyS_Back::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {0.4f, 0.4f, 0.4f};
+	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
+	worldTransform_.translation_.x = -2.64f;
+	worldTransform_.translation_.z = -.12f;
+}
+
+void SelectKeyS_Back::Update() {
+
+	#ifdef _DEBUG
+	ImGui::Begin("KeyS_Back");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyS_Back::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+#pragma endregion
+
+//=============================================================================================================================
+
+#pragma region セレクトキー(S)の文字
+
+void SelectKeyS_Moji::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {.8f, .8f, 0.8f};
+	worldTransform_.translation_.z = .01f;
+}
+
+void SelectKeyS_Moji::Update() {
+
+#ifdef _DEBUG
+	ImGui::Begin("KeyS_moji");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyS_Moji::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+
+#pragma endregion
+
+//=============================================================================================================================
+
+#pragma region セレクトキー(ESC)の背景
+void SelectKeyESC_Back::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {0.4f, 0.4f, 0.4f};
+	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
+	worldTransform_.translation_ = {-7.61f, 4.29f, 12.93f};
+}
+
+void SelectKeyESC_Back::Update() {
+
+#ifdef _DEBUG
+	ImGui::Begin("KeyESC_Back");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyESC_Back::Draw() {
+	if (phase_ == 0 || phase_ == 1) {
+		//model_->Draw(worldTransform_, *viewProjection_);
+	}
+}
+
+#pragma endregion
+
+#pragma region セレクトキー(ESC)
+void SelectKeyESC_Moji::Initialize(Model* model, ViewProjection* viewProjection) {
+
+	assert(model);
+
+	model_ = model;
+	viewProjection_ = viewProjection;
+
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {1, 1, 0.6f};
+	worldTransform_.rotation_.x = std::numbers::pi_v<float>;
+	worldTransform_.translation_ = {.64f, .18f, 1.49f};
+	positionY_ = worldTransform_.translation_.y;
+}
+
+void SelectKeyESC_Moji::Update() {
+
+#ifdef _DEBUG
+	ImGui::Begin("KeyESC_Moji");
+	ImGui::DragFloat3("tanslate", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
+	ImGui::End();
+#endif // _DEBUG
+	Animation();
+	worldTransform_.UpdateMatrix();
+}
+
+void SelectKeyESC_Moji::Draw() { 
+
+	if (phase_ == 0 || phase_ == 1) { 
+		model_->Draw(worldTransform_, *viewProjection_); 
+	}
+
+}
+
+void SelectKeyESC_Moji::Animation() {
+	static float width = 0.1f;
+	static float theta = 1.0f;
+	worldTransform_.translation_.y = width * sin(theta) + positionY_;
+	theta += 1.0f / 5.0f;
+}

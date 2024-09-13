@@ -25,9 +25,12 @@ void SceneText::Initialize(Model* model, ViewProjection* viewProjection) {
 
 void SceneText::Update() {
 
+#ifdef _DEBUG
 	ImGui::Begin("sceneText");
 	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
 	ImGui::End();
+#endif // _DEBUG
+
 
 	worldTransform_.UpdateMatrix();
 }

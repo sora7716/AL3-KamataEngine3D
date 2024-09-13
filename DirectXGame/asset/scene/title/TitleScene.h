@@ -147,11 +147,11 @@ private:
 	unique_ptr<TitleFont> titleFont_ = nullptr;
 	// セレクト画面で使用するボタン
 	unique_ptr<ISelectButton> selectButtons_[ISelectButton::kButtonNum] = {nullptr};
-	//スペースを押せのボタン
-	unique_ptr<SceneText> sceneText_=nullptr;
-	float textFrame_ = 0.0f;//動くフレーム
-	bool isTextMove_ = true;//目的地に進むか
-	bool isTextBack_ = false;//戻ってくるか
+	// スペースを押せのボタン
+	unique_ptr<SceneText> sceneText_ = nullptr;
+	float textFrame_ = 0.0f;  // 動くフレーム
+	bool isTextMove_ = true;  // 目的地に進むか
+	bool isTextBack_ = false; // 戻ってくるか
 
 	// BGM
 	uint32_t soundDataHandle_ = 0; // BGM読み込む為のハンドル
@@ -159,5 +159,6 @@ private:
 
 	uint32_t seDateHandle_[3] = {0}; // SEを読み込む為のハンドル
 	uint32_t sePlayHandle_[3] = {0}; // SEを再生する為のハンドル
+
 }
 ;
