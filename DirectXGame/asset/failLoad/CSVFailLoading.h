@@ -48,6 +48,8 @@ public://メンバ関数
 	/// <param name="highScore">ハイスコア</param>
 	static  void HighScoreSave(int highScore);
 
+	static void UpdateScoreSave(std::string saveDateName,int&highScore);
+
 private: // メンバ変数
 
 	/// <summary>

@@ -9,8 +9,9 @@ void CSVFailLoading::Initialize() { failDataCommands_ = LoadData("Resources/csvF
 void CSVFailLoading::Update() { UpdatePopCommand(failDataCommands_, position_, phase_); }
 
 //位置のゲッター
-std::list<Vector3> CSVFailLoading::GetPosition() {
-	return position_; }
+std::vector<Vector3> CSVFailLoading::GetPosition() {
+	return position_; 
+}
 
 //ハイスコアのセーブ
 void CSVFailLoading::HighScoreSave(int highScore) {
@@ -20,6 +21,44 @@ void CSVFailLoading::HighScoreSave(int highScore) {
 	if (outFile.is_open()) {
 		outFile << "Player HighScore, " << highScore << std::endl;
 		outFile.close();
+	}
+}
+
+void CSVFailLoading::UpdateScoreSave(std::string saveDateName, int& highScore) {
+
+	std::stringstream saveData;
+	// ファイルを開く
+	std::ifstream file;
+	file.open(saveDateName);
+	// ファイルの内容を文字列ストリームにコピー
+	saveData << file.rdbuf();
+	file.close();
+	// 1行分の文字列を入れる変数
+
+	std::string line;
+	// コマンドを実行ループ
+	while (getline(saveData, line)) {
+		if (line.empty()) {
+			// 空白を飛ばす
+			continue;
+		}
+		// 1行分の文字列をストリームに変換して解析し約する
+
+		std::istringstream line_stream(line); // 読み込んだ行を文字列ストリームに変換
+		std::string word;                     // 行から取り出した単語を格納する変数
+
+		//,区切りで行の先頭文字を取得
+		getline(line_stream, word, ',');
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+		// POPコマンド
+		if (word.find("Player HighScore") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			highScore = atoi(word.c_str());
+		}
 	}
 }
 

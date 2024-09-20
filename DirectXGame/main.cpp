@@ -24,6 +24,8 @@ void ChangeScene() {
 		if (titleScene == nullptr) {
 			titleScene = new TitleScene();
 			titleScene->Initialize();
+			// セーブデータの読み込み
+			CSVFailLoading::UpdateScoreSave("HighScore_Save.csv", highScore);
 		} else if (titleScene->IsFinished()) {
 			// シーンの切り替え
 			scene = Scene::kGame;
@@ -49,6 +51,8 @@ void ChangeScene() {
 			gameScene->BGMStop();
 			gameScore = (int)gameScene->GetScore();
 			highScore = gameScene->GetHighScore();
+			// ハイスコアのセーブ
+			CSVFailLoading::HighScoreSave(highScore);
 			// 旧シーンの削除
 			delete gameScene;
 			gameScene = nullptr;
@@ -165,7 +169,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	scene = Scene::kTitle;
 
 #ifdef _DEBUG
-	 //scene = Scene::kGame;
+	// scene = Scene::kGame;
 #endif // ゲームシーンからスタート
 
 	// メインループ
