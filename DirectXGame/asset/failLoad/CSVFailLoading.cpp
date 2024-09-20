@@ -13,7 +13,17 @@ void CSVFailLoading::Update(){
 
 //位置のゲッター
 std::list<Vector3> CSVFailLoading::GetPosition() {
-	return position_;
+	return position_; }
+
+//ハイスコアのセーブ
+void CSVFailLoading::HighScoreSave(int highScore) {
+	std::string filePath = "HighScore_Save.csv";
+	std::ofstream outFile(filePath);
+
+	if (outFile.is_open()) {
+		outFile << "Player HighScore, " << highScore << std::endl;
+		outFile.close();
+	}
 }
 
 //読み込み

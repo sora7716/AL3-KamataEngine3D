@@ -36,6 +36,12 @@ public://メンバ関数
     /// </summary>
 	std::list<Vector3>GetPosition();
 
+	/// <summary>
+	/// ハイスコアのセーブ
+	/// </summary>
+	/// <param name="highScore">ハイスコア</param>
+	static  void HighScoreSave(int highScore);
+
 private: // メンバ変数
 
 	/// <summary>
