@@ -67,6 +67,21 @@
     <Filter Include="asset\シーン">
       <UniqueIdentifier>{ca6daa9a-7937-4022-8fcb-29f87b66ff59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asset\ゲームオブジェクト\player">
+      <UniqueIdentifier>{d0dd7b97-e92e-45d7-9d20-3016c3df3eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ゲームオブジェクト\enemy">
+      <UniqueIdentifier>{ce443c2a-34ff-4be3-9b42-effca877c8dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\プロセス\math">
+      <UniqueIdentifier>{879c5be8-28e3-456b-8736-ebd20aef0f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\プロセス\command">
+      <UniqueIdentifier>{6a94c590-57e3-4b4b-ac72-a37d52a1c31d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asset\ゲームオブジェクト\player\particle">
+      <UniqueIdentifier>{798530ba-733a-476d-8c57-74a005f2a3d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -84,9 +99,6 @@
     <ClCompile Include="main.cpp">
       <Filter>asset</Filter>
     </ClCompile>
-    <ClCompile Include="asset\math\Aithmetic.cpp">
-      <Filter>asset\プロセス</Filter>
-    </ClCompile>
     <ClCompile Include="asset\math\collision\Collision.cpp">
       <Filter>asset\プロセス</Filter>
     </ClCompile>
@@ -99,8 +111,80 @@
     <ClCompile Include="asset\scene\game\GameScene.cpp">
       <Filter>asset\シーン</Filter>
     </ClCompile>
-    <ClCompile Include="asset\math\Math.cpp">
+    <ClCompile Include="asset\gameObject\camera\RailCamera.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\Player.cpp">
+      <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\Enemy.cpp">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\statePattern\state\EnemyState.cpp">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\playerParts\PlayerParts.cpp">
+      <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\skydome\SkyDome.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\fade\Fade.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\scene\title\TitleScene.cpp">
+      <Filter>asset\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\playerParts\titleAnimation\TitleAnimation.cpp">
       <Filter>asset\プロセス</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Aithmetic.cpp">
+      <Filter>asset\プロセス\math</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\Math.cpp">
+      <Filter>asset\プロセス\math</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\command\ICommand.cpp">
+      <Filter>asset\プロセス\command</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\command\InputHandler.cpp">
+      <Filter>asset\プロセス\command</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\easing\Easing.cpp">
+      <Filter>asset\プロセス</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\score\Score.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\math\easing\Easing.cpp">
+      <Filter>asset\プロセス</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\player\patricle\DeathParticles.cpp">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\warp\Warp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\enemy\parent\EnemyParent.cpp">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\scene\title\select\Select.cpp">
+      <Filter>asset\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\hp\Hp.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\TitleFont.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\buttom\SelectButton.cpp">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="asset\gameObject\titleFont\buttom\ISelectButton.cpp">
+      <Filter>kamataEngine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,9 +272,6 @@
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>kamataEngine\ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="asset\math\Aithmetic.h">
-      <Filter>asset\プロセス</Filter>
-    </ClInclude>
     <ClInclude Include="asset\math\collision\Collision.h">
       <Filter>asset\プロセス</Filter>
     </ClInclude>
@@ -203,8 +284,89 @@
     <ClInclude Include="asset\scene\game\GameScene.h">
       <Filter>asset\シーン</Filter>
     </ClInclude>
-    <ClInclude Include="asset\math\Math.h">
+    <ClInclude Include="asset\gameObject\camera\RailCamera.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\Player.h">
+      <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\Enemy.h">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\statePattern\state\EnemyState.h">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\statePattern\IEnemyState.h">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\playerParts\IPlayerParts.h">
+      <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\playerParts\PlayerParts.h">
+      <Filter>asset\ゲームオブジェクト\player</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\skydome\SkyDome.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\fade\Fade.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\title\TitleScene.h">
+      <Filter>asset\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\playerParts\titleAnimation\TitleAnimation.h">
       <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Aithmetic.h">
+      <Filter>asset\プロセス\math</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\Math.h">
+      <Filter>asset\プロセス\math</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\command\ICommand.h">
+      <Filter>asset\プロセス\command</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\command\InputHandler.h">
+      <Filter>asset\プロセス\command</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\easing\Easing.h">
+      <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\score\Score.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\math\easing\Easing.h">
+      <Filter>asset\プロセス</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\hp\Hp.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\warp\Warp.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\enemy\parent\EnemyParent.h">
+      <Filter>asset\ゲームオブジェクト\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\hp\Hp.h">
+      <Filter>kamataEngine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\patricle\IDeathParticle.h">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\player\patricle\DeathParticles.h">
+      <Filter>asset\ゲームオブジェクト\player\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\scene\title\select\Select.h">
+      <Filter>asset\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\TitleFont.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\buttom\SelectButton.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="asset\gameObject\titleFont\buttom\ISelectButton.h">
+      <Filter>asset\ゲームオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

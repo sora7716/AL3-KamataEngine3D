@@ -1,5 +1,6 @@
 #pragma once
 #include "Aithmetic.h"
+#include "asset/math/easing/Easing.h"
 
 class Math {
 public:
@@ -170,7 +171,7 @@ public:
 	/// <param name="v1">ベクトル1</param>
 	/// <param name="v2">ベクトル2</param>
 	/// <param name="t">媒介変数</param>
-	/// <returns></returns>
+	/// <returns>線形補間</returns>
 	static Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 
 	/// <summary>
@@ -179,7 +180,7 @@ public:
 	/// <param name="num1">数字1</param>
 	/// <param name="num2">数字2</param>
 	/// <param name="t">媒介変数</param>
-	/// <returns></returns>
+	/// <returns>線形補間</returns>
 	static float Lerp(const float& num1, const float& num2, float t);
 
 	/// <summary>
@@ -188,7 +189,7 @@ public:
 	/// <param name="v1">ベクトル1</param>
 	/// <param name="v2">ベクトル2</param>
 	/// <param name="t">媒介変数</param>
-	/// <returns></returns>
+	/// <returns> 球面線形補間</returns>
 	static Vector3 SLerp(const Vector3& v1, const Vector3& v2, float t);
 
 	/// <summary>
@@ -199,7 +200,7 @@ public:
 	/// <param name="p2">点2の座標</param>
 	/// <param name="p3">点3の座標</param>
 	/// <param name= "t">点 1を0.0f点2を1.0fとした割合指定</param>
-	/// <returns></returns>
+	/// <returns>CatmullRom補間</returns>
 	static Vector3 CatmullRomInterpolation(const Vector3& p0,const Vector3& p1,const Vector3& p2,const Vector3& p3,float t);
 
 	/// <summary>
@@ -207,6 +208,26 @@ public:
 	/// </summary>
 	/// <param name="points">制御点の集合</param>
 	/// <param name="t">スプラインの全区間の中での割合指定[0,1]</param>
-	/// <returns>座標</returns>
+	/// <returns>CatmullRomスプライン曲線上</returns>
 	static Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
+
+	/// <summary>
+	/// 三次元のベジエ曲線
+	/// </summary>
+	/// <param name="p0">始点</param>
+	/// <param name="p1">中点</param>
+	/// <param name="p2">終点</param>
+	/// <param name="t">フレーム</param>
+	/// <returns>ベジエ曲線</returns>
+	static Vector3 Bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t);
+
+	/// <summary>
+	/// 三次元ベジエ曲線(球面線形補間ver)
+	/// </summary>
+	/// <param name="p0">始点</param>
+	/// <param name="p1">中点</param>
+	/// <param name="p2">終点</param>
+	/// <param name="t">フレーム</param>
+	/// <returns>ベジエ曲線</returns>
+	static Vector3 BezierS(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t);
 };

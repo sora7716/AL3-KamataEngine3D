@@ -12,12 +12,60 @@ class Model;
 class Create {
 public: // 構造体や列挙型
 	enum class Type {
-		kPlayer,
+		kPlayerHead,
+		kPlayerBody,
+		kPlayerLeft_Arm,
+		kPlayerRight_Arm,
+		kPlayerLeft_Ear,
+		kPlayerRight_Ear,
+		kEnemy,
+		kSkyDome,
+		kDeathParticles,
+		kWarp,
+		kTitleFont,
+		kStart,
+		kRule,
+		kButtonBack,
+		kSelectButton,
+		kResultSkyDome,
+		kSceneText,
+		kButtonKeyW_Back,
+		kButtonKeyW_moji,
+		kButtonKeyS_Back,
+		kButtonKeyS_moji,
+		kButtonKeyESC_Back,
+		kButtonKeyESC_Moji,
+		kRuleMoji,
+		kRuleBack,
 		kModelNum,
 	};
-    using ObjectType=Type;//エイリアス
-	ObjectType typePlayer = Type::kPlayer;//プレイヤー
-    static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);//モデルの数
+	using ObjectType = Type;                       // エイリアス
+	ObjectType typePlayerHead = Type::kPlayerHead; // プレイヤー
+	ObjectType typePlayerBody = Type::kPlayerBody;
+	ObjectType typePlayerLeft_Arm = Type::kPlayerLeft_Arm;
+	ObjectType typePlayerRight_Arm = Type::kPlayerRight_Arm;
+	ObjectType typePlayerLeft_Ear = Type::kPlayerLeft_Ear;
+	ObjectType typePlayerRight_Ear = Type::kPlayerRight_Ear;
+	ObjectType typeEnemy = Type::kEnemy;                                // 障害物
+	ObjectType typeSkyDome = Type::kSkyDome;                            // 天球
+	ObjectType typeWarp = Type::kWarp;                                  // ワープポインタ
+	ObjectType typeDeathParticles = Type::kDeathParticles;              // デスパーティクル
+	ObjectType typeTitleFont = Type::kTitleFont;                        // タイトルフォント
+	ObjectType typeStart = Type::kStart;                                // スタートの文字
+	ObjectType typeRule = Type::kRule;                                  // ルールの文字
+	ObjectType typeButtonBack = Type::kButtonBack;                      // ボタンの背景
+	ObjectType typeSelectButton = Type::kSelectButton;                  // セレクトする用のボタン
+	ObjectType typeResultSkyDome = Type::kResultSkyDome;                // リザルト天球
+	ObjectType typeSceneText = Type::kSceneText;                        // リザルトテキスト
+	ObjectType typeRuleMoji = Type::kRuleMoji;                          // ルール説明の文字
+	ObjectType typeRuleBack = Type::kRuleBack;                          // ルール文字の背景
+	ObjectType typekeyW_Back = Type::kButtonKeyW_Back;                        // セレクトキー(W)
+	ObjectType typekeyW_Moji = Type::kButtonKeyW_moji;                        // セレクトキー(W)
+	ObjectType typekeyS_Back = Type::kButtonKeyS_Back;                        // セレクトキー(S)
+	ObjectType typekeyS_Moji = Type::kButtonKeyS_moji;                        // セレクトキー(S)
+	ObjectType typekeyESC_Back = Type::kButtonKeyESC_Back;                      // セレクトキー(ESC)
+	ObjectType typekeyESC_Moji = Type::kButtonKeyESC_Moji;                      // セレクトキー(ESC)
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
 	/// <summary>
@@ -54,7 +102,7 @@ public: // メンバ関数
 	/// <returns>テクスチャハンドル</returns>
 	uint32_t GetTextureHandle(Create::Type subscript) const;
 
-private: // メンバ変数
-	std::vector<Model*> models_;//モデル
-	std::vector<uint32_t> textureHandle_;//テクスチャ
+private:                                  // メンバ変数
+	std::vector<Model*> models_;          // モデル
+	std::vector<uint32_t> textureHandle_; // テクスチャ
 };
