@@ -8,6 +8,8 @@
 #include <numbers>
 #include <algorithm>
 #include <cassert>
+using namespace std;
+using namespace std::numbers;
 
 /// <summary>
 /// 加算

@@ -1,20 +1,39 @@
 #pragma once
+#define WHITE Vector4{1.0f,1.0f,1.0f,1.0f}
+#define BLACK Vector4{0.0f,0.0f,0.0f,1.0f}
+#define DARK_BROWN Vector4 { 0.259f, 0.075f, 0.086f }
+#define oneFrame float(1.0f/60.0f)
 
 #include "Audio.h"
 #include "DirectXCommon.h"
 #include "Input.h"
-#include "Model.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include "assets/create/Create.h"
+#include "assets/gameObject/camera/RailCamera.h"
 #include "DebugCamera.h"
 
+#include <memory>
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
+public: // 列挙型
+	// フィールドの状態
+	enum class FieldStatus {
+		kFadeIn,
+		kMain,
+		kFadeOut,
+	};
+
+	// ゲームのフェーズ
+	enum class GamePhase {
+		kStart,
+		kMain,
+		kEnd,
+	};
 
 public: // メンバ関数
 	/// <summary>
@@ -41,33 +60,30 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+	
+private: // メンバ関数
+
+	/// <summary>
+	/// デバックカメラ
+	/// </summary>
+	void DebugCameraMove();
+
+public://静的メンバ変数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	ViewProjection viewProjection_;                 // ビュープロジェクション
+	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
+	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
 
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-
-public:
-	Sprite* sprite_ = nullptr; // 2Dの描画に使う
-	Model* model_ = nullptr;   // 3Dの描画に使う
-
-	WorldTransform worldTransform_; // ワールドトランスフォーム
-	ViewProjection viewProjection_; // ビュープロジェクション
-
-	DebugCamera* debugCamera_ = nullptr;
-
-private:
-	uint32_t textureHandle2D_ = 0; // テクスチャハンドル
-	uint32_t textureHandle3D_ = 0; // テクスチャハンドル
-
-	uint32_t soundDateHandle_ = 0; // サウンドハンドル
-	uint32_t voiceHandle_ = 0;     // 音声再生ハンドル
-
-	float inputFloat3[3] = {}; // ImGuiで値を入力する変数
-
-	Vector2 screenSize = {WinApp::kWindowHeight, WinApp::kWindowHeight};
+	
+	//カメラ
+	std::unique_ptr<RailCamera> railCamera_ = nullptr;
+	WorldTransform cameraWorldTransform_;
 };

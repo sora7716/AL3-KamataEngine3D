@@ -2,88 +2,57 @@
 #include "TextureManager.h"
 #include <cassert>
 
+#include "AxisIndicator.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
-#include "AxisIndicator.h"
+#ifdef _DEBUG
+#include "imgui.h"
+#endif // _DEBUG
 
-GameScene::GameScene() {
+// コンストラクタ
+GameScene::GameScene() {}
 
-}
+// デストラクタ
+GameScene::~GameScene() {}
 
-GameScene::~GameScene() { 
-	delete sprite_; //メモリの削除
-
-	delete model_;
-
-	delete debugCamera_;
-}
-
+// 初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	viewProjection_.Initialize();
 
-	//2Dモデル
-	textureHandle2D_ = TextureManager::Load("kamata.ico");//テクスチャの読み込み
-	textureHandle3D_ = TextureManager::Load("sample.png");//テクスチャの読み込み
-	sprite_=Sprite::Create(textureHandle2D_,{100, 50});//スプライトの生成
-
-	//3Dモデル
-	model_ = Model::Create();
-	worldTransform_.Initialize();//ワールドトランスフォームの初期化
-	viewProjection_.Initialize();// ビュープロジェクションの初期化
-
-	//サウンド
-	soundDateHandle_ = audio_->LoadWave("fanfare.wav");//サウンドデータの読み込み
-	//audio_->PlayWave(soundDateHandle_);//音声再生
-	voiceHandle_ = audio_->PlayWave(soundDateHandle_, true);//音声再生
-
-	//ライン描画
-	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewProjection_);//ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
-
-	debugCamera_ = new DebugCamera((int)screenSize.x, (int)screenSize.y);
-	AxisIndicator::GetInstance()->SetVisible(true);
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
-
-}
-
-void GameScene::Update() {
-	//2Dのオブジェクトの移動
-	Vector2 position = sprite_->GetPosition();
-	position.x += 2.0f;
-	position.y += 1.0f;
-	sprite_->SetPosition(position);//位置を書き換え
-
-	//サウンドの停止
-	if (input_->TriggerKey(DIK_SPACE)) {
-		if (audio_->IsPlaying(voiceHandle_)) {
-		audio_->StopWave(voiceHandle_);//音声の停止
-		} else {
-			voiceHandle_ = audio_->PlayWave(soundDateHandle_,true);
-		}
-	}
-
+#pragma region デバックカメラ
+	debugCamera_ = std::make_unique<DebugCamera>(WinApp::kWindowWidth, WinApp::kWindowHeight);
 #ifdef _DEBUG
+	// 軸方向表示の表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+#endif // _DEBUG
+#pragma endregion
 
-	//でバックウィンドウの表示
-	ImGui::Begin("Debug1");
-	ImGui::Text("Kamata Tarou %d.%d.%d", 2050, 12, 31);//デバックテキストに表示
-	ImGui::End();
+	// クリエイト
+	create_ = std::make_unique<Create>(); // クリエイトクラスの生成
+	create_->ModelCreate();               // モデルの生成
+	create_->TextureCreate();             // テクスチャの生成
 
-	ImGui::Begin("Debug2");
-	ImGui::InputFloat3("inputFloat3", inputFloat3);               // float3入力ボックス
-	ImGui::SliderFloat3("SliderFloat3", inputFloat3, 0.0f, 1.0f); // float3スライダー
-	ImGui::End();
-
-	ImGui::ShowDemoWindow();
-
-	debugCamera_->Update();
-
-#endif // DEBUG
-
+	// カメラ
+	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
+	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
+	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
 }
 
+// 更新
+void GameScene::Update() {
+	// デバックカメラの更新
+	DebugCameraMove();
+	// カメラの更新
+	railCamera_->Update();
+}
+
+// 描画
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -96,9 +65,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
-
-	PrimitiveDrawer::GetInstance()->DrawLine3d({0,0,0}, {0, 10, 0}, {1.0f, 0.0f, 0.0f, 1.0f});
 
 	//
 	// スプライト描画後処理
@@ -114,7 +80,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle3D_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -132,4 +97,26 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+// デバックカメラ
+void GameScene::DebugCameraMove() {
+#ifdef _DEBUG
+	debugCamera_->Update(); // デバックカメラの更新
+	if (input_->TriggerKey(DIK_UP)) {
+		isDebugCameraActive_ ^= true;
+	}
+#endif // _DEBUG
+
+	if (isDebugCameraActive_) {
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// 行列の更新
+		viewProjection_.TransferMatrix();
+	}
 }
