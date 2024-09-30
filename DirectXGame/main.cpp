@@ -1,7 +1,7 @@
 #include "Audio.h"
 #include "AxisIndicator.h"
 #include "DirectXCommon.h"
-#include "GameScene.h"
+#include "assets/scene/GameScene.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"GC1B_01_イイヅカ_ソラ_AL3_1-1");
+	win->CreateGameWindow(L"GC2B_01_イイヅカ_ソラ_FG1");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();

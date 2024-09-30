@@ -107,10 +107,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="2d\ImGuiManager.cpp" />
+    <ClCompile Include="3d\WorldTransform.cpp" />
+    <ClCompile Include="assets\create\Create.cpp" />
+    <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
+    <ClCompile Include="assets\math\Aithmetic.cpp" />
+    <ClCompile Include="assets\math\collision\Collision.cpp" />
+    <ClCompile Include="assets\math\easing\Easing.cpp" />
+    <ClCompile Include="assets\math\Math.cpp" />
+    <ClCompile Include="assets\scene\GameScene.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -131,6 +140,15 @@
     <ClInclude Include="3d\TerrainCommon.h" />
     <ClInclude Include="3d\ViewProjection.h" />
     <ClInclude Include="3d\WorldTransform.h" />
+    <ClInclude Include="assets\create\Create.h" />
+    <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
+    <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="assets\gameObject\fade\Fade.h" />
+    <ClInclude Include="assets\math\Aithmetic.h" />
+    <ClInclude Include="assets\math\collision\Collision.h" />
+    <ClInclude Include="assets\math\easing\Easing.h" />
+    <ClInclude Include="assets\math\Math.h" />
+    <ClInclude Include="assets\scene\GameScene.h" />
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\StringUtility.h" />
@@ -141,7 +159,6 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
-    <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
