@@ -1,6 +1,10 @@
 #include "RailCamera.h"
 #include "PrimitiveDrawer.h"
 #include "asset/math/Math.h"
+#ifdef _DEBUG
+#include "imgui.h"
+#endif // _DEBUG
+
 
 // 初期化
 void RailCamera::Initialize(const Matrix4x4& matWorld, const Vector3& radian, const ViewProjection* viewProjection) {
