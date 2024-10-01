@@ -293,3 +293,15 @@ Vector3 Math::BezierS(const Vector3& p0, const Vector3& p1, const Vector3& p2, f
 	Vector3 p = SLerp(p0p1, p1p2, t); // 上記2つの補間結果をさらに補間
 	return p;
 }
+
+// 六角形の角の計算
+vector<Vector2> Math::HexagonVertices(Vector2 center, float size) {
+	vector<Vector2> vertices;
+	for (int i = 0; i < 6; i++) {
+		float angle = pi_v<float> / 3 * i;//60度ごとの角度
+		float x = center.x + size * cosf(angle);
+		float y = center.y + size * sinf(angle);
+		vertices.push_back({x, y});
+	}
+	return vertices;
+}

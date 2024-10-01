@@ -42,6 +42,13 @@ void GameScene::Initialize() {
 	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
 	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
 	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
+	model_.resize(5);
+	for (int i = 0; i < 5; i++) {
+		model_[i].resize(5);
+		for (int j = 0; j < 5; j++) {
+			model_[i][j] = create_->GetModel(create_->typeHexagon);
+		}
+	}
 }
 
 // 更新
@@ -80,6 +87,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	DrawHoneycombMap();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -118,5 +126,24 @@ void GameScene::DebugCameraMove() {
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
+	}
+}
+
+void GameScene::DrawHoneycombMap() {
+	static const int rows= 5;
+	static const int cols = 5;
+	static int size = 32;
+	for (int row = 0; row < rows; ++row) {
+		for (int col = 0; col < cols; ++col) {
+			float xOffset = col * size * 1.5f;
+			float yOffset = row * size * sqrtf(3);
+			if (col % 2 == 1) {
+				yOffset += size * sqrtf(3) / 2; // 奇数列は半分ずらす
+			}
+			WorldTransform worldTransform;
+			worldTransform.Initialize();
+			worldTransform.translation_ = {xOffset, yOffset, 0.0f};
+			model_[row][col]->Draw(worldTransform, viewProjection_);
+		}
 	}
 }

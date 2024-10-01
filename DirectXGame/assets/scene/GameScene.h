@@ -15,6 +15,7 @@
 #include "DebugCamera.h"
 
 #include <memory>
+#include <vector>
 
 /// <summary>
 /// ゲームシーン
@@ -68,6 +69,8 @@ private: // メンバ関数
 	/// </summary>
 	void DebugCameraMove();
 
+	void DrawHoneycombMap();
+
 public://静的メンバ変数
 
 private: // メンバ変数
@@ -78,6 +81,7 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
+	std::vector<std::vector<Model*>> model_;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -16,6 +16,7 @@ Create::~Create() {
 // モデルをクリエイト
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM);//配列の大きさを設定
+	models_[static_cast<int>(typeHexagon)] = Model::CreateFromOBJ("hexagon", true);
 }
 
 // テクスチャをクリエイト
