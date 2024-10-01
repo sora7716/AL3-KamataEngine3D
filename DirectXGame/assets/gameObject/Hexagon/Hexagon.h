@@ -1,6 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
-#include <vector>
+#include "assets/math/Aithmetic.h"
 
 //前方宣言
 class Model;
@@ -40,12 +40,12 @@ public://メンバ関数
 	void Draw();
 
 public://静的メンバ変数
-	static inline const int row = 8;//行
-	static inline const int col = 5;//列
-
+	static inline const int kLayer = 5;//層
 private://メンバ変数
 	Model* model_ = nullptr; // モデル
 	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
-	std::vector<WorldTransform*> worldTransforms_;    // ワールドトランスフォーム
-	float radius_ = 2.0f;//半径
+	vector<vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム
+	WorldTransform *parent_;//六角形の親
+	Polar polar_ = {};//極座標に使用する
+	int numPieces = 0;//ピースの数
 };

@@ -12,6 +12,13 @@
 using namespace std;
 using namespace std::numbers;
 
+// 極座標に使用する構造体
+typedef struct Polar {
+	float radian;//弧度法での角度
+	float radius;//半径
+	float diameter;//直径
+}Polar;
+
 /// <summary>
 /// 加算
 /// </summary>

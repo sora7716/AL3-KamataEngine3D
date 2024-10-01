@@ -230,12 +230,4 @@ public:
 	/// <param name="t">フレーム</param>
 	/// <returns>ベジエ曲線</returns>
 	static Vector3 BezierS(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t);
-
-	/// <summary>
-	/// 六角形の角の計算
-	/// </summary>
-	/// <param name="center">中心</param>
-	/// <param name="size">サイズ</param>
-	/// <returns></returns>
-	static vector<Vector2> HexagonVertices(Vector2 center, float size);
 };
