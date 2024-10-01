@@ -10,8 +10,10 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
 #include "assets/create/Create.h"
 #include "assets/gameObject/camera/RailCamera.h"
+#include "assets/gameObject/Hexagon/Hexagon.h"
 #include "DebugCamera.h"
 
 #include <memory>
@@ -69,8 +71,6 @@ private: // メンバ関数
 	/// </summary>
 	void DebugCameraMove();
 
-	void DrawHoneycombMap();
-
 public://静的メンバ変数
 
 private: // メンバ変数
@@ -81,7 +81,6 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
-	std::vector<std::vector<Model*>> model_;
 
 	/// <summary>
 	/// ゲームシーン用
@@ -90,4 +89,7 @@ private: // メンバ変数
 	//カメラ
 	std::unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
+
+	//六角形
+	std::unique_ptr<Hexagon> hexagon_ = nullptr;
 };
