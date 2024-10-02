@@ -11,12 +11,11 @@
 void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = move(model);                   // モデルを受け取る
 	viewProjection_ = viewProjection;       // ビュープロジェクションを受け取る
-	polar_.radius = 0.9f;                   // 半径
+	polar_.radius = 1.0f;                   // 半径
 	polar_.diameter = polar_.radius * 2.0f; // 直径
 	worldTransforms_.resize(kLayer);//層の数を設定
 	parent_ = new WorldTransform();//六角形の親の生成
 	parent_->Initialize();//六角形の親の初期化
-
 	for (int i = 0; i < kLayer; i++) {
 		numPieces = (i == 0) ? 1 : (6 * i); // 1層目は1つのピース、2層目以降は6*iのピース
 		worldTransforms_[i].resize(numPieces);
