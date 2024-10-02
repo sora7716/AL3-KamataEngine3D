@@ -1,8 +1,4 @@
 #pragma once
-#define WHITE Vector4{1.0f,1.0f,1.0f,1.0f}
-#define BLACK Vector4{0.0f,0.0f,0.0f,1.0f}
-#define DARK_BROWN Vector4 { 0.259f, 0.075f, 0.086f }
-#define oneFrame float(1.0f/60.0f)
 
 #include "Audio.h"
 #include "DirectXCommon.h"
@@ -81,6 +77,7 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
+	WorldTransform worldTransform_;
 
 	/// <summary>
 	/// ゲームシーン用

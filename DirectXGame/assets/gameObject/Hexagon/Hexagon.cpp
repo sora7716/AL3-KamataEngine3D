@@ -11,7 +11,7 @@
 void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = move(model);                   // モデルを受け取る
 	viewProjection_ = viewProjection;       // ビュープロジェクションを受け取る
-	polar_.radius = 1.0f;                   // 半径
+	polar_.radius = 0.9f;                   // 半径
 	polar_.diameter = polar_.radius * 2.0f; // 直径
 	worldTransforms_.resize(kLayer);//層の数を設定
 	parent_ = new WorldTransform();//六角形の親の生成
@@ -42,6 +42,7 @@ void Hexagon::Update() {
 	ImGui::DragFloat3("rotation", &parent_->rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &parent_->translation_.x, 0.1f);
 	ImGui::End();
+
 	for (auto piece : worldTransforms_) {
 		for (auto& worldTransform : piece) {
 			if (worldTransform) {

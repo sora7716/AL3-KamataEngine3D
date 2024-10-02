@@ -11,6 +11,7 @@
 #include <cassert>
 using namespace std;
 using namespace std::numbers;
+#define oneFrame float(1.0f / 60.0f)
 
 // 極座標に使用する構造体
 typedef struct Polar {
