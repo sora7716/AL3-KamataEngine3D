@@ -13,10 +13,22 @@ class Create {
 public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
+		kPlayerHead,          /// 頭
+		kPlayerBody,          /// 体
+		kPlayerLeft_UpperArm, /// 左上腕
+		kPlayerLeft_LowerArm, /// 左腕
+		kPlayerLeft_Thigh,    /// 左もも
+		kPlayerLeft_Leg,      /// 左足
 		kModelNum,
 	};
-	using ObjectType = Type;                       // エイリアス
-	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
+	using ObjectType = Type;                                                 // エイリアス
+	static inline ObjectType typeHead = Type::kPlayerHead;                   // 頭
+	static inline ObjectType typeBody = Type::kPlayerBody;                   // 体
+	static inline ObjectType typeLeft_UpperArm = Type::kPlayerLeft_UpperArm; // 左上腕
+	static inline ObjectType typeLeft_LowerArm = Type::kPlayerLeft_LowerArm; // 左腕
+	static inline ObjectType typeLeft_Thigh = Type::kPlayerLeft_Thigh;       // 左もも
+	static inline ObjectType typeLeft_Leg = Type::kPlayerLeft_Leg;           // 左足
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);      // モデルの数
 
 public: // メンバ関数
 	/// <summary>
