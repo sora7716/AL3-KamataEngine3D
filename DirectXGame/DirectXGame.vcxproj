@@ -144,6 +144,7 @@
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
+    <ClInclude Include="assets\gameObject\player\IPlayerParts.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
