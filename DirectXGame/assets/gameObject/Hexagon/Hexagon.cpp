@@ -13,25 +13,20 @@ void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;       // ビュープロジェクションを受け取る
 	polar_.radius = 1.0f;                   // 半径
 	polar_.diameter = polar_.radius * 2.0f; // 直径
-	worldTransforms_.resize(kLayer);//層の数を設定
+	worldTransforms_.resize(row);//層の数を設定
 	parent_ = new WorldTransform();//六角形の親の生成
 	parent_->Initialize();//六角形の親の初期化
-	for (int i = 0; i < kLayer; i++) {
-		numPieces = (i == 0) ? 1 : (6 * i); // 1層目は1つのピース、2層目以降は6*iのピース
-		worldTransforms_[i].resize(numPieces);
-		polar_.radian = 2.0f * pi_v<float> / numPieces; // 各層のピースに基づいた角度
-		for (int j = 0; j < numPieces; j++) {
-			WorldTransform* worldTransform = new WorldTransform();                       // ワールドトランスフォーム(単体)を生成
-			worldTransform->Initialize();                                                // 生成したワールドトランスフォームを初期化
-			worldTransform->rotation_.x = pi_v<float> / 2.0f;                            // 角度を設定
-			worldTransform->translation_.z = 20.0f;                                      // z軸の設定
-			worldTransform->translation_.x = polar_.diameter * i * cosf(polar_.radian * j); // 極座標から直交座標を求める
-			worldTransform->translation_.y = polar_.diameter * i * sinf(polar_.radian * j); // 極座標から直交座標を求める
-			worldTransforms_[i][j] = worldTransform;                                     // ワールドトランスフォーム(複数)に代入
-			worldTransforms_[i][j]->parent_ = parent_;                                   // 親子関係を作る
-			if (i == 0) {
-				break; // 中心の六角形だったら抜ける
-			}
+	for (int i = 0; i < row; i++) {
+		worldTransforms_[i].resize(col);
+		for (int j = 0; j < col; j++) {
+			WorldTransform* worldTransform = new WorldTransform();
+			worldTransform->Initialize();
+			worldTransform->translation_.x = polar_.diameter * j + (polar_.radius * i);
+			worldTransform->translation_.y = polar_.diameter * i - ((polar_.radius/2.0f) * i);
+			worldTransform->translation_.z = 20.0f;
+			worldTransform->rotation_.x = pi_v<float> / 2.0f;
+			worldTransform->parent_ = parent_;
+			worldTransforms_[i][j] = worldTransform;
 		}
 	}
 }
