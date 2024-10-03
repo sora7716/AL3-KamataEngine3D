@@ -40,7 +40,7 @@ public://メンバ関数
 	void Draw();
 
 public://静的メンバ変数
-	static inline const int kLayer = 5;//層
+	static inline const int kLayer = 50;//層
 private://メンバ変数
 	Model* model_ = nullptr; // モデル
 	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
