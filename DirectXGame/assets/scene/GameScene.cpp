@@ -8,6 +8,7 @@
 #ifdef _DEBUG
 #include "imgui.h"
 #endif // _DEBUG
+#include "assets/math/collision/Collision.h"
 
 // コンストラクタ
 GameScene::GameScene() {}
@@ -46,6 +47,9 @@ void GameScene::Initialize() {
 	// 六角形
 	hexagon_ = std::make_unique<Hexagon>();
 	hexagon_->Initialize(create_->GetModel(create_->typeHexagon), &viewProjection_);
+
+	worldTransform_.Initialize();
+	worldTransform_.translation_.z = 20;
 }
 
 // 更新
@@ -89,6 +93,8 @@ void GameScene::Draw() {
 	
 	//六角形
 	hexagon_->Draw();
+
+	Collision::DrawBox(worldTransform_.translation_, {1, 1, 1}, &viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
