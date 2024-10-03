@@ -112,6 +112,8 @@
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
+    <ClCompile Include="assets\gameObject\player\Player.cpp" />
+    <ClCompile Include="assets\gameObject\player\PlayerParts.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
@@ -145,6 +147,8 @@
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\player\IPlayerParts.h" />
+    <ClInclude Include="assets\gameObject\player\Player.h" />
+    <ClInclude Include="assets\gameObject\player\PlayerParts.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />

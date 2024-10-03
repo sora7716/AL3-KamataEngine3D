@@ -16,8 +16,8 @@ class IPlayerParts {
 
 public: /// 列挙体の宣言
 	enum class Parts {
-		kHead,          /// 頭
 		kBody,          /// 体
+		kHead,          /// 頭
 		kLeft_UpperArm, /// 左上腕
 		kLeft_LowerArm, /// 左腕
 		kLeft_Thigh,    /// 左もも
@@ -26,8 +26,8 @@ public: /// 列挙体の宣言
 	};
 
 	using PartsName = Parts;
-	static inline PartsName head = Parts::kHead;                         /// 頭
 	static inline PartsName body = Parts::kBody;                         /// 体
+	static inline PartsName head = Parts::kHead;                         /// 頭
 	static inline PartsName left_UpperArm = Parts::kLeft_UpperArm;       /// 左上腕
 	static inline PartsName left_LowerArm = Parts::kLeft_LowerArm;       /// 左腕
 	static inline PartsName left_Thigh = Parts::kLeft_Thigh;             /// 左もも
@@ -87,7 +87,7 @@ public:    /// メンバ関数の宣言
 protected: /// メンバ変数の宣言
 
 	/// モデル
-	Model* model = nullptr;
+	Model* model_ = nullptr;
 
 	/// ワールドトランスフォーム
 	WorldTransform worldTransform_; 

@@ -15,9 +15,14 @@ Create::~Create() {
 
 // モデルをクリエイト
 void Create::ModelCreate() {
-	models_.resize(MODEL_NUM);//配列の大きさを設定
+	models_.resize(MODEL_NUM); // 配列の大きさを設定
 
-	models_[static_cast<int>(ObjectType::kPlayerHead)] = Model::CreateFromOBJ("Head", true);
+	models_[(int)ObjectType::kPlayerBody] = Model::CreateFromOBJ("Body", true);                  // 体
+	models_[(int)ObjectType::kPlayerHead] = Model::CreateFromOBJ("Head", true);                  // 頭
+	models_[(int)ObjectType::kPlayerLeft_UpperArm] = Model::CreateFromOBJ("LeftUpperArm", true); // 左上腕
+	models_[(int)ObjectType::kPlayerLeft_LowerArm] = Model::CreateFromOBJ("LeftLowerArm", true); // 左腕
+	models_[(int)ObjectType::kPlayerLeft_Thigh] = Model::CreateFromOBJ("LeftThigh", true);       // 左もも
+	models_[(int)ObjectType::kPlayerLeft_Leg] = Model::CreateFromOBJ("LeftLeg", true);           // 左足
 }
 
 // テクスチャをクリエイト

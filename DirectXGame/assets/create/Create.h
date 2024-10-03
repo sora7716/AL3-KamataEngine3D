@@ -13,8 +13,8 @@ class Create {
 public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
-		kPlayerHead,          /// 頭
 		kPlayerBody,          /// 体
+		kPlayerHead,          /// 頭
 		kPlayerLeft_UpperArm, /// 左上腕
 		kPlayerLeft_LowerArm, /// 左腕
 		kPlayerLeft_Thigh,    /// 左もも
@@ -22,8 +22,8 @@ public: // 構造体や列挙型
 		kModelNum,
 	};
 	using ObjectType = Type;                                                 // エイリアス
-	static inline ObjectType typeHead = Type::kPlayerHead;                   // 頭
 	static inline ObjectType typeBody = Type::kPlayerBody;                   // 体
+	static inline ObjectType typeHead = Type::kPlayerHead;                   // 頭
 	static inline ObjectType typeLeft_UpperArm = Type::kPlayerLeft_UpperArm; // 左上腕
 	static inline ObjectType typeLeft_LowerArm = Type::kPlayerLeft_LowerArm; // 左腕
 	static inline ObjectType typeLeft_Thigh = Type::kPlayerLeft_Thigh;       // 左もも
