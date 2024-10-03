@@ -48,6 +48,11 @@ public://メンバ関数
 	/// <param name="highScore">ハイスコア</param>
 	static  void HighScoreSave(int highScore);
 
+	/// <summary>
+	/// スコアのロード
+	/// </summary>
+	/// <param name="saveDateName"></param>
+	/// <param name="highScore"></param>
 	static void UpdateScoreSave(std::string saveDateName,int&highScore);
 
 private: // メンバ変数
@@ -68,5 +73,6 @@ private://メンバ変数
 	std::stringstream failDataCommands_;//ファイルデータを格納しておく変数
 	std::vector<Vector3>position_;//データに書いてあった位置を格納しておく変数
 	std::vector<int32_t> phase_;   // 待機時間のカウンタを保持するための変数
+	std::vector<std::vector<int>> mapChip;
 };
 

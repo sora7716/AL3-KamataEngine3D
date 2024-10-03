@@ -40,8 +40,8 @@ public://メンバ関数
 	void Draw();
 
 public://静的メンバ変数
-	static inline const int row = 8;//行
-	static inline const int col = 8;//列
+	static inline const int row = 2;//行
+	static inline const int col = 2;//列
 
 private://メンバ変数
 	Model* model_ = nullptr; // モデル
