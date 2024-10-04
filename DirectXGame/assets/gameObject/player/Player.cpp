@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Input.h"
+#include "assets/math/Math.h"
 
 void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
@@ -9,13 +11,16 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 
 	viewProjection_ = viewProjection;
-
 	
 	InitializeParts();
+
+	input_ = Input::GetInstance();
 
 }
 
 void Player::Update() {
+
+	Player::JoyStickMove();
 
 	for (auto& playerParts : parts) {
 		playerParts->Update();
@@ -129,3 +134,21 @@ void Player::InitializeParts() {
 
 #pragma endregion
 };
+
+void Player::JoyStickMove() {
+
+	XINPUT_STATE joyState;
+
+	if (input_->GetJoystickState(0, joyState)) {
+
+		const float speed = 0.3f;
+
+		Vector3 move = {(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.f, (float)joyState.Gamepad.sThumbLY / SHRT_MAX};
+
+		move = Math::Normalize(move) * speed;
+
+		worldTransform_.translation_ += move;
+
+	}
+
+}

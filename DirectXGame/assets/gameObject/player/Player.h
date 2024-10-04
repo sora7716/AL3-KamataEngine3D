@@ -5,6 +5,8 @@
 #include "memory"
 using namespace std;
 
+class Input;
+
 class Player {
 
 public:
@@ -38,6 +40,10 @@ public:
 
 	const WorldTransform& GetWorldPosition() { return this->worldTransform_; }
 
+private:
+
+#pragma region このクラスのみで使うメンバ関数の宣言
+
 	/// <summary>
 	/// パーツを作る
 	/// </summary>
@@ -48,7 +54,12 @@ public:
 	/// </summary>
 	void InitializeParts();
 
+	/// <summary>
+	/// ジョイスティックによるプレイヤーの移動
+	/// </summary>
+	void JoyStickMove();
 
+#pragma endregion
 
 private:
 
@@ -59,5 +70,7 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 
 	unique_ptr<IPlayerParts> parts[IPlayerParts::PARTS_NUM] = {nullptr};
+
+	Input *input_ = nullptr;
 
 };

@@ -1,4 +1,6 @@
 #include "PlayerParts.h"
+#include "numbers"
+
 
 #pragma region プレイヤーパーツ(体)
 
@@ -10,6 +12,7 @@ void PlayerBody::Initialize(Model* model, ViewProjection* viewprojection) {
 
 	worldTransform_.Initialize();
 	size_ = {0.6f, 0.6f, 0.6f};
+	angle_.y = std::numbers::pi_v<float>;
 	position_ = {0.0f, 0.0f, 3.0f};
 
 	viewProjection_ = viewprojection;
