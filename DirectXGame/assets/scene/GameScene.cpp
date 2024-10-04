@@ -38,6 +38,9 @@ void GameScene::Initialize() {
 	create_->ModelCreate();               // モデルの生成
 	create_->TextureCreate();             // テクスチャの生成
 
+	player_ = std::make_unique<Player>(); //プレイヤークラスの生成
+	player_->Initialize(create_.get(),&viewProjection_);
+
 	// カメラ
 	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
 	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
@@ -48,6 +51,8 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// デバックカメラの更新
 	DebugCameraMove();
+	//プレイヤーの更新
+	player_->Update();
 	// カメラの更新
 	railCamera_->Update();
 }
@@ -80,6 +85,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

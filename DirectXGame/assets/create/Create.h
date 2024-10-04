@@ -13,22 +13,38 @@ class Create {
 public: // 構造体や列挙型
 	enum class Type {
 		kPlayer,
-		kPlayerBody,          /// 体
-		kPlayerHead,          /// 頭
-		kPlayerLeft_UpperArm, /// 左上腕
-		kPlayerLeft_LowerArm, /// 左腕
-		kPlayerLeft_Thigh,    /// 左もも
-		kPlayerLeft_Leg,      /// 左足
+		kPlayerBody,           /// 体
+		kPlayerHead,           /// 頭
+		kPlayerRight_UpperArm, /// 右上腕
+		kPlayerRight_LowerArm, /// 右腕
+		kPlayerRight_Thigh,    /// 右もも
+		kPlayerRight_Leg,      /// 右足
+		kPlayerLeft_UpperArm,  /// 左上腕
+		kPlayerLeft_LowerArm,  /// 左腕
+		kPlayerLeft_Thigh,     /// 左もも
+		kPlayerLeft_Leg,       /// 左足
 		kModelNum,
 	};
-	using ObjectType = Type;                                                 // エイリアス
-	static inline ObjectType typeBody = Type::kPlayerBody;                   // 体
-	static inline ObjectType typeHead = Type::kPlayerHead;                   // 頭
-	static inline ObjectType typeLeft_UpperArm = Type::kPlayerLeft_UpperArm; // 左上腕
-	static inline ObjectType typeLeft_LowerArm = Type::kPlayerLeft_LowerArm; // 左腕
-	static inline ObjectType typeLeft_Thigh = Type::kPlayerLeft_Thigh;       // 左もも
-	static inline ObjectType typeLeft_Leg = Type::kPlayerLeft_Leg;           // 左足
-	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);      // モデルの数
+	using ObjectType = Type;                                                   // エイリアス
+	static inline ObjectType typeBody = Type::kPlayerBody;                     // 体
+	static inline ObjectType typeHead = Type::kPlayerHead;                     // 頭
+	
+	/// <summary>
+	/// 右側のパーツ
+	/// </summary>
+	static inline ObjectType typeRight_UpperArm = Type::kPlayerRight_UpperArm; // 右上腕
+	static inline ObjectType typeRight_LowerArm = Type::kPlayerRight_LowerArm; // 右腕
+	static inline ObjectType typeRight_Thigh = Type::kPlayerRight_Thigh;       // 右もも
+	static inline ObjectType typeRight_Leg = Type::kPlayerRight_Leg;           // 右足
+
+	/// <summary>
+	/// 左側のパーツ
+	/// </summary>
+	static inline ObjectType typeLeft_UpperArm = Type::kPlayerLeft_UpperArm;   // 左上腕
+	static inline ObjectType typeLeft_LowerArm = Type::kPlayerLeft_LowerArm;   // 左腕
+	static inline ObjectType typeLeft_Thigh = Type::kPlayerLeft_Thigh;         // 左もも
+	static inline ObjectType typeLeft_Leg = Type::kPlayerLeft_Leg;             // 左足
+	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum);        // モデルの数
 
 public: // メンバ関数
 	/// <summary>

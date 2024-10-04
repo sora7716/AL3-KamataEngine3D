@@ -17,13 +17,19 @@ Create::~Create() {
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM); // 配列の大きさを設定
 
-	models_[(int)ObjectType::kPlayerBody] = Model::CreateFromOBJ("Body", true);                  // 体
-	models_[(int)ObjectType::kPlayerHead] = Model::CreateFromOBJ("Head", true);                  // 頭
-	models_[(int)ObjectType::kPlayerLeft_UpperArm] = Model::CreateFromOBJ("LeftUpperArm", true); // 左上腕
-	models_[(int)ObjectType::kPlayerLeft_LowerArm] = Model::CreateFromOBJ("LeftLowerArm", true); // 左腕
-	models_[(int)ObjectType::kPlayerLeft_Thigh] = Model::CreateFromOBJ("LeftThigh", true);       // 左もも
-	models_[(int)ObjectType::kPlayerLeft_Leg] = Model::CreateFromOBJ("LeftLeg", true);           // 左足
-}
+	models_[(int)ObjectType::kPlayerBody] = Model::CreateFromOBJ("Body", true);                    // 体
+	models_[(int)ObjectType::kPlayerHead] = Model::CreateFromOBJ("Head", true);                    // 頭
+
+	models_[(int)ObjectType::kPlayerRight_UpperArm] = Model::CreateFromOBJ("RightUpperArm", true); // 右上腕
+	models_[(int)ObjectType::kPlayerRight_LowerArm] = Model::CreateFromOBJ("RightLowerArm", true); // 右腕
+	models_[(int)ObjectType::kPlayerRight_Thigh] = Model::CreateFromOBJ("RightThigh", true);       // 右もも
+	models_[(int)ObjectType::kPlayerRight_Leg] = Model::CreateFromOBJ("RightLeg", true);           // 右足
+
+	models_[(int)ObjectType::kPlayerLeft_UpperArm] = Model::CreateFromOBJ("LeftUpperArm", true);   // 左上腕
+	models_[(int)ObjectType::kPlayerLeft_LowerArm] = Model::CreateFromOBJ("LeftLowerArm", true);   // 左腕
+	models_[(int)ObjectType::kPlayerLeft_Thigh] = Model::CreateFromOBJ("LeftThigh", true);         // 左もも
+	models_[(int)ObjectType::kPlayerLeft_Leg] = Model::CreateFromOBJ("LeftLeg", true);             // 左足
+};
 
 // テクスチャをクリエイト
 void Create::TextureCreate() {}

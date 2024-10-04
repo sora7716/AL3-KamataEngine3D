@@ -16,26 +16,35 @@ class IPlayerParts {
 
 public: /// 列挙体の宣言
 	enum class Parts {
-		kBody,          /// 体
-		kHead,          /// 頭
-		kLeft_UpperArm, /// 左上腕
-		kLeft_LowerArm, /// 左腕
-		kLeft_Thigh,    /// 左もも
-		kLeft_Leg,      /// 左足
-		kPartsNum       /// パーツ数
+		kBody,           /// 体
+		kHead,           /// 頭
+		kRight_UpperArm, /// 右上腕
+		kRight_LowerArm, /// 右腕
+		kRight_Thigh,    /// 右もも
+		kRight_Leg,      /// 右足
+		kLeft_UpperArm,  /// 左上腕
+		kLeft_LowerArm,  /// 左腕
+		kLeft_Thigh,     /// 左もも
+		kLeft_Leg,       /// 左足
+		kPartsNum        /// パーツ数
 	};
 
 	using PartsName = Parts;
 	static inline PartsName body = Parts::kBody;                         /// 体
 	static inline PartsName head = Parts::kHead;                         /// 頭
+
+	static inline PartsName right_UpperArm = Parts::kRight_UpperArm;     /// 右上腕
+	static inline PartsName right_LowerArm = Parts::kRight_LowerArm;     /// 右腕
+	static inline PartsName right_Thigh = Parts::kRight_Thigh;           /// 右もも
+	static inline PartsName right_Leg = Parts::kRight_Leg;               /// 右足
+
 	static inline PartsName left_UpperArm = Parts::kLeft_UpperArm;       /// 左上腕
 	static inline PartsName left_LowerArm = Parts::kLeft_LowerArm;       /// 左腕
 	static inline PartsName left_Thigh = Parts::kLeft_Thigh;             /// 左もも
 	static inline PartsName left_Leg = Parts::kLeft_Leg;                 /// 左足
 	static constexpr int PARTS_NUM = static_cast<int>(Parts::kPartsNum); /// パーツ数
 
-public:    /// メンバ関数の宣言
-
+public: /// メンバ関数の宣言
 	/// <summary>
 	/// デフォルトコンストラクタ
 	/// </summary>
@@ -51,7 +60,7 @@ public:    /// メンバ関数の宣言
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	virtual void Initialize(Model *model,ViewProjection *viewProjection) = 0;
+	virtual void Initialize(Model* model, ViewProjection* viewProjection) = 0;
 
 	/// <summary>
 	/// 更新処理
@@ -78,19 +87,18 @@ public:    /// メンバ関数の宣言
 	/// <summary>
 	/// SRTアフィン
 	/// </summary>
-	void SetAffine() { 
+	void SetAffine() {
 		worldTransform_.scale_ = size_;
 		worldTransform_.rotation_ = angle_;
 		worldTransform_.translation_ = position_;
 	}
 
 protected: /// メンバ変数の宣言
-
 	/// モデル
 	Model* model_ = nullptr;
 
 	/// ワールドトランスフォーム
-	WorldTransform worldTransform_; 
+	WorldTransform worldTransform_;
 
 	/// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
@@ -103,5 +111,4 @@ protected: /// メンバ変数の宣言
 
 	/// 座標
 	Vector3 position_ = {};
-
 };

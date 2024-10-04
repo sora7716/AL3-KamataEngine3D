@@ -75,6 +75,157 @@ public:
 
 ///============================================================================================================================================
 
+#pragma region 右側のパーツクラス
+
+/// <summary>
+/// プレイヤーパーツ(右上腕)
+/// </summary>
+class PlayerRight_UpperArm : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	PlayerRight_UpperArm() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~PlayerRight_UpperArm() override = default;
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw() override;
+};
+
+///============================================================================================================================================
+
+/// <summary>
+/// プレイヤーパーツ(右腕)
+/// </summary>
+class PlayerRight_LowerArm : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	PlayerRight_LowerArm() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~PlayerRight_LowerArm() override = default;
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw() override;
+};
+
+///============================================================================================================================================
+
+/// <summary>
+/// プレイヤーパーツ(左もも)
+/// </summary>
+class PlayerRight_Thigh : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	PlayerRight_Thigh() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~PlayerRight_Thigh() override = default;
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw() override;
+};
+
+///============================================================================================================================================
+
+/// <summary>
+/// プレイヤーパーツ(左足)
+/// </summary>
+class PlayerRight_Leg : public IPlayerParts {
+
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	PlayerRight_Leg() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~PlayerRight_Leg() override = default;
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw() override;
+};
+
+///============================================================================================================================================
+
+#pragma endregion
+
+
+#pragma region 左側のパーツクラス
+
 /// <summary>
 /// プレイヤーパーツ(左上腕)
 /// </summary>
@@ -147,6 +298,8 @@ public:
 
 ///============================================================================================================================================
 
+
+
 /// <summary>
 /// プレイヤーパーツ(左もも)
 /// </summary>
@@ -216,3 +369,5 @@ public:
 	/// </summary>
 	void Draw() override;
 };
+
+#pragma endregion

@@ -1,10 +1,13 @@
 #pragma once
 #include "PlayerParts.h"
+#include "assets/create/Create.h"
 
 #include "memory"
 using namespace std;
 
 class Player {
+
+public:
 
 	/// <summary>
 	/// コンストラクタ
@@ -21,7 +24,7 @@ class Player {
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="viewProjection"></param>
-	void Initialize(Model* model, ViewProjection* viewProjection);
+	void Initialize(Create* create, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新処理
@@ -33,9 +36,23 @@ class Player {
 	/// </summary>
 	void Draw();
 
+	const WorldTransform& GetWorldPosition() { return this->worldTransform_; }
+
+	/// <summary>
+	/// パーツを作る
+	/// </summary>
+	void CreateParts();
+
+	/// <summary>
+	/// パーツの初期化
+	/// </summary>
+	void InitializeParts();
+
+
+
 private:
 
-	Model* model_ = nullptr;
+	Create *create_ = nullptr;
 
 	WorldTransform worldTransform_;
 

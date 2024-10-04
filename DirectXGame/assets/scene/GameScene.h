@@ -12,6 +12,7 @@
 #include "WorldTransform.h"
 #include "assets/create/Create.h"
 #include "assets/gameObject/camera/RailCamera.h"
+#include "assets/gameObject/player/Player.h"
 #include "DebugCamera.h"
 
 #include <memory>
@@ -78,6 +79,7 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
+	std::unique_ptr<Player> player_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
