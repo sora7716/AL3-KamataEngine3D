@@ -58,5 +58,5 @@ public: // メンバ関数
 	/// <param name="worldPos">ワールドポジション</param>
 	/// <param name="size">サイズ</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	static void DrawBox(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection);
+	static void DrawBox(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection, Vector4 color = WHITE);
 };

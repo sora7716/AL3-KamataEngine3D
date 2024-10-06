@@ -60,6 +60,15 @@ void GameScene::Update() {
 	hexagon_->Update();
 	// カメラの更新
 	railCamera_->Update();
+
+	ImGui::Begin("box");
+	ImGui::DragFloat3("traslation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::Text("worldPosX:%f", worldPos_.x);
+	ImGui::Text("worldPosY:%f", worldPos_.y);
+	ImGui::Text("worldPosZ:%f", worldPos_.z);
+	ImGui::End();
+	worldTransform_.UpdateMatrix();
+	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
 }
 
 // 描画
@@ -93,8 +102,7 @@ void GameScene::Draw() {
 	
 	//六角形
 	hexagon_->Draw();
-
-	Collision::DrawBox(worldTransform_.translation_, {1, 1, 1}, &viewProjection_);
+	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

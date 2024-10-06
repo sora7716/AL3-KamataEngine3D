@@ -1,6 +1,12 @@
 #pragma once
 #define WHITE                                                                                                                                                                                          \
 	Vector4 { 1.0f, 1.0f, 1.0f, 1.0f }
+#define RED                                                                                                                                                                                          \
+	Vector4 { 1.0f, 0.0f, 0.0f, 1.0f }
+#define BLUE                                                                                                                                                                                          \
+	Vector4 { 0.0f, 0.0f, 1.0f, 1.0f }
+#define GREEN                                                                                                                                                                                        \
+	Vector4 { 0.0f, 1.0f, 0.0f, 1.0f }
 #define BLACK                                                                                                                                                                                          \
 	Vector4 { 0.0f, 0.0f, 0.0f, 1.0f }
 #define DARK_BROWN                                                                                                                                                                                     \

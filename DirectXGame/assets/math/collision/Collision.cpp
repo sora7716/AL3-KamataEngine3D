@@ -52,26 +52,26 @@ void Collision::DrawLine(Vector3 worldPos, Vector3 size, ViewProjection* viewPro
 }
 
 // 3Dの箱を作成
-void Collision::DrawBox(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection) {
+void Collision::DrawBox(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection, Vector4 color) {
 	// 線を描画するようのビュープロジェクションを設定
 	PrimitiveDrawer::GetInstance()->SetViewProjection(viewProjection);
 	// 線を描画
 	
 	//下端
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(size.x / 2.0f, 0.0f, 0.0f), {1.0f, 0.0f, 0.0f, 1.0f});//正面
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 右側
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(-size.x / 2.0f, 0.0f, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 左側
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, -size.z), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 背面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(size.x / 2.0f, 0.0f, 0.0f), color);             // 正面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), color); // 右側
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), worldPos + Vector3(-size.x / 2.0f, 0.0f, size.z), color); // 左側
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, 0.0f, -size.z), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), color); // 背面
 	//上端
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos + Vector3(size.x / 2.0f, size.y, 0.0f), {1.0f, 0.0f, 0.0f, 1.0f});//正面
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, size.y, 0.0f), worldPos + Vector3(size.x / 2.0f, size.y, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 右側
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos + Vector3(-size.x / 2.0f, size.y, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 左側
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, -size.z), worldPos + Vector3(size.x / 2.0f, size.y, size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 背面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos + Vector3(size.x / 2.0f, size.y, 0.0f), color);//正面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, size.y, 0.0f), worldPos + Vector3(size.x / 2.0f, size.y, size.z), color); // 右側
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos + Vector3(-size.x / 2.0f, size.y, size.z), color); // 左側
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, -size.z), worldPos + Vector3(size.x / 2.0f, size.y, size.z), color); // 背面
 	//右端
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f,size.y, 0.0f), worldPos + Vector3(size.x/2.0f, 0.0f, 0.0f), {1.0f, 0.0f, 0.0f, 1.0f});//正面
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, size.y, size.z), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), {1.0f, 0.0f, 0.0f, 1.0f});//背面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f,size.y, 0.0f), worldPos + Vector3(size.x/2.0f, 0.0f, 0.0f), color);//正面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos + Vector3(size.x / 2.0f, size.y, size.z), worldPos + Vector3(size.x / 2.0f, 0.0f, size.z), color);//背面
 	//左端
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), {1.0f, 0.0f, 0.0f, 1.0f});//正面
-	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, -size.z), worldPos - Vector3(size.x / 2.0f, 0.0f, -size.z), {1.0f, 0.0f, 0.0f, 1.0f}); // 背面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, 0.0f), worldPos - Vector3(size.x / 2.0f, 0.0f, 0.0f), color);//正面
+	PrimitiveDrawer::GetInstance()->DrawLine3d(worldPos - Vector3(size.x / 2.0f, -size.y, -size.z), worldPos - Vector3(size.x / 2.0f, 0.0f, -size.z), color); // 背面
 
 }
