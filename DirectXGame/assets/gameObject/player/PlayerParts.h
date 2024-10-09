@@ -22,7 +22,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -59,7 +59,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -98,7 +98,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -134,7 +134,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -170,7 +170,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -206,7 +206,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -247,7 +247,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -283,7 +283,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -321,7 +321,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理
@@ -357,7 +357,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(Model* model, ViewProjection* viewProjection) override;
+	void Initialize(Model* model, const ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新処理

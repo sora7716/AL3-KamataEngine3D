@@ -60,7 +60,7 @@ public: /// メンバ関数の宣言
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	virtual void Initialize(Model* model, ViewProjection* viewProjection) = 0;
+	virtual void Initialize(Model* model,const ViewProjection* viewProjection) = 0;
 
 	/// <summary>
 	/// 更新処理
@@ -101,7 +101,7 @@ protected: /// メンバ変数の宣言
 	WorldTransform worldTransform_;
 
 	/// ビュープロジェクション
-	ViewProjection* viewProjection_ = nullptr;
+	const ViewProjection* viewProjection_ = nullptr;
 
 	/// 倍率
 	Vector3 size_ = {1, 1, 1};

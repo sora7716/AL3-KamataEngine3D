@@ -184,6 +184,11 @@ public:
 	static float Lerp(const float& num1, const float& num2, float t);
 
 	/// <summary>
+	/// 線形補間
+	/// </summary>
+	static float LerpShortAngle(float a, float b, float t);
+
+	/// <summary>
 	/// 球面線形補間
 	/// </summary>
 	/// <param name="v1">ベクトル1</param>

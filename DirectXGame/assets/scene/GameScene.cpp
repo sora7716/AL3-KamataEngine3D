@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 #endif // _DEBUG
 #pragma endregion
 
@@ -44,17 +44,22 @@ void GameScene::Initialize() {
 	// カメラ
 	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
 	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
-	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
+	railCamera_->Initialize(&viewProjection_); // レールカメラの初期化
+	//自キャラのワールドトランスフォームを追従カメラにセット
+	railCamera_->SetTarget(&player_->GetWorldTransform());
+	player_->SetViewProjection(railCamera_->GetViewProjection());
+
 }
 
 // 更新
 void GameScene::Update() {
-	// デバックカメラの更新
-	DebugCameraMove();
+	
 	//プレイヤーの更新
 	player_->Update();
 	// カメラの更新
 	railCamera_->Update();
+	// デバックカメラの更新
+	DebugCameraMove();
 }
 
 // 描画
@@ -109,20 +114,23 @@ void GameScene::Draw() {
 // デバックカメラ
 void GameScene::DebugCameraMove() {
 #ifdef _DEBUG
-	debugCamera_->Update(); // デバックカメラの更新
+	
 	if (input_->TriggerKey(DIK_UP)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG
 
 	if (isDebugCameraActive_) {
+		debugCamera_->Update(); // デバックカメラの更新
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// カメラの更新
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection()->matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection()->matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}

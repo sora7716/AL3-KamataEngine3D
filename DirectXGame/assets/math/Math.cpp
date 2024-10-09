@@ -3,6 +3,8 @@
 #define cont(theta) (1.0f / tanf(theta))
 using namespace std;
 
+#define M_PI 3.14f
+
 // 転置行列
 Matrix4x4 Math::Transpose(Matrix4x4 m) {
 	Matrix4x4 result{};
@@ -185,6 +187,16 @@ float Math::Lerp(const float& num1, const float& num2, float t) {
 	float result;
 	result = num1 + t * (num2 - num1);
 	return result;
+}
+
+float Math::LerpShortAngle(float a, float b, float t) {
+
+	float diff = b - a;
+
+	float Lerp = std::fmod(-2 * float(M_PI), 2 * float(M_PI)) + diff * t;
+	Lerp = std::fmod(float(-M_PI), float(M_PI)) + diff * t;
+
+	return a + Lerp * t;
 }
 
 // 球面線形補間

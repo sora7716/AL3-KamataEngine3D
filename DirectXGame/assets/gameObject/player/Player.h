@@ -38,7 +38,9 @@ public:
 	/// </summary>
 	void Draw();
 
-	const WorldTransform& GetWorldPosition() { return this->worldTransform_; }
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+
+	void SetViewProjection(const ViewProjection* viewProjection) { viewProjection_ = viewProjection;}
 
 private:
 
@@ -67,10 +69,15 @@ private:
 
 	WorldTransform worldTransform_;
 
-	ViewProjection* viewProjection_ = nullptr;
+	const ViewProjection* viewProjection_ = nullptr;
+
+	Input* input_ = nullptr;
+
+	Vector3 velocity_ = {};
+	Vector3 targetRotate_ = {};
 
 	unique_ptr<IPlayerParts> parts[IPlayerParts::PARTS_NUM] = {nullptr};
 
-	Input *input_ = nullptr;
+	
 
 };

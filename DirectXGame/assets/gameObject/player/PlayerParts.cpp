@@ -4,7 +4,7 @@
 
 #pragma region プレイヤーパーツ(体)
 
-void PlayerBody::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerBody::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -40,7 +40,7 @@ void PlayerBody::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 #pragma region プレイヤーパーツ(頭)
 
-void PlayerHead::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerHead::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -77,7 +77,7 @@ void PlayerHead::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 #pragma region プレイヤーパーツ(右上腕)
 
-void PlayerRight_UpperArm::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerRight_UpperArm::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -111,7 +111,7 @@ void PlayerRight_UpperArm::Draw() { model_->Draw(worldTransform_, *viewProjectio
 
 #pragma region プレイヤーパーツ(右腕)
 
-void PlayerRight_LowerArm::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerRight_LowerArm::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -145,7 +145,7 @@ void PlayerRight_LowerArm::Draw() { model_->Draw(worldTransform_, *viewProjectio
 
 #pragma region プレイヤーパーツ(右もも)
 
-void PlayerRight_Thigh::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerRight_Thigh::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -180,7 +180,7 @@ void PlayerRight_Thigh::Draw() { model_->Draw(worldTransform_, *viewProjection_)
 
 #pragma region プレイヤーパーツ(右足)
 
-void PlayerRight_Leg::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerRight_Leg::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -218,7 +218,7 @@ void PlayerRight_Leg::Draw() { model_->Draw(worldTransform_, *viewProjection_); 
 
 #pragma region プレイヤーパーツ(左上腕)
 
-void PlayerLeft_UpperArm::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerLeft_UpperArm::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -252,7 +252,7 @@ void PlayerLeft_UpperArm::Draw() { model_->Draw(worldTransform_, *viewProjection
 
 #pragma region プレイヤーパーツ(左腕)
 
-void PlayerLeft_LowerArm::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerLeft_LowerArm::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -284,7 +284,7 @@ void PlayerLeft_LowerArm::Draw() { model_->Draw(worldTransform_, *viewProjection
 
 #pragma region プレイヤーパーツ(左もも)
 
-void PlayerLeft_Thigh::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerLeft_Thigh::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 
@@ -318,7 +318,7 @@ void PlayerLeft_Thigh::Draw() { model_->Draw(worldTransform_, *viewProjection_);
 
 #pragma region プレイヤーパーツ(左足)
 
-void PlayerLeft_Leg::Initialize(Model* model, ViewProjection* viewprojection) {
+void PlayerLeft_Leg::Initialize(Model* model, const ViewProjection* viewprojection) {
 
 	assert(model);
 

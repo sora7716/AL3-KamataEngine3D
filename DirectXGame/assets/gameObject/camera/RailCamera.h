@@ -3,6 +3,8 @@
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
 
+class Input;
+
 /// <summary>
 /// レールカメラ
 /// </summary> 
@@ -26,7 +28,7 @@ public: // メンバ関数
 	/// <param name="matWorld">ワールド座標</param>
 	/// <param name="radian">回転角[ラジアン]</param>
 	/// <param name="viewProjection">もともとあったビュープロジェクション</param>
-	void Initialize(const Matrix4x4& matWorld,const Vector3& radian,const ViewProjection* viewProjection);
+	void Initialize(ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -34,48 +36,25 @@ public: // メンバ関数
 	void Update();
 
 	/// <summary>
-	/// カメラの軌道
-	/// </summary>
-	void Draw();
-
-	/// <summary>
 	/// ビュープロジェクションのゲッター
 	/// </summary>
 	/// <returns>ビュープロジェクション</returns>
-	const ViewProjection& GetViewProjection() const;
+	const ViewProjection* GetViewProjection();
 
-	/// <summary>
-	/// ワールドトランスフォームのゲッター
-	/// </summary>
-	/// <returns>ワールドトランスフォーム</returns>
-	const WorldTransform& GetWorldTransform() const;
+	void SetTarget(const WorldTransform* target) { target_ = target; }
 
-	/// <summary>
-	/// トランスレイションのセッター
-	/// </summary>
-	/// <param name="translation">セットしたいtranslation</param>
-	void SetTranslation(Vector3 translation);
+private:
 
-	/// <summary>
-	/// ローテションのセッター
-	/// </summary>
-	/// <param name="rotation">セットしたいrotation</param>
-	void SetRotation(Vector3 rotation);
-
-	/// <summary>
-	/// 親子付け
-	/// </summary>
-	/// <param name="parent">親</param>
-	void SetParent(const WorldTransform* parent);
+	void JoyStickRotation();
 
 private: // メンバ変数
 
-	WorldTransform worldTransform_;  // ワールド変換データ
+	// ビュープロジェクション
+	ViewProjection* viewProjection_ = nullptr;
 
-	ViewProjection viewProjection_; // ビュープロジェクション
+	// 追従対象
+	const WorldTransform* target_ = nullptr;
 
-	std::vector<Vector3> controlPoints_;//制御点
-	//媒介変数
-	float t_ = 0;
+	Input* input_ = nullptr;
 
 };

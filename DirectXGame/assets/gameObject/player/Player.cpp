@@ -8,9 +8,10 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 	create_ = create;
 
+	viewProjection_ = viewProjection;
+
 	worldTransform_.Initialize();
 
-	viewProjection_ = viewProjection;
 	
 	InitializeParts();
 
@@ -20,11 +21,13 @@ void Player::Initialize(Create* create, ViewProjection* viewProjection) {
 
 void Player::Update() {
 
-	Player::JoyStickMove();
+	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.01f);
 
 	for (auto& playerParts : parts) {
 		playerParts->Update();
 	}
+
+	Player::JoyStickMove();
 
 	worldTransform_.UpdateMatrix();
 
@@ -88,7 +91,7 @@ void Player::InitializeParts() {
 
 	/// 体
 	parts[(int)IPlayerParts::body]->Initialize(create_->GetModel(create_->typeBody), viewProjection_);
-	parts[(int)IPlayerParts::body]->SetParent(&this->GetWorldPosition());
+	parts[(int)IPlayerParts::body]->SetParent(&this->GetWorldTransform());
 
 	/// 頭
 	parts[(int)IPlayerParts::head]->Initialize(create_->GetModel(create_->typeHead), viewProjection_);
@@ -141,14 +144,31 @@ void Player::JoyStickMove() {
 
 	if (input_->GetJoystickState(0, joyState)) {
 
+		const float threshold = 0.7f;
 		const float speed = 0.3f;
+		bool isMoving = false;
 
 		Vector3 move = {(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.f, (float)joyState.Gamepad.sThumbLY / SHRT_MAX};
 
-		move = Math::Normalize(move) * speed;
+		if (Math::Length(move) > threshold) {
+			isMoving = true;
+		}
 
-		worldTransform_.translation_ += move;
+		if (isMoving) {
 
+			move = Math::Normalize(move) * speed;
+
+			Matrix4x4 rotateYMatrix = Math::MakeRotateYMatrix(viewProjection_->rotation_.y);
+
+			move = Math::TransformNormal(move, rotateYMatrix);
+
+			worldTransform_.translation_ += move;
+			velocity_ = move;
+
+			targetRotate_.y = std::atan2(move.x, move.z);
+		}
+
+		worldTransform_.rotation_.y =Math::LerpShortAngle(worldTransform_.rotation_.y, targetRotate_.y, 1.0f);
 	}
 
 }
