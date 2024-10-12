@@ -120,6 +120,7 @@ void GameScene::Draw() {
 	/*hexagon_->Draw();
 	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);*/
 
+	//トミック
 	model[0]->Draw(worldTransform, viewProjection_);
 	model[1]->Draw(worldTransform, viewProjection_);
 	model[2]->Draw(worldTransform, viewProjection_);
