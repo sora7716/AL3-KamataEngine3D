@@ -79,6 +79,9 @@ private: // メンバ変数
 	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
 	WorldTransform worldTransform_;
 
+	Model* model[6] = {nullptr};
+	WorldTransform worldTransform;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

@@ -50,6 +50,16 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_.z = 20;
+
+	model[0] = Model::CreateFromOBJ("kibaUe", true);
+	model[1] = Model::CreateFromOBJ("kibaSita", true);
+	model[2] = Model::CreateFromOBJ("karada", true);
+	model[3] = Model::CreateFromOBJ("sita", true);
+	model[4] = Model::CreateFromOBJ("atama", true);
+	model[5] = Model::CreateFromOBJ("butubutu", true);
+	worldTransform.Initialize();
+	worldTransform.translation_.z = 10;
+	worldTransform.rotation_.x = -std::numbers::pi_v<float> / 2.0f;
 }
 
 // 更新
@@ -57,7 +67,7 @@ void GameScene::Update() {
 	// デバックカメラの更新
 	DebugCameraMove();
 	// 六角形の更新
-	hexagon_->Update();
+	// hexagon_->Update();
 	// カメラの更新
 	railCamera_->Update();
 
@@ -69,6 +79,12 @@ void GameScene::Update() {
 	ImGui::End();
 	worldTransform_.UpdateMatrix();
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
+
+	ImGui::Begin("mimic");
+	ImGui::DragFloat3("rotation", &worldTransform.rotation_.x, 0.1f);
+	ImGui::DragFloat3("traslation", &worldTransform.translation_.x, 0.1f);
+	ImGui::End();
+	worldTransform.UpdateMatrix();
 }
 
 // 描画
@@ -99,11 +115,17 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	//六角形
-	hexagon_->Draw();
-	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);
 
+	// 六角形
+	/*hexagon_->Draw();
+	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);*/
+
+	model[0]->Draw(worldTransform, viewProjection_);
+	model[1]->Draw(worldTransform, viewProjection_);
+	model[2]->Draw(worldTransform, viewProjection_);
+	model[3]->Draw(worldTransform, viewProjection_);
+	model[4]->Draw(worldTransform, viewProjection_);
+	model[5]->Draw(worldTransform, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
