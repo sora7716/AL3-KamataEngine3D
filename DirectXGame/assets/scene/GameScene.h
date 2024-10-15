@@ -7,10 +7,10 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-#include "assets/create/Create.h"
-#include "assets/gameObject/camera/RailCamera.h"
-#include "assets/gameObject/Hexagon/Hexagon.h"
 #include "DebugCamera.h"
+#include "assets/create/Create.h"
+#include "assets/gameObject/Hexagon/Hexagon.h"
+#include "assets/gameObject/camera/RailCamera.h"
 
 #include <memory>
 #include <vector>
@@ -59,34 +59,34 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
-	
-private: // メンバ関数
 
+private: // メンバ関数
 	/// <summary>
 	/// デバックカメラ
 	/// </summary>
 	void DebugCameraMove();
 
-public://静的メンバ変数
-
+public:  // 静的メンバ変数
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-	ViewProjection viewProjection_;                 // ビュープロジェクション
-	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
+	ViewProjection viewProjection_;                      // ビュープロジェクション
+	bool isDebugCameraActive_ = false;                   // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
-	std::unique_ptr<Create> create_ = nullptr; // クリエイトクラス
+	Create* create_ = nullptr;                           // クリエイトクラス
 	WorldTransform worldTransform_;
+
+	Model* model_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	//カメラ
+
+	// カメラ
 	std::unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
 
-	//六角形
+	// 六角形
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
 };

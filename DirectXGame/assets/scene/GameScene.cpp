@@ -35,9 +35,9 @@ void GameScene::Initialize() {
 #pragma endregion
 
 	// クリエイト
-	create_ = std::make_unique<Create>(); // クリエイトクラスの生成
-	create_->ModelCreate();               // モデルの生成
-	create_->TextureCreate();             // テクスチャの生成
+	create_ = Create::GetInstance(); // クリエイトの生成
+	create_->ModelCreate();          // モデルの生成
+	create_->TextureCreate();        // テクスチャの生成
 
 	// カメラ
 	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
@@ -50,6 +50,8 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_.z = 20;
+
+	model_ = Model::CreateFromOBJ("Mimic", true);
 }
 
 // 更新
@@ -60,6 +62,7 @@ void GameScene::Update() {
 	hexagon_->Update();
 	// カメラの更新
 	railCamera_->Update();
+	worldTransform_.UpdateMatrix();
 }
 
 // 描画
@@ -90,11 +93,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	//六角形
-	hexagon_->Draw();
 
-	Collision::DrawBox(worldTransform_.translation_, {1, 1, 1}, &viewProjection_);
+	// 六角形
+	//hexagon_->Draw();
+
+	model_->Draw(worldTransform_, viewProjection_);
+	//Collision::DrawBox(worldTransform_.translation_, {1, 1, 1}, &viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

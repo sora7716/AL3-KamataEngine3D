@@ -10,12 +10,19 @@ Create::~Create() {
 	for (auto model : models_) {
 		delete model;
 	}
-	models_.clear();//配列ごと削除
+	models_.clear(); // 配列ごと削除
+}
+
+// インスタンスのゲッター
+Create* Create::GetInstance() {
+	//関数内にstatic変数として宣言
+	static Create instance;
+	return &instance;
 }
 
 // モデルをクリエイト
 void Create::ModelCreate() {
-	models_.resize(MODEL_NUM);//配列の大きさを設定
+	models_.resize(MODEL_NUM); // 配列の大きさを設定
 	models_[static_cast<int>(typeHexagon)] = Model::CreateFromOBJ("hexagon", true);
 }
 

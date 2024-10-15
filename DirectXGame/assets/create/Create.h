@@ -9,7 +9,7 @@ class Model;
 /// <summary>
 /// クリエイトクラス
 /// </summary>
-class Create {
+class Create final{
 public: // 構造体や列挙型
 	enum class Type {
 		kHexagon,
@@ -20,15 +20,12 @@ public: // 構造体や列挙型
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Create();
 
 	/// <summary>
-	/// デストラクタ
+	/// インスタンスのゲッター
 	/// </summary>
-	~Create();
+	/// <returns>クリエイトのインスタンス</returns>
+	static Create* GetInstance();
 
 	/// <summary>
 	/// モデルをクリエイト
@@ -54,7 +51,25 @@ public: // メンバ関数
 	/// <returns>テクスチャハンドル</returns>
 	uint32_t GetTextureHandle(Create::Type subscript) const;
 
-private:                                  // メンバ変数
+private://メンバ関数
+
+	// コピーコンストラクタを禁止
+	Create(const Create& create) = delete;
+
+	// 代入演算を禁止
+	Create& operator=(const Create& create) = delete;
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Create();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Create();
+
+private:// メンバ変数
 	std::vector<Model*> models_;          // モデル
 	std::vector<uint32_t> textureHandle_; // テクスチャ
 };
