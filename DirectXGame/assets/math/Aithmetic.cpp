@@ -109,6 +109,8 @@ const Vector3 operator/(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+const Vector3 operator-(const Vector3& v) { return v * -1.0f; }
+
 const Matrix4x4 operator+(const Matrix4x4& num1, const Matrix4x4& num2) {
 	Matrix4x4 result = {};
 	for (int i = 0; i < 4; i++) {

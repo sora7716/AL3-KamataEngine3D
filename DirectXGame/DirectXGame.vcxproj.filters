@@ -93,10 +93,25 @@
     <ClCompile Include="assets\math\Math.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="assets\scene\GameScene.cpp">
+    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
+    <ClCompile Include="assets\gameManager\scene\IScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\GameManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,10 +224,25 @@
     <ClInclude Include="assets\math\Math.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="assets\scene\GameScene.h">
+    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h">
+    <ClInclude Include="assets\gameManager\scene\IScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\title\TitleScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\end\EndScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\GameManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

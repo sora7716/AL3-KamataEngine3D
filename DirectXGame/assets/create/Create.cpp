@@ -1,6 +1,5 @@
 #include "Create.h"
-#include "Model.h"
-#include "TextureManager.h"
+
 // コンストラクタ
 Create::Create() {}
 

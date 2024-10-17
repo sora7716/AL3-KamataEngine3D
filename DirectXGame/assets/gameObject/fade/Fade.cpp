@@ -1,7 +1,7 @@
 #include "Fade.h"
 #include "TextureManager.h"
 #include "WinApp.h"
-#define oneFrame 1.0f / 60.0f;
+#define deltaTime 1.0f / 60.0f;
 #include <algorithm>
 #ifdef _DEBUG
 #include "imgui.h"
@@ -77,7 +77,7 @@ bool Fade::IsFinished() const {
 // フェードアウトの処理
 void Fade::FadeOut(Vector4 color) {
 	// 1フレーム分の秒数をカウントアップ
-	counter_ += oneFrame;
+	counter_ += deltaTime;
 	// フェードの継続時間に行ったら打ち止め
 	if (counter_ >= duration_) {
 		counter_ = duration_;
@@ -91,7 +91,7 @@ void Fade::FadeOut(Vector4 color) {
 // フェードインの処理
 void Fade::FadeIn(Vector4 color) {
 	// 1フレーム分の秒数をカウントアップ
-	counter_ += oneFrame;
+	counter_ += deltaTime;
 	// フェードの継続時間に行ったら打ち止め
 	if (counter_ >= duration_) {
 		counter_ = duration_;

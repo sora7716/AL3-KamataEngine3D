@@ -11,7 +11,10 @@
 #include <cassert>
 using namespace std;
 using namespace std::numbers;
-#define oneFrame float(1.0f / 60.0f)
+#define cont(theta) (1.0f / tanf(theta))
+#define deltaTime   1.0f / 60.0f
+#define kGravity    Vector3(0.0f, -9.8f, 0.0f)
+#define pi_f        std::numbers::pi_v<float>
 
 // 極座標に使用する構造体
 typedef struct Polar {
@@ -118,6 +121,13 @@ const Vector3& operator+=(Vector3& v, const float& num);
 /// <param name="v2">ベクトル2</param>
 /// <returns></returns>
 const Vector3 operator/(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
+/// マイナスにする
+/// </summary>
+/// <param name="v"></param>
+/// <returns></returns>
+const Vector3 operator-(const Vector3& v);
 
 /// <summary>
 /// 加算

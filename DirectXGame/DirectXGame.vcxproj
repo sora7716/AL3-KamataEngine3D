@@ -110,6 +110,12 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="assets\create\Create.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="assets\gameManager\GameManager.cpp" />
+    <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp" />
@@ -117,7 +123,6 @@
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
     <ClCompile Include="assets\math\Math.cpp" />
-    <ClCompile Include="assets\scene\GameScene.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +148,12 @@
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="assets\create\Create.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
+    <ClInclude Include="assets\gameManager\GameManager.h" />
+    <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h" />
+    <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
+    <ClInclude Include="assets\gameManager\scene\IScene.h" />
+    <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h" />
@@ -150,7 +161,6 @@
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
     <ClInclude Include="assets\math\Math.h" />
-    <ClInclude Include="assets\scene\GameScene.h" />
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\StringUtility.h" />

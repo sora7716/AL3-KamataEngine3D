@@ -1,6 +1,8 @@
 #pragma once
 #include <cmath>
 #define USE_MATH_DEFINES
+#include "Model.h"
+#include "TextureManager.h"
 #include <vector>
 
 // 前方宣言
@@ -9,18 +11,17 @@ class Model;
 /// <summary>
 /// クリエイトクラス
 /// </summary>
-class Create final{
+class Create final {
 public: // 構造体や列挙型
 	enum class Type {
 		kHexagon,
 		kModelNum,
 	};
-	using ObjectType = Type;                       // エイリアス
+	using ObjectType = Type; // エイリアス
 	ObjectType typeHexagon = Type::kHexagon;
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数
-
 	/// <summary>
 	/// インスタンスのゲッター
 	/// </summary>
@@ -51,8 +52,7 @@ public: // メンバ関数
 	/// <returns>テクスチャハンドル</returns>
 	uint32_t GetTextureHandle(Create::Type subscript) const;
 
-private://メンバ関数
-
+private: // メンバ関数
 	// コピーコンストラクタを禁止
 	Create(const Create& create) = delete;
 
@@ -69,7 +69,7 @@ private://メンバ関数
 	/// </summary>
 	~Create();
 
-private:// メンバ変数
+private:                                  // メンバ変数
 	std::vector<Model*> models_;          // モデル
 	std::vector<uint32_t> textureHandle_; // テクスチャ
 };
