@@ -38,7 +38,7 @@ IScene::IScene() {
 void IScene::DebugCameraMove() {
 #ifdef _DEBUG
 	debugCamera_->Update(); // デバックカメラの更新
-	if (input_->TriggerKey(DIK_UP)&&input_->PushKey(DIK_LSHIFT)) {
+	if (input_->TriggerKey(DIK_UP)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG

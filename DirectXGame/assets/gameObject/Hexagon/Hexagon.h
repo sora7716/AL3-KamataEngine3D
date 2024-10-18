@@ -46,7 +46,7 @@ public://静的メンバ変数
 private://メンバ変数
 	Model* model_ = nullptr; // モデル
 	ViewProjection* viewProjection_ = nullptr;//ビュープロジェクション
-	vector<vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム
+	std::vector<std::vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム
 	WorldTransform *parent_;//六角形の親
 	Polar polar_ = {};//極座標に使用する
 	int numPieces = 0;//ピースの数

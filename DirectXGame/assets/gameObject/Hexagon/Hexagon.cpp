@@ -9,7 +9,7 @@
 
 // 初期化
 void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
-	model_ = move(model);                   // モデルを受け取る
+	model_ = std::move(model);              // モデルを受け取る
 	viewProjection_ = viewProjection;       // ビュープロジェクションを受け取る
 	polar_.radius = 1.0f;                   // 半径
 	polar_.diameter = polar_.radius * 2.0f; // 直径
@@ -24,7 +24,7 @@ void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
 			worldTransform->translation_.x = polar_.diameter * j + (polar_.radius * i);
 			worldTransform->translation_.y = polar_.diameter * i - ((polar_.radius / 2.0f) * i);
 			worldTransform->translation_.z = 20.0f;
-			worldTransform->rotation_.x = pi_v<float> / 2.0f;
+			worldTransform->rotation_.x = pi_f / 2.0f;
 			worldTransform->parent_ = parent_;
 			worldTransforms_[i][j] = worldTransform;
 		}

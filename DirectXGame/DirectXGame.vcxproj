@@ -119,6 +119,7 @@
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp" />
+    <ClCompile Include="assets\gameObject\obb\OBB.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h" />
+    <ClInclude Include="assets\gameObject\obb\OBB.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />

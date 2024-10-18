@@ -77,7 +77,7 @@ protected: // メンバ変数
 	Audio* audio_ = nullptr;
 	ViewProjection viewProjection_;                 // ビュープロジェクション
 	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
-	unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	Create* create_ = nullptr;                      // クリエイトクラス
 	bool isFinished_ = false;                        // 終了フラグ
 
@@ -86,6 +86,6 @@ protected: // メンバ変数
 	/// </summary>
 
 	// カメラ
-	unique_ptr<RailCamera> railCamera_ = nullptr;
+	std::unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
 };

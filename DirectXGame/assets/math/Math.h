@@ -1,48 +1,68 @@
 #pragma once
 #include "Aithmetic.h"
 
-
 class Math {
 
-public://構造体など
-	//バネ
+public: // 構造体など
+	// バネ
 	typedef struct Spring {
-		//アンカー｡固定された端の位置
+		// アンカー｡固定された端の位置
 		Vector3 anchor;
-		float naturalLength;//自然長
-		float stiffness;//剛性。バネ定数。
-		float dampingCoefficient;//減衰係数
-	}Spring;
+		float naturalLength;      // 自然長
+		float stiffness;          // 剛性。バネ定数。
+		float dampingCoefficient; // 減衰係数
+	} Spring;
 
-	//ボール
+	// ボール
 	typedef struct Ball {
-		Vector3 position;//位置
-		Vector3 velocity;//速度
-		Vector3 acceleration;//加速度
-		float mass;//ボールの重さ
-		float radius;//ボールの半径
-		int color;//ボールの色
-	}Ball;
+		Vector3 position;     // 位置
+		Vector3 velocity;     // 速度
+		Vector3 acceleration; // 加速度
+		float mass;           // ボールの重さ
+		float radius;         // ボールの半径
+		int color;            // ボールの色
+	} Ball;
 
-	//振り子
+	// 振り子
 	typedef struct Pendulum {
-		Vector3 anchor;//アンカーポイント。固定された端の位置
-		float length;//紐の長さ
-		float angle;//現在の角度
-		float angularVelocity;//角速度ω
-		float angularaAcceleration;//角加速度
-	}Pendulum;
+		Vector3 anchor;             // アンカーポイント。固定された端の位置
+		float length;               // 紐の長さ
+		float angle;                // 現在の角度
+		float angularVelocity;      // 角速度ω
+		float angularaAcceleration; // 角加速度
+	} Pendulum;
 
-	//円錐に回る振り子
+	// 円錐に回る振り子
 	typedef struct ConicalPendulum {
-		Vector3 anchor;//アンカーポイント
-		float length;//紐の長さ
-		float halfApexAngle;//円錐の頂点の半分の角度
-		float angle;//現在の角度
-		float angularVelocity;//角速度ω
-	}ConicalPendulum;
-public:
+		Vector3 anchor;        // アンカーポイント
+		float length;          // 紐の長さ
+		float halfApexAngle;   // 円錐の頂点の半分の角度
+		float angle;           // 現在の角度
+		float angularVelocity; // 角速度ω
+	} ConicalPendulum;
 
+	// OBBの素材
+	typedef struct ObbMaterial {
+		Vector3 center; // 中心 translation
+		Vector3 orientations[3] = {
+		    {1.0f, 0.0f, 0.0f},
+		    {0.0f, 1.0f, 0.0f},
+		    {0.0f, 0.0f, 1.0f},
+		};                                 // 座標軸。正規化・直行必須 rotation
+		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
+		Vector3 rotation = {};             // 回転
+		Vector4 color = WHITE;            // 色
+	} OBBMaterial;
+
+	// AABBを2Dで作るときに使う
+	typedef struct Vertex2D {
+		Vector3 leftTop;
+		Vector3 rightTop;
+		Vector3 leftBottom;
+		Vector3 rightBottom;
+	} Vertex2D;
+
+public:
 	/// <summary>
 	/// 転置行列
 	/// </summary>
@@ -112,7 +132,6 @@ public:
 	/// <param name="orientations">回転行列から抽出するやつ</param>
 	/// <param name="rotate">回転する値</param>
 	static void MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate);
-
 
 	/// <summary>
 	/// OBB用のワールド行列
@@ -340,10 +359,10 @@ public:
 	static void MakeConicalPendulum(ConicalPendulum& conicalPendulum, Vector3& ballPos);
 
 	/// <summary>
-    /// 反射ベクトル
-    /// </summary>
-    /// <param name="input">入射ベクトル</param>
-    /// <param name="normal">面の法線</param>
+	/// 反射ベクトル
+	/// </summary>
+	/// <param name="input">入射ベクトル</param>
+	/// <param name="normal">面の法線</param>
 	/// <returns>反射ベクトル</returns>
 	static Vector3 ReflectVector(const Vector3& input, const Vector3& normal);
 
@@ -353,7 +372,7 @@ public:
 	/// <param name="ballVelocity">反発してほしい物の速度</param>
 	/// <param name="normal">ぶつかる予定のオブジェクトの法線</param>
 	/// <param name="e">反発係数</param>
-	static void Reflection(Vector3& ballVelocity,const Vector3 normal,float e);
+	static void Reflection(Vector3& ballVelocity, const Vector3 normal, float e);
 
 	/// <summary>
 	/// 空気抵抗
@@ -364,10 +383,10 @@ public:
 	static Vector3 AirResistance(const Ball& ball, float k);
 
 	/// <summary>
-    /// 摩擦
-    /// </summary>
-    /// <param name="ball">ボール</param>
-    /// <param name="miu">摩擦係数</param>
+	/// 摩擦
+	/// </summary>
+	/// <param name="ball">ボール</param>
+	/// <param name="miu">摩擦係数</param>
 	/// <returns>摩擦</returns>
 	static Vector3 Friction(const Ball& ball, float miu);
 
@@ -378,6 +397,8 @@ public:
 	/// <param name="center">中心点</param>
 	/// <param name="scalar">スカラー</param>
 	/// <returns>閉曲線</returns>
-	static Vector3 LissajousCurve(const Vector3& theta, const Vector3& center,const Vector3& scalar={1.0f,1.0f,1.0f});
+	static Vector3 LissajousCurve(const Vector3& theta, const Vector3& center, const Vector3& scalar = {1.0f, 1.0f, 1.0f});
 
+public://静的メンバ変数
+	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 };

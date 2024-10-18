@@ -1,5 +1,6 @@
 #pragma once
 #include <Matrix4x4.h>
+#include <Vector4.h>
 #include <Vector3.h>
 #include <Vector2.h>
 #include <vector>
@@ -9,8 +10,6 @@
 #include <numbers>
 #include <algorithm>
 #include <cassert>
-using namespace std;
-using namespace std::numbers;
 #define cont(theta) (1.0f / tanf(theta))
 #define deltaTime   1.0f / 60.0f
 #define kGravity    Vector3(0.0f, -9.8f, 0.0f)
