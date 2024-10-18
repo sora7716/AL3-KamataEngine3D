@@ -6,6 +6,7 @@
 /// </summary>
 class GameManager final{
 public: // 列挙型
+
 	enum class Scene {
 		kTitle,  // タイトルシーン
 		kSearch, // 探索シーン
@@ -55,9 +56,11 @@ private://メンバ関数
 	~GameManager() = default;
 
 public: // 静的メンバ変数
+
 	static inline const int32_t kSceneNum = static_cast<int32_t>(Scene::SceneNum); // シーンの数
 
 private: // メンバ変数
+
 	// 現在のシーンナンバー
 	Scene currentScene_ = Scene::kTitle;
 	//現在のシーンのナンバー
