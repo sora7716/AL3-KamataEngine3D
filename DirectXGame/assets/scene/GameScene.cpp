@@ -117,8 +117,8 @@ void GameScene::Draw() {
 	/// </summary>
 
 	// 六角形
-	/*hexagon_->Draw();
-	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);*/
+	hexagon_->Draw();
+	//1Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_,BLACK);
 
 	//トミック
 	model[0]->Draw(worldTransform, viewProjection_);
