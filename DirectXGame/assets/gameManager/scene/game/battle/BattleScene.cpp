@@ -9,12 +9,15 @@ void BattleScene::Initialize() {
 	//OBB
 	obb_ = std::make_unique<OBB>();//生成
 	obbMaterial_ = {
-	    .center{},
+	  .center{0.0f,0.0f,100.0f},
 	};
 	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
 	//六角形
 	hexagon_ = std::make_unique<Hexagon>();
 	hexagon_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_);
+
+	worldTransform_.Initialize();
+	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
 }
 
 // 更新
@@ -28,10 +31,13 @@ void BattleScene::Update() {
 	obb_->Update();
 	ImGui::Begin("wireFrame");
 	obb_->DebagText();
+	ImGui::DragFloat3("boxTransform", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
-
+	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
 	//六角形
 	hexagon_->Update();
+
+	worldTransform_.UpdateMatrix();
 }
 
 // 描画
@@ -68,6 +74,7 @@ void BattleScene::Draw() {
 
 	//六角形
 	hexagon_->Draw();
+	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

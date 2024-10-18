@@ -47,4 +47,7 @@ private: // メンバ変数
 
 	//六角形
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
+
+	WorldTransform worldTransform_;
+	Vector3 worldPos_ = {};
 };
