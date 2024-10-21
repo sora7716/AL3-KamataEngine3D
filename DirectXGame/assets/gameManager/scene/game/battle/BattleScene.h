@@ -50,4 +50,5 @@ private: // メンバ変数
 
 	WorldTransform worldTransform_;
 	Vector3 worldPos_ = {};
+
 };

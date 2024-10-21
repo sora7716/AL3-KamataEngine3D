@@ -1,8 +1,8 @@
 #include "GameManager.h"
-#include "scene/end/EndScene.h"
-#include "scene/game/battle/BattleScene.h"
-#include "scene/game/search/SearchScene.h"
 #include "scene/title/TitleScene.h"
+#include "scene/game/search/SearchScene.h"
+#include "scene/game/battle/BattleScene.h"
+#include "scene/end/EndScene.h"
 
 // インスタンスのゲッター
 GameManager* GameManager::GetInstance() { 

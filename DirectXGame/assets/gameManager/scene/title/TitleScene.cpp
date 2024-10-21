@@ -15,7 +15,7 @@ void TitleScene::Update() {
 	railCamera_->Update();
 }
 
-// 描画
+//描画
 void TitleScene::Draw() {
 
 	// コマンドリストの取得

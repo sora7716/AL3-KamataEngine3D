@@ -40,7 +40,6 @@ void BattleScene::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-// 描画
 void BattleScene::Draw() {
 
 	// コマンドリストの取得
@@ -69,13 +68,7 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	//OBB
-	obb_->Draw();
-
-	//六角形
 	hexagon_->Draw();
-	Collision::DrawBox(worldPos_, {1, 1, 1}, &viewProjection_);
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
