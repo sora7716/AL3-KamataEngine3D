@@ -9,7 +9,7 @@ void BattleScene::Initialize() {
 	//OBB
 	obb_ = std::make_unique<OBB>();//生成
 	obbMaterial_ = {
-	  .center{0.0f,0.0f,100.0f},
+	  .center{0.0f,0.0f,0.0f},
 	};
 	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
 	//六角形
@@ -36,7 +36,7 @@ void BattleScene::Update() {
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
 	//六角形
 	hexagon_->Update();
-
+	obb_->DebagText();
 	worldTransform_.UpdateMatrix();
 }
 
@@ -68,7 +68,10 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
+	//六角形
 	hexagon_->Draw();
+	//OBB
+	obb_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

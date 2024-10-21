@@ -36,19 +36,19 @@ void OBB::Update() {
 		// 正規化デバイス座標系
 		Vector3 ndcVertex_ = Math::Transform(localVertecies_[i].leftTop, worldViewProjection_);
 		// スクリーン座標
-		screenVertecies_[i].leftTop = Math::Transform(ndcVertex_, viewport_);
+		screenVertecies_[i].leftTop = ndcVertex_;
 		// 正規化デバイス座標系
 		ndcVertex_ = Math::Transform(localVertecies_[i].leftBottom, worldViewProjection_);
 		// スクリーン座標
-		screenVertecies_[i].leftBottom = Math::Transform(ndcVertex_, viewport_);
+		screenVertecies_[i].leftBottom = ndcVertex_;
 		// 正規化デバイス座標系
 		ndcVertex_ = Math::Transform(localVertecies_[i].rightTop, worldViewProjection_);
 		// スクリーン座標
-		screenVertecies_[i].rightTop = Math::Transform(ndcVertex_, viewport_);
+		screenVertecies_[i].rightTop = ndcVertex_;
 		// 正規化デバイス座標系
 		ndcVertex_ = Math::Transform(localVertecies_[i].rightBottom, worldViewProjection_);
 		// スクリーン座標
-		screenVertecies_[i].rightBottom = Math::Transform(ndcVertex_, viewport_);
+		screenVertecies_[i].rightBottom = ndcVertex_;
 	}
 }
 
