@@ -52,6 +52,24 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{ba351df9-768e-4cf1-a961-b90746bba8f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\gameobject">
+      <UniqueIdentifier>{0a485096-b766-4dcd-b6c8-cc5f6b95e600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\process">
+      <UniqueIdentifier>{e8dd6837-9abc-4fd3-8e2a-9c957ebbb83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\scene">
+      <UniqueIdentifier>{8ba0c0f2-5068-47d6-99db-b74ec0b25718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\process\math">
+      <UniqueIdentifier>{067c346c-0aaf-483d-a248-237e0baf328e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\process\collision">
+      <UniqueIdentifier>{06ca3b6b-8078-4a53-ae5e-20dfc12984c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,56 +84,56 @@
     <ClCompile Include="2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="3d\WorldTransform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\create\Create.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\failLoad\CSVFailLoading.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameObject\camera\RailCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameObject\fade\Fade.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\Aithmetic.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\easing\Easing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\Math.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\IScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\scene</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp">
+      <Filter>assets\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp">
+      <Filter>assets\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\IScene.cpp">
+      <Filter>assets\scene</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\GameManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\Aithmetic.cpp">
+      <Filter>assets\process\math</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\Math.cpp">
+      <Filter>assets\process\math</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\Collision.cpp">
+      <Filter>assets\process\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\create\Create.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\failLoad\CSVFailLoading.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\easing\Easing.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\fade\Fade.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\WorldTransform.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\camera\RailCamera.cpp">
+      <Filter>assets\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameObject\obb\OBB.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
+      <Filter>assets\gameobject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,53 +221,53 @@
     <ClInclude Include="3d\ObjectColor.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="assets\create\Create.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\failLoad\CSVFailLoading.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameObject\camera\RailCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameObject\fade\Fade.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\Aithmetic.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\easing\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\Math.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="assets\gameManager\scene\title\TitleScene.h">
+      <Filter>assets\scene</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\IScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\title\TitleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\scene</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\scene</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\scene</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\scene</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\GameManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\Math.h">
+      <Filter>assets\process\math</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\Aithmetic.h">
+      <Filter>assets\process\math</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\Collision.h">
+      <Filter>assets\process\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\create\Create.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\failLoad\CSVFailLoading.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\easing\Easing.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\fade\Fade.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h">
+      <Filter>assets\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameObject\obb\OBB.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\camera\RailCamera.h">
+      <Filter>assets\gameobject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
