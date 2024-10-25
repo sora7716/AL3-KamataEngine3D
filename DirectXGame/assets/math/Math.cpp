@@ -101,7 +101,7 @@ Matrix4x4 Math::MakeRotateZMatrix(const float& radian) {
 
 //x,y,z座標で回転
 Matrix4x4 Math::MakeRotateXYZMatrix(const Vector3& radian) {
-	return MakeRotateXMatrix(radian.x) * MakeRotateYMatrix(radian.y) * MakeRotateZMatrix(radian.z);
+	return (MakeRotateXMatrix(radian.x) * MakeRotateYMatrix(radian.y)) * MakeRotateZMatrix(radian.z);
 }
 
 // OBB用の回転行列

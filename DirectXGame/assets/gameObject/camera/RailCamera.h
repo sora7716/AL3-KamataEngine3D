@@ -3,10 +3,13 @@
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
 
+class Input;
+class Player;
+
 /// <summary>
 /// レールカメラ
 /// </summary> 
-class RailCamera {
+class RailCamera : public Math{
 
 public: // メンバ関数
 
@@ -23,59 +26,52 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="matWorld">ワールド座標</param>
-	/// <param name="radian">回転角[ラジアン]</param>
 	/// <param name="viewProjection">もともとあったビュープロジェクション</param>
-	void Initialize(const Matrix4x4& matWorld,const Vector3& radian,const ViewProjection* viewProjection);
+	void Initialize(ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
 
+    /// <summary>
+    /// リセット
+    /// </summary>
+    void Reset();
+
 	/// <summary>
-	/// カメラの軌道
+	/// 対象ターゲットのsetter
 	/// </summary>
-	void Draw();
+	/// <param name="target"></param>
+	void SetTarget(const WorldTransform* target);
 
 	/// <summary>
 	/// ビュープロジェクションのゲッター
 	/// </summary>
 	/// <returns>ビュープロジェクション</returns>
-	const ViewProjection& GetViewProjection() const;
+	const ViewProjection* GetViewProjection() { return viewProjection_; }
 
-	/// <summary>
-	/// ワールドトランスフォームのゲッター
-	/// </summary>
-	/// <returns>ワールドトランスフォーム</returns>
-	const WorldTransform& GetWorldTransform() const;
 
-	/// <summary>
-	/// トランスレイションのセッター
-	/// </summary>
-	/// <param name="translation">セットしたいtranslation</param>
-	void SetTranslation(Vector3 translation);
+private:
+	void JoyStickRotation();
 
-	/// <summary>
-	/// ローテションのセッター
-	/// </summary>
-	/// <param name="rotation">セットしたいrotation</param>
-	void SetRotation(Vector3 rotation);
+	// オフセット計算
+	Vector3 CalcOffset() const;
 
-	/// <summary>
-	/// 親子付け
-	/// </summary>
-	/// <param name="parent">親</param>
-	void SetParent(const WorldTransform* parent);
+private:
+	// ビュープロジェクション
+	ViewProjection* viewProjection_ = nullptr;
 
-private: // メンバ変数
+	// 追従対象
+	const WorldTransform* target_ = nullptr;
 
-	WorldTransform worldTransform_;  // ワールド変換データ
+	Input* input_ = nullptr;
 
-	ViewProjection viewProjection_; // ビュープロジェクション
+	// 追従対象の残像座標
+	Vector3 interTarget_ = {};
 
-	std::vector<Vector3> controlPoints_;//制御点
-	//媒介変数
-	float t_ = 0;
+	float desticationAngleY = 0.0f;
+
+	Player* player_ = nullptr;
 
 };

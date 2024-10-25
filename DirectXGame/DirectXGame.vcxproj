@@ -45,14 +45,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\External\nlohmann;$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\KamataEngineLib\$(Configuration);$(ProjectDir)..\External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\External\nlohmann;$(ProjectDir)..\External\DirectXTex\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\KamataEngineLib\$(Configuration);$(ProjectDir)..\External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
@@ -110,18 +110,28 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="assets\create\Create.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="assets\failLoad\GlobalVariables.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
+    <ClCompile Include="assets\gameObject\BaseCharacter.cpp" />
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
+    <ClCompile Include="assets\gameObject\ground\Ground.cpp" />
+    <ClCompile Include="assets\gameObject\hammer\Hammer.cpp" />
     <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp" />
+    <ClCompile Include="assets\gameObject\lockOn\LockOn.cpp" />
     <ClCompile Include="assets\gameObject\obb\OBB.cpp" />
+    <ClCompile Include="assets\gameObject\player\Player.cpp" />
+    <ClCompile Include="assets\gameObject\skydome\SkyDome.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
+    <ClCompile Include="assets\math\collision\Collider.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
+    <ClCompile Include="assets\math\collision\CollisionManager.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
     <ClCompile Include="assets\math\Math.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -149,18 +159,29 @@
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="assets\create\Create.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
+    <ClInclude Include="assets\failLoad\GlobalVariables.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
+    <ClInclude Include="assets\gameObject\BaseCharacter.h" />
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="assets\gameObject\enemy\Enemy.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
+    <ClInclude Include="assets\gameObject\ground\ground.h" />
+    <ClInclude Include="assets\gameObject\hammer\Hammer.h" />
     <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h" />
+    <ClInclude Include="assets\gameObject\lockOn\LockOn.h" />
     <ClInclude Include="assets\gameObject\obb\OBB.h" />
+    <ClInclude Include="assets\gameObject\player\Player.h" />
+    <ClInclude Include="assets\gameObject\skydome\SkyDome.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
+    <ClInclude Include="assets\math\collision\Collider.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
+    <ClInclude Include="assets\math\collision\CollisionManager.h" />
+    <ClInclude Include="assets\math\collision\CollisionTypeIdDef.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
     <ClInclude Include="assets\math\Math.h" />
     <ClInclude Include="audio\Audio.h" />

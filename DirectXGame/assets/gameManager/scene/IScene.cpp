@@ -29,28 +29,29 @@ IScene::IScene() {
 	create_->TextureCreate();        // テクスチャの生成
 
 	// カメラ
-	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
-	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
-	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
+	railCamera_ = std::make_unique<RailCamera>(); // レールカメラクラスの生成
+	cameraWorldTransform_.Initialize();           // カメラのワールドトランスフォームの初期化
+	railCamera_->Initialize(&viewProjection_);    // レールカメラの初期化
 }
 
 //デバックカメラの動き
 void IScene::DebugCameraMove() {
 #ifdef _DEBUG
-	debugCamera_->Update(); // デバックカメラの更新
+	
 	if (input_->TriggerKey(DIK_UP)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG
 
 	if (isDebugCameraActive_) {
+		debugCamera_->Update(); // デバックカメラの更新
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = railCamera_->GetViewProjection()->matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection()->matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
