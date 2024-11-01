@@ -19,8 +19,8 @@ class MapChipField {
 public: // メンバ関数
 	typedef struct IndexSet {
 		uint32_t xIndex;
-		uint32_t yIndex;
-	} Index;
+		uint32_t zIndex;
+	} IndexSet;
 
 	/// <summary>
 	/// マップチップのリセット
@@ -40,9 +40,17 @@ public: // メンバ関数
 	/// <param name="yIndex">y</param>
 	/// <returns></returns>
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	/// <summary>
+	/// マップ番号のゲッター{x,z}
+	/// </summary>
+	/// <param name="position">現在の位置</param>
+	/// <returns>マップ番号{x,z}</returns>
+	IndexSet GetMapChipNumber(const Vector3& position);
+
 public: // 静的メンバ変数
 	// 1ブロックのサイズ
-	static inline const float kHexagonRadius = 1.0f;
+	static inline const Vector3 kHexagonRadius = {1.0f,1.0f,1.0f};
 	// ブロックのサイズ
 	static inline const uint32_t kNumBlockVertical = 8;
 	static inline const uint32_t kNumBlockHorizontal = 8;

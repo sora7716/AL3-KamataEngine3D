@@ -45,5 +45,5 @@ private:                                                        // メンバ変�
 	std::vector<std::vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム
 	WorldTransform* parent_;                                    // 六角形の親
 	int numPieces = 0;                                          // ピースの数
-	MapChipField *mapChipField_;
+	MapChipField* mapChipField_ = nullptr;                      // マップチップフィールド
 };

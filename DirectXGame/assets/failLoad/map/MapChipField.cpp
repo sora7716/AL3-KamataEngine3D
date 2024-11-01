@@ -65,3 +65,11 @@ MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex
 	}
 	return mapChipData_.data[yIndex][xIndex];
 }
+
+//マップ番号のゲッター{x,z}
+MapChipField::IndexSet MapChipField::GetMapChipNumber(const Vector3& position) { 
+	IndexSet result; 
+	result.xIndex = static_cast<uint32_t>((position.x + kHexagonRadius.x / 2.0f) / kHexagonRadius.x / 2.0f);
+	result.zIndex = static_cast<uint32_t>((position.z + kHexagonRadius.z / 2.0f) / kHexagonRadius.z / 2.0f);
+	return result;
+}
