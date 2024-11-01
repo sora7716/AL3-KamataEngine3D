@@ -1,9 +1,9 @@
 #include "IScene.h"
 
-//終了フラグのゲッター
+// 終了フラグのゲッター
 bool IScene::IsFinished() { return isFinished_; }
 
-//終了フラグ
+// 終了フラグ
 void IScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
 
 // コンストラクタ
@@ -34,16 +34,16 @@ IScene::IScene() {
 	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
 }
 
-//デバックカメラの動き
+// デバックカメラの動き
 void IScene::DebugCameraMove() {
 #ifdef _DEBUG
-	debugCamera_->Update(); // デバックカメラの更新
 	if (input_->TriggerKey(DIK_UP)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG
 
 	if (isDebugCameraActive_) {
+		debugCamera_->Update(); // デバックカメラの更新
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
