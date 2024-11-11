@@ -17,8 +17,10 @@ void Enemy::Initialize(std::vector<Model*> models, ViewProjection* viewProjectio
 	// 引数で受け取ったデータをメンバ変数に記録する
 	BaseCharacter::Initialize(models, viewProjection);
 
+	// 各ワールド変換データの初期化
 	InitializeWorldTransform();
 
+	// オブジェクトのIDを設定
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::KEnemy));
 }
 
@@ -27,9 +29,10 @@ void Enemy::Update() {
 
 	//向いている方向に移動
 	Enemy::Move();
-	UpdateFloatingGimmick();
-	DragFloat3("L_Spear.translate", &worldTransforms_[2]->translation_.x, 0.01f);
 
+	//動作ギミック
+	UpdateMoveGimmick();
+	
 	//行列の更新
 	for (auto *worldTransform : worldTransforms_) {
 		worldTransform->UpdateMatrix();
@@ -102,7 +105,7 @@ void Enemy::Move() {
 
 }
 
-void Enemy::UpdateFloatingGimmick() {
+void Enemy::UpdateMoveGimmick() {
 
 	const int32_t cycle = 20;
 

@@ -39,7 +39,7 @@ private:
 	void Move();
 
 	//浮遊ギミックの更新(敵は浮遊したりしないが、槍を動かす)
-	void UpdateFloatingGimmick();
+	void UpdateMoveGimmick();
 
 private: // メンバ変数
 

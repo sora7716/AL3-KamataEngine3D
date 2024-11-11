@@ -2,14 +2,13 @@
 
 void BaseCharacter::Initialize(std::vector<Model*> models, ViewProjection* viewProjection) {
 
+	//引数で受け取ったデータをメンバ変数に記録する
 	models_ = models;
 	viewProjection_ = viewProjection;
 
+	//コライダーの初期化
 	Collider::Initialize();
-
 }
-
-
 
 Vector3 BaseCharacter::GetCenterPosition() const {
 

@@ -10,7 +10,9 @@ using namespace ImGui;
 
 void CollisionManager::Initialize() {
 
+	//モデルの読み込み
 	colliderModel_.reset(Model::CreateFromOBJ("sphere",true));
+
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "Collision";
