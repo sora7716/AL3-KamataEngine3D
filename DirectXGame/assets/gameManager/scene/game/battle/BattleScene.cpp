@@ -7,14 +7,18 @@ BattleScene::~BattleScene() {}
 // 初期化
 void BattleScene::Initialize() { 
 	//OBB
-	obb_ = std::make_unique<OBB>();//生成
+	obb_ = make_unique<OBB>();//生成
 	obbMaterial_ = {
 	  .center{0.0f,0.0f,0.0f},
 	};
 	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
+	// マップチップ
+	mapChipField_ = make_unique<MapChipField>();
+	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
 	//六角形
-	hexagon_ = std::make_unique<Hexagon>();
-	hexagon_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_);
+	hexagon_ = make_unique<Hexagon>();
+	hexagon_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_,mapChipField_.get());
+	
 
 	worldTransform_.Initialize();
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
@@ -71,7 +75,7 @@ void BattleScene::Draw() {
 	//六角形
 	hexagon_->Draw();
 	//OBB
-	obb_->Draw();
+	//obb_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

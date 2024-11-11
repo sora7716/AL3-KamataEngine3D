@@ -2,6 +2,7 @@
 #include "assets/gameManager/scene/IScene.h"
 #include "assets/gameObject/obb/OBB.h"
 #include "assets/gameObject/Hexagon/Hexagon.h"
+#include "assets/failLoad/map/MapChipField.h"
 
 /// <summary>
 /// バトルシーン
@@ -47,6 +48,9 @@ private: // メンバ変数
 
 	//六角形
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
+
+	//マップ
+	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
 
 	WorldTransform worldTransform_;
 	Vector3 worldPos_ = {};

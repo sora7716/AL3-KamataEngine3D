@@ -110,6 +110,7 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="assets\create\Create.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="assets\failLoad\map\MapChipField.cpp" />
     <ClCompile Include="assets\failLoad\GlobalVariables.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="assets\create\Create.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
     <ClInclude Include="assets\failLoad\GlobalVariables.h" />
+    <ClInclude Include="assets\failLoad\map\MapChipField.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h" />

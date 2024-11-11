@@ -165,6 +165,9 @@
     <ClCompile Include="assets\gameObject\skydome\SkyDome.cpp">
       <Filter>assets\gameobject</Filter>
     </ClCompile>
+    <ClCompile Include="assets\failLoad\map\MapChipField.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -331,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="assets\gameObject\skydome\SkyDome.h">
       <Filter>assets\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\failLoad\map\MapChipField.h">
+      <Filter>assets\process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
