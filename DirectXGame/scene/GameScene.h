@@ -141,7 +141,7 @@ private: // メンバ変数
 	std::list<Enemy*> enemies_;            // エネミー
 	Model* enemyModel_ = nullptr;          // エネミーのモデル
 	uint32_t enemyTextureHandle_ = 0u;     // エネミーのテクスチャ
-	static inline const int kEnemyNum = 1; // エネミーの数
+	static inline const int kEnemyNum = 0; // エネミーの数
 
 	bool isDebugCameraActive_ = false;   // デバックカメラを切り替えるフラグ
 	DebugCamera* debugCamera_ = nullptr; // デバックカメラ
@@ -161,5 +161,5 @@ private: // メンバ変数
 	bool isFadeIni = true;
 
 public://メンバ変数
-	static inline const float kFadeTime = 5.0f;//フェードする時間
+	static inline const float kFadeTime = 0.1f;//フェードする時間
 };
