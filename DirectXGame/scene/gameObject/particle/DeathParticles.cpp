@@ -89,17 +89,26 @@ void DeathParticles::DestoryCount() {
 
 // 移動ベクトルの設定
 void DeathParticles::SettingSpeed() {
-	for (int i = 0; i < kNumParticle; i++) {
-		// 基本となる速度ベクトル
-		Vector3 velocity = {kSpeed, 0.0f, 0.0f};
-		// 回転角度を計算
-		float angle = kAngleUnit * i;
-		// Z回りの回転行列
-		Matrix4x4 matrixRotate = Math::MakeRotateZMatrix(angle);
-		// 基本ベクトルを回転させて速度ベクトルを得る
-		velocity = Math::Transform(velocity, matrixRotate);
+	const float kThetaUnit = 2.0f * pi_f / kNumParticle; // 経度の単位角度（360度を分割）
+	const float kPhiUnit = pi_f / kNumParticle;          // 緯度の単位角度（180度を分割）
+	Vector3 velocity = {0.0f, 0.0f, kSpeed};             // 初期ベクトルはZ方向の速度
+
+	for (int i = 0; i < kNumParticle; ++i) {
+		// 経度（theta）と緯度（phi）を計算
+		float theta = kThetaUnit * i;            // 経度方向の角度 (0 ~ 2π)
+		float phi = -pi_f / 2.0f + kPhiUnit * i; // 緯度方向の角度 (-π/2 ~ π/2)
+
+		// 経度 (theta) で Y軸回りに回転
+		Matrix4x4 matrixRotateY = Math::MakeRotateYMatrix(theta);
+		// 緯度 (phi) で X軸回りに回転
+		Matrix4x4 matrixRotateX = Math::MakeRotateXMatrix(phi);
+
+		// 速度ベクトルに回転行列を適用してスフィア状の方向に飛ばす
+		Vector3 rotatedVelocity = Math::Transform(velocity, matrixRotateX); // 緯度方向の回転を適用
+		rotatedVelocity = Math::Transform(rotatedVelocity, matrixRotateY);  // 経度方向の回転を適用
+
 		// 移動処理
-		worldTransforms_[i].translation_ += velocity;
+		worldTransforms_[i].translation_ += rotatedVelocity;
 	}
 }
 

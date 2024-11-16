@@ -74,7 +74,7 @@ private: // メンバ関数
 	void FadeOut();
 
 public:                                                                                      // メンバ変数
-	static inline const uint32_t kNumParticle = 8;                                           // パーティクルの数
+	static inline const uint32_t kNumParticle = 1024;                                           // パーティクルの数
 	static inline const float kDuration = 2.0f;                                              // 存続時間(消滅までの時間)<秒>
 	static inline const float kSpeed = 0.1f;                                                 // 移動スピード
 	static inline const float kAngleUnit = (2.0f * pi_f) / static_cast<float>(kNumParticle); // 分割した1個分の角度
