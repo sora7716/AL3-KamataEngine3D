@@ -16,7 +16,7 @@ void BattleScene::Initialize() {
 	mapChipField_ = make_unique<MapChipField>();
 	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
 	//六角形
-	hexagon_ = make_unique<Hexagon>();
+	hexagon_ = make_unique<Honeycomb>();
 	hexagon_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_,mapChipField_.get());
 	
 
@@ -75,7 +75,7 @@ void BattleScene::Draw() {
 	//六角形
 	hexagon_->Draw();
 	//OBB
-	//obb_->Draw();
+	obb_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

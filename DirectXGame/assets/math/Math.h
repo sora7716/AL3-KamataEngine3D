@@ -127,21 +127,6 @@ public:
 	static Matrix4x4 MakeRotateXYZMatrix(const Vector3& radian);
 
 	/// <summary>
-	/// OBB用の回転行列
-	/// </summary>
-	/// <param name="orientations">回転行列から抽出するやつ</param>
-	/// <param name="rotate">回転する値</param>
-	static void MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate);
-
-	/// <summary>
-	/// OBB用のワールド行列
-	/// </summary>
-	/// <param name="orientations">回転行列から抽出したやつ</param>
-	/// <param name="center">センターの値</param>
-	/// <returns>OBBのワールド行列</returns>
-	static Matrix4x4 MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center);
-
-	/// <summary>
 	/// アフィン関数
 	/// </summary>
 	/// <param name="scale">倍率</param>
@@ -149,6 +134,14 @@ public:
 	/// <param name="translate">移動</param>
 	/// <returns>アフィン行列</returns>
 	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate);
+
+	/// <summary>
+	/// アフィン関数(scale無いver)
+	/// </summary>
+	/// <param name="radian"></param>
+	/// <param name="translate"></param>
+	/// <returns></returns>
+	static Matrix4x4 MakeAffineMatrix(const Vector3& radian, const Vector3& translate);
 
 	/// <summary>
 	/// STRの変換

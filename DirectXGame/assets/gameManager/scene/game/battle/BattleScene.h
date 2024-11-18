@@ -1,7 +1,7 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
-#include "assets/gameObject/obb/OBB.h"
-#include "assets/gameObject/Hexagon/Hexagon.h"
+#include "assets/gameObject/shape/obb/OBB.h"
+#include "assets/gameObject/honeycomb/Honeycomb.h"
 #include "assets/failLoad/map/MapChipField.h"
 
 /// <summary>
@@ -47,7 +47,7 @@ private: // メンバ変数
 	Math::OBBMaterial obbMaterial_ = {};
 
 	//六角形
-	std::unique_ptr<Hexagon> hexagon_ = nullptr;
+	std::unique_ptr<Honeycomb> hexagon_ = nullptr;
 
 	//マップ
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;

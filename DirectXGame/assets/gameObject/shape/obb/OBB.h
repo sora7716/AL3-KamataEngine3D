@@ -1,12 +1,12 @@
 #pragma once
-#include "assets/math/Math.h"
+#include "assets/gameObject/shape/Shape.h"
 #include "assets/math/collision/Collision.h"
 
 
 // 前方宣言
 class ViewProjection;
 
-class OBB {
+class OBB :private Shape{
 
 public: // メンバ関数
 	/// <summary>
@@ -80,6 +80,4 @@ private:                                                    // メンバ変数
 	Math::Vertex2D screenVertecies_[Math::kAABB2DNum] = {}; // スクリーンの頂点
 	Matrix4x4 worldViewProjection_ = {};                    // ワールドビュープロジェクション
 	Vector3 rotate_ = {};                                   // 回転ベクトル
-	Matrix4x4 worldMatrix_ = {};                            // ワールド行列
-	Matrix4x4 viewport_ = {};                               // ビューポート
 };

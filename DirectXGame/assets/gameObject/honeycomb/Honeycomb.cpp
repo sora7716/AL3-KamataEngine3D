@@ -1,4 +1,4 @@
-#include "Hexagon.h"
+#include "Honeycomb.h"
 #include "Model.h"
 #include "ViewProjection.h"
 #include "assets/math/Aithmetic.h"
@@ -6,10 +6,11 @@
 #ifdef _DEBUG
 #include "ImGuiManager.h"
 #include "assets/failLoad/map/MapChipField.h"
+#include "Honeycomb.h"
 #endif // _DEBUG
 
 // 初期化
-void Hexagon::Initialize(Model* model, ViewProjection* viewProjection, MapChipField* mapChipField) {
+void Honeycomb::Initialize(Model* model, ViewProjection* viewProjection, MapChipField* mapChipField) {
 	model_ = std::move(model);                               // モデルを受け取る
 	viewProjection_ = viewProjection;                        // ビュープロジェクションを受け取る
 	Vector3 radius = MapChipField::kHexagonRadius;           // 半径
@@ -36,7 +37,7 @@ void Hexagon::Initialize(Model* model, ViewProjection* viewProjection, MapChipFi
 }
 
 // 更新
-void Hexagon::Update() {
+void Honeycomb::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Hexagon");
 	ImGui::DragFloat3("rotation", &parent_->rotation_.x, 0.1f);
@@ -54,7 +55,7 @@ void Hexagon::Update() {
 }
 
 // 描画
-void Hexagon::Draw() {
+void Honeycomb::Draw() {
 	for (auto piece : worldTransforms_) {
 		for (auto& worldTransform : piece) {
 			if (worldTransform) {
