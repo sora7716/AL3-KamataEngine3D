@@ -1,8 +1,14 @@
 #include "Collision.h"
 #include "PrimitiveDrawer.h"
-#include "assets/math/Math.h"
-#include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "WorldTransform.h"
+#include "assets/math/Math.h"
+
+// インスタンスのゲッター
+Collision* Collision::GetInstance() {
+	static Collision instance;
+	return &instance;
+}
 
 // 球と球の衝突判定
 bool Collision::IsCollision(const Vector3& posA, const Vector3& posB, float radiusA, float radiusB) {
