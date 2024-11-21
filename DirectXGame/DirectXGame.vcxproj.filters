@@ -126,14 +126,26 @@
     <ClCompile Include="3d\WorldTransform.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameObject\camera\RailCamera.cpp">
-      <Filter>assets\gameobject</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameObject\obb\OBB.cpp">
       <Filter>assets\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
       <Filter>assets\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\environment\skydome\Skydome.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\environment\ground\Ground.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\character\player\Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\camera\railCamera\RailCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\camera\followCamera\FollowCamera.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,8 +278,23 @@
     <ClInclude Include="assets\gameObject\obb\OBB.h">
       <Filter>assets\gameobject</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameObject\camera\RailCamera.h">
-      <Filter>assets\gameobject</Filter>
+    <ClInclude Include="assets\gameObject\environment\skydome\Skydome.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\environment\ground\Ground.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\environment\IEnvironment.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\character\player\Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\camera\railCamera\RailCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\camera\followCamera\FollowCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

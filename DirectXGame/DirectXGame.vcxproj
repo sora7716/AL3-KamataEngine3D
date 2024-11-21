@@ -116,7 +116,11 @@
     <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
-    <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameObject\camera\followCamera\FollowCamera.cpp" />
+    <ClCompile Include="assets\gameObject\camera\railCamera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameObject\character\player\Player.cpp" />
+    <ClCompile Include="assets\gameObject\environment\ground\Ground.cpp" />
+    <ClCompile Include="assets\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\gameObject\obb\OBB.cpp" />
@@ -155,7 +159,12 @@
     <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
-    <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="assets\gameObject\camera\followCamera\FollowCamera.h" />
+    <ClInclude Include="assets\gameObject\camera\railCamera\RailCamera.h" />
+    <ClInclude Include="assets\gameObject\character\player\Player.h" />
+    <ClInclude Include="assets\gameObject\environment\ground\Ground.h" />
+    <ClInclude Include="assets\gameObject\environment\IEnvironment.h" />
+    <ClInclude Include="assets\gameObject\environment\skydome\Skydome.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h" />
     <ClInclude Include="assets\gameObject\obb\OBB.h" />

@@ -1,13 +1,19 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
+#include "assets/gameObject/environment/IEnvironment.h"
+#include "assets/gameObject/character/player/Player.h"
 
 /// <summary>
 /// 探索シーン
 /// </summary>
-class SearchScene :public IScene{
+class SearchScene : public IScene {
+public://列挙型
+	enum class Type {
+		kSkydome,
+		kGround,
+	};
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -34,8 +40,13 @@ public: // メンバ関数
 	void Draw() override;
 
 private: // メンバ変数
-
 	/// <summary>
 	/// ゲームシーン用
-	/// </summary>
+	/// </summary>]
+	
+	//環境
+	std::unique_ptr<IEnvironment> environments_[2] = {nullptr};
+
+	//プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
 };

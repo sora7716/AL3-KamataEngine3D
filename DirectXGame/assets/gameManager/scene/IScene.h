@@ -14,7 +14,8 @@
 
 // 自分で作ったもの
 #include "assets/create/Create.h"
-#include "assets/gameObject/camera/RailCamera.h"
+#include "assets/gameObject/camera/followCamera/FollowCamera.h"
+#include "assets/gameObject/camera/railCamera/RailCamera.h"
 #include "assets/math/Math.h"
 #include "assets/math/collision/Collision.h"
 
@@ -29,7 +30,6 @@
 class IScene {
 
 public: // 列挙型
-
 	// ゲームのフェーズ
 	enum class GamePhase {
 		kStart,
@@ -38,14 +38,12 @@ public: // 列挙型
 	};
 
 public: // 純粋仮想関数
-
 	virtual ~IScene() = default;
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
 public: // メンバ関数
-
 	/// <summary>
 	/// 終了フラグのゲッター
 	/// </summary>
@@ -59,7 +57,6 @@ public: // メンバ関数
 	void SetIsFinished(bool isFinished);
 
 protected: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -71,21 +68,24 @@ protected: // メンバ関数
 	void DebugCameraMove();
 
 protected: // メンバ変数
-
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-	ViewProjection viewProjection_;                 // ビュープロジェクション
-	bool isDebugCameraActive_ = false;              // デバックカメラをオンにするか
+	ViewProjection viewProjection_;                      // ビュープロジェクション
+	bool isDebugCameraActive_ = false;                   // デバックカメラをオンにするか
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
-	Create* create_ = nullptr;                      // クリエイトクラス
-	bool isFinished_ = false;                        // 終了フラグ
+	Create* create_ = nullptr;                           // クリエイトクラス
+	bool isFinished_ = false;                            // 終了フラグ
+	bool isFollowOn = false;                             // 追従カメラオン
 
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 
 	// カメラ
+	// レールカメラ
 	std::unique_ptr<RailCamera> railCamera_ = nullptr;
+	// 追従カメラ
+	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
 };

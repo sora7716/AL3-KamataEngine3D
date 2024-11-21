@@ -1,9 +1,9 @@
 #include "IScene.h"
 
-//終了フラグのゲッター
+// 終了フラグのゲッター
 bool IScene::IsFinished() { return isFinished_; }
 
-//終了フラグ
+// 終了フラグ
 void IScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
 
 // コンストラクタ
@@ -29,28 +29,37 @@ IScene::IScene() {
 	create_->TextureCreate();        // テクスチャの生成
 
 	// カメラ
-	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
-	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
+	cameraWorldTransform_.Initialize(); // カメラのワールドトランスフォームの初期化
+	// レールカメラ
+	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラの生成
 	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
+	// 追従カメラ
+	followCamera_ = std::make_unique<FollowCamera>(); // 追従カメラの生成
+	followCamera_->Initialize();                      // 追従カメラの初期化
 }
 
-//デバックカメラの動き
+// デバックカメラの動き
 void IScene::DebugCameraMove() {
 #ifdef _DEBUG
-	debugCamera_->Update(); // デバックカメラの更新
-	if (input_->TriggerKey(DIK_UP)) {
+	if (input_->TriggerKey(DIK_UP)&&input_->PushKey(DIK_LSHIFT)) {
 		isDebugCameraActive_ ^= true;
 	}
 #endif // _DEBUG
 
 	if (isDebugCameraActive_) {
+		debugCamera_->Update(); // デバックカメラの更新
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		if (isFollowOn) {//追従
+			viewProjection_.matView = followCamera_->GetViewProjection().matView;
+			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		} else {//レイルカメラ
+			viewProjection_.matView = railCamera_->GetViewProjection().matView;
+			viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		}
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}

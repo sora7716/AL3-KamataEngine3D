@@ -15,11 +15,23 @@ class Create final {
 public: // 構造体や列挙型
 	enum class Type {
 		kHexagon,
+		kSkyDome,
+		kGround,
 		kModelNum,
 	};
+
+	enum class PlayerType {
+		kHead,
+		kPlayerNum,
+	};
 	using ObjectType = Type; // エイリアス
+	using ObjectPlayer = PlayerType; // エイリアス
 	ObjectType typeHexagon = Type::kHexagon;
+	ObjectType typeSkydome = Type::kSkyDome;
+	ObjectType typeGround = Type::kGround;
+	ObjectPlayer typeHead = PlayerType::kHead;
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
+	static inline const int PLAYER_MODEL_NUM = static_cast<int>(PlayerType::kPlayerNum);
 
 public: // メンバ関数
 	/// <summary>
@@ -44,6 +56,13 @@ public: // メンバ関数
 	/// <param name="num">添え字</param>
 	/// <returns>モデル</returns>
 	Model* GetModel(Create::Type subscript) const;
+
+	/// <summary>
+	/// プレイヤーのモデルのゲッター
+	/// </summary>
+	/// <param name="subscript">添え字</param>
+	/// <returns>モデル</returns>
+	Model* GetPlayerModel(Create::PlayerType subscript) const;
 
 	/// <summary>
 	/// テクスチャのゲッター
@@ -71,5 +90,6 @@ private: // メンバ関数
 
 private:                                  // メンバ変数
 	std::vector<Model*> models_;          // モデル
+	std::vector<Model*> playerModels_;//プレイヤーのモデル
 	std::vector<uint32_t> textureHandle_; // テクスチャ
 };
