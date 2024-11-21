@@ -17,7 +17,8 @@ void SearchScene::Initialize() {
 	//プレイヤー
 	player_= make_unique<Player>();
 	player_->Initialize(&viewProjection_, create_->GetPlayerModel(create_->typeHead));
-
+	//追従カメラのビュープロジェクションを受け取る
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
 	// 追従対象をセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	isFollowOn = true;//追従on

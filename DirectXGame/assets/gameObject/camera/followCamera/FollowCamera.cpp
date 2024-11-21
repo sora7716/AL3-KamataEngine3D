@@ -11,14 +11,14 @@ void FollowCamera::Update() {
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
 		Vector3 offset = {0.0f, 2.0f, -10.0f};
-		Matrix4x4 rotateMat = Math::MakeRotateXYZMatrix(viewProjection_.rotation_);	
+		Matrix4x4 rotateMat = Math::MakeRotateXYZMatrix(viewProjection_.rotation_);
 		offset = Math::TransformNormal(offset, rotateMat);
 		// 座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = target_->translation_ + offset;
 	}
-	//ゲームパッド
+	// ゲームパッド
 	GamePadControl();
-	//キーボード
+	// キーボード
 	KeyBoaeredControl();
 
 	viewProjection_.UpdateMatrix();
@@ -30,7 +30,7 @@ void FollowCamera::SetTarget(const WorldTransform* target) { target_ = target; }
 // ビュープロジェクションのゲッター
 ViewProjection& FollowCamera::GetViewProjection() { return viewProjection_; }
 
-//ゲームパッドの操作
+// ゲームパッドの操作
 void FollowCamera::GamePadControl() {
 	// ゲームパッド
 	XINPUT_STATE joyState;
@@ -41,7 +41,7 @@ void FollowCamera::GamePadControl() {
 	}
 }
 
-//キーボードの操作
+// キーボードの操作
 void FollowCamera::KeyBoaeredControl() {
 	const float rot = 0.05f;
 	float move = 0.0f;

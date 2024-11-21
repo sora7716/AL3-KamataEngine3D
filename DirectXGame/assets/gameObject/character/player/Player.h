@@ -43,6 +43,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	WorldTransform& GetWorldTransform();
 
+	/// <summary>
+	/// ビュープロジェクションのセッター
+	/// </summary>
+	/// <param name="viewProjection"></param>
+	void SetViewProjection(const ViewProjection* viewProjection);
+
 private://メンバ関数
 	/// <summary>
 	/// ゲームパッドの操作
@@ -58,4 +64,9 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;
 	WorldTransform worldTransform_;
+	const ViewProjection* directionViewProjection_ = nullptr;
+
+	Vector3 move_{};//移動量
+	bool isMove_ = false;//移動したかどうかのフラグ
+	const float speed_ = 0.3f;//速度
 };
