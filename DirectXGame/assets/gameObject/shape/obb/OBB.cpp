@@ -1,7 +1,4 @@
 #include "OBB.h"
-#include "PrimitiveDrawer.h"
-#include "ViewProjection.h"
-#include "WinApp.h"
 #include <string>
 #ifdef _DEBUG
 #include "imgui.h"
@@ -9,9 +6,8 @@
 using namespace std;
 
 // 初期化
-void OBB::Initialize(ViewProjection* viewProjection, const Math::OBBMaterial&& obbMaterial) {
+void OBB::Initialize(ViewProjection* viewProjection, const OBBMaterial&& obbMaterial) {
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
-	Shape::Initialize(viewProjection_);
 	// OBBの値を設定
 	obb_ = obbMaterial;
 	// 角度
@@ -74,7 +70,7 @@ Matrix4x4 OBB::GetOBBWorldMatrixInvers() const {
 Vector3 OBB::GetSize() const { return obb_.size; }
 
 // OBBのマテリアルのゲッター
-Math::OBBMaterial OBB::GetOBBMaterial() const { return obb_; }
+Shape::OBBMaterial OBB::GetOBBMaterial() const { return obb_; }
 
 void OBB::OnCollision(bool isHit) {
 	if (isHit) {

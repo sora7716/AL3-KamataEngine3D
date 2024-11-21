@@ -120,6 +120,7 @@
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameObject\honeycomb\Honeycomb.cpp" />
+    <ClCompile Include="assets\gameObject\shape\hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\gameObject\shape\Shape.cpp" />
     <ClCompile Include="assets\gameObject\shape\obb\OBB.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\honeycomb\Honeycomb.h" />
+    <ClInclude Include="assets\gameObject\shape\hexagon\Hexagon.h" />
     <ClInclude Include="assets\gameObject\shape\Shape.h" />
     <ClInclude Include="assets\gameObject\shape\obb\OBB.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />

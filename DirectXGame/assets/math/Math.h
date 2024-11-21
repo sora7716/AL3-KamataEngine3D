@@ -41,27 +41,6 @@ public: // 構造体など
 		float angularVelocity; // 角速度ω
 	} ConicalPendulum;
 
-	// OBBの素材
-	typedef struct ObbMaterial {
-		Vector3 center; // 中心 translation
-		Vector3 orientations[3] = {
-		    {1.0f, 0.0f, 0.0f},
-		    {0.0f, 1.0f, 0.0f},
-		    {0.0f, 0.0f, 1.0f},
-		};                                 // 座標軸。正規化・直行必須 rotation
-		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
-		Vector3 rotation = {};             // 回転
-		Vector4 color = WHITE;            // 色
-	} OBBMaterial;
-
-	// AABBを2Dで作るときに使う
-	typedef struct Vertex2D {
-		Vector3 leftTop;
-		Vector3 rightTop;
-		Vector3 leftBottom;
-		Vector3 rightBottom;
-	} Vertex2D;
-
 public:
 	/// <summary>
 	/// 転置行列

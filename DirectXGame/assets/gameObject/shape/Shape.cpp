@@ -1,11 +1,4 @@
 #include "Shape.h"
-#include "ViewProjection.h"
-
-// 初期化
-void Shape::Initialize(ViewProjection* viewProjection) {
-	// ビュープロジェクションを受け取る
-	viewProjection_ = viewProjection;
-}
 
 // ローカルの頂点を変換
 Vector3 Shape::Conversion(const Vector3& scale, const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex) {
