@@ -1,12 +1,11 @@
 #pragma once
-#include "assets/math/Math.h"
+#include "assets/gameObject/shape/Shape.h"
 #include "assets/math/collision/Collision.h"
-
 
 // 前方宣言
 class ViewProjection;
 
-class OBB {
+class OBB : private Shape {
 
 public: // メンバ関数
 	/// <summary>
@@ -24,7 +23,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="obbMaterial">obbの素材</param>
-	void Initialize(ViewProjection* viewProjection, const Math::OBBMaterial&& obbMaterial);
+	void Initialize(ViewProjection* viewProjection, const OBBMaterial&& obbMaterial);
 
 	/// <summary>
 	/// 更新
@@ -58,7 +57,7 @@ public: // メンバ関数
 	/// OBBのマテリアルのゲッター
 	/// </summary>
 	/// <returns></returns>
-	Math::OBBMaterial GetOBBMaterial() const;
+	OBBMaterial GetOBBMaterial() const;
 
 	/// <summary>
 	/// 衝突したら
@@ -71,15 +70,12 @@ private: // メンバ関数
 	/// </summary>
 	void MakeVertecies();
 
-private:                                                    // メンバ変数
-	Math::OBBMaterial obb_ = {};                            // obb
-	Matrix4x4 invers_ = {};                                 // obbの逆行列
-	ViewProjection* viewProjection_ = nullptr;              // ビュープロジェクション
-	AABB aabb_ = {};                                        // AABBのマテリアル
-	Math::Vertex2D localVertecies_[Math::kAABB2DNum] = {};  // ローカルの頂点
-	Math::Vertex2D screenVertecies_[Math::kAABB2DNum] = {}; // スクリーンの頂点
-	Matrix4x4 worldViewProjection_ = {};                    // ワールドビュープロジェクション
-	Vector3 rotate_ = {};                                   // 回転ベクトル
-	Matrix4x4 worldMatrix_ = {};                            // ワールド行列
-	Matrix4x4 viewport_ = {};                               // ビューポート
+private:                                              // メンバ変数
+	OBBMaterial obb_ = {};                            // obb
+	Matrix4x4 invers_ = {};                           // obbの逆行列
+	AABB aabb_ = {};                                  // AABBのマテリアル
+	Vertex2D localVertecies_[Math::kAABB2DNum] = {};  // ローカルの頂点
+	Vertex2D screenVertecies_[Math::kAABB2DNum] = {}; // スクリーンの頂点
+	Matrix4x4 worldViewProjection_ = {};              // ワールドビュープロジェクション
+	Vector3 rotate_ = {};                             // 回転ベクトル
 };

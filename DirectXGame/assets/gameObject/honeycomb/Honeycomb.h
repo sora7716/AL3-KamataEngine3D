@@ -9,17 +9,17 @@ class MapChipField;
 /// <summary>
 /// 六角形
 /// </summary>
-class Hexagon {
+class Honeycomb {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Hexagon() = default;
+	Honeycomb() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Hexagon() = default;
+	~Honeycomb() = default;
 
 	/// <summary>
 	/// 初期化
