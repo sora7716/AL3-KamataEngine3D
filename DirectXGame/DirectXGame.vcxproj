@@ -45,8 +45,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\KamataEngineLib\$(Configuration);$(ProjectDir)..\External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\KamataEngineLib\$(Configuration);C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\release;$(ProjectDir)..\External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -68,11 +68,12 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>KamataEngineLib.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>KamataEngineLib.lib;DirectXTex.lib;libfbxsdk.lib;libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -110,6 +111,7 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="assets\create\Create.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
+    <ClCompile Include="assets\failLoad\fbxLoad\FbxModel.cpp" />
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
@@ -150,6 +152,7 @@
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="assets\create\Create.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
+    <ClInclude Include="assets\failLoad\fbxLoad\FbxModel.h" />
     <ClInclude Include="assets\failLoad\map\MapChipField.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />

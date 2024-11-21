@@ -55,4 +55,6 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	Vector3 worldPos_ = {};
 
+	FbxScene* mimic = nullptr;
+	std::vector<FbxMesh*> mimicMeshs_;
 };

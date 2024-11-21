@@ -22,6 +22,18 @@ void BattleScene::Initialize() {
 
 	worldTransform_.Initialize();
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
+
+	mimic = fbxLoad_->Load("Resources/Mimic.fbx");
+	if (mimic) {
+		// ノードからメッシュを収集
+		fbxLoad_->ProcessNode(mimic->GetRootNode(), mimicMeshs_);
+
+		// 各メッシュの頂点バッファを作成
+		for (auto& mesh : mimicMeshs_) {
+			vector<Vertex> vertices = fbxLoad_->GetMeshData(mesh);
+			fbxLoad_->CreateVertexBuffer(dxCommon_->GetDevice(), dxCommon_->GetCommandList(), vertices);
+		}
+	}
 }
 
 // 更新
@@ -42,6 +54,7 @@ void BattleScene::Update() {
 	hexagon_->Update();
 	obb_->DebagText();
 	worldTransform_.UpdateMatrix();
+
 }
 
 void BattleScene::Draw() {
@@ -74,6 +87,11 @@ void BattleScene::Draw() {
 	
 	//六角形
 	hexagon_->Draw();
+
+	 // FBXメッシュの描画
+	if (mimic) {
+		fbxLoad_->Render(commandList);
+	}
 	//OBB
 	//obb_->Draw();
 	// 3Dオブジェクト描画後処理
