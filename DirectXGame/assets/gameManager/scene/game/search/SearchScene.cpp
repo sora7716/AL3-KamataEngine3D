@@ -22,20 +22,31 @@ void SearchScene::Initialize() {
 	// 追従対象をセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	isFollowOn = true;//追従on
+	//コントローラーの生成
+	control_ = make_unique<Controller>();
 }
 
 // 更新
 void SearchScene::Update() {
 	// デバックカメラの更新
 	DebugCameraMove();
-
+	//環境の更新
 	for (auto& evbiroment : environments_) {
 		evbiroment->Update();
 	}
+	//コントローラのタイプ
+	control_->ControlUpdate(player_.get(), followCamera_.get(), (Controller::ControlType)isSelectContorol_);
+	//プレイヤーの更新
 	player_->Update();
-	environments_[(int)Type::kSkydome]->Update();
 	// カメラの更新
 	followCamera_->Update();
+
+#ifdef _DEBUG
+	//デバック
+	ImGui::Begin("test");
+	ImGui::Checkbox("controlType", &isSelectContorol_);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 // 描画
@@ -67,10 +78,11 @@ void SearchScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	//環境の描画
 	for (auto& evbiroment : environments_) {
 		evbiroment->Draw();
 	}
-
+	//プレイヤーの描画
 	player_->Draw();
 
 	// 3Dオブジェクト描画後処理

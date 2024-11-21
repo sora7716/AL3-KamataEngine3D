@@ -49,16 +49,15 @@ public: // メンバ関数
 	/// <param name="viewProjection"></param>
 	void SetViewProjection(const ViewProjection* viewProjection);
 
-private://メンバ関数
 	/// <summary>
 	/// ゲームパッドの操作
 	/// </summary>
-	void GamePadControl();
+	void GamepadControl();
 
 	/// <summary>
 	/// キーボードの操作
 	/// </summary>
-	void KeyBoaeredControl();
+	void KeyboardControl();
 
 private: // メンバ変数
 	Model* model_ = nullptr;
@@ -67,6 +66,8 @@ private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;
 
 	Vector3 move_{};//移動量
-	bool isMove_ = false;//移動したかどうかのフラグ
+	bool isMoving_ = false;//移動したかどうかのフラグ
 	const float speed_ = 0.3f;//速度
+	float goalAngle_ = 0.0f;//目標角度
+	float rotateFrame_ = 0.1f;//回転するフレーム
 };

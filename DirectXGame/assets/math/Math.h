@@ -263,15 +263,6 @@ public:
 	static Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 
 	/// <summary>
-	/// 線形補間
-	/// </summary>
-	/// <param name="num1">数字1</param>
-	/// <param name="num2">数字2</param>
-	/// <param name="t">媒介変数</param>
-	/// <returns>線形補間</returns>
-	static float Lerp(const float& num1, const float& num2, float t);
-
-	/// <summary>
 	/// 球面線形補間
 	/// </summary>
 	/// <param name="v1">ベクトル1</param>
@@ -399,6 +390,15 @@ public:
 	/// <returns>閉曲線</returns>
 	static Vector3 LissajousCurve(const Vector3& theta, const Vector3& center, const Vector3& scalar = {1.0f, 1.0f, 1.0f});
 
-public://静的メンバ変数
+	/// <summary>
+	/// 最短角度補間
+	/// </summary>
+	/// <param name="a">角度1</param>
+	/// <param name="b">角度2</param>
+	/// <param name="t">時間</param>
+	/// <returns>最短角度</returns>
+	static float LerpShortAngle(float a, float b, float t);
+
+ public://静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 };

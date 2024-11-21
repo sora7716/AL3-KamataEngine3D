@@ -41,16 +41,15 @@ public: // メンバ関数
 	/// <returns></returns>
 	ViewProjection& GetViewProjection();
 
-private://メンバ関数
 	/// <summary>
 	/// ゲームパッドの操作
 	/// </summary>
-	void GamePadControl();
+	void GamepadControl();
 
 	/// <summary>
 	/// キーボードの操作
 	/// </summary>
-	void KeyBoaeredControl();
+	void KeyboardControl();
 
 private: // メンバ変数
 	ViewProjection viewProjection_;

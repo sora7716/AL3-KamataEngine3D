@@ -108,6 +108,7 @@
   <ItemGroup>
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="3d\WorldTransform.cpp" />
+    <ClCompile Include="assets\controller\Controller.cpp" />
     <ClCompile Include="assets\create\Create.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="3d\TerrainCommon.h" />
     <ClInclude Include="3d\ViewProjection.h" />
     <ClInclude Include="3d\WorldTransform.h" />
+    <ClInclude Include="assets\controller\Controller.h" />
     <ClInclude Include="assets\create\Create.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />

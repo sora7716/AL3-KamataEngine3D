@@ -16,10 +16,6 @@ void FollowCamera::Update() {
 		// 座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = target_->translation_ + offset;
 	}
-	// ゲームパッド
-	GamePadControl();
-	// キーボード
-	KeyBoaeredControl();
 
 	viewProjection_.UpdateMatrix();
 }
@@ -31,18 +27,18 @@ void FollowCamera::SetTarget(const WorldTransform* target) { target_ = target; }
 ViewProjection& FollowCamera::GetViewProjection() { return viewProjection_; }
 
 // ゲームパッドの操作
-void FollowCamera::GamePadControl() {
+void FollowCamera::GamepadControl() {
 	// ゲームパッド
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 回転速度
-		const float rot = 0.5f;
-		viewProjection_.rotation_.y = (float)joyState.Gamepad.sThumbRX * rot;
+		const float rot = -0.000004f;
+		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX * rot;
 	}
 }
 
 // キーボードの操作
-void FollowCamera::KeyBoaeredControl() {
+void FollowCamera::KeyboardControl() {
 	const float rot = 0.05f;
 	float move = 0.0f;
 	if (Input::GetInstance()->PushKey(DIK_RIGHT)) {

@@ -2,6 +2,7 @@
 #include "assets/gameManager/scene/IScene.h"
 #include "assets/gameObject/environment/IEnvironment.h"
 #include "assets/gameObject/character/player/Player.h"
+#include "assets/controller/Controller.h"
 
 /// <summary>
 /// 探索シーン
@@ -49,4 +50,8 @@ private: // メンバ変数
 
 	//プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	//コントローラーのタイプ
+	std::unique_ptr<Controller> control_ = nullptr;
+	bool isSelectContorol_ = false;
 };
