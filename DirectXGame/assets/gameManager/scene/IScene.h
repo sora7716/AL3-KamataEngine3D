@@ -17,6 +17,7 @@
 #include "assets/gameObject/camera/RailCamera.h"
 #include "assets/math/Math.h"
 #include "assets/math/collision/Collision.h"
+#include "assets/failLoad/fbxLoad/FbxModel.h"
 
 // C++のライブラリ
 #include <cassert>
@@ -88,4 +89,7 @@ protected: // メンバ変数
 	// カメラ
 	std::unique_ptr<RailCamera> railCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
+
+	//FBXロード
+	std::unique_ptr<FbxLoad> fbxLoad_ = nullptr;
 };

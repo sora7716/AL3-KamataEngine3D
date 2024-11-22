@@ -32,6 +32,9 @@ IScene::IScene() {
 	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラクラスの生成
 	cameraWorldTransform_.Initialize();                                                                          // カメラのワールドトランスフォームの初期化
 	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
+	
+	//FBXモデル
+	fbxLoad_ = std::make_unique<FbxLoad>();
 }
 
 // デバックカメラの動き
