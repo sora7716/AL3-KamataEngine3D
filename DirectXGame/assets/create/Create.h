@@ -71,12 +71,13 @@ public: // メンバ関数
 	/// <returns>テクスチャハンドル</returns>
 	uint32_t GetTextureHandle(Create::Type subscript) const;
 
-private: // メンバ関数
 	// コピーコンストラクタを禁止
 	Create(const Create& create) = delete;
 
 	// 代入演算を禁止
 	Create& operator=(const Create& create) = delete;
+
+private: // メンバ関数
 
 	/// <summary>
 	/// コンストラクタ

@@ -32,14 +32,14 @@ void FollowCamera::GamepadControl() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 回転速度
-		const float rot = -0.000004f;
-		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX * rot;
+		const float rot = -5.0f * deltaTime;
+		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * rot;
 	}
 }
 
 // キーボードの操作
 void FollowCamera::KeyboardControl() {
-	const float rot = 0.05f;
+	const float rot = 5 * deltaTime;
 	float move = 0.0f;
 	if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
 		move = -1.0f;

@@ -52,6 +52,6 @@ private: // メンバ変数
 	std::unique_ptr<Player> player_ = nullptr;
 
 	//コントローラーのタイプ
-	std::unique_ptr<Controller> control_ = nullptr;
+	Controller* controller_ = nullptr;
 	bool isSelectContorol_ = false;
 };

@@ -23,7 +23,8 @@ void SearchScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	isFollowOn = true;//追従on
 	//コントローラーの生成
-	control_ = make_unique<Controller>();
+	controller_ = Controller::GetInstance();
+	controller_->Initialize(player_.get(), followCamera_.get());
 }
 
 // 更新
@@ -35,7 +36,7 @@ void SearchScene::Update() {
 		evbiroment->Update();
 	}
 	//コントローラのタイプ
-	control_->ControlUpdate(player_.get(), followCamera_.get(), (Controller::ControlType)isSelectContorol_);
+	controller_->ControlUpdate((Controller::ControlType)isSelectContorol_);
 	//プレイヤーの更新
 	player_->Update();
 	// カメラの更新
