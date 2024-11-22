@@ -1,5 +1,8 @@
 #pragma once
 #include "WorldTransform.h"
+#include "body/PlayerModel.h"
+#include <memory>
+#include <vector>
 
 // 前方宣言
 class ViewProjection;
@@ -25,7 +28,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(ViewProjection* viewProjection, Model* model);
+	void Initialize(std::vector<std::unique_ptr<Model>>&& model, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -60,14 +63,14 @@ public: // メンバ関数
 	void KeyboardControl();
 
 private: // メンバ変数
-	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;
 	WorldTransform worldTransform_;
 	const ViewProjection* directionViewProjection_ = nullptr;
+	PlayerModel* playerModel_ = nullptr;
 
-	Vector3 move_{};//移動量
-	bool isMoving_ = false;//移動したかどうかのフラグ
-	const float speed_ = 0.3f;//速度
-	float goalAngle_ = 0.0f;//目標角度
-	float rotateFrame_ = 0.1f;//回転するフレーム
+	Vector3 move_{};           // 移動量
+	bool isMoving_ = false;    // 移動したかどうかのフラグ
+	const float speed_ = 0.3f; // 速度
+	float goalAngle_ = 0.0f;   // 目標角度
+	float rotateFrame_ = 0.1f; // 回転するフレーム
 };

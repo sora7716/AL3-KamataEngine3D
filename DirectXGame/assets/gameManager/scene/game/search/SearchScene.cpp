@@ -16,7 +16,7 @@ void SearchScene::Initialize() {
 	environments_[(int)Type::kGround]->Initialize(&viewProjection_, create_->GetModel(create_->typeGround));
 	//プレイヤー
 	player_= make_unique<Player>();
-	player_->Initialize(&viewProjection_, create_->GetPlayerModel(create_->typeHead));
+	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
 	//追従カメラのビュープロジェクションを受け取る
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 	// 追従対象をセット

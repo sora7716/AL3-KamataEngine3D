@@ -3,6 +3,7 @@
 #define USE_MATH_DEFINES
 #include "Model.h"
 #include "TextureManager.h"
+#include <memory>
 #include <vector>
 
 // 前方宣言
@@ -13,6 +14,7 @@ class Model;
 /// </summary>
 class Create final {
 public: // 構造体や列挙型
+	// 環境のオブジェクト
 	enum class Type {
 		kHexagon,
 		kSkyDome,
@@ -20,17 +22,26 @@ public: // 構造体や列挙型
 		kModelNum,
 	};
 
+	// プレイヤーのモデル
 	enum class PlayerType {
 		kHead,
+		kBody,
+		kRightArm,
+		kLeftArm,
 		kPlayerNum,
 	};
+	// 環境のオブジェクト
 	using ObjectType = Type; // エイリアス
-	using ObjectPlayer = PlayerType; // エイリアス
 	ObjectType typeHexagon = Type::kHexagon;
 	ObjectType typeSkydome = Type::kSkyDome;
 	ObjectType typeGround = Type::kGround;
-	ObjectPlayer typeHead = PlayerType::kHead;
-	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
+	static inline const int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
+	// プレイヤーのモデル
+	using ObjectPlayer = PlayerType;                   // エイリアス
+	ObjectPlayer typeHead = PlayerType::kHead;         // 頭
+	ObjectPlayer typeBody = PlayerType::kBody;         // 体
+	ObjectPlayer typeRightArm = PlayerType::kRightArm; // 右腕
+	ObjectPlayer typeLeftArm = PlayerType::kLeftArm;   // 左腕
 	static inline const int PLAYER_MODEL_NUM = static_cast<int>(PlayerType::kPlayerNum);
 
 public: // メンバ関数
@@ -60,9 +71,8 @@ public: // メンバ関数
 	/// <summary>
 	/// プレイヤーのモデルのゲッター
 	/// </summary>
-	/// <param name="subscript">添え字</param>
 	/// <returns>モデル</returns>
-	Model* GetPlayerModel(Create::PlayerType subscript) const;
+	std::vector<std::unique_ptr<Model>>& GetPlayerModel();
 
 	/// <summary>
 	/// テクスチャのゲッター
@@ -78,7 +88,6 @@ public: // メンバ関数
 	Create& operator=(const Create& create) = delete;
 
 private: // メンバ関数
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -89,8 +98,8 @@ private: // メンバ関数
 	/// </summary>
 	~Create();
 
-private:                                  // メンバ変数
-	std::vector<Model*> models_;          // モデル
-	std::vector<Model*> playerModels_;//プレイヤーのモデル
-	std::vector<uint32_t> textureHandle_; // テクスチャ
+private:                                               // メンバ変数
+	std::vector<std::unique_ptr<Model>> models_;       // モデル
+	std::vector<std::unique_ptr<Model>> playerModels_; // プレイヤーのモデル
+	std::vector<uint32_t> textureHandle_;              // テクスチャ
 };

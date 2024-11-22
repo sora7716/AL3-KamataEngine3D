@@ -6,15 +6,9 @@ Create::Create() {}
 // デストラクタ
 Create::~Create() {
 	// モデルの削除
-	for (auto model : models_) {
-		delete model;
-	}
 	models_.clear(); // 配列ごと削除
 
 	// モデルの削除
-	for (auto model : playerModels_) {
-		delete model;
-	}
 	playerModels_.clear(); // 配列ごと削除
 }
 
@@ -28,22 +22,29 @@ Create* Create::GetInstance() {
 // モデルをクリエイト
 void Create::ModelCreate() {
 	models_.resize(MODEL_NUM); // 配列の大きさを設定
-	playerModels_.resize(PLAYER_MODEL_NUM); // 配列の大きさを設定
-	models_[static_cast<int>(typeHexagon)] = Model::CreateFromOBJ("hexagon", true);
-	models_[static_cast<int>(typeSkydome)] = Model::CreateFromOBJ("skydome", true);
-	models_[static_cast<int>(typeGround)] = Model::CreateFromOBJ("ground", true);
+	models_[static_cast<int>(typeHexagon)].reset(Model::CreateFromOBJ("hexagon", true));
+	models_[static_cast<int>(typeSkydome)].reset(Model::CreateFromOBJ("skydome", true));
+	models_[static_cast<int>(typeGround)].reset(Model::CreateFromOBJ("ground", true));
 
-	playerModels_[static_cast<int>(typeHead)] = Model::CreateFromOBJ("float_Head", true);
+	// プレイヤーのモデル
+	playerModels_.resize(PLAYER_MODEL_NUM);                                                         // サイズを設定
+	playerModels_[static_cast<int>(typeHead)].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
+	playerModels_[static_cast<int>(typeBody)].reset(Model::CreateFromOBJ("float_Body", true));      // 体
+	playerModels_[static_cast<int>(typeRightArm)].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
+	playerModels_[static_cast<int>(typeLeftArm)].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
 }
 
 // テクスチャをクリエイト
 void Create::TextureCreate() {}
 
 // モデルのゲッター
-Model* Create::GetModel(Create::Type subscript) const { return models_[(int)subscript]; }
+Model* Create::GetModel(Create::Type subscript) const { return models_[(int)subscript].get(); }
 
 // プレイヤーのモデルのゲッター
-Model* Create::GetPlayerModel(Create::PlayerType subscript) const { return playerModels_[(int)subscript]; }
+std::vector<std::unique_ptr<Model>>& Create::GetPlayerModel() {
+	// TODO: return ステートメントをここに挿入します
+	return playerModels_;
+}
 
 // テクスチャのゲッター
 uint32_t Create::GetTextureHandle(Create::Type subscript) const { return textureHandle_[(int)subscript]; }
