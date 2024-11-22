@@ -86,8 +86,8 @@ void BattleScene::Draw() {
 	//ハニカム
 	honeycomb_->Draw();
 	//OBB
-	obb_->Draw();
-	hexagon_->Draw();
+	//obb_->Draw();
+	//hexagon_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
