@@ -88,7 +88,10 @@ void GameManager::Initialize() {
 
 // 更新
 void GameManager::Update() {
+#ifdef _DEBUG
 	ImGui::Text("%d", sceneNo_);
+#endif // _DEBUG
+
 	// タイトルシーン
 	if (currentScene_ == Scene::kTitle) {
 		scenes_[sceneNo_]->Update();

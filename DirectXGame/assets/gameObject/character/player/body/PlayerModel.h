@@ -16,13 +16,26 @@ public: // メンバ関数
 	virtual ~IPlayerModel() = default;
 	virtual void Initialize(Model* model, ViewProjection* viewProjection) = 0;
 	virtual void Update() = 0;
+	virtual void DebugText() = 0;
 	virtual void Draw() = 0;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	/// <param name="label">ラベル</param>
+	void DebugText(const char* label);
 
 	/// <summary>
 	/// 親子付け
 	/// </summary>
 	/// <param name="parent">親</param>
 	void SetParent(WorldTransform* parent);
+
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns>ワールドトランスフォーム</returns>
+	WorldTransform& GetWorldTransform();
 
 protected: // メンバ変数
 	Model* model_ = nullptr;
@@ -58,6 +71,11 @@ public: // メンバ関数
 	void Update() override;
 
 	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText()override;
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw() override;
@@ -89,6 +107,11 @@ public: // メンバ関数
 	/// 更新
 	/// </summary>
 	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText()override;
 
 	/// <summary>
 	/// 描画
@@ -124,6 +147,11 @@ public: // メンバ関数
 	void Update() override;
 
 	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText()override;
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw() override;
@@ -157,6 +185,11 @@ public: // メンバ関数
 	void Update() override;
 
 	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw() override;
@@ -166,6 +199,20 @@ public: // メンバ関数
 /// プレイヤーのモデル
 /// </summary>
 class PlayerModel {
+public://列挙型と静的メンバ変数
+
+	//パーツの場所と数
+	enum class Parts {
+		kHead,
+		kBody,
+		kRightArm,
+		kLeftArm,
+		kPartsNum,
+	};
+
+	//パーツの数
+	static inline const int PARTS_NUM = (int)Parts::kPartsNum;
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ

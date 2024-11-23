@@ -29,10 +29,12 @@ void BattleScene::Update() {
 	railCamera_->Update();
 	//OBB
 	obb_->Update();
+#ifdef _DEBUG
 	ImGui::Begin("wireFrame");
 	obb_->DebagText();
 	ImGui::DragFloat3("boxTransform", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
+#endif // _DEBUG
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
 	//六角形
 	hexagon_->Update();

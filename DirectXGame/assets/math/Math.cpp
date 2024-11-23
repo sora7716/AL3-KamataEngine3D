@@ -3,7 +3,9 @@
 #include <cassert>
 using namespace std;
 
-#include <imgui.h>
+#ifdef _DEBUG
+#include "imgui.h"
+#endif //  _DEBUG
 
 // 転置行列
 Matrix4x4 Math::Transpose(Matrix4x4 m) {

@@ -35,7 +35,6 @@ void Player::Update() {
 	}
 	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 	worldTransform_.UpdateMatrix();
-	ImGui::Text("%f", rotateFrame_);
 }
 
 // 描画

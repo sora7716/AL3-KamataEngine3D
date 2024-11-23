@@ -33,10 +33,13 @@ void Hexagon::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void Hexagon::Update() {
+#ifdef _DEBUG
 	ImGui::Begin("Hexagon");
 	ImGui::DragFloat3("rotation", &parent_->rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &parent_->translation_.x, 0.1f);
 	ImGui::End();
+#endif // _DEBUG
+
 	for (auto piece : worldTransforms_) {
 		for (auto& worldTransform : piece) {
 			if (worldTransform) {

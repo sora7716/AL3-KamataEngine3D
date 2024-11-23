@@ -54,12 +54,15 @@ void OBB::Update() {
 
 // デバックテキスト
 void OBB::DebagText(const char* type) {
+	(void)type;
+#ifdef _DEBUG
 	string sizeMoji = string(type) + "size";
 	ImGui::SliderFloat3(sizeMoji.c_str(), &obb_.size.x, 0.0f, 3.0f);
 	string rotateMoji = string(type) + ".rotation";
 	ImGui::DragFloat3(rotateMoji.c_str(), &rotate_.x, 0.01f);
 	string translationMoji = string(type) + ".translation";
 	ImGui::DragFloat3(translationMoji.c_str(), &obb_.center.x, 0.01f);
+#endif // _DEBUG
 }
 
 // 描画
