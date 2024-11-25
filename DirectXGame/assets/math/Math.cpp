@@ -78,44 +78,24 @@ Matrix4x4 Math::MakeRotateZMatrix(const float& radian) {
 // x,y,z座標で回転
 Matrix4x4 Math::MakeRotateXYZMatrix(const Vector3& radian) { return MakeRotateXMatrix(radian.x) * MakeRotateYMatrix(radian.y) * MakeRotateZMatrix(radian.z); }
 
-// OBB用の回転行列
-void Math::MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate) {
-	Matrix4x4 rotateMatrix = MakeRotateXYZMatrix(rotate);
+//アフィン関数
 
-	// 回転行列からの抽出
+//アフィン関数
 
-	// X'
-	orientations[0].x = rotateMatrix.m[0][0];
-	orientations[0].y = rotateMatrix.m[0][1];
-	orientations[0].z = rotateMatrix.m[0][2];
-
-	// Y'
-	orientations[1].x = rotateMatrix.m[1][0];
-	orientations[1].y = rotateMatrix.m[1][1];
-	orientations[1].z = rotateMatrix.m[1][2];
-
-	// Z'
-	orientations[2].x = rotateMatrix.m[2][0];
-	orientations[2].y = rotateMatrix.m[2][1];
-	orientations[2].z = rotateMatrix.m[2][2];
+//アフィン関数
+//アフィン関数(scale無いver)
+Matrix4x4 Math::MakeAffineMatrix(const Vector3& rotate, const Vector3& translate) { 
+	return (MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate)); 
 }
 
-// OBB用のワールド行列
-Matrix4x4 Math::MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center) {
-	Matrix4x4 result{
-	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
-	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, center.x,          center.y,          center.z,          1.0f,
-	};
-	return result;
+//STRの変換
+Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
+	return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian);
 }
-
-// アフィン関数
-Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
-	return (MakeScaleMatrix(scale) * MakeRotateXYZMatrix(radian)) * MakeTranslateMatrix(translate);
+//STRの変換
+Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
+	return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian);
 }
-
-// STRの変換
-Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) { return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian); }
 
 // 正射影行列
 Matrix4x4 Math::MakeOrthographicMatrix(const float& left, const float& top, const float& right, const float& bottom, const float& nearClip, const float& farClip) {
