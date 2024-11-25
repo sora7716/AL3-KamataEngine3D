@@ -199,7 +199,12 @@ void Player::InitializeBehavior() {
 	}
 }
 
-void (Player::*Player::behaviorInitializeTable[])(){&Player::BehaviorRootInitialize, &Player::BehaviorAttackInitialize, &Player::BehaviorDashInitialize, &Player::BehaviorJumpInitialize};
+void (Player::*Player::behaviorInitializeTable[])(){
+	&Player::BehaviorRootInitialize, 
+	&Player::BehaviorAttackInitialize, 
+	&Player::BehaviorDashInitialize, 
+	&Player::BehaviorJumpInitialize
+};
 
 #pragma endregion
 
@@ -410,7 +415,12 @@ void Player::UpdateBehavior() {
 	}
 }
 
-void (Player::*Player::behaviorUpdateTable[])(){&Player::BehaviorRootUpdate, &Player::BehaviorAttackUpdate, &Player::BehaviorDashUpdate, &Player::BehaviorJumpUpdate};
+void (Player::*Player::behaviorUpdateTable[])(){
+	&Player::BehaviorRootUpdate, 
+	&Player::BehaviorAttackUpdate, 
+	&Player::BehaviorDashUpdate, 
+	&Player::BehaviorJumpUpdate
+};
 
 #pragma endregion
 
