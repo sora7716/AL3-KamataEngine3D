@@ -24,8 +24,8 @@ public: // 構造体や列挙型
 
 	// プレイヤーのモデル
 	enum class PlayerType {
-		kHead,
 		kBody,
+		kHead,
 		kRightArm,
 		kLeftArm,
 		kPlayerNum,

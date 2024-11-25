@@ -203,8 +203,8 @@ public://列挙型と静的メンバ変数
 
 	//パーツの場所と数
 	enum class Parts {
-		kHead,
 		kBody,
+		kHead,
 		kRightArm,
 		kLeftArm,
 		kPartsNum,

@@ -121,10 +121,10 @@ void PlayerModel::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewP
 	// 配列の大きさを設定
 	iPlayerModels_.resize(4);
 	// 生成
-	iPlayerModels_[0] = new Head();
-	iPlayerModels_[1] = new Body();
-	iPlayerModels_[2] = new RightArm();
-	iPlayerModels_[3] = new LeftArm();
+	iPlayerModels_[(int)Parts::kHead] = new Head();
+	iPlayerModels_[(int)Parts::kBody] = new Body();
+	iPlayerModels_[(int)Parts::kRightArm] = new RightArm();
+	iPlayerModels_[(int)Parts::kLeftArm] = new LeftArm();
 	// 初期化
 	for (int i = 0; i < 4; i++) {
 		assert(models[i]);
