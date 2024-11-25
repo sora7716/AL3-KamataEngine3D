@@ -64,4 +64,5 @@ private: // メンバ関数
 private: // メンバ変数
 	Player* player_ = nullptr;
 	FollowCamera* followCamera_ = nullptr;
+	static void (Controller::*ControllerTable[])();//操作方法を格納する関数ポインタの配列
 };
