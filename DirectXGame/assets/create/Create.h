@@ -37,11 +37,10 @@ public: // 構造体や列挙型
 	ObjectType typeGround = Type::kGround;
 	static inline const int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 	// プレイヤーのモデル
-	using ObjectPlayer = PlayerType;                   // エイリアス
-	ObjectPlayer typeHead = PlayerType::kHead;         // 頭
-	ObjectPlayer typeBody = PlayerType::kBody;         // 体
-	ObjectPlayer typeRightArm = PlayerType::kRightArm; // 右腕
-	ObjectPlayer typeLeftArm = PlayerType::kLeftArm;   // 左腕
+	int typeHead = (int)PlayerType::kHead;         // 頭
+	int typeBody = (int)PlayerType::kBody;    // 体
+	int typeRightArm = (int)PlayerType::kRightArm; // 右腕
+	int typeLeftArm = (int)PlayerType::kLeftArm;   // 左腕
 	static inline const int PLAYER_MODEL_NUM = static_cast<int>(PlayerType::kPlayerNum);
 
 public: // メンバ関数

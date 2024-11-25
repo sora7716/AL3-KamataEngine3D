@@ -28,10 +28,10 @@ void Create::ModelCreate() {
 
 	// プレイヤーのモデル
 	playerModels_.resize(PLAYER_MODEL_NUM);                                                         // サイズを設定
-	playerModels_[static_cast<int>(typeHead)].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
-	playerModels_[static_cast<int>(typeBody)].reset(Model::CreateFromOBJ("float_Body", true));      // 体
-	playerModels_[static_cast<int>(typeRightArm)].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
-	playerModels_[static_cast<int>(typeLeftArm)].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
+	playerModels_[typeHead].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
+	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
+	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
+	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
 }
 
 // テクスチャをクリエイト
