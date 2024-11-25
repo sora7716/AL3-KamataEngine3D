@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
+#include "input/Input.h"
 #include <cassert>
 #include <string>
 
