@@ -1,6 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
-#include "body/PlayerModel.h"
+#include "playerModel/PlayerModel.h"
 #include <memory>
 #include <vector>
 

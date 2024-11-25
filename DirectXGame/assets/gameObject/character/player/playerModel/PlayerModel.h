@@ -29,13 +29,13 @@ public: // メンバ関数
 	/// 親子付け
 	/// </summary>
 	/// <param name="parent">親</param>
-	void SetParent(WorldTransform* parent);
+	void SetParent(const WorldTransform* parent);
 
 	/// <summary>
 	/// ワールドトランスフォームのゲッター
 	/// </summary>
 	/// <returns>ワールドトランスフォーム</returns>
-	WorldTransform& GetWorldTransform();
+	const WorldTransform& GetWorldTransform();
 
 protected: // メンバ変数
 	Model* model_ = nullptr;
@@ -245,7 +245,7 @@ public: // メンバ関数
 	/// 親のセッター
 	/// </summary>
 	/// <param name="worldTransform"></param>
-	void SetParent(WorldTransform* parent);
+	void SetParent(const WorldTransform* parent);
 
 public: // メンバ変数
 	std::vector<IPlayerModel*> iPlayerModels_ = {nullptr};

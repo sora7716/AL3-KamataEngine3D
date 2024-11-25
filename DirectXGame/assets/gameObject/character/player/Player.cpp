@@ -32,6 +32,7 @@ void Player::Update() {
 		goalAngle_ = atan2(move_.x, move_.z);
 		// 移動
 		worldTransform_.translation_ += move_;
+
 	}
 	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 	worldTransform_.UpdateMatrix();

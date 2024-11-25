@@ -119,8 +119,8 @@
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
     <ClCompile Include="assets\gameObject\camera\followCamera\FollowCamera.cpp" />
     <ClCompile Include="assets\gameObject\camera\railCamera\RailCamera.cpp" />
-    <ClCompile Include="assets\gameObject\character\player\body\PlayerModel.cpp" />
     <ClCompile Include="assets\gameObject\character\player\Player.cpp" />
+    <ClCompile Include="assets\gameObject\character\player\playerModel\PlayerModel.cpp" />
     <ClCompile Include="assets\gameObject\environment\ground\Ground.cpp" />
     <ClCompile Include="assets\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
@@ -164,8 +164,8 @@
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
     <ClInclude Include="assets\gameObject\camera\followCamera\FollowCamera.h" />
     <ClInclude Include="assets\gameObject\camera\railCamera\RailCamera.h" />
-    <ClInclude Include="assets\gameObject\character\player\body\PlayerModel.h" />
     <ClInclude Include="assets\gameObject\character\player\Player.h" />
+    <ClInclude Include="assets\gameObject\character\player\playerModel\PlayerModel.h" />
     <ClInclude Include="assets\gameObject\environment\ground\Ground.h" />
     <ClInclude Include="assets\gameObject\environment\IEnvironment.h" />
     <ClInclude Include="assets\gameObject\environment\skydome\Skydome.h" />

@@ -21,10 +21,10 @@ void IPlayerModel::DebugText(const char* label) {
 }
 
 // 親子付け
-void IPlayerModel::SetParent(WorldTransform* parent) { worldTransform_.parent_ = parent; }
+void IPlayerModel::SetParent(const WorldTransform *parent) { worldTransform_.parent_ = parent; }
 
 // ワールドトランスフォームのゲッター
-WorldTransform& IPlayerModel::GetWorldTransform() {
+const WorldTransform& IPlayerModel::GetWorldTransform() {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
@@ -151,7 +151,7 @@ void PlayerModel::Draw() {
 }
 
 // 親のセッター
-void PlayerModel::SetParent(WorldTransform* parent) {
+void PlayerModel::SetParent(const WorldTransform* parent) {
 	// 体->Parent
 	iPlayerModels_[(int)Parts::kBody]->SetParent(parent);
 	// 頭->体
