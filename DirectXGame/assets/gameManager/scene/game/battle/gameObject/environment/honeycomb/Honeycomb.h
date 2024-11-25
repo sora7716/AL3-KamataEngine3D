@@ -1,20 +1,19 @@
 #pragma once
-#include "WorldTransform.h"
-#include "assets/math/Aithmetic.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 
 // 前方宣言
-class Model;
-class ViewProjection;
 class MapChipField;
+
 /// <summary>
-/// 六角形
+///// 六角形
 /// </summary>
-class Honeycomb {
+class Honeycomb :public IEnvironment{
 public: // メンバ関数
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Honeycomb() = default;
+	Honeycomb(MapChipField* mapChipField);
 
 	/// <summary>
 	/// デストラクタ
@@ -27,23 +26,20 @@ public: // メンバ関数
 	/// <param name="model">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="mapChipField">マップチップフィールド</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, MapChipField* mapChipField);
+	void Initialize(Model* model, ViewProjection* viewProjection)override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update()override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw()override;
 
-private:                                                        // メンバ変数
-	Model* model_ = nullptr;                                    // モデル
-	ViewProjection* viewProjection_ = nullptr;                  // ビュープロジェクション
+private:// メンバ変数
 	std::vector<std::vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム
-	WorldTransform* parent_;                                    // 六角形の親
 	int numPieces = 0;                                          // ピースの数
 	MapChipField* mapChipField_ = nullptr;                      // マップチップフィールド
 };

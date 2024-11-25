@@ -1,6 +1,7 @@
 #include "BattleScene.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
 using namespace std;
-
 // デストラクタ
 BattleScene::~BattleScene() {}
 
@@ -12,6 +13,7 @@ void BattleScene::Initialize() {
 	  .center{0.0f,0.0f,0.0f},
 	};
 	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
+
 	//六角形
 	hexagon_ = make_unique<Hexagon>();
 	hexagonMatrial_ = {
@@ -22,9 +24,28 @@ void BattleScene::Initialize() {
 	// マップチップ
 	mapChipField_ = make_unique<MapChipField>();
 	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
-	//六角形
-	honeycomb_ = make_unique<Honeycomb>();
-	honeycomb_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_,mapChipField_.get());
+
+	// スカイドーム
+	environments_[(int)Type::kSkydome] = make_unique<Skydome>();
+	environments_[(int)Type::kSkydome]->Initialize(create_->GetModel(create_->typeSkydome) ,& viewProjection_);
+
+	// 地面(ハニカム)
+	environments_[(int)Type::kGround] = make_unique<Honeycomb>(mapChipField_.get());
+	environments_[(int)Type::kGround]->Initialize(create_->GetModel(create_->typeHexagon), &viewProjection_);
+
+	// プレイヤー
+	player_ = make_unique<Player>();
+	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
+
+	// 追従カメラのビュープロジェクションを受け取る
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
+	// 追従対象をセット
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+	isFollowOn = true; // 追従on
+
+	// コントローラーの生成
+	controller_ = Controller::GetInstance();
+	controller_->Initialize(player_.get(), followCamera_.get());
 }
 
 // 更新
@@ -34,18 +55,37 @@ void BattleScene::Update() {
 
 	// カメラの更新
 	railCamera_->Update();
-	//OBB
-	obb_->Update();
 #ifdef _DEBUG
 	//六角形
 	hexagon_->Update();
+	hexagon_->DebugText();
 
+	//OBB
+	obb_->Update();
+	obb_->DebagText();
 #endif // _DEBUG
 
-	//ハニカム
-	honeycomb_->Update();
-	obb_->DebagText();
-	hexagon_->DebugText();
+
+	// 環境の更新
+	for (auto& evbiroment : environments_) {
+		evbiroment->Update();
+	}
+
+	// コントローラのタイプ
+	controller_->ControlUpdate((Controller::ControlType)isSelectContorol_);
+
+	// プレイヤーの更新
+	player_->Update();
+
+	// カメラの更新
+	followCamera_->Update();
+
+#ifdef _DEBUG
+	// デバック
+	ImGui::Begin("test");
+	ImGui::Checkbox("controlType", &isSelectContorol_);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 void BattleScene::Draw() {
@@ -76,11 +116,16 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	//ハニカム
-	honeycomb_->Draw();
 	//OBB
 	//obb_->Draw();
 	//hexagon_->Draw();
+
+	// 環境の描画
+	for (auto& evbiroment : environments_) {
+		evbiroment->Draw();
+	}
+	// プレイヤーの描画
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -1,5 +1,5 @@
 #pragma once
-#include "assets/gameObject/shape/Shape.h"
+#include "assets/gameManager/scene/game/battle/gameObject/Shape/Shape.h"
 #include "assets/math/collision/Collision.h"
 
 // 前方宣言

@@ -27,7 +27,7 @@ void Create::ModelCreate() {
 	models_[static_cast<int>(typeGround)].reset(Model::CreateFromOBJ("ground", true));
 
 	// プレイヤーのモデル
-	playerModels_.resize(PLAYER_MODEL_NUM);                                                         // サイズを設定
+	playerModels_.resize(PLAYER_MODEL_NUM);// サイズを設定
 	playerModels_[typeHead].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
 	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
 	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕

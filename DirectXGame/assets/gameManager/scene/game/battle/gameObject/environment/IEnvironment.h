@@ -13,7 +13,7 @@ public: // メンバ関数
 
 	// 純粋仮想関数
 	virtual ~IEnvironment() = default;
-	virtual void Initialize(ViewProjection* viewprojection, Model* model) = 0;
+	virtual void Initialize(Model* model,ViewProjection* viewprojection) = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 

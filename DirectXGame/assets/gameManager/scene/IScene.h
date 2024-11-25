@@ -13,9 +13,9 @@
 #include "WorldTransform.h"
 
 // 自分で作ったもの
-#include "assets/create/Create.h"
-#include "assets/gameObject/camera/followCamera/FollowCamera.h"
-#include "assets/gameObject/camera/railCamera/RailCamera.h"
+#include "assets/gameManager/gameModel/create/Create.h"
+#include "assets/gameManager/scene/game/battle/gameObject/camera/followCamera/FollowCamera.h"
+#include "assets/gameManager/scene/game/battle/gameObject/camera/railCamera/RailCamera.h"
 #include "assets/math/Math.h"
 #include "assets/math/collision/Collision.h"
 

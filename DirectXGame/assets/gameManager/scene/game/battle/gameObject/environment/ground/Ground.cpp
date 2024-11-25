@@ -1,7 +1,7 @@
 #include "Ground.h"
 
 // 初期化
-void Ground::Initialize(ViewProjection* viewProjection, Model* model) {
+void Ground::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
 	model_ = model;
 	viewProjection_ = viewProjection;

@@ -1,5 +1,5 @@
 #pragma once
-#include "assets/gameObject/environment/IEnvironment.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 
 /// <summary>
 /// 地面
@@ -22,7 +22,7 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="viewProjection"></param>
 	/// <param name="model"></param>
-	void Initialize(ViewProjection* viewProjection, Model* model) override;
+	void Initialize(Model* model,ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新

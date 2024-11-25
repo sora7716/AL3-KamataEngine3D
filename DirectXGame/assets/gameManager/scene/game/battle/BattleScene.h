@@ -1,21 +1,26 @@
 #pragma once
 // シーン
+#include "assets/gameManager/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
-#include "assets/gameObject/Shape/hexagon/Hexagon.h"
-#include "assets/gameObject/Shape/obb/OBB.h"
 
 // ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
-#include "assets/gameObject/honeycomb/Honeycomb.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 
 // ワイヤーフレーム
-#include "assets/gameObject/shape/hexagon/Hexagon.h"
-#include "assets/gameObject/shape/obb/OBB.h"
+#include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
+#include "assets/gameManager/scene/game/battle/gameObject/Shape/hexagon/Hexagon.h"
 
 /// <summary>
 /// バトルシーン
 /// </summary>
 class BattleScene : public IScene {
+public: // 列挙型
+	enum class Type {
+		kSkydome,
+		kGround,
+	};
 
 public: // メンバ関数
 	/// <summary>
@@ -56,9 +61,16 @@ private: // メンバ変数
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
 	Shape::HexagonMaterial hexagonMatrial_ = {};
 
-	// ハニカム
-	std::unique_ptr<Honeycomb> honeycomb_ = nullptr;
-
 	// マップ
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
+
+	// 環境
+	std::unique_ptr<IEnvironment> environments_[2] = {nullptr};
+
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+
+	// コントローラーのタイプ
+	Controller* controller_ = nullptr;
+	bool isSelectContorol_ = false;
 };

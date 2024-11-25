@@ -1,7 +1,7 @@
 #include "Skydome.h"
 
 // 初期化
-void Skydome::Initialize(ViewProjection* viewProjection, Model* model) {
+void Skydome::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
 	model_ = model;
 	viewProjection_ = viewProjection;
