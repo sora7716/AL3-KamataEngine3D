@@ -79,19 +79,16 @@ Matrix4x4 Math::MakeRotateZMatrix(const float& radian) {
 Matrix4x4 Math::MakeRotateXYZMatrix(const Vector3& radian) { return MakeRotateXMatrix(radian.x) * MakeRotateYMatrix(radian.y) * MakeRotateZMatrix(radian.z); }
 
 //アフィン関数
+// アフィン関数(scale無いver)
+Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale,const Vector3& rotate, const Vector3& translate) { 
+	return (MakeScaleMatrix(scale) * MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate));
+}
 
-//アフィン関数
-
-//アフィン関数
 //アフィン関数(scale無いver)
 Matrix4x4 Math::MakeAffineMatrix(const Vector3& rotate, const Vector3& translate) { 
 	return (MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate)); 
 }
 
-//STRの変換
-Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
-	return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian);
-}
 //STRの変換
 Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
 	return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian);

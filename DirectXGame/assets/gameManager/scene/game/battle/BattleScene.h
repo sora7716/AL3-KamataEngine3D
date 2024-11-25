@@ -1,24 +1,23 @@
 #pragma once
-//シーン
+// シーン
 #include "assets/gameManager/scene/IScene.h"
-#include "assets/gameObject/obb/OBB.h"
-#include "assets/gameObject/Hexagon/Hexagon.h"
+#include "assets/gameObject/Shape/hexagon/Hexagon.h"
+#include "assets/gameObject/Shape/obb/OBB.h"
 
-//ゲームモデル
-#include "assets/gameObject/honeycomb/Honeycomb.h"
+// ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
+#include "assets/gameObject/honeycomb/Honeycomb.h"
 
-//ワイヤーフレーム
-#include "assets/gameObject/shape/obb/OBB.h"
+// ワイヤーフレーム
 #include "assets/gameObject/shape/hexagon/Hexagon.h"
+#include "assets/gameObject/shape/obb/OBB.h"
 
 /// <summary>
 /// バトルシーン
 /// </summary>
-class BattleScene :public IScene{
+class BattleScene : public IScene {
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -45,25 +44,21 @@ public: // メンバ関数
 	void Draw() override;
 
 private: // メンバ変数
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	//OBB
+
+	// OBB
 	Shape::OBBMaterial obbMaterial_ = {};
-	//六角形
+	std::unique_ptr<OBB> obb_ = nullptr;
+
+	// 六角形
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
 	Shape::HexagonMaterial hexagonMatrial_ = {};
 
-	//ハニカム
+	// ハニカム
 	std::unique_ptr<Honeycomb> honeycomb_ = nullptr;
 
-	//マップ
+	// マップ
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
-
-
-	WorldTransform worldTransform_;
-	Vector3 worldPos_ = {};
-	std::vector<FbxMesh*> mimicMeshs_;
 };
