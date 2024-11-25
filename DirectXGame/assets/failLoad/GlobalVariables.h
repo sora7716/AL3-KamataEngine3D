@@ -1,9 +1,9 @@
 #pragma once
 #include "Vector3.h"
-#include "variant"
+#include "Windows.h"
 #include "map"
 #include "string"
-#include "Windows.h"
+#include "variant"
 
 #include "json.hpp"
 
@@ -13,19 +13,18 @@
 class GlobalVariables {
 
 public:
-
-	//インスタンス
+	// インスタンス
 	static GlobalVariables* GetInstance();
 	/// マイフレーム処理
 	void Update();
-	/// グループの作成 
+	/// グループの作成
 	void CreateGroup(const std::string& groupName);
 
-	///値のセット(int32_t型)
+	/// 値のセット(int32_t型)
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
-	///値のセット(float型)
+	/// 値のセット(float型)
 	void SetValue(const std::string& groupName, const std::string& key, float value);
-	///値のセット(Vector3型)
+	/// 値のセット(Vector3型)
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 	/// 値のセット(bool型)
 	void SetValue(const std::string& groupName, const std::string& key, bool value);
@@ -39,20 +38,19 @@ public:
 	/// ファイルから読み込む
 	void LoadFile(const std::string& groupName);
 
-	///項目の追加
+	/// 項目の追加
 	void AddItem(const std::string& groupName, const std::string& key, int32_t value);
 	void AddItem(const std::string& groupName, const std::string& key, float value);
-	void AddItem(const std::string& groupName, const std::string& key, const Vector3 &value);
+	void AddItem(const std::string& groupName, const std::string& key, const Vector3& value);
 	void AddItem(const std::string& groupName, const std::string& key, bool value);
 
-	///値の取得
+	/// 値の取得
 	int32_t GetIntValue(const std::string& groupName, const std::string& key) const;
-    float GetfloatValue(const std::string& groupName, const std::string& key) const;
+	float GetFloatValue(const std::string& groupName, const std::string& key) const;
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key) const;
 	bool GetBoolValue(const std::string& groupName, const std::string& key) const;
-	
-private:
 
+private:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -73,20 +71,14 @@ private:
 	/// <returns></returns>
 	GlobalVariables& operator=(const GlobalVariables& other) = delete;
 
-	struct Item {
-		std::variant<int32_t, float, Vector3,bool> value;
-	};
+	using Item = std::variant<int32_t, float, Vector3, bool>;
 
-	struct Group {
-		std::map<std::string, Item> items;
-	};
+	using Group = std::map<std::string, Item>;
 
-	std::map<std::string, Group> dates_;
+	std::map<std::string, Group> datas_;
 
 	using json = nlohmann::json;
 
-	//グローバル変数の保存先ファイルパス
+	// グローバル変数の保存先ファイルパス
 	const std::string kDirectoryPath = "Resources/GlobalVariables/";
-
-
 };

@@ -24,25 +24,15 @@ void LockOn::Initialize() {
 
 void LockOn::Update(const std::list<std::unique_ptr<Enemy>>& enemies, const ViewProjection& viewProjection) {
 
-	XINPUT_STATE joyState;
-	XINPUT_STATE joyStatePre;
-
-	static bool islockOn = false;
-	// 何も押されていなかったら
-	if (input_->GetJoystickState(0, joyState) && input_->GetJoystickStatePrevious(0, joyStatePre)) {
-
-		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) && !(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
-			islockOn ^= true;
-		}
-	}
-
+	XINPUT_STATE joyState = {};
+	XINPUT_STATE joyStatePre = {};
 
 	// ロックオン状態だったら
 	if (target_) {
 		// C.ロックオン解除処理
 
-		//ロックオンフラグが折られてる場合
-		if (!islockOn) {
+		// ロックオンフラグが折られてる場合
+		if (LockOn::JoyStickTrigger(joyState, joyStatePre)) {
 			// ロックオンを外す
 			target_ = nullptr;
 		}
@@ -54,7 +44,7 @@ void LockOn::Update(const std::list<std::unique_ptr<Enemy>>& enemies, const View
 
 	} else {
 
-		if (islockOn) {
+		if (LockOn::JoyStickTrigger(joyState, joyStatePre)) {
 			// A.ロックオン対象の検索
 			LockOn::SearchTarget(enemies, viewProjection);
 		}
@@ -78,6 +68,23 @@ void LockOn::Draw() {
 	if (target_) {
 		lockOnMark_->Draw();
 	}
+}
+
+Vector3 LockOn::GetTargetPosition() const {
+	if (this->ExistTarget()) {
+		return target_->GetCenterPosition();
+	}
+	return Vector3();
+}
+
+bool LockOn::JoyStickTrigger(XINPUT_STATE joyState, XINPUT_STATE joyStatePre) {
+
+	if (input_->GetJoystickState(0, joyState) && input_->GetJoystickStatePrevious(0, joyStatePre)) {
+		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) && !(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void LockOn::SearchTarget(const std::list<std::unique_ptr<Enemy>>& enemies, const ViewProjection& viewProjection) {
@@ -123,7 +130,7 @@ void LockOn::SearchTarget(const std::list<std::unique_ptr<Enemy>>& enemies, cons
 
 Vector3 LockOn::ToScreen(Vector3 world, const ViewProjection& viewProjection) {
 
-	Matrix4x4 matViewport = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+	Matrix4x4 matViewport = Math::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 
 	Matrix4x4 matVPV = viewProjection.matView * viewProjection.matProjection * matViewport;
 

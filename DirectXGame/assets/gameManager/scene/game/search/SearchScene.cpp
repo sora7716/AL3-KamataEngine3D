@@ -164,6 +164,9 @@ void SearchScene::InitializeObject() {
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
 
+	railCamera_->SetLockOn(lockOn_.get());
+	player_->SetLockOn(lockOn_.get());
+
 	//衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Initialize();

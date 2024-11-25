@@ -1,56 +1,24 @@
 #pragma once
 #include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "assets/math/Math.h"
-
+class ViewProjection;
 class Input;
 class Player;
+class LockOn;
 
-/// <summary>
-/// レールカメラ
-/// </summary> 
-class RailCamera : public Math{
+class RailCamera {
 
-public: // メンバ関数
+public:
+	void Initialize(ViewProjection* viewprojection);
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	RailCamera() = default;
-
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~RailCamera() = default;
-
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name="viewProjection">もともとあったビュープロジェクション</param>
-	void Initialize(ViewProjection* viewProjection);
-
-	/// <summary>
-	/// 更新
-	/// </summary>
 	void Update();
 
-    /// <summary>
-    /// リセット
-    /// </summary>
-    void Reset();
+	void Reset();
 
-	/// <summary>
-	/// 対象ターゲットのsetter
-	/// </summary>
-	/// <param name="target"></param>
 	void SetTarget(const WorldTransform* target);
 
-	/// <summary>
-	/// ビュープロジェクションのゲッター
-	/// </summary>
-	/// <returns>ビュープロジェクション</returns>
 	const ViewProjection* GetViewProjection() { return viewProjection_; }
 
+	void SetLockOn(const LockOn* lockOn) { this->lockOn_ = lockOn; }
 
 private:
 	void JoyStickRotation();
@@ -72,6 +40,5 @@ private:
 
 	float desticationAngleY = 0.0f;
 
-	Player* player_ = nullptr;
-
+	const LockOn* lockOn_ = nullptr;
 };

@@ -20,13 +20,12 @@ void CollisionManager::Initialize() {
 	globalVariables->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "Visible", visible_);
 
-	ApplyGlobalVariables();
 }
 
 void CollisionManager::UpdateWorldTransform() {
 
-	ImGui::Checkbox("Visible", &visible_);
-
+	ApplyGlobalVariables();
+	
 	if (!visible_ ) {
 		return;
 	}

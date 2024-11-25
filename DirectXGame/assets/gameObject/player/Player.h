@@ -1,14 +1,16 @@
 #pragma once
+#include "assets/gameobject/BaseCharacter.h"
+//#include "assets/gameobject/effect/HitEffect.h"
+#include "assets/gameobject/hammer/Hammer.h"
+#include "assets/math/Math.h"
+#include "memory"
 #include "vector"
 #include <optional>
-#include "assets/gameobject/BaseCharacter.h"
-#include "assets/math/Math.h"
-#include "assets/gameobject/hammer/Hammer.h"
-//#include "assets/gameobject/effect/HitEffect.h"
-#include "memory"
 
 class Input;
-//プレイヤーパーツの列挙体
+class LockOn;
+
+// プレイヤーパーツの列挙体
 enum Parts {
 	kBase,
 	kBody,
@@ -20,10 +22,9 @@ enum Parts {
 /// <summary>
 /// 自キャラ
 /// </summary>
-class Player : public BaseCharacter,Math{
+class Player : public BaseCharacter, Math {
 
 public:
-
 	enum class Behavior {
 		kRoot,
 		kAttack,
@@ -40,7 +41,7 @@ public:
 		float chargeSpeed;
 		float swingSpeed;
 	};
-		 
+
 	struct WorkAttack {
 		int32_t attackParameter_ = 0;
 		int32_t comboIndex = 0;
@@ -48,21 +49,19 @@ public:
 		bool comboNext = false;
 	};
 
-	//ダッシュ用ワーク
+	// ダッシュ用ワーク
 	struct WorkDash {
 		// ダッシュ用の媒介変数
 		int32_t dashParameter_;
 	};
 
-	//コンボの数
+	// コンボの数
 	static const int ComboNum = 3;
 
-	//コンボ定数表
+	// コンボ定数表
 	static const std::array<ConstAttack, ComboNum> kConstAttacks_;
 
-
-public://メンバ関数
-
+public: // メンバ関数
 	/// 初期化
 	void Initialize(std::vector<Model*> models, ViewProjection* viewProjection) override;
 
@@ -72,14 +71,14 @@ public://メンバ関数
 	/// 描画
 	void Draw() override;
 
-	//衝突時の処理
 	void OnCollision([[maybe_unused]] Collider* other) override;
 
-	///中心座標を取得
+	/// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
-private:
+	void SetLockOn(const LockOn* lockOn) { this->lockOn_ = lockOn; }
 
+private:
 #pragma region 初期化メンバ関数
 
 	/// 各ワールドトランスフォーム初期化
@@ -97,7 +96,7 @@ private:
 	/// ダッシュ初期化
 	void BehaviorDashInitialize();
 
-	///ジャンプ行動初期化
+	/// ジャンプ行動初期化
 	void BehaviorJumpInitialize();
 
 	/// ふるまい初期化
@@ -105,10 +104,12 @@ private:
 
 #pragma endregion
 
-	///ジョイスティックによる座標の移動
-	void JoyStickMove(const float speed);
-
 #pragma region 更新処理メンバ関数
+
+	bool GamePadController();
+
+	/// ジョイスティックによる座標の移動
+	void JoyStickMove(const float speed);
 
 	/// 浮遊ギミック更新
 	void UpdateFloatingGimmick();
@@ -116,11 +117,20 @@ private:
 	/// 通常行動更新
 	void BehaviorRootUpdate();
 
+	// コンボ続行判定
+	void JudgementComboContinue();
+
+	// コンボ切り替え
+	void ExChangeCombo();
+
+	// コンボ時パーツ制御
+	void ComboPartsControl();
+
 	/// 攻撃行動更新
 	void BehaviorAttackUpdate();
 
 	/// ダッシュ更新
-	void BehaviorDashUpdate();	
+	void BehaviorDashUpdate();
 
 	/// ジャンプ行動更新
 	void BehaviorJumpUpdate();
@@ -136,12 +146,12 @@ private:
 	/// 調整項目の適用
 	void ApplyGlobalVariables();
 
-	
-private://メンバ変数
-
+private: // メンバ変数
 	Input* input_ = nullptr;
+	ViewProjection* viewProjection_ = nullptr;
 
 	Vector3 velocity_ = {};
+	bool isMoving = false;
 	Vector3 targetRotate_ = {};
 
 	/// 浮遊ギミックの媒介変数
@@ -158,15 +168,19 @@ private://メンバ変数
 	WorkAttack workAttack_;
 
 	WorkDash workDash_;
-	float destinationAngleY = 1.0f;
+	float destinationAngleY = 0.1f;
 
 	static void (Player::*behaviorInitializeTable[])();
 	static void (Player::*behaviorUpdateTable[])();
 
-	std::unique_ptr<Model> modelHammer = nullptr;
-	std::unique_ptr<Hammer>hammer = nullptr;
-	//std::unique_ptr<Model> modelEffect_ = nullptr;
-	//std::unique_ptr<HitEffect> hitEffect_ = nullptr; 
-	//bool isHit_ = true;
+	const LockOn* lockOn_ = nullptr;
+	float speed_ = {};
 
+	std::unique_ptr<Model> modelHammer = nullptr;
+	std::unique_ptr<Hammer> hammer = nullptr;
+
+	//std::unique_ptr<Model> modelEffect_ = nullptr;
+	//std::unique_ptr<HitEffect> hitEffect_ = nullptr;
+
+	//bool isHit_ = false;
 };

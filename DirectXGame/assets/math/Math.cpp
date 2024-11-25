@@ -539,4 +539,13 @@ Vector3 Math::LissajousCurve(const Vector3& theta, const Vector3& center, const 
 	return result;
 }
 
+float Math::LerpShortAngle(float a, float b, float t) {
+
+	float diff = b - a;
+
+	diff = fmod(diff + pi_f, 2 * pi_f) - pi_f;
+
+	return a + diff * t;
+}
+
 

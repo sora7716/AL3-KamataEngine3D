@@ -399,6 +399,8 @@ public:
 	/// <returns>閉曲線</returns>
 	static Vector3 LissajousCurve(const Vector3& theta, const Vector3& center, const Vector3& scalar = {1.0f, 1.0f, 1.0f});
 
+	static float LerpShortAngle(float a, float b, float t);
+
 public://静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 };
