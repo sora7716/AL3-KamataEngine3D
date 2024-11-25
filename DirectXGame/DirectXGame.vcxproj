@@ -124,7 +124,6 @@
     <ClCompile Include="assets\gameObject\environment\ground\Ground.cpp" />
     <ClCompile Include="assets\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
-    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\gameObject\obb\OBB.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="assets\gameObject\environment\IEnvironment.h" />
     <ClInclude Include="assets\gameObject\environment\skydome\Skydome.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
-    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h" />
     <ClInclude Include="assets\gameObject\obb\OBB.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />

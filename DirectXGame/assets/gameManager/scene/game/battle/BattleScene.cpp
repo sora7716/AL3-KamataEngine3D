@@ -12,9 +12,6 @@ void BattleScene::Initialize() {
 	  .center{0.0f,0.0f,0.0f},
 	};
 	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
-	//六角形
-	hexagon_ = std::make_unique<Hexagon>();
-	hexagon_->Initialize(create_->GetModel(create_->typeHexagon),&viewProjection_);
 
 	worldTransform_.Initialize();
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
@@ -36,8 +33,6 @@ void BattleScene::Update() {
 	ImGui::End();
 #endif // _DEBUG
 	worldPos_ = {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]};
-	//六角形
-	hexagon_->Update();
 	obb_->DebagText();
 	worldTransform_.UpdateMatrix();
 }
@@ -70,8 +65,6 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	//六角形
-	hexagon_->Draw();
 	//OBB
 	obb_->Draw();
 	// 3Dオブジェクト描画後処理
