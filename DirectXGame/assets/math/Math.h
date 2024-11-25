@@ -41,27 +41,6 @@ public: // 構造体など
 		float angularVelocity; // 角速度ω
 	} ConicalPendulum;
 
-	// OBBの素材
-	typedef struct ObbMaterial {
-		Vector3 center; // 中心 translation
-		Vector3 orientations[3] = {
-		    {1.0f, 0.0f, 0.0f},
-		    {0.0f, 1.0f, 0.0f},
-		    {0.0f, 0.0f, 1.0f},
-		};                                 // 座標軸。正規化・直行必須 rotation
-		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
-		Vector3 rotation = {};             // 回転
-		Vector4 color = WHITE;            // 色
-	} OBBMaterial;
-
-	// AABBを2Dで作るときに使う
-	typedef struct Vertex2D {
-		Vector3 leftTop;
-		Vector3 rightTop;
-		Vector3 leftBottom;
-		Vector3 rightBottom;
-	} Vertex2D;
-
 public:
 	/// <summary>
 	/// 転置行列
@@ -127,21 +106,6 @@ public:
 	static Matrix4x4 MakeRotateXYZMatrix(const Vector3& radian);
 
 	/// <summary>
-	/// OBB用の回転行列
-	/// </summary>
-	/// <param name="orientations">回転行列から抽出するやつ</param>
-	/// <param name="rotate">回転する値</param>
-	static void MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate);
-
-	/// <summary>
-	/// OBB用のワールド行列
-	/// </summary>
-	/// <param name="orientations">回転行列から抽出したやつ</param>
-	/// <param name="center">センターの値</param>
-	/// <returns>OBBのワールド行列</returns>
-	static Matrix4x4 MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center);
-
-	/// <summary>
 	/// アフィン関数
 	/// </summary>
 	/// <param name="scale">倍率</param>
@@ -149,6 +113,14 @@ public:
 	/// <param name="translate">移動</param>
 	/// <returns>アフィン行列</returns>
 	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate);
+
+	/// <summary>
+	/// アフィン関数(scale無いver)
+	/// </summary>
+	/// <param name="radian"></param>
+	/// <param name="translate"></param>
+	/// <returns></returns>
+	static Matrix4x4 MakeAffineMatrix(const Vector3& radian, const Vector3& translate);
 
 	/// <summary>
 	/// STRの変換

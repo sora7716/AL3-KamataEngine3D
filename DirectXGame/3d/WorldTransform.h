@@ -51,6 +51,10 @@ public:
 	/// </summary>
 	void UpdateMatrix();
 	/// <summary>
+	/// STRの行列の更新
+	/// </summary>
+	void UpdateSTRMatrix();
+	/// <summary>
 	/// 定数バッファの取得
 	/// </summary>
 	/// <returns>定数バッファ</returns>

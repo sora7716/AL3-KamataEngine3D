@@ -1,15 +1,28 @@
 #pragma once
+// シーン
+#include "assets/gameManager/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
-#include "assets/gameObject/obb/OBB.h"
-#include "assets/gameObject/Hexagon/Hexagon.h"
+
+// ゲームモデル
+#include "assets/failLoad/map/MapChipField.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
+
+// ワイヤーフレーム
+#include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
+#include "assets/gameManager/scene/game/battle/gameObject/Shape/hexagon/Hexagon.h"
 
 /// <summary>
 /// バトルシーン
 /// </summary>
-class BattleScene :public IScene{
+class BattleScene : public IScene {
+public: // 列挙型
+	enum class Type {
+		kSkydome,
+		kGround,
+	};
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -36,19 +49,28 @@ public: // メンバ関数
 	void Draw() override;
 
 private: // メンバ変数
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	//OBB
+
+	// OBB
+	Shape::OBBMaterial obbMaterial_ = {};
 	std::unique_ptr<OBB> obb_ = nullptr;
-	Math::OBBMaterial obbMaterial_ = {};
 
-	//六角形
+	// 六角形
 	std::unique_ptr<Hexagon> hexagon_ = nullptr;
+	Shape::HexagonMaterial hexagonMatrial_ = {};
 
-	WorldTransform worldTransform_;
-	Vector3 worldPos_ = {};
+	// マップ
+	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
 
+	// 環境
+	std::unique_ptr<IEnvironment> environments_[2] = {nullptr};
+
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+
+	// コントローラーのタイプ
+	Controller* controller_ = nullptr;
+	bool isSelectContorol_ = false;
 };

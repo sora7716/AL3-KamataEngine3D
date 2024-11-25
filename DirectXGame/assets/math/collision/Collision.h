@@ -1,11 +1,11 @@
 #pragma once
 #include "Vector3.h"
 #include "Vector4.h"
-//前方宣言
+// 前方宣言
 class WorldTransform;
 class ViewProjection;
 
-//AABB
+// AABB
 typedef struct AABB {
 	Vector3 min;
 	Vector3 max;
@@ -14,17 +14,14 @@ typedef struct AABB {
 /// <summary>
 /// 衝突判定
 /// </summary>
-class Collision {
+class Collision final{
 public: // メンバ関数
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Collision() = default;
 
 	/// <summary>
-	/// デストラクタ
+	/// インスタンスのゲッター
 	/// </summary>
-	~Collision() = default;
+	/// <returns>インスタンス</returns>
+	static Collision* GetInstance();
 
 	/// <summary>
 	///  球と球の衝突判定
@@ -44,19 +41,19 @@ public: // メンバ関数
 	/// <returns></returns>
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 
+	//コピーコンストラクタを禁止
+	Collision(const Collision& collision) = delete;
+	//代入演算子を禁止
+	const Collision operator=(const Collision& collision) = delete;
+
+private: // メンバ関数
 	/// <summary>
-	/// 線を表示
+	/// コンストラクタ
 	/// </summary>
-	/// <param name="worldPos">ワールドポジション</param>
-	/// <param name="size">サイズ</param>
-	/// <param name="viewProjection">ビュープロジェクション</param>
-	static void DrawLine(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection, Vector4 color = WHITE);
+	Collision() = default;
 
 	/// <summary>
-	/// 3Dの箱を作成
+	/// デストラクタ
 	/// </summary>
-	/// <param name="worldPos">ワールドポジション</param>
-	/// <param name="size">サイズ</param>
-	/// <param name="viewProjection">ビュープロジェクション</param>
-	static void DrawBox(Vector3 worldPos, Vector3 size, ViewProjection* viewProjection);
+	~Collision() = default;
 };

@@ -126,10 +126,16 @@
     <ClCompile Include="3d\WorldTransform.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameObject\obb\OBB.cpp">
+    <ClCompile Include="assets\failLoad\map\MapChipField.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\honeycomb\Honeycomb.cpp">
       <Filter>assets\gameobject</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameObject\Hexagon\Hexagon.cpp">
+    <ClCompile Include="assets\gameObject\shape\obb\OBB.cpp">
+      <Filter>assets\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\shape\Shape.cpp">
       <Filter>assets\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameObject\environment\skydome\Skydome.cpp">
@@ -148,6 +154,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="assets\controller\Controller.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\character\player\playerModel\PlayerModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameObject\shape\hexagon\Hexagon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,10 +287,13 @@
     <ClInclude Include="assets\gameObject\fade\Fade.h">
       <Filter>assets\process</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameObject\Hexagon\Hexagon.h">
+    <ClInclude Include="assets\failLoad\map\MapChipField.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\honeycomb\Honeycomb.h">
       <Filter>assets\gameobject</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameObject\obb\OBB.h">
+    <ClInclude Include="assets\gameObject\shape\Shape.h">
       <Filter>assets\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameObject\environment\skydome\Skydome.h">
@@ -300,6 +315,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\controller\Controller.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\character\player\playerModel\PlayerModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\shape\hexagon\Hexagon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\shape\obb\OBB.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
