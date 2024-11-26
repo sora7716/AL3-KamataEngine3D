@@ -1,18 +1,23 @@
 #pragma once
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 #include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
-class Enemy :public BaseCharacter{
+#include "Vector2.h"
+
+/// <summary>
+/// ミミックのクラス
+/// </summary>
+class Mimic :public BaseCharacter{
 public:
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Enemy() = default;
+	Mimic() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy() = default;
+	~Mimic() = default;
 
 	/// <summary>
 	/// 初期化
@@ -33,4 +38,6 @@ public:
 
 private://メンバ変数
 	MimicModel* mimicModel_ = nullptr;
+	Vector3 circleMoveCenter_ = {5.0f,0.0f,10.0f};
+	Vector2 circleMoveRadius_ = {10.0f, 5.0f};
 };

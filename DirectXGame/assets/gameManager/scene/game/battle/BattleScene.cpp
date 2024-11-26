@@ -48,7 +48,7 @@ void BattleScene::Initialize() {
 	controller_->Initialize(player_.get(), followCamera_.get());
 
 	//ミミック
-	enemy_ = std::make_unique<Enemy>();
+	enemy_ = std::make_unique<Mimic>();
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
 }
 

@@ -76,5 +76,5 @@ private: // メンバ変数
 	bool isSelectContorol_ = false;
 
 	//ミミック
-	std::unique_ptr<Enemy> enemy_ = nullptr;
+	std::unique_ptr<Mimic> enemy_ = nullptr;
 };

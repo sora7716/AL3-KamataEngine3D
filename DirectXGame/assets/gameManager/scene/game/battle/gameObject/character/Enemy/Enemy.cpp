@@ -1,7 +1,8 @@
 #include "Enemy.h"
 
+#pragma region ミミック
 //初期化
-void Enemy::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection){ 
+void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection){ 
 	BaseCharacter::Initialize(std::move(models),viewProjection);
 	//モデルの生成
 	mimicModel_ = new MimicModel();
@@ -12,7 +13,11 @@ void Enemy::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 }
 
 //更新
-void Enemy::Update() { 
+void Mimic::Update() { 
+	Math::CircularMoveXZ(circleMoveCenter_, worldTransform_.translation_, circleMoveRadius_);
+	// Y軸周りの角度(θy)
+	worldTransform_.rotation_.y = atan2(-worldTransform_.translation_.z, worldTransform_.translation_.x);
+
 	BaseCharacter::Update();
 	mimicModel_->Update();
 #ifdef _DEBUG
@@ -25,4 +30,5 @@ void Enemy::Update() {
 }
 
 //描画
-void Enemy::Draw() { mimicModel_->Draw(); }
+void Mimic::Draw() { mimicModel_->Draw(); }
+#pragma endregion
