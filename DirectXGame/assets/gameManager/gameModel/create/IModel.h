@@ -39,7 +39,7 @@ public: // メンバ関数
 	/// デバックテキスト
 	/// </summary>
 	/// <param name="label">ラベル</param>
-	virtual void DebugText(const char* label);
+	void DebugText(const char* label);
 
 	/// <summary>
 	/// 親子付け

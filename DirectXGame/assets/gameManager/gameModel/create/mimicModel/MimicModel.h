@@ -270,6 +270,12 @@ public:  // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 親子付け
+	/// </summary>
+	/// <param name="parent"></param>
+	void SetParent(const WorldTransform*parent);
+
 private: // メンバ変数
 	std::vector<IModel*> parts = {nullptr};
 };

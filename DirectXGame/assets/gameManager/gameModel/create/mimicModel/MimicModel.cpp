@@ -8,10 +8,10 @@ void Rid::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Ini
 void Rid::Update() { IModel::Update(); }
 
 // デバックテキスト
-void Rid::DebugText() { IModel::Draw(); }
+void Rid::DebugText() { IModel::DebugText("rid"); }
 
 // 描画
-void Rid::Draw() {}
+void Rid::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 目
@@ -22,10 +22,10 @@ void Eye::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Ini
 void Eye::Update() { IModel::Update(); }
 
 // デバックテキスト
-void Eye::DebugText() { IModel::Draw(); }
+void Eye::DebugText() { IModel::DebugText("eye"); }
 
 // 描画
-void Eye::Draw() {}
+void Eye::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 箱
@@ -36,10 +36,10 @@ void Box::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Ini
 void Box::Update() { IModel::Update(); }
 
 // デバックテキスト
-void Box::DebugText() { IModel::Draw(); }
+void Box::DebugText() { IModel::DebugText("box"); }
 
 // 描画
-void Box::Draw() {}
+void Box::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 舌
@@ -50,10 +50,10 @@ void Tongue::Initialize(Model* model, ViewProjection* viewProjection) { IModel::
 void Tongue::Update() { IModel::Update(); }
 
 // デバックテキスト
-void Tongue::DebugText() { IModel::Draw(); }
+void Tongue::DebugText() { IModel::DebugText("tongue"); }
 
 // 描画
-void Tongue::Draw() {}
+void Tongue::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 歯(上)
@@ -64,10 +64,10 @@ void ToothUp::Initialize(Model* model, ViewProjection* viewProjection) { IModel:
 void ToothUp::Update() { IModel::Update(); }
 
 // デバックテキスト
-void ToothUp::DebugText() { IModel::Draw(); }
+void ToothUp::DebugText() { IModel::DebugText("toothUp"); }
 
 // 描画
-void ToothUp::Draw() {}
+void ToothUp::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 歯(下)
@@ -78,10 +78,10 @@ void ToothBottom::Initialize(Model* model, ViewProjection* viewProjection) { IMo
 void ToothBottom::Update() { IModel::Update(); }
 
 // デバックテキスト
-void ToothBottom::DebugText() { IModel::Draw(); }
+void ToothBottom::DebugText() { IModel::DebugText("toothBottom"); }
 
 // 描画
-void ToothBottom::Draw() {}
+void ToothBottom::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region ミミックのモデル
@@ -106,9 +106,9 @@ void MimicModel::Update() {
 	for (auto part : parts) {
 		part->Update();
 #ifdef _DEBUG
-		/*ImGui::Begin("mimic");
+		ImGui::Begin("mimic");
 		part->DebugText();
-		ImGui::End();*/
+		ImGui::End();
 #endif // _DEBUG
 	}
 }
@@ -118,5 +118,21 @@ void MimicModel::Draw() {
 	for (auto part : parts) {
 		part->Draw();
 	}
+}
+
+//親子付け
+void MimicModel::SetParent(const WorldTransform* parent) { 
+	// 箱<-親
+	parts[(int)Parts::kBox]->SetParent(parent);
+	//下の歯<-箱
+	parts[(int)Parts::kToothBottom]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
+	//舌<-箱
+	parts[(int)Parts::kTongue]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
+	// 蓋<-箱
+	parts[(int)Parts::kRid]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
+	//目<-蓋
+	parts[(int)Parts::kEye]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
+	//上の歯<-蓋
+	parts[(int)Parts::kToothUp]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
 }
 #pragma endregion
