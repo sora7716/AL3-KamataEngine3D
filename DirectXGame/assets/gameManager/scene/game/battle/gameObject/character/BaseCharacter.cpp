@@ -8,6 +8,7 @@ void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, Vie
 		models_.push_back(models[i].get());
 	}
 	viewProjection_ = viewProjection;
+	worldTransform_.Initialize();
 }
 
 //更新

@@ -21,29 +21,33 @@ public: // 構造体や列挙型
 		kGround,
 		kModelNum,
 	};
-
+	// 環境のオブジェクト
+	int typeHexagon = (int)Type::kHexagon;
+	int typeSkydome = (int)Type::kSkyDome;
+	int typeGround = (int)Type::kGround;
 	// プレイヤーのモデル
-	enum class PlayerType {
+	enum class PlayerParts {
 		kBody,
 		kHead,
 		kRightArm,
 		kLeftArm,
 		kPlayerNum,
 	};
-	// 環境のオブジェクト
-	using ObjectType = Type; // エイリアス
-	ObjectType typeHexagon = Type::kHexagon;
-	ObjectType typeSkydome = Type::kSkyDome;
-	ObjectType typeGround = Type::kGround;
-	static inline const int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 	// プレイヤーのモデル
-	int typeHead = (int)PlayerType::kHead;         // 頭
-	int typeBody = (int)PlayerType::kBody;    // 体
-	int typeRightArm = (int)PlayerType::kRightArm; // 右腕
-	int typeLeftArm = (int)PlayerType::kLeftArm;   // 左腕
-	static inline const int PLAYER_MODEL_NUM = static_cast<int>(PlayerType::kPlayerNum);
-
-public: // メンバ関数
+	int typeHead = (int)PlayerParts::kHead;         // 頭
+	int typeBody = (int)PlayerParts::kBody;         // 体
+	int typeRightArm = (int)PlayerParts::kRightArm; // 右腕
+	int typeLeftArm = (int)PlayerParts::kLeftArm;   // 左腕
+	// ミミックのモデル
+	enum class MimicParts { kBox, kRid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
+	// プレイヤーのモデル
+	int typeBox = (int)MimicParts::kBox;                 // 箱
+	int typeRid = (int)MimicParts::kRid;                 // 蓋
+	int typeEye = (int)MimicParts::kEye;                 // 目
+	int typeToothUp = (int)MimicParts::kToothUp;         // 上の歯
+	int typeToothBottom = (int)MimicParts::kToothBottom; // 下の歯
+	int typeTongue = (int)MimicParts::kTongue;           // 舌
+public:                                                  // メンバ関数
 	/// <summary>
 	/// インスタンスのゲッター
 	/// </summary>
@@ -65,13 +69,19 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="num">添え字</param>
 	/// <returns>モデル</returns>
-	Model* GetModel(Create::Type subscript) const;
+	Model* GetModel(int subscript) const;
 
 	/// <summary>
 	/// プレイヤーのモデルのゲッター
 	/// </summary>
 	/// <returns>モデル</returns>
 	std::vector<std::unique_ptr<Model>>& GetPlayerModel();
+
+	/// <summary>
+	/// ミミックのモデルのゲッター
+	/// </summary>
+	/// <returns>モデル</returns>
+	std::vector<std::unique_ptr<Model>>& GetMimicModel();
 
 	/// <summary>
 	/// テクスチャのゲッター
@@ -100,5 +110,6 @@ private: // メンバ関数
 private:                                               // メンバ変数
 	std::vector<std::unique_ptr<Model>> models_;       // モデル
 	std::vector<std::unique_ptr<Model>> playerModels_; // プレイヤーのモデル
+	std::vector<std::unique_ptr<Model>> mimicModels_;  // ミミックのモデル
 	std::vector<uint32_t> textureHandle_;              // テクスチャ
 };

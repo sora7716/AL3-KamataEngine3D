@@ -27,7 +27,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& model, ViewProjection* viewProjection)override;
+	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection)override;
 
 	/// <summary>
 	/// 更新

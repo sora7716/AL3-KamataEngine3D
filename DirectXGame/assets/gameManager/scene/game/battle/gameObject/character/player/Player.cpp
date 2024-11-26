@@ -8,13 +8,11 @@
 
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	viewProjection_ = viewProjection;
-	worldTransform_.Initialize();
-
+	BaseCharacter::Initialize(std::move(models), viewProjection);
 	// プレイヤーモデルの生成
 	playerModel_ = new PlayerModel();
 	// プレイヤーモデルの初期化
-	playerModel_->Initialize(std::move(models), viewProjection_);
+	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
 }

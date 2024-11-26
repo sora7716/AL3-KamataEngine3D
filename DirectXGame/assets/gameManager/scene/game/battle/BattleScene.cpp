@@ -46,6 +46,10 @@ void BattleScene::Initialize() {
 	// コントローラーの生成
 	controller_ = Controller::GetInstance();
 	controller_->Initialize(player_.get(), followCamera_.get());
+
+	//ミミック
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
 }
 
 // 更新
@@ -79,6 +83,9 @@ void BattleScene::Update() {
 
 	// カメラの更新
 	followCamera_->Update();
+
+	//敵の更新
+	enemy_->Update();
 
 #ifdef _DEBUG
 	// デバック
@@ -126,6 +133,9 @@ void BattleScene::Draw() {
 	}
 	// プレイヤーの描画
 	player_->Draw();
+
+	//敵の描画
+	enemy_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

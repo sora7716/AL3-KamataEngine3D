@@ -92,23 +92,23 @@ void LeftArm::Draw() { IModel::Draw(); }
 
 #pragma region プレイヤーのモデル
 // 初期化
-void PlayerModel::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
+void PlayerModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection) {
 	// 配列の大きさを設定
-	iPlayerModels_.resize(4);
+	parts_.resize((int)Parts::kPartsNum);
 	// 生成
-	iPlayerModels_[(int)Parts::kHead] = new Head();
-	iPlayerModels_[(int)Parts::kBody] = new Body();
-	iPlayerModels_[(int)Parts::kRightArm] = new RightArm();
-	iPlayerModels_[(int)Parts::kLeftArm] = new LeftArm();
+	parts_[(int)Parts::kHead] = new Head();
+	parts_[(int)Parts::kBody] = new Body();
+	parts_[(int)Parts::kRightArm] = new RightArm();
+	parts_[(int)Parts::kLeftArm] = new LeftArm();
 	// 初期化
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < (int)Parts::kPartsNum; i++) {
 		assert(models[i]);
-		iPlayerModels_[i]->Initialize(models[i].get(), viewProjection);
+		parts_[i]->Initialize(models[i], viewProjection);
 	}
 }
 // 更新
 void PlayerModel::Update() {
-	for (auto iPalayerModel : iPlayerModels_) {
+	for (auto iPalayerModel : parts_) {
 		iPalayerModel->Update();
 #ifdef _DEBUG
 		ImGui::Begin("playerParts");
@@ -120,7 +120,7 @@ void PlayerModel::Update() {
 
 // 描画
 void PlayerModel::Draw() {
-	for (auto iPalayerModel : iPlayerModels_) {
+	for (auto iPalayerModel : parts_) {
 		iPalayerModel->Draw();
 	}
 }
@@ -128,13 +128,13 @@ void PlayerModel::Draw() {
 // 親のセッター
 void PlayerModel::SetParent(const WorldTransform* parent) {
 	// 体->Parent
-	iPlayerModels_[(int)Parts::kBody]->SetParent(parent);
+	parts_[(int)Parts::kBody]->SetParent(parent);
 	// 頭->体
-	iPlayerModels_[(int)Parts::kHead]->SetParent(&iPlayerModels_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kHead]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 右腕->体
-	iPlayerModels_[(int)Parts::kRightArm]->SetParent(&iPlayerModels_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 左腕->体
-	iPlayerModels_[(int)Parts::kLeftArm]->SetParent(&iPlayerModels_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 }
 
 #pragma endregion

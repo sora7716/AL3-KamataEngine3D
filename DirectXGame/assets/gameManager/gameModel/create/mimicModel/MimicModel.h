@@ -231,9 +231,45 @@ public: // メンバ関数
 
 class MimicModel {
 public: // 列挙型
-	enum class Parts { kBox, kRid, kEye, kTongue, kToothUp, kToothBottom, kPartsNum };
+	enum class Parts { 
+		kBox, 
+		kRid, 
+		kEye, 
+		kToothUp, 
+		kToothBottom, 
+		kTongue, 
+		kPartsNum 
+	};
 
 public:  // メンバ関数
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	MimicModel() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~MimicModel() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="models">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
+
 private: // メンバ変数
-	IModel *parts[(int)Parts::kPartsNum] = {nullptr};
+	std::vector<IModel*> parts = {nullptr};
 };

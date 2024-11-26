@@ -16,9 +16,23 @@ public: // メンバ関数
 	IModel() = default;
 	// 純粋仮想関数
 	virtual ~IModel() = default;
-	virtual void Initialize(Model* model, ViewProjection* viewProjection);
-	virtual void Update();
 	virtual void DebugText() = 0;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	virtual void Initialize(Model* model, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	virtual void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	virtual void Draw();
 
 	/// <summary>

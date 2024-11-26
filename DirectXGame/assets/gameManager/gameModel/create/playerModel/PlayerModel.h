@@ -167,9 +167,6 @@ public: // 列挙型と静的メンバ変数
 		kPartsNum,
 	};
 
-	// パーツの数
-	static inline const int PARTS_NUM = (int)Parts::kPartsNum;
-
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -186,7 +183,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="models">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection);
+	void Initialize(std::vector<Model*>&& models,ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -205,5 +202,5 @@ public: // メンバ関数
 	void SetParent(const WorldTransform* parent);
 
 public: // メンバ変数
-	std::vector<IModel*> iPlayerModels_ = {nullptr};
+	std::vector<IModel*> parts_ = {nullptr};
 };

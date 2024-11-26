@@ -6,6 +6,7 @@
 // ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 
 // ワイヤーフレーム
@@ -73,4 +74,7 @@ private: // メンバ変数
 	// コントローラーのタイプ
 	Controller* controller_ = nullptr;
 	bool isSelectContorol_ = false;
+
+	//ミミック
+	std::unique_ptr<Enemy> enemy_ = nullptr;
 };
