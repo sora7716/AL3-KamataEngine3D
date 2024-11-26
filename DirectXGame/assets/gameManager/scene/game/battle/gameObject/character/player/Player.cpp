@@ -5,22 +5,23 @@
 #include "assets/math/Math.h"
 #include "input/Input.h"
 #include <cassert>
+
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
 	worldTransform_.Initialize();
-	
-	//プレイヤーモデルの生成
+
+	// プレイヤーモデルの生成
 	playerModel_ = new PlayerModel();
-	//プレイヤーモデルの初期化
+	// プレイヤーモデルの初期化
 	playerModel_->Initialize(std::move(models), viewProjection_);
-	//プレイヤーとの親子付け
+	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
 }
 
 // 更新
 void Player::Update() {
-	//プレイヤーモデルの更新
+	// プレイヤーモデルの更新
 	playerModel_->Update();
 
 	// 移動量に速さを反映
@@ -32,22 +33,15 @@ void Player::Update() {
 		goalAngle_ = atan2(move_.x, move_.z);
 		// 移動
 		worldTransform_.translation_ += move_;
-
 	}
 	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
-	worldTransform_.UpdateMatrix();
+	BaseCharacter::Update();//更新
 }
 
 // 描画
 void Player::Draw() {
 	// プレイヤーモデルの描画
 	playerModel_->Draw();
-}
-
-// ワールドトランスフォームのゲッター
-WorldTransform& Player::GetWorldTransform() {
-	// TODO: return ステートメントをここに挿入します
-	return worldTransform_;
 }
 
 // ビュープロジェクションのセッター
@@ -58,7 +52,7 @@ void Player::GamepadControl() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		const float deadZone = 0.7f * SHRT_MAX; // デッドソーン
-		isMoving_ = false;           // 移動してない
+		isMoving_ = false;                      // 移動してない
 		// 移動量
 		move_ = {(float)joyState.Gamepad.sThumbLX, 0.0f, (float)joyState.Gamepad.sThumbLY};
 		if (Math::Length(move_) > deadZone) {

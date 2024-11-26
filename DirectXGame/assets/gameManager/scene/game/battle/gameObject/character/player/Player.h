@@ -1,8 +1,6 @@
 #pragma once
-#include "WorldTransform.h"
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
-#include <memory>
-#include <vector>
+#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 
 // 前方宣言
 class ViewProjection;
@@ -11,11 +9,12 @@ class Model;
 /// <summary>
 /// プレイヤー
 /// </summary>
-class Player {
+class Player : public BaseCharacter {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
+	/// <param name="viewProjection">ビュープロジェクション</param>
 	Player() = default;
 
 	/// <summary>
@@ -28,23 +27,17 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& model, ViewProjection* viewProjection);
+	void Initialize(std::vector<std::unique_ptr<Model>>&& model, ViewProjection* viewProjection)override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update()override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
-
-	/// <summary>
-	/// ワールドトランスフォームのゲッター
-	/// </summary>
-	/// <returns></returns>
-	WorldTransform& GetWorldTransform();
+	void Draw()override;
 
 	/// <summary>
 	/// ビュープロジェクションのセッター
@@ -63,9 +56,8 @@ public: // メンバ関数
 	void KeyboardControl();
 
 private: // メンバ変数
-	ViewProjection* viewProjection_;
-	WorldTransform worldTransform_;
 	const ViewProjection* directionViewProjection_ = nullptr;
+	// プレイヤーのモデル
 	PlayerModel* playerModel_ = nullptr;
 
 	Vector3 move_{};           // 移動量

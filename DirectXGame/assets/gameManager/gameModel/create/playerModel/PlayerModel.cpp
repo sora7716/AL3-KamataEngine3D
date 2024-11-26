@@ -1,118 +1,92 @@
 #include "PlayerModel.h"
-#include "ImGuiManager.h"
-#include "Model.h"
-#include "ViewProjection.h"
-#include "assets/math/Math.h"
-#include "input/Input.h"
-#include <cassert>
-#include <string>
-
-#pragma region インターフェース
-// デバックテキスト
-void IPlayerModel::DebugText(const char* label) {
-	(void)label;
-#ifdef _DEBUG
-	std::string imGuiLabel = (std::string)label + ".size";
-	ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.scale_.x, 0.1f, 0.0f, 3.0f);
-	imGuiLabel = (std::string)label + ".rotate";
-	ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.rotation_.x, 0.1f);
-	imGuiLabel = (std::string)label + ".translate";
-	ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.translation_.x, 0.1f);
-#endif // DEBUG
-}
-
-// 親子付け
-void IPlayerModel::SetParent(const WorldTransform *parent) { worldTransform_.parent_ = parent; }
-
-// ワールドトランスフォームのゲッター
-const WorldTransform& IPlayerModel::GetWorldTransform() {
-	// TODO: return ステートメントをここに挿入します
-	return worldTransform_;
-}
-#pragma endregion
 
 #pragma region 頭
 // 初期化
 void Head::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);
-	model_ = model;
-	viewProjection_ = viewProjection;
-	worldTransform_.Initialize();
+	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
 	worldTransform_.rotation_ = {pi_f / 2.0f, 0.0f, pi_f};
 }
 
 // 更新
-void Head::Update() { worldTransform_.UpdateMatrix(); }
+void Head::Update() {IModel::Update(); }
 
 // デバックテキスト
-void Head::DebugText() { IPlayerModel::DebugText("head"); }
+void Head::DebugText() { IModel::DebugText("head"); }
 
 // 描画
-void Head::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void Head::Draw() { IModel::Draw(); }
 
 #pragma endregion
 
 #pragma region 体
 // 初期化
 void Body::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);
-	model_ = model;
-	viewProjection_ = viewProjection;
-	worldTransform_.Initialize();
+	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, 0.2f, 0.0f};
+	// アニメーションの初期化
+	InitializeFloatingGimmick();
 }
 
 // 更新
-void Body::Update() { worldTransform_.UpdateMatrix(); }
+void Body::Update() {
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
+	IModel::Update();
+}
 
 // デバックテキスト
-void Body::DebugText() { IPlayerModel::DebugText("body"); }
+void Body::DebugText() { IModel::DebugText("body"); }
 
 // 描画
-void Body::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void Body::Draw() { IModel::Draw(); }
 
 #pragma endregion
 
 #pragma region 右腕
 // 初期化
 void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);
-	model_ = model;
-	viewProjection_ = viewProjection;
-	worldTransform_.Initialize();
+	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
+	// アニメーションの初期化
+	InitializeFloatingGimmick();
 }
 
 // 更新
-void RightArm::Update() { worldTransform_.UpdateMatrix(); }
+void RightArm::Update() {
+	// アニメーションの更新
+	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	IModel::Update();
+}
 
 // デバックテキスト
-void RightArm::DebugText() { IPlayerModel::DebugText("rightArm"); }
+void RightArm::DebugText() { IModel::DebugText("rightArm"); }
 
 // 描画
-void RightArm::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void RightArm::Draw() { IModel::Draw(); }
 
 #pragma endregion
 
 #pragma region 左腕
 // 初期化
 void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
-	assert(model);
-	model_ = model;
-	viewProjection_ = viewProjection;
-	worldTransform_.Initialize();
+	IModel::Initialize(model,viewProjection);
 	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};
+	// アニメーションの初期化
+	InitializeFloatingGimmick();
 }
 
 // 更新
-void LeftArm::Update() { worldTransform_.UpdateMatrix(); }
+void LeftArm::Update() {
+	// アニメーションの更新
+	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	IModel::Update();
+}
 
 // デバックテキスト
-void LeftArm::DebugText() { IPlayerModel::DebugText("leftArm"); }
+void LeftArm::DebugText() { IModel::DebugText("leftArm"); }
 
 // 描画
-void LeftArm::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void LeftArm::Draw() { IModel::Draw(); }
 
 #pragma endregion
 
