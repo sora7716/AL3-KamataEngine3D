@@ -1,7 +1,7 @@
 #pragma once
 #include "assets/gameobject/BaseCharacter.h"
 //#include "assets/gameobject/effect/HitEffect.h"
-#include "assets/gameobject/hammer/Hammer.h"
+
 #include "assets/math/Math.h"
 #include "memory"
 #include "vector"
@@ -9,6 +9,7 @@
 
 class Input;
 class LockOn;
+class Hammer;
 
 // プレイヤーパーツの列挙体
 enum Parts {
@@ -78,34 +79,25 @@ public: // メンバ関数
 
 	void SetLockOn(const LockOn* lockOn) { this->lockOn_ = lockOn; }
 
+	void SetHammer(Hammer* hammer) { this->hammer_ = hammer; }
+
 private:
-#pragma region 初期化メンバ関数
 
 	/// 各ワールドトランスフォーム初期化
 	void InitializeWorldTransform();
 
 	/// 浮遊ギミック初期化
-	void InitializeFloatingGimmick();
+	void InitializeFloatingGimmick();	
 
-	/// 通常行動初期化
+	/// 各ふるまいの初期化
 	void BehaviorRootInitialize();
-
-	/// 攻撃行動初期化
 	void BehaviorAttackInitialize();
-
-	/// ダッシュ初期化
 	void BehaviorDashInitialize();
-
-	/// ジャンプ行動初期化
 	void BehaviorJumpInitialize();
-
-	/// ふるまい初期化
 	void InitializeBehavior();
 
-#pragma endregion
 
-#pragma region 更新処理メンバ関数
-
+	// ゲームパッドによるコントローラ入力
 	bool GamePadController();
 
 	/// ジョイスティックによる座標の移動
@@ -114,31 +106,12 @@ private:
 	/// 浮遊ギミック更新
 	void UpdateFloatingGimmick();
 
-	/// 通常行動更新
+	/// 各ふるまいの更新
 	void BehaviorRootUpdate();
-
-	// コンボ続行判定
-	void JudgementComboContinue();
-
-	// コンボ切り替え
-	void ExChangeCombo();
-
-	// コンボ時パーツ制御
-	void ComboPartsControl();
-
-	/// 攻撃行動更新
 	void BehaviorAttackUpdate();
-
-	/// ダッシュ更新
 	void BehaviorDashUpdate();
-
-	/// ジャンプ行動更新
 	void BehaviorJumpUpdate();
-
-	/// ふるまい更新
 	void UpdateBehavior();
-
-#pragma endregion
 
 	/// デバッグテキスト描画
 	void DrawDebugText();
@@ -147,6 +120,7 @@ private:
 	void ApplyGlobalVariables();
 
 private: // メンバ変数
+
 	Input* input_ = nullptr;
 	ViewProjection* viewProjection_ = nullptr;
 
@@ -175,12 +149,5 @@ private: // メンバ変数
 
 	const LockOn* lockOn_ = nullptr;
 	float speed_ = {};
-
-	std::unique_ptr<Model> modelHammer = nullptr;
-	std::unique_ptr<Hammer> hammer = nullptr;
-
-	//std::unique_ptr<Model> modelEffect_ = nullptr;
-	//std::unique_ptr<HitEffect> hitEffect_ = nullptr;
-
-	//bool isHit_ = false;
+	Hammer* hammer_;
 };

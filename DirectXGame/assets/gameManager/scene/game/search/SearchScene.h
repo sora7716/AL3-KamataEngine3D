@@ -5,6 +5,7 @@
 #include "assets/gameObject/player/Player.h"
 #include "assets/gameObject/enemy/Enemy.h"
 #include "assets/gameObject/lockOn/LockOn.h"
+#include "assets/gameObject/hammer/Hammer.h"
 #include "assets/math/collision/CollisionManager.h"
 
 /// <summary>
@@ -56,27 +57,29 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 
-	//地面
+	// 各モデルのオブジェクト
 	std::unique_ptr<Model> modelGround_ = nullptr;
-	std::unique_ptr<Ground> ground_ = nullptr;
-
-	//天球
 	std::unique_ptr<Model> modelSkydome_ = nullptr;
-	std::unique_ptr<SkyDome> skyDome_ = nullptr;
-
-	//プレイヤー
 	std::unique_ptr<Model> modelFighterBody_ = nullptr;
 	std::unique_ptr<Model> modelFighterHead_ = nullptr;
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
-	std::unique_ptr<Player> player_ = nullptr;
-
-	//敵
 	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
 	std::unique_ptr<Model> modelEnemyL_spear_ = nullptr;
 	std::unique_ptr<Model> modelEnemyR_spear_ = nullptr;
-	std::list<std::unique_ptr<Enemy>> enemies_;
+	std::unique_ptr<Model> modelHammer_ = nullptr;
 
+
+	// 地面
+	std::unique_ptr<Ground> ground_ = nullptr;
+	// 天球
+	std::unique_ptr<SkyDome> skyDome_ = nullptr;
+	// ハンマー
+	std::unique_ptr<Hammer> hammer_ = nullptr;
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+	// 敵
+	std::list<std::unique_ptr<Enemy>> enemies_;
 	// ロックオン
 	std::unique_ptr<LockOn> lockOn_ = nullptr;
 

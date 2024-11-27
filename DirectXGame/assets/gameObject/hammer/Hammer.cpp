@@ -59,6 +59,8 @@ Vector3 Hammer::GetCenterPosition() const {
 
 const Vector3& Hammer::GetRotation() const { return worldTransform_.rotation_; }
 
+void Hammer::SetScale(const Vector3& scale) { worldTransform_.scale_ = scale; }
+
 void Hammer::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
 
 void Hammer::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

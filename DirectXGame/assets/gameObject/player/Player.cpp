@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "assets/gameobject/lockOn/LockOn.h"
+#include "assets/gameobject/hammer/Hammer.h"
 #include "assets/failLoad/GlobalVariables.h"
 
 #define M_PI 3.14f
@@ -30,11 +31,7 @@ void Player::Initialize(std::vector<Model*> models, ViewProjection* viewProjecti
 	InitializeWorldTransform();
 	InitializeFloatingGimmick();
 
-	// ハンマーの生成
-	modelHammer.reset(Model::CreateFromOBJ("hammer", true));
-	hammer = std::make_unique<Hammer>();
-	hammer->Initialize(modelHammer.get(), viewProjection);
-	hammer->SetParent(this->GetWorldTransform()[kBody]);
+	
 
 	// ヒットエフェクトの生成
 	//modelEffect_.reset(Model::CreateSphere());
@@ -68,6 +65,8 @@ void Player::Update() {
 		hitEffect_->Update();
 	}*/
 
+	
+
 	InitializeBehavior();
 	UpdateBehavior();
 
@@ -81,7 +80,7 @@ void Player::Update() {
 
 // 描画処理
 void Player::Draw() {
-
+	hammer_->Draw();
 	// 3Dモデルを描画
 	models_[kBody]->Draw(*worldTransforms_[kBody], *viewProjection_);           // 体
 	models_[kHead]->Draw(*worldTransforms_[kHead], *viewProjection_);           // 頭
@@ -89,10 +88,10 @@ void Player::Draw() {
 	models_[kRight_arm]->Draw(*worldTransforms_[kRight_arm], *viewProjection_); // 右腕
 
 	// ふるまいが攻撃の時のみ
-	if (behavior_ == Behavior::kAttack) {
+	//if (behavior_ == Behavior::kAttack) {
 		// 近接武器(ハンマー)を描画する
-		hammer->Draw();
-	}
+		
+	//}
 
 	/*if (isHit_ && hitEffect_) {
 		hitEffect_->Draw();
@@ -146,20 +145,32 @@ void Player::InitializeWorldTransform() {
 	// 右腕の親子関係
 	worldTransforms_[kRight_arm]->parent_ = GetWorldTransform()[kBody];
 	worldTransforms_[kRight_arm]->translation_ = {0.527f, 1.262f, 0.0f}; // 座標設定
+
+	if (hammer_ != nullptr) {
+		hammer_->SetParent(this->GetWorldTransform()[kBody]);
+	}
 }
 
 // 浮遊ギミック初期化
 void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 // 通常行動初期化
-void Player::BehaviorRootInitialize() {}
+void Player::BehaviorRootInitialize() {
+	hammer_->SetScale(Vector3());
+}
 
 // 攻撃行動初期化
 void Player::BehaviorAttackInitialize() {
 	worldTransforms_[kBody]->translation_.y = 0;
 	worldTransforms_[kLeft_arm]->rotation_.x = -1.53f;
 	worldTransforms_[kRight_arm]->rotation_.x = -1.53f;
-	hammer->SetRotation({.x = 3.0f});
+	hammer_->SetScale(Vector3(1, 1, 1));
+	hammer_->SetRotation({.x = 3.0f});
+
+	// 攻撃の初期化でボディと親子関係を結ぶ
+	if (hammer_ != nullptr) {
+		hammer_->SetParent(this->GetWorldTransform()[kBody]);
+	}
 
 	workAttack_.attackParameter_ = 0;
 }
@@ -339,9 +350,9 @@ void Player::BehaviorAttackUpdate() {
 	if (workAttack_.attackParameter_ > 0 && workAttack_.attackParameter_ < 10) {
 		worldTransforms_[kLeft_arm]->rotation_.x -= kConstAttacks_[1].anticipationSpeed;
 		worldTransforms_[kRight_arm]->rotation_.x -= kConstAttacks_[1].anticipationSpeed;
-		Vector3 hammerAngle = hammer->GetRotation(); // ハンマーの回転
+		Vector3 hammerAngle = hammer_->GetRotation(); // ハンマーの回転
 		hammerAngle.x -= kConstAttacks_[1].anticipationSpeed * 1.65f;
-		hammer->SetRotation(hammerAngle);
+		hammer_->SetRotation(hammerAngle);
 	}
 
 	if (workAttack_.attackParameter_ > 15 && workAttack_.attackParameter_ < 25) {
@@ -353,9 +364,9 @@ void Player::BehaviorAttackUpdate() {
 	if (workAttack_.attackParameter_ > 30 && workAttack_.attackParameter_ < 40) {
 		worldTransforms_[kLeft_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
 		worldTransforms_[kRight_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
-		Vector3 hammerAngle = hammer->GetRotation();
+		Vector3 hammerAngle = hammer_->GetRotation();
 		hammerAngle.x += kConstAttacks_[1].swingSpeed;
-		hammer->SetRotation(hammerAngle);
+		hammer_->SetRotation(hammerAngle);
 	}
 
 	int32_t totalAttackTime = kConstAttacks_[1].anticipationTime + kConstAttacks_[1].chargeTime + kConstAttacks_[1].swingTime + kConstAttacks_[1].recoveryTime;
@@ -404,11 +415,11 @@ void Player::BehaviorJumpUpdate() {
 // ふるまい更新
 void Player::UpdateBehavior() {
 
-	hammer->Update();
+	
 
 	// ふるまい更新をメンバ関数ポインタで呼び出す
 	(this->*behaviorUpdateTable[static_cast<size_t>(behavior_)])();
-
+	hammer_->Update();
 	// 行列を更新する
 	for (auto worldTransform : worldTransforms_) {
 		worldTransform->UpdateMatrix();

@@ -22,7 +22,9 @@ public:
 	Vector3 GetCenterPosition() const override;
 	//角度のGetter
 	const Vector3& GetRotation() const;
-	//角度のSetter
+	// 倍率のSetter
+	void SetScale(const Vector3& scale);
+	// 角度のSetter
 	void SetRotation(const Vector3& rotation);
 	//親子関係を結ぶ
 	void SetParent(const WorldTransform* parent);

@@ -117,6 +117,8 @@ void SearchScene::CreateModel() {
 	modelEnemyBody_.reset(Model::CreateFromOBJ("needle_Body", true));
 	modelEnemyL_spear_.reset(Model::CreateFromOBJ("spear", true));
 	modelEnemyR_spear_.reset(Model::CreateFromOBJ("spear", true));
+	// ハンマーの生成
+	modelHammer_.reset(Model::CreateFromOBJ("hammer", true));
 
 }
 
@@ -143,8 +145,12 @@ void SearchScene::InitializeObject() {
 	};
 
 	// 自キャラの生成
+	hammer_ = std::make_unique<Hammer>();
+	hammer_->Initialize(modelHammer_.get(), &viewProjection_);
+
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerParts, &viewProjection_);
+	player_->SetHammer(hammer_.get());
 	railCamera_->SetTarget(player_->GetWorldTransform()[kBase]);
 
 	// 敵パーツ
@@ -183,6 +189,8 @@ void SearchScene::CheckAllCollision() {
 	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
 		collisionManager_->AddCollider(enemy.get());
 	}
+
+	collisionManager_->AddCollider(hammer_.get());
 
 	// 衝突判定と応答
 	collisionManager_->CheckAllCollisions();
