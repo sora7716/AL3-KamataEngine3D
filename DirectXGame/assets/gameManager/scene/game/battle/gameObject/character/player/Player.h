@@ -58,7 +58,7 @@ public: // メンバ関数
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;
 	// プレイヤーのモデル
-	PlayerModel* playerModel_ = nullptr;
+	std::unique_ptr<PlayerModel> playerModel_ = nullptr;
 
 	Vector3 move_{};           // 移動量
 	bool isMoving_ = false;    // 移動したかどうかのフラグ

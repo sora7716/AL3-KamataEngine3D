@@ -1,14 +1,13 @@
 #pragma once
-#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
-#include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
 #include "Vector2.h"
+#include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 
 /// <summary>
 /// ミミックのクラス
 /// </summary>
-class Mimic :public BaseCharacter{
+class Mimic : public BaseCharacter {
 public:
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -36,8 +35,11 @@ public:
 	/// </summary>
 	void Draw() override;
 
-private://メンバ変数
-	MimicModel* mimicModel_ = nullptr;
-	Vector3 circleMoveCenter_ = {5.0f,0.0f,10.0f};
-	Vector2 circleMoveRadius_ = {10.0f, 5.0f};
+public: // 静的メンバ変数
+	static inline const float kSpeed = 1.0f;
+private: // メンバ変数
+	std::unique_ptr<MimicModel> mimicModel_ = nullptr;
+	Vector3 circulaMoveCenter_ = {5.0f, 0.0f, 10.0f};
+	Vector2 circulaMoveRadius_ = {10.0f, 5.0f};
+	Vector3 velocity_ = {};
 };

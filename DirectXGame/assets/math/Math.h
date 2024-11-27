@@ -298,7 +298,9 @@ public:
 	/// </summary>
 	/// <param name="centerPos">中心</param>
 	/// <param name="ballPos">現在のボールの位置</param>
-	static void CircularMoveXZ(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius);
+	/// <param name="radius">移動する円の半径</param>
+	/// <param name="angularVelocity">移動速度</param>
+	static void CircularMoveXZ(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius, float angularVelocity = pi_f);
 
 	/// <summary>
 	/// 円運動ZY
@@ -306,6 +308,15 @@ public:
 	/// <param name="centerPos">中心</param>
 	/// <param name="ballPos">現在のボールの位置</param>
 	static void CircularMoveZY(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius);
+
+	/// <summary>
+	/// 円運動XZの速度ベクトルを求める
+	/// </summary>
+	/// <param name="centerPos">円運動の中心</param>
+	/// <param name="radius">円運動の半径</param>
+	/// <param name="angularVelocity">移動スピード</param>
+	/// <returns>速度</returns>
+	static Vector3 CircularMoveVeclocityXZ(const Vector3& centerPos, const Vector2& radius, float angularVelocity = pi_f);
 
 	/// <summary>
 	/// 振り子の作成
@@ -371,6 +382,6 @@ public:
 	/// <returns>最短角度</returns>
 	static float LerpShortAngle(float a, float b, float t);
 
- public://静的メンバ変数
+public:                                     // 静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 };

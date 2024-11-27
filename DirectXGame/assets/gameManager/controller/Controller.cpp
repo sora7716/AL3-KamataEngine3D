@@ -1,6 +1,6 @@
 #include "Controller.h"
-#include "assets/gameObject/camera/followCamera/FollowCamera.h"
-#include "assets/gameObject/character/player/Player.h"
+#include "assets/gameManager/scene/game/battle/gameObject/camera/followCamera/FollowCamera.h"
+#include "assets/gameManager/scene//game/battle/gameObject/character/player/Player.h"
 
 //操作方法を管理する関数ポインタの配列
 void (Controller::*Controller::ControllerTable[])() = {

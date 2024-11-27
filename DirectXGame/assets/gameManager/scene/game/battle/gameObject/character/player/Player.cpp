@@ -10,7 +10,7 @@
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
 	BaseCharacter::Initialize(std::move(models), viewProjection);
 	// プレイヤーモデルの生成
-	playerModel_ = new PlayerModel();
+	playerModel_ = std::make_unique<PlayerModel>();
 	// プレイヤーモデルの初期化
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け

@@ -78,21 +78,17 @@ Matrix4x4 Math::MakeRotateZMatrix(const float& radian) {
 // x,y,z座標で回転
 Matrix4x4 Math::MakeRotateXYZMatrix(const Vector3& radian) { return MakeRotateXMatrix(radian.x) * MakeRotateYMatrix(radian.y) * MakeRotateZMatrix(radian.z); }
 
-//アフィン関数
-// アフィン関数(scale無いver)
-Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale,const Vector3& rotate, const Vector3& translate) { 
+// アフィン関数
+//  アフィン関数(scale無いver)
+Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	return (MakeScaleMatrix(scale) * MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate));
 }
 
-//アフィン関数(scale無いver)
-Matrix4x4 Math::MakeAffineMatrix(const Vector3& rotate, const Vector3& translate) { 
-	return (MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate)); 
-}
+// アフィン関数(scale無いver)
+Matrix4x4 Math::MakeAffineMatrix(const Vector3& rotate, const Vector3& translate) { return (MakeRotateXYZMatrix(rotate) * MakeTranslateMatrix(translate)); }
 
-//STRの変換
-Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) {
-	return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian);
-}
+// STRの変換
+Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) { return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian); }
 
 // 正射影行列
 Matrix4x4 Math::MakeOrthographicMatrix(const float& left, const float& top, const float& right, const float& bottom, const float& nearClip, const float& farClip) {
@@ -364,14 +360,18 @@ void Math::CircularMoveXY(const Vector3& centerPos, Vector3& ballPos, const Vect
 }
 
 // 円運動XZ
-void Math::CircularMoveXZ(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius) {
-	float angularVelocity = pi_f;         // 角速度
+void Math::CircularMoveXZ(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius, float angularVelocity) {
 	static float angle = 0.0f;            // 角度
-	angle += angularVelocity * deltaTime; // 現在の角度の計算
+	angle += angularVelocity*deltaTime; // 現在の角度の計算
 	// 円運動させる
 	ballPos.x = centerPos.x + cos(angle) * radius.x;
 	ballPos.y = centerPos.y;
 	ballPos.z = centerPos.z + sin(angle) * radius.y;
+	/*ballPos = {
+	    .x = -radius.x * angle * sin(angle),
+	    .y = 0.0f,
+	    .z = radius.y * angle * cos(angle),
+	};*/
 }
 
 // 円運動ZY
@@ -383,6 +383,27 @@ void Math::CircularMoveZY(const Vector3& centerPos, Vector3& ballPos, const Vect
 	ballPos.x = centerPos.x;
 	ballPos.y = centerPos.y + sin(angle) * radius.y;
 	ballPos.z = centerPos.z + cos(angle) * radius.x;
+}
+
+// 円運動XZの速度ベクトルを求める
+Vector3 Math::CircularMoveVeclocityXZ(const Vector3& centerPos, const Vector2& radius, float angularVelocity) {
+	static float angle = 0.0f;            // 現在の角度を保持
+	float prevAngle = angle;              // 前回の角度を記憶
+	angle += angularVelocity * deltaTime; // 現在の角度の更新
+
+	// 前回と現在の角度での円運動の位置を計算
+	Vector3 prevPos;
+	prevPos.x = cos(prevAngle) * radius.x;
+	prevPos.y = 0.0f;
+	prevPos.z = sin(prevAngle) * radius.y;
+
+	Vector3 currentPos;
+	currentPos.x = cos(angle) * radius.x;
+	currentPos.y = 0.0f;
+	currentPos.z = sin(angle) * radius.y;
+	(void)centerPos;
+	// 移動方向のベクトルを計算（現在位置 - 前回位置）
+	return currentPos - prevPos;
 }
 
 // 振り子の作成

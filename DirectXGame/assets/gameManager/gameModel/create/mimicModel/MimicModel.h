@@ -251,7 +251,7 @@ public:  // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~MimicModel() = default;
+	~MimicModel();
 
 	/// <summary>
 	/// 初期化

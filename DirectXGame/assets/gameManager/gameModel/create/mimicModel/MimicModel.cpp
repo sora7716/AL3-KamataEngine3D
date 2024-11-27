@@ -86,6 +86,14 @@ void ToothBottom::Draw() { IModel::Draw(); }
 
 #pragma region ミミックのモデル
 
+//デストラクタ
+MimicModel::~MimicModel() {
+	for (auto part : parts) {
+		delete part;
+	}
+	parts.clear();
+}
+
 // 初期化
 void MimicModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection) {
 	parts.resize((int)Parts::kPartsNum);
