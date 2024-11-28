@@ -35,6 +35,11 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
 public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
 private: // メンバ変数

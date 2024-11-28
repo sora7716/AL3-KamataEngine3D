@@ -42,4 +42,10 @@ void Mimic::Update() {
 void Mimic::Draw() { 
 	mimicModel_->Draw(); 
 }
+
+void Mimic::Attack(){
+	Vector3 targetPos = player_->GetPos();
+
+}
+
 #pragma endregion
