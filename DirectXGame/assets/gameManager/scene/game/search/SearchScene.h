@@ -74,15 +74,15 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_ = nullptr;
 	// 天球
 	std::unique_ptr<SkyDome> skyDome_ = nullptr;
-	// ハンマー
-	std::unique_ptr<Hammer> hammer_ = nullptr;
-	// プレイヤー
-	std::unique_ptr<Player> player_ = nullptr;
 	// 敵
 	std::list<std::unique_ptr<Enemy>> enemies_;
 	// ロックオン
 	std::unique_ptr<LockOn> lockOn_ = nullptr;
-
+	// ハンマー
+	std::unique_ptr<Hammer> hammer_ = nullptr;
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+	
 	//衝突マネージャ
 	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
 };

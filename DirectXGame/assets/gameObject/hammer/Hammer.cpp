@@ -8,8 +8,8 @@ using namespace ImGui;
 
 void Hammer::Initialize(Model* model, ViewProjection* viewProjection) {
 
+	
 	assert(model);
-
 	model_ = model;
 	viewProjection_ = viewProjection;
 
@@ -20,6 +20,14 @@ void Hammer::Initialize(Model* model, ViewProjection* viewProjection) {
 	Collider::Initialize();
 
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::kPlayerWeapon));
+
+	// objファイルを読み込む
+	modelHitEffect_.reset(Model::CreateFromOBJ("effect", true));
+
+	hitEffect_ = std::make_unique<HitEffect>();
+	hitEffect_->Initialize(modelHitEffect_.get(), viewProjection_, GetCenterPosition());
+		
+
 }
 
 void Hammer::Update() {
@@ -31,12 +39,26 @@ void Hammer::Update() {
 	End();
 #endif // DEBUG
 
-	Collider::UpdateWorldTransform();
+	/*ヒットエフェクトの更新*/
+	if (hitEffect_) {
+		hitEffect_->Update();
+	}
 
+
+	/*ワールド変換データの行列更新*/
 	worldTransform_.UpdateMatrix();
 }
 
-void Hammer::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
+void Hammer::Draw() { 
+
+	/*ヒットエフェクトの描画*/
+	if (hitEffect_) {
+		hitEffect_->Draw();
+	}
+
+	/*モデル(ハンマー)の描画*/
+	model_->Draw(worldTransform_, *viewProjection_); 
+}
 
 void Hammer::OnCollision([[maybe_unused]] Collider* other) {
 	// 衝突相手の種別IDを取得
@@ -44,14 +66,29 @@ void Hammer::OnCollision([[maybe_unused]] Collider* other) {
 	// 衝突相手が敵なら
 	if (typeID == static_cast<uint32_t>(CollisionTypeIdDef::KEnemy)) {
 		Enemy* enemy = static_cast<Enemy*>(other);
-		enemy;
+		int32_t serialNumber = enemy->GetSerialNumber();
+		
+		// 接触履歴があれば何もせずに抜ける
+		if (contactRecord_.CheckRecord(serialNumber)) {
+			return;
+		}
+
+		// 接触記録に登録する
+		contactRecord_.AddRecord(serialNumber);
+
+		
 	}
+}
+
+void Hammer::ClearContactRecord() {
+	// 接触履歴を抹消する
+	contactRecord_.Clear();
 }
 
 Vector3 Hammer::GetCenterPosition() const {
 
 	// ローカル座標でのオフセット
-	const Vector3 offset = {0.f, 1.5f, 0.f};
+	const Vector3 offset = {0.f, 4.5f, 0.f};
 	// ワールド座標に変換
 	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
 	return worldPos;

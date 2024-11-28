@@ -8,6 +8,7 @@ void Collider::Initialize() {
 void Collider::UpdateWorldTransform() {
 	// ワールド座標をワールドトランスフォームに適応
 	worldTransform_.translation_ = GetCenterPosition();
+	worldTransform_.scale_ = {radius_,radius_,radius_};
 	// ワールド行列を再計算して定数バッファに書き込む
 	worldTransform_.UpdateMatrix();
 }

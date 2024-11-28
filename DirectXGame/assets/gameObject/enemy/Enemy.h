@@ -9,6 +9,10 @@
 class Enemy : public BaseCharacter ,Math{
 
 public: // メンバ関数
+
+	// デフォルトコンストラクタ
+	Enemy();
+
 	// 初期化処理
 	void Initialize(std::vector<Model*> models, ViewProjection* viewProjection) override;
 
@@ -24,8 +28,7 @@ public: // メンバ関数
 	//中心座標の取得
 	Vector3 GetCenterPosition() const override;
 
-	//座標の取得
-	Vector3 GetPosition();
+	int32_t GetSerialNumber() const { return this->serialNumber_; }
 
 private:
 
@@ -41,11 +44,19 @@ private:
 	//浮遊ギミックの更新(敵は浮遊したりしないが、槍を動かす)
 	void UpdateMoveGimmick();
 
+	void DrawDebugText();
+
 private: // メンバ変数
 
 	// 速度
 	Vector3 velocity_;
 
 	float floatingParameter_;
+
+	// シリアルナンバー
+	int32_t serialNumber_ = 0;
+
+	// 次のシリアルナンバー
+	static int32_t serialNumberNext_;
 
 };

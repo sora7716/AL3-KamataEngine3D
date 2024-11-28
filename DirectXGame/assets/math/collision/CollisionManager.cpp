@@ -11,7 +11,7 @@ using namespace ImGui;
 void CollisionManager::Initialize() {
 
 	//モデルの読み込み
-	colliderModel_.reset(Model::CreateFromOBJ("sphere",true));
+	colliderModel_.reset(Model::CreateSphere());
 
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();

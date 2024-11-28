@@ -168,6 +168,12 @@
     <ClCompile Include="assets\failLoad\GlobalVariables.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
+    <ClCompile Include="assets\gameObject\effect\HitEffect.cpp">
+      <Filter>assets\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\ContactRecord.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -336,6 +342,12 @@
       <Filter>assets\process\collision</Filter>
     </ClInclude>
     <ClInclude Include="assets\failLoad\GlobalVariables.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameObject\effect\HitEffect.h">
+      <Filter>assets\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\ContactRecord.h">
       <Filter>assets\process</Filter>
     </ClInclude>
   </ItemGroup>

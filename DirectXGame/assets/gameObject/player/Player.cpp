@@ -6,8 +6,6 @@
 #include "assets/gameobject/hammer/Hammer.h"
 #include "assets/failLoad/GlobalVariables.h"
 
-#define M_PI 3.14f
-
 #include "cassert"
 #ifdef _DEBUG
 #include <imgui.h>
@@ -17,7 +15,7 @@ using namespace ImGui;
 const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks_ = {
     {// 振りかぶり、攻撃前硬直,攻撃振り時間、硬直、各フェーズの移動速さ
      {0, 0, 45, 0, 0.0f, 0.0f, 0.15f},
-     {15, 15, 15, 10, 0.25f, 0.2f, 0.2525f},
+     {10, 5, 10, 10, 0.363f, 0.4f, 0.16f},
      {0, 0, 20, 0, 0.0f, 0.0f, 0.15f}}
 };
 
@@ -72,6 +70,7 @@ void Player::Update() {
 
 #ifdef _DEBUG
 	DragFloat3("player.translate", &worldTransforms_[kBase]->translation_.x, 0.01f);
+	DragFloat3("player.rotation", &worldTransforms_[kLeft_arm]->rotation_.x, 0.01f);
 	DragInt("parameter", &workAttack_.attackParameter_, 0.01f);
 	DragInt("combo", &workAttack_.comboIndex, 0.01f);
 	//Checkbox("Hit", &isHit_);
@@ -86,16 +85,6 @@ void Player::Draw() {
 	models_[kHead]->Draw(*worldTransforms_[kHead], *viewProjection_);           // 頭
 	models_[kLeft_arm]->Draw(*worldTransforms_[kLeft_arm], *viewProjection_);   // 左腕
 	models_[kRight_arm]->Draw(*worldTransforms_[kRight_arm], *viewProjection_); // 右腕
-
-	// ふるまいが攻撃の時のみ
-	//if (behavior_ == Behavior::kAttack) {
-		// 近接武器(ハンマー)を描画する
-		
-	//}
-
-	/*if (isHit_ && hitEffect_) {
-		hitEffect_->Draw();
-	}*/
 }
 
 // 衝突時処理
@@ -170,9 +159,11 @@ void Player::BehaviorAttackInitialize() {
 	// 攻撃の初期化でボディと親子関係を結ぶ
 	if (hammer_ != nullptr) {
 		hammer_->SetParent(this->GetWorldTransform()[kBody]);
+		hammer_->ClearContactRecord();
 	}
 
 	workAttack_.attackParameter_ = 0;
+
 }
 
 // ダッシュ行動初期化
@@ -276,11 +267,11 @@ void Player::UpdateFloatingGimmick() {
 	///===================================================<浮遊アニメーション>========================================================
 
 	// 1フレーム出のパラメータ加算値
-	const float step = 2.0f * M_PI / cycle_;
+	const float step = 2.0f * pi_f / cycle_;
 	// パラメータを1ステップ分加算
 	floatingParameter_ += step;
 	// 2π超えたら0に戻す
-	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * M_PI);
+	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * pi_f);
 	// 浮遊を座標に反映
 	worldTransforms_[kBody]->translation_.y = std::sin(floatingParameter_) * amplitube;
 	worldTransforms_[kLeft_arm]->rotation_.x = std::sin(floatingParameter_) * armAngle_;
@@ -323,6 +314,8 @@ void Player::BehaviorRootUpdate() {
 // 攻撃行動
 void Player::BehaviorAttackUpdate() {
 
+
+
 	if (lockOn_ && lockOn_->ExistTarget()) {
 		// ロックオン対象の座標取得
 		Vector3 lockOnPos = lockOn_->GetTargetPosition();
@@ -348,20 +341,20 @@ void Player::BehaviorAttackUpdate() {
 	workAttack_.attackParameter_++;
 
 	if (workAttack_.attackParameter_ > 0 && workAttack_.attackParameter_ < 10) {
-		worldTransforms_[kLeft_arm]->rotation_.x -= kConstAttacks_[1].anticipationSpeed;
-		worldTransforms_[kRight_arm]->rotation_.x -= kConstAttacks_[1].anticipationSpeed;
+		worldTransforms_[kLeft_arm]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
+		worldTransforms_[kRight_arm]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
 		Vector3 hammerAngle = hammer_->GetRotation(); // ハンマーの回転
-		hammerAngle.x -= kConstAttacks_[1].anticipationSpeed * 1.65f;
+		hammerAngle.x += kConstAttacks_[1].anticipationSpeed;
 		hammer_->SetRotation(hammerAngle);
 	}
 
-	if (workAttack_.attackParameter_ > 15 && workAttack_.attackParameter_ < 25) {
+	if (workAttack_.attackParameter_ > 11 && workAttack_.attackParameter_ < 16) {
 
 		Vector3 forward = Math::TransformNormal({0, 0, 1}, worldTransforms_[kBase]->matWorld_);
 		worldTransforms_[kBase]->translation_ += forward * kConstAttacks_[1].chargeSpeed;
 	}
 
-	if (workAttack_.attackParameter_ > 30 && workAttack_.attackParameter_ < 40) {
+	if (workAttack_.attackParameter_ > 17 && workAttack_.attackParameter_ < 28) {
 		worldTransforms_[kLeft_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
 		worldTransforms_[kRight_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
 		Vector3 hammerAngle = hammer_->GetRotation();
@@ -414,8 +407,6 @@ void Player::BehaviorJumpUpdate() {
 
 // ふるまい更新
 void Player::UpdateBehavior() {
-
-	
 
 	// ふるまい更新をメンバ関数ポインタで呼び出す
 	(this->*behaviorUpdateTable[static_cast<size_t>(behavior_)])();

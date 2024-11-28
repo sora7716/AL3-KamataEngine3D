@@ -10,6 +10,14 @@ using namespace std::numbers;
 using namespace ImGui;
 #endif // _DEBUG
 
+int32_t Enemy::serialNumberNext_ = 0;
+
+Enemy::Enemy() {
+	// シリアル番号を振る
+	serialNumber_ = serialNumberNext_;
+	// 次の番号を1加算
+	++serialNumberNext_;
+}
 
 ///初期化処理
 void Enemy::Initialize(std::vector<Model*> models, ViewProjection* viewProjection) {
@@ -52,10 +60,6 @@ void Enemy::Draw() {
 
 /// 衝突時処理
 void Enemy::OnCollision([[maybe_unused]] Collider* other) {
-
-	Vector3 rotationSpeed = {0.0f, 0.5f, 0.0f};
-
-	worldTransforms_[0]->rotation_ += rotationSpeed;
 }
 
 /// 中心座標取得
@@ -66,8 +70,6 @@ Vector3 Enemy::GetCenterPosition() const {
 	Vector3 worldPos = Transform(offset, worldTransforms_[0]->matWorld_);
 	return worldPos;
 }
-
-Vector3 Enemy::GetPosition() { return worldTransforms_[0]->translation_; }
 
 void Enemy::InitializeWorldTransform() {
 
@@ -103,6 +105,12 @@ void Enemy::Move() {
 
 	worldTransforms_[0]->translation_ += velocity_;
 
+#ifdef _DEBUG
+	Begin(std::string("Enemy").c_str());
+	DrawDebugText();
+	End();
+#endif // _DEBUG
+
 }
 
 void Enemy::UpdateMoveGimmick() {
@@ -119,7 +127,14 @@ void Enemy::UpdateMoveGimmick() {
 	// 浮遊を座標に反映
 	worldTransforms_[2]->translation_.z = std::sin(floatingParameter_) * amplitube;
 	worldTransforms_[3]->translation_.z = std::sin(floatingParameter_) * -amplitube;
-	
+}
 
+void Enemy::DrawDebugText() {
+	std::string debugLabel =  "scale";
+	DragFloat3(debugLabel.c_str(), &worldTransforms_[0]->scale_.x, 0.01f);
+	debugLabel = "rotate";
+	DragFloat3(debugLabel.c_str(), &worldTransforms_[0]->rotation_.x, 0.01f);
+	debugLabel = "translate";
+	DragFloat3(debugLabel.c_str(), &worldTransforms_[0]->translation_.x, 0.01f);
 
 }

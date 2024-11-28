@@ -120,6 +120,7 @@
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
     <ClCompile Include="assets\gameObject\BaseCharacter.cpp" />
     <ClCompile Include="assets\gameObject\camera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameObject\effect\HitEffect.cpp" />
     <ClCompile Include="assets\gameObject\enemy\Enemy.cpp" />
     <ClCompile Include="assets\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameObject\ground\Ground.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="assets\math\collision\Collider.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\collision\CollisionManager.cpp" />
+    <ClCompile Include="assets\math\ContactRecord.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
     <ClCompile Include="assets\math\Math.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
     <ClInclude Include="assets\gameObject\BaseCharacter.h" />
     <ClInclude Include="assets\gameObject\camera\RailCamera.h" />
+    <ClInclude Include="assets\gameObject\effect\HitEffect.h" />
     <ClInclude Include="assets\gameObject\enemy\Enemy.h" />
     <ClInclude Include="assets\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameObject\ground\ground.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\collision\CollisionManager.h" />
     <ClInclude Include="assets\math\collision\CollisionTypeIdDef.h" />
+    <ClInclude Include="assets\math\ContactRecord.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
     <ClInclude Include="assets\math\Math.h" />
     <ClInclude Include="audio\Audio.h" />

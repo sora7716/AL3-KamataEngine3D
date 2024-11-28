@@ -135,7 +135,23 @@ void SearchScene::InitializeObject() {
 	skyDome_ = std::make_unique<SkyDome>();
 	skyDome_->Initialize(modelSkydome_.get(), &viewProjection_);
 
-	// パーツ
+	// 敵パーツ
+	std::vector<Model*> enemyParts = {nullptr, modelEnemyBody_.get(), modelEnemyL_spear_.get(), modelEnemyR_spear_.get()};
+
+	// 敵キャラの生成
+	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>();
+	enemy->Initialize(enemyParts, &viewProjection_);
+	enemies_.push_back(std::move(enemy));
+
+	// ロックオンの生成
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize();
+
+	// 自キャラの生成
+	hammer_ = std::make_unique<Hammer>();
+	hammer_->Initialize(modelHammer_.get(), &viewProjection_);
+
+    // パーツ
 	std::vector<Model*> playerParts = {
 	    nullptr,                  // ベース(存在していないのでnullptrにしている)
 	    modelFighterBody_.get(),  // 体
@@ -144,34 +160,15 @@ void SearchScene::InitializeObject() {
 	    modelFighterR_arm_.get(), // 右腕
 	};
 
-	// 自キャラの生成
-	hammer_ = std::make_unique<Hammer>();
-	hammer_->Initialize(modelHammer_.get(), &viewProjection_);
-
+	// プレイヤーの生成
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerParts, &viewProjection_);
 	player_->SetHammer(hammer_.get());
-	railCamera_->SetTarget(player_->GetWorldTransform()[kBase]);
-
-	// 敵パーツ
-	std::vector<Model*> enemyParts = {
-		nullptr, 
-		modelEnemyBody_.get(),
-		modelEnemyL_spear_.get(), 
-		modelEnemyR_spear_.get()
-	};
-
-	// 敵キャラの生成
-	std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>();
-	enemy->Initialize(enemyParts, &viewProjection_);
-	enemies_.push_back(std::move(enemy));
-	
-	//ロックオンの生成
-	lockOn_ = std::make_unique<LockOn>();
-	lockOn_->Initialize();
-
-	railCamera_->SetLockOn(lockOn_.get());
 	player_->SetLockOn(lockOn_.get());
+	
+	// レールカメラ
+	railCamera_->SetTarget(player_->GetWorldTransform()[kBase]);
+	railCamera_->SetLockOn(lockOn_.get());
 
 	//衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
