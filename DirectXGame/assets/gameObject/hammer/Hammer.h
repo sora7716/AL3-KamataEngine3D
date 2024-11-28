@@ -39,9 +39,7 @@ private:
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_ = nullptr;
 	WorldTransform worldTransform_;
-	// ヒットエフェクト
-	std::unique_ptr<Model> modelHitEffect_ = nullptr;
-	std::unique_ptr<HitEffect> hitEffect_ = nullptr;
+	
 
 	ContactRecord contactRecord_;
 };

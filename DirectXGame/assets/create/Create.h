@@ -16,9 +16,11 @@ public: // 構造体や列挙型
 	enum class Type {
 		kHexagon,
 		kModelNum,
+		kModelEffect
 	};
 	using ObjectType = Type; // エイリアス
 	ObjectType typeHexagon = Type::kHexagon;
+	ObjectType typeEffect = Type::kModelEffect;
 	static constexpr int MODEL_NUM = static_cast<int>(Type::kModelNum); // モデルの数
 
 public: // メンバ関数

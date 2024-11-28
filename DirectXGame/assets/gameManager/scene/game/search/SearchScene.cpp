@@ -163,8 +163,8 @@ void SearchScene::InitializeObject() {
 	// プレイヤーの生成
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerParts, &viewProjection_);
-	player_->SetHammer(hammer_.get());
 	player_->SetLockOn(lockOn_.get());
+	player_->SetHammer(hammer_.get());
 	
 	// レールカメラ
 	railCamera_->SetTarget(player_->GetWorldTransform()[kBase]);
