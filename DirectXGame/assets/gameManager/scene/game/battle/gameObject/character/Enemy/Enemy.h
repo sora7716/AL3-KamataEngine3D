@@ -39,7 +39,7 @@ public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
 private: // メンバ変数
 	std::unique_ptr<MimicModel> mimicModel_ = nullptr;
-	Vector3 circulaMoveCenter_ = {5.0f, 0.0f, 10.0f};
-	Vector2 circulaMoveRadius_ = {10.0f, 5.0f};
+	Vector2 circulaMoveRadius_ = {};
+	Vector3 center = {};
 	Vector3 velocity_ = {};
 };

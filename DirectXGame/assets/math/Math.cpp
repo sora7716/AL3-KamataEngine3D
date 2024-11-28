@@ -362,16 +362,11 @@ void Math::CircularMoveXY(const Vector3& centerPos, Vector3& ballPos, const Vect
 // 円運動XZ
 void Math::CircularMoveXZ(const Vector3& centerPos, Vector3& ballPos, const Vector2& radius, float angularVelocity) {
 	static float angle = 0.0f;            // 角度
-	angle += angularVelocity*deltaTime; // 現在の角度の計算
-	// 円運動させる
+	angle += angularVelocity * deltaTime; // 現在の角度の計算
+	                                      // 円運動させる
 	ballPos.x = centerPos.x + cos(angle) * radius.x;
 	ballPos.y = centerPos.y;
 	ballPos.z = centerPos.z + sin(angle) * radius.y;
-	/*ballPos = {
-	    .x = -radius.x * angle * sin(angle),
-	    .y = 0.0f,
-	    .z = radius.y * angle * cos(angle),
-	};*/
 }
 
 // 円運動ZY
@@ -386,24 +381,17 @@ void Math::CircularMoveZY(const Vector3& centerPos, Vector3& ballPos, const Vect
 }
 
 // 円運動XZの速度ベクトルを求める
-Vector3 Math::CircularMoveVeclocityXZ(const Vector3& centerPos, const Vector2& radius, float angularVelocity) {
-	static float angle = 0.0f;            // 現在の角度を保持
-	float prevAngle = angle;              // 前回の角度を記憶
-	angle += angularVelocity * deltaTime; // 現在の角度の更新
+Vector3 Math::CircularMoveVeclocityXZ(const Vector2& radius,float angularVelocity) {
+	static float angle = 0.0f;            // 角度
+	angle += angularVelocity * deltaTime; // 現在の角度の計算
 
-	// 前回と現在の角度での円運動の位置を計算
-	Vector3 prevPos;
-	prevPos.x = cos(prevAngle) * radius.x;
-	prevPos.y = 0.0f;
-	prevPos.z = sin(prevAngle) * radius.y;
+	// 速度を計算
+	Vector3 velocity;
+	velocity.x = -sin(angle) * angularVelocity * radius.x; // X方向の速度
+	velocity.y = 0.0f;                                     // Y方向は変化なし
+	velocity.z = cos(angle) * angularVelocity * radius.y;  // Z方向の速度
 
-	Vector3 currentPos;
-	currentPos.x = cos(angle) * radius.x;
-	currentPos.y = 0.0f;
-	currentPos.z = sin(angle) * radius.y;
-	(void)centerPos;
-	// 移動方向のベクトルを計算（現在位置 - 前回位置）
-	return currentPos - prevPos;
+	return velocity;
 }
 
 // 振り子の作成

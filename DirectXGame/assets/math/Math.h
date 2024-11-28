@@ -316,7 +316,7 @@ public:
 	/// <param name="radius">円運動の半径</param>
 	/// <param name="angularVelocity">移動スピード</param>
 	/// <returns>速度</returns>
-	static Vector3 CircularMoveVeclocityXZ(const Vector3& centerPos, const Vector2& radius, float angularVelocity = pi_f);
+	static Vector3 CircularMoveVeclocityXZ(const Vector2& radius,float angularVelocity = pi_f);
 
 	/// <summary>
 	/// 振り子の作成
