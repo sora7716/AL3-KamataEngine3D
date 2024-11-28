@@ -24,7 +24,7 @@ void Body::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, 0.2f, 0.0f};
 	// アニメーションの初期化
-	InitializeFloatingGimmick();
+	InitializeAnimation();
 }
 
 // 更新
@@ -47,7 +47,7 @@ void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
 	// アニメーションの初期化
-	InitializeFloatingGimmick();
+	InitializeAnimation();
 }
 
 // 更新
@@ -71,7 +71,7 @@ void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model,viewProjection);
 	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};
 	// アニメーションの初期化
-	InitializeFloatingGimmick();
+	InitializeAnimation();
 }
 
 // 更新

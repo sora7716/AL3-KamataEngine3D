@@ -1,17 +1,54 @@
 #include "Easing.h"
+#include "assets/math/Math.h"
 #include <cmath>
-#include <numbers>
 using namespace std;
-using namespace std::numbers;
+
+//テーブル
+float (Easing::*Easing::EasingTable[])(float frame){
+    // サイン
+    &InSine,
+    &OutSine,
+    &InOutSine,
+    // バック
+    &InBack,
+    &OutBack,
+    &InOutBack,
+    // バウンス
+    &InBounce,
+    &OutBounce,
+    &InOutBounce,
+    // エクスポ
+    &InExpo,
+    &InOutExpo,
+    // シーク
+    &OutCirc,
+    &InOutCirc,
+    // クワァッド
+    &InQuad,
+    &OutQuad,
+    // エラスティック
+    &InElastic,
+    &OutElastic,
+    // クワァード
+    &InOutQuart,
+    // クビット
+    &InOutCubic,
+};
+
+// インスタンスのゲッター
+Easing* Easing::GetInstance() {
+	static Easing instance;
+	return &instance;
+}
 
 // インサイン
-float Easing::InSine(float frame) { return 1 - cosf((frame * float(M_PI) / 2)); }
+float Easing::InSine(float frame) { return 1 - cosf((frame * float(pi_f) / 2)); }
 
 // アウトサイン
-float Easing::OutSine(float frame) { return sinf((frame * float(M_PI)) / 2); }
+float Easing::OutSine(float frame) { return sinf((frame * float(pi_f)) / 2); }
 
 // インアウトサイン
-float Easing::InOutSine(float frame) { return -(cosf(float(M_PI) * frame) - 1) / 2; }
+float Easing::InOutSine(float frame) { return -(cosf(float(pi_f) * frame) - 1) / 2; }
 
 // インバック
 float Easing::InBack(float frame) {
@@ -31,7 +68,7 @@ float Easing::OutBack(float frame) {
 
 // アウトエラスティック
 float Easing::OutElastic(float frame) {
-	const float c4 = (2 * pi_v<float>) / 3;
+	const float c4 = (2 * pi_f) / 3;
 	if (frame == 0) {
 		return 0;
 	} else if (frame == 1) {
@@ -116,7 +153,7 @@ float Easing::InOutCubic(float frame) { return (frame < 0.5f) ? 4.0f * frame * f
 
 // インエラスティック
 float Easing::InElastic(float frame) {
-	const float c4 = (2.0f * pi_v<float>) / 3.0f;
+	const float c4 = (2.0f * pi_f) / 3.0f;
 
 	if (frame == 0.0f) {
 		return 0.0f;
@@ -133,5 +170,8 @@ float Easing::InBounce(float frame) { return 1.0f - OutBounce(1 - frame); }
 // アウトシーク
 float Easing::OutCirc(float frame) { return std::sqrtf(1.0f - std::powf(frame - 1.0f, 2.0f)); }
 
-//アウトクワァッド
+// アウトクワァッド
 float Easing::OutQuad(float frame) { return 1.0f - (1.0f - frame) * (1.0f - frame); }
+
+// インクワァッド
+float Easing::InQuad(float frame) { return frame * frame; };

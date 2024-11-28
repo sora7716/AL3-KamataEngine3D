@@ -4,12 +4,14 @@
 // 初期化
 void Rid::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	IModel::InitializeFloatingGimmick();
+	IModel::InitializeAnimation();
+	startAngle_ = -45.0f;
+	endAngle_ = 45.0f;
 }
 
 // 更新
 void Rid::Update() {
-	worldTransform_.rotation_.x = IModel::UpdateTriangleGimmick();
+	worldTransform_.rotation_.x = IModel::LerpAnimation(EasingMode::kOutQuad);
 	IModel::Update();
 }
 
@@ -38,12 +40,14 @@ void Eye::Draw() { IModel::Draw(); }
 // 初期化
 void Box::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	IModel::InitializeFloatingGimmick();
+	IModel::InitializeAnimation();
+	startAngle_ = 15.0f;
+	endAngle_ = 0.0f;
 }
 
 // 更新
 void Box::Update() {
-	worldTransform_.rotation_.x = -IModel::UpdateTriangleGimmick();
+	worldTransform_.rotation_.x = IModel::TriangleLerpAnimation(EasingMode::kInBack);
 	IModel::Update();
 }
 

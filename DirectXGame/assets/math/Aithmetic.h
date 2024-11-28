@@ -14,6 +14,7 @@
 #define deltaTime   1.0f / 60.0f
 #define kGravity    Vector3(0.0f, -9.8f, 0.0f)
 #define pi_f        std::numbers::pi_v<float>
+#define radian(theta) theta*(1.0f/180.0f)*pi_f
 
 // 極座標に使用する構造体
 typedef struct Polar {

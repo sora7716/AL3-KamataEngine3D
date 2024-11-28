@@ -1,8 +1,9 @@
 #include "IModel.h"
 #include <cassert>
 #include <string>
+
 #pragma region インターフェース
-//初期化
+// 初期化
 void IModel::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
 	model_ = model;
@@ -10,10 +11,10 @@ void IModel::Initialize(Model* model, ViewProjection* viewProjection) {
 	worldTransform_.Initialize();
 }
 
-//更新
+// 更新
 void IModel::Update() { worldTransform_.UpdateMatrix(); }
 
-//描画
+// 描画
 void IModel::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 // デバックテキスト
@@ -36,14 +37,16 @@ void IModel::DebugText(const char* label) {
 // 親子付け
 void IModel::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
-// 浮遊ギミック
-void IModel::InitializeFloatingGimmick() {
+// アニメーションに使用する変数の初期化
+void IModel::InitializeAnimation() {
 	// パラメーターの初期化
 	floatingParameter_ = 0.0f;
 	// 振幅数の初期化
 	amplitude_ = 0.5f;
 	// サイクル(どれくらいの感覚で動くか)
 	cycle_ = 40;
+	// 回転アングル
+	angleTimer_ = 0.0f;
 }
 
 // 浮遊ギミックの更新
@@ -74,12 +77,25 @@ float IModel::UpdateTriangleGimmick() {
 	return result;
 }
 
-//移動時のアニメーション
-float IModel::UpdateMoveAnimation() {
-	walkTimer_ += deltaTime;                                                            // 経過時間
-	float param = sin(2.0f * pi_f * walkTimer_ / kWalkMotionTime);                     // 角度を計算
-	float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f; // 線形補間
-	worldTransform_.rotation_.x = Radian(theta);                                       // 弧度法に直す }
+// サイン波と線形補間を利用したアニメーション
+float IModel::LerpAnimation(const EasingMode& mode) {
+	float result{};
+	angleTimer_ += deltaTime;                                                                                                         // 経過時間
+	float param = sin(2.0f * pi_f * angleTimer_ / motionTime_);                                                                       // 角度を計算
+	float theta = std::lerp(startAngle_, endAngle_, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])((param + 1.0f) / 2.0f)); // 線形補間
+	result = radian(theta);                                                                                                           // 弧度法に直す
+	return result;
+}
+
+// 三角波と線形補間を利用したアニメーション
+float IModel::TriangleLerpAnimation(const EasingMode& mode) {
+	float result{};
+	angleTimer_ += deltaTime;                                                                                                         // 経過時間
+	float param = asin(sin(2.0f * pi_f * angleTimer_ / motionTime_));                                                                 // 角度を計算
+	float theta = std::lerp(startAngle_, endAngle_, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])((param + 1.0f) / 2.0f)); // 線形補間
+	result = radian(theta);                                                                                                           // 弧度法に直す
+	return result;
+}
 
 // ノコギリ波
 float IModel::Sawtooth(float interval) {
