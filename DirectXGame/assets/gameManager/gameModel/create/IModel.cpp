@@ -54,7 +54,7 @@ float IModel::UpdateFloatingGimmick() {
 	// パラメーターを1ステップ分加算
 	floatingParameter_ += step;
 	// 2πを超えたら0に戻す
-	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * pi_f);
+	floatingParameter_ = std::fmod(floatingParameter_, wave_);
 	// 浮動を座標に反映
 	result = std::sin(floatingParameter_) * amplitude_;
 	return result;
@@ -68,11 +68,18 @@ float IModel::UpdateTriangleGimmick() {
 	// パラメーターを1ステップ分加算
 	floatingParameter_ += step;
 	// 2πを超えたら0に戻す
-	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * pi_f);
+	floatingParameter_ = std::fmod(floatingParameter_, wave_);
 	// 浮動を座標に反映
 	result = std::asin(std::sin(floatingParameter_)) * amplitude_;
 	return result;
 }
+
+//移動時のアニメーション
+float IModel::UpdateMoveAnimation() {
+	walkTimer_ += deltaTime;                                                            // 経過時間
+	float param = sin(2.0f * pi_f * walkTimer_ / kWalkMotionTime);                     // 角度を計算
+	float theta = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f; // 線形補間
+	worldTransform_.rotation_.x = Radian(theta);                                       // 弧度法に直す }
 
 // ノコギリ波
 float IModel::Sawtooth(float interval) {

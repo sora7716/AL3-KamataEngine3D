@@ -5,7 +5,6 @@
 void Head::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
-	worldTransform_.rotation_ = {pi_f / 2.0f, 0.0f, pi_f};
 }
 
 // 更新
@@ -91,6 +90,13 @@ void LeftArm::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region プレイヤーのモデル
+//デストラクタ
+PlayerModel::~PlayerModel() {
+	for (auto part : parts_) {
+		delete part;
+	}
+	parts_.clear();
+}
 // 初期化
 void PlayerModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection) {
 	// 配列の大きさを設定
@@ -127,13 +133,13 @@ void PlayerModel::Draw() {
 
 // 親のセッター
 void PlayerModel::SetParent(const WorldTransform* parent) {
-	// 体->Parent
+	// 体<-Parent
 	parts_[(int)Parts::kBody]->SetParent(parent);
-	// 頭->体
+	// 頭<-体
 	parts_[(int)Parts::kHead]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	// 右腕->体
+	// 右腕<-体
 	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	// 左腕->体
+	// 左腕<-体
 	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 }
 

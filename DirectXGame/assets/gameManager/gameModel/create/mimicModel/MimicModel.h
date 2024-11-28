@@ -229,6 +229,9 @@ public: // メンバ関数
 	void Draw();
 };
 
+/// <summary>
+/// ミミックのモデル
+/// </summary>
 class MimicModel {
 public: // 列挙型
 	enum class Parts { 

@@ -16,16 +16,7 @@ void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 
 // 更新
 void Mimic::Update() {
-	// 円運動
-	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
-	// Y軸周りの角度(θy)
-	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
-	// X軸周りの角度(θx)
-	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
-
-	worldTransform_.translation_ += velocity_;
-
+	//Move();
 	BaseCharacter::Update();
 	mimicModel_->Update();
 #ifdef _DEBUG
@@ -41,5 +32,17 @@ void Mimic::Update() {
 // 描画
 void Mimic::Draw() { 
 	mimicModel_->Draw(); 
+}
+
+//移動
+void Mimic::Move() {
+	// 円運動
+	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
+	// Y軸周りの角度(θy)
+	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
+	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	// X軸周りの角度(θx)
+	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+	worldTransform_.translation_ += velocity_;
 }
 #pragma endregion

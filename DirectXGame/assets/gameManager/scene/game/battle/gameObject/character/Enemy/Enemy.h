@@ -35,6 +35,13 @@ public:
 	/// </summary>
 	void Draw() override;
 
+private://メンバ関数
+
+	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
 public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
 private: // メンバ変数

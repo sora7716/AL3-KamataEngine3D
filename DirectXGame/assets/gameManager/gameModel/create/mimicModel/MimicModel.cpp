@@ -2,10 +2,16 @@
 
 #pragma region 蓋
 // 初期化
-void Rid::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void Rid::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	IModel::InitializeFloatingGimmick();
+}
 
 // 更新
-void Rid::Update() { IModel::Update(); }
+void Rid::Update() {
+	worldTransform_.rotation_.x = IModel::UpdateTriangleGimmick();
+	IModel::Update();
+}
 
 // デバックテキスト
 void Rid::DebugText() { IModel::DebugText("rid"); }
@@ -30,10 +36,16 @@ void Eye::Draw() { IModel::Draw(); }
 
 #pragma region 箱
 // 初期化
-void Box::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void Box::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	IModel::InitializeFloatingGimmick();
+}
 
 // 更新
-void Box::Update() { IModel::Update(); }
+void Box::Update() {
+	worldTransform_.rotation_.x = -IModel::UpdateTriangleGimmick();
+	IModel::Update();
+}
 
 // デバックテキスト
 void Box::DebugText() { IModel::DebugText("box"); }
@@ -86,7 +98,7 @@ void ToothBottom::Draw() { IModel::Draw(); }
 
 #pragma region ミミックのモデル
 
-//デストラクタ
+// デストラクタ
 MimicModel::~MimicModel() {
 	for (auto part : parts) {
 		delete part;
@@ -128,19 +140,19 @@ void MimicModel::Draw() {
 	}
 }
 
-//親子付け
-void MimicModel::SetParent(const WorldTransform* parent) { 
+// 親子付け
+void MimicModel::SetParent(const WorldTransform* parent) {
 	// 箱<-親
 	parts[(int)Parts::kBox]->SetParent(parent);
-	//下の歯<-箱
+	// 下の歯<-箱
 	parts[(int)Parts::kToothBottom]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
-	//舌<-箱
+	// 舌<-箱
 	parts[(int)Parts::kTongue]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
-	// 蓋<-箱
-	parts[(int)Parts::kRid]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
-	//目<-蓋
+	// 蓋<-親
+	parts[(int)Parts::kRid]->SetParent(parent);
+	// 目<-蓋
 	parts[(int)Parts::kEye]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
-	//上の歯<-蓋
+	// 上の歯<-蓋
 	parts[(int)Parts::kToothUp]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
 }
 #pragma endregion

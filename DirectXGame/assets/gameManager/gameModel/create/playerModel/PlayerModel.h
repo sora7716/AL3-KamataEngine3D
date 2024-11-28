@@ -176,7 +176,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~PlayerModel() = default;
+	~PlayerModel();
 
 	/// <summary>
 	/// 初期化

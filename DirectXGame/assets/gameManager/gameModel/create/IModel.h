@@ -64,6 +64,11 @@ public: // メンバ関数
 	float UpdateTriangleGimmick();
 
 	/// <summary>
+	/// 移動時のアニメーション
+	/// </summary>
+	float UpdateMoveAnimation();
+
+	/// <summary>
 	/// ノコギリ波
 	/// </summary>
 	/// <param name="interval">周期</param>
@@ -76,6 +81,7 @@ public: // メンバ関数
 	/// <returns>ワールドトランスフォーム</returns>
 	const WorldTransform& GetWorldTransform();
 
+public://静的メンバ変数
 protected: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;
@@ -86,4 +92,6 @@ protected: // メンバ変数
 	float amplitude_ = {};
 	// サイクル(どれくらいの感覚で動くか)
 	int cycle_ = {};
+	//どれくらい動かすか
+	float wave_ = 2.0f * pi_f;
 };
