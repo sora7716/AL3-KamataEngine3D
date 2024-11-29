@@ -39,10 +39,10 @@ public: // 構造体や列挙型
 	int typeRightArm = (int)PlayerParts::kRightArm; // 右腕
 	int typeLeftArm = (int)PlayerParts::kLeftArm;   // 左腕
 	// ミミックのモデル
-	enum class MimicParts { kBox, kRid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
+	enum class MimicParts { kBox, kLid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
 	// プレイヤーのモデル
 	int typeBox = (int)MimicParts::kBox;                 // 箱
-	int typeRid = (int)MimicParts::kRid;                 // 蓋
+	int typeLid = (int)MimicParts::kLid;                 // 蓋
 	int typeEye = (int)MimicParts::kEye;                 // 目
 	int typeToothUp = (int)MimicParts::kToothUp;         // 上の歯
 	int typeToothBottom = (int)MimicParts::kToothBottom; // 下の歯

@@ -11,12 +11,13 @@ void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 	// モデルの親子付け
 	mimicModel_->SetParent(&worldTransform_);
 	worldTransform_.translation_ = {.x = 30.0f, .y = 0.0f, .z = 40.0f};
+	worldTransform_.rotation_.x = 0.3f;
 	circulaMoveRadius_ = {0.5f, 0.3f};
 }
 
 // 更新
 void Mimic::Update() {
-	//Move();
+	Move();
 	BaseCharacter::Update();
 	mimicModel_->Update();
 #ifdef _DEBUG
@@ -40,9 +41,9 @@ void Mimic::Move() {
 	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
 	// Y軸周りの角度(θy)
 	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	//float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
 	// X軸周りの角度(θx)
-	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+	//worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
 	worldTransform_.translation_ += velocity_;
 }
 #pragma endregion

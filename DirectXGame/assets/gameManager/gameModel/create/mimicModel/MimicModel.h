@@ -4,17 +4,17 @@
 /// <summary>
 /// 蓋
 /// </summary>
-class Rid : public IModel {
+class Lid : public IModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Rid() = default;
+	Lid() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Rid() = default;
+	~Lid() = default;
 
 	/// <summary>
 	/// 初期化
@@ -236,7 +236,7 @@ class MimicModel {
 public: // 列挙型
 	enum class Parts { 
 		kBox, 
-		kRid, 
+		kLid, 
 		kEye, 
 		kToothUp, 
 		kToothBottom, 

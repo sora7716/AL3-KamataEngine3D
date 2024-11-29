@@ -1,25 +1,26 @@
 #include "MimicModel.h"
+#include "assets/math/collision/Collision.h"
 
 #pragma region 蓋
 // 初期化
-void Rid::Initialize(Model* model, ViewProjection* viewProjection) {
+void Lid::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	IModel::InitializeAnimation();
 	startAngle_ = -45.0f;
-	endAngle_ = 45.0f;
+	endAngle_ = 40.0f;
 }
 
 // 更新
-void Rid::Update() {
+void Lid::Update() {
 	worldTransform_.rotation_.x = IModel::LerpAnimation(EasingMode::kOutQuad);
 	IModel::Update();
 }
 
 // デバックテキスト
-void Rid::DebugText() { IModel::DebugText("rid"); }
+void Lid::DebugText() { IModel::DebugText("Lid"); }
 
 // 描画
-void Rid::Draw() { IModel::Draw(); }
+void Lid::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 目
@@ -47,7 +48,7 @@ void Box::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void Box::Update() {
-	worldTransform_.rotation_.x = IModel::TriangleLerpAnimation(EasingMode::kInBack);
+	worldTransform_.rotation_.x = IModel::LerpAnimation(EasingMode::kOutBack);
 	IModel::Update();
 }
 
@@ -60,10 +61,19 @@ void Box::Draw() { IModel::Draw(); }
 
 #pragma region 舌
 // 初期化
-void Tongue::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void Tongue::Initialize(Model* model, ViewProjection* viewProjection) { 
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.0f, -0.6f, 1.0f};
+	IModel::InitializeAnimation();
+	startAngle_ = -110.0f;
+	endAngle_ = 10.0f;
+}
 
 // 更新
-void Tongue::Update() { IModel::Update(); }
+void Tongue::Update() {
+	worldTransform_.rotation_.x = IModel::LerpAnimation(EasingMode::kOutQuad);
+	IModel::Update();
+}
 
 // デバックテキスト
 void Tongue::DebugText() { IModel::DebugText("tongue"); }
@@ -114,7 +124,7 @@ MimicModel::~MimicModel() {
 void MimicModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection) {
 	parts.resize((int)Parts::kPartsNum);
 	parts[(int)Parts::kBox] = new Box();                 // 箱
-	parts[(int)Parts::kRid] = new Rid();                 // 蓋
+	parts[(int)Parts::kLid] = new Lid();                 // 蓋
 	parts[(int)Parts::kEye] = new Eye();                 // 目
 	parts[(int)Parts::kToothUp] = new ToothUp();         // 上の歯
 	parts[(int)Parts::kToothBottom] = new ToothBottom(); // 下の歯
@@ -153,10 +163,10 @@ void MimicModel::SetParent(const WorldTransform* parent) {
 	// 舌<-箱
 	parts[(int)Parts::kTongue]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
 	// 蓋<-親
-	parts[(int)Parts::kRid]->SetParent(parent);
+	parts[(int)Parts::kLid]->SetParent(parent);
 	// 目<-蓋
-	parts[(int)Parts::kEye]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
+	parts[(int)Parts::kEye]->SetParent(&parts[(int)Parts::kLid]->GetWorldTransform());
 	// 上の歯<-蓋
-	parts[(int)Parts::kToothUp]->SetParent(&parts[(int)Parts::kRid]->GetWorldTransform());
+	parts[(int)Parts::kToothUp]->SetParent(&parts[(int)Parts::kLid]->GetWorldTransform());
 }
 #pragma endregion

@@ -50,7 +50,7 @@ public: // メンバ関数
 
 public: // 静的メンバ変数
 	// 1ブロックのサイズ
-	static inline const Vector3 kHexagonRadius = {3.0f,3.0f,3.0f};
+	static inline const Vector3 kHexagonRadius = {30.0f,3.0f,30.0f};
 	// ブロックのサイズ
 	static inline const uint32_t kNumBlockVertical = 8;
 	static inline const uint32_t kNumBlockHorizontal = 8;

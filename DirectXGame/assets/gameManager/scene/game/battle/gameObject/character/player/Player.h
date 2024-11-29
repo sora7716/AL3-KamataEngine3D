@@ -64,5 +64,5 @@ private: // メンバ変数
 	bool isMoving_ = false;    // 移動したかどうかのフラグ
 	const float speed_ = 0.3f; // 速度
 	float goalAngle_ = 0.0f;   // 目標角度
-	float rotateFrame_ = 0.1f; // 回転するフレーム
+	float rotateFrame_ = 0.5f; // 回転するフレーム
 };

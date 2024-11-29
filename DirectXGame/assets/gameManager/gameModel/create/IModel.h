@@ -4,8 +4,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "assets/math/Math.h"
-#include "input/Input.h"
 #include "assets/math/easing/Easing.h"
+#include "input/Input.h"
 #include <memory>
 #include <vector>
 
@@ -68,15 +68,17 @@ public: // メンバ関数
 	/// サイン波と線形補間を利用したアニメーション
 	/// </summary>
 	/// <param name="mode">イージングのモード</param>
+	/// <param name="scaler">時間を何倍するか</param>
 	/// <returns>角度</returns>
-	float LerpAnimation(const EasingMode& mode);
+	float LerpAnimation(const EasingMode& mode, float scaler = 1.0f);
 
 	/// <summary>
 	/// 三角波と線形補間を利用したアニメーション
 	/// </summary>
-	/// <param name="mode">イージングのモード</param>
+	/// <param name="mode">イージングモード</param>
+	/// <param name="scaler">時間を何倍するか</param>
 	/// <returns>角度</returns>
-	float TriangleLerpAnimation(const EasingMode& mode);
+	float TriangleLerpAnimation(const EasingMode& mode,float scaler=1.0f);
 
 	/// <summary>
 	/// ノコギリ波
@@ -90,6 +92,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>ワールドトランスフォーム</returns>
 	const WorldTransform& GetWorldTransform();
+
 protected: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;
@@ -100,16 +103,16 @@ protected: // メンバ変数
 	float amplitude_ = {};
 	// サイクル(どれくらいの感覚で動くか)
 	int cycle_ = {};
-	//どれくらい動かすか
+	// どれくらい動かすか
 	float wave_ = 2.0f * pi_f;
 
-	//回転
-	//どれくらい動かすかのタイマー
+	// 回転
+	// どれくらい動かすかのタイマー
 	float angleTimer_ = 0.0f;
-	//最初のアングル
+	// 最初のアングル
 	float startAngle_ = -45.0f;
-	//最後のアングル
+	// 最後のアングル
 	float endAngle_ = 60.0f;
-	//周期となるタイマー
+	// 周期となるタイマー
 	float motionTime_ = 1.0f;
 };

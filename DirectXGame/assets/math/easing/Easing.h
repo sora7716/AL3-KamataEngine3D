@@ -52,8 +52,6 @@ public: // メンバ関数
 	// 代入演算子を禁止
 	Easing& operator=(const Easing& easing) = delete;
 
-private: // メンバ関数
-
 	/// <summary>
 	/// インサイン
 	/// </summary>

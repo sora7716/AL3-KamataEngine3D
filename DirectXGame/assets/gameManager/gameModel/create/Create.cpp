@@ -36,7 +36,7 @@ void Create::ModelCreate() {
 	//ミミックのモデル
 	mimicModels_.resize((int)MimicParts::kPartsNum);//サイズの設定
 	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));//箱
-	mimicModels_[typeRid].reset(Model::CreateFromOBJ("rid", true));//蓋
+	mimicModels_[typeLid].reset(Model::CreateFromOBJ("rid", true));//蓋
 	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));//目
 	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("toothUp", true));//上の歯
 	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("toothBottom", true));//下の歯
