@@ -22,6 +22,7 @@ void Hammer::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	modelHitEffect_.reset(Model::CreateFromOBJ("effect", true));
 	
+
 }
 
 void Hammer::Update() {
@@ -32,6 +33,8 @@ void Hammer::Update() {
 	DragFloat3("translate", &worldTransform_.translation_.x, 0.01f);
 	End();
 #endif // DEBUG
+
+
 
 	/*衝突エフェクトの更新*/
 	for (auto& hitEffect : hitEffects_) {
@@ -102,6 +105,6 @@ const Vector3& Hammer::GetRotation() const { return worldTransform_.rotation_; }
 
 void Hammer::SetScale(const Vector3& scale) { worldTransform_.scale_ = scale; }
 
-void Hammer::SetRotation(const Vector3& rotation) { worldTransform_.rotation_ = rotation; }
+void Hammer::SetRotation(const Vector3& radian) { worldTransform_.rotation_ = radian; }
 
 void Hammer::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }

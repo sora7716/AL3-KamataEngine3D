@@ -23,6 +23,8 @@ public://メンバ関数
 	//描画
 	void Draw(const ViewProjection&viewProjection);
 
+	void DebugText();
+
 private://メンバ変数
 
 	//モデルデータ
@@ -37,3 +39,4 @@ private://メンバ変数
 	bool isFinished_ = false;
 	
 };
+

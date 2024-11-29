@@ -4,37 +4,83 @@
 #include "assets/gameObject/effect/HitEffect.h"
 #include "assets/math/ContactRecord.h"
 
-//ハンマー(コライダークラスを継承)
+/// <summary>
+/// ハンマー(コライダークラスと数学クラスを継承する)
+/// </summary>
 class Hammer : public Collider,Math {
 
 public:
-	//コンストラクタ
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	Hammer() = default;
-	//デストラクタ
+	
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~Hammer() override = default;
-	//初期化
+	
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model"> モデルデータ </param>
+	/// <param name="viewProjection"> ビュープロジェクション </param>
 	void Initialize(Model* model, ViewProjection* viewProjection);
-	//更新
+	
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
-	//描画
+	
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
-	//衝突を検出したら呼び出されるコールバック関数
+
+	/// <summary>
+	/// 衝突を検出したら呼び出されるコールバック関数
+	/// </summary>
+	/// <param name="other"> 他のコライダー </param>
 	void OnCollision([[maybe_unused]] Collider* other) override;
-	// 接触履歴を抹消
+	
+	/// <summary>
+	/// 接触履歴を抹消
+	/// </summary>
 	void ClearContactRecord();
-	//中心座標を取得
+	
+	/// <summary>
+	/// 中心座標を取得
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetCenterPosition() const override;
-	//角度のGetter
+	
+	/// <summary>
+	/// 角度のGetter
+	/// </summary>
+	/// <returns></returns>
 	const Vector3& GetRotation() const;
-	// 倍率のSetter
+	
+	/// <summary>
+	/// スケールSetter
+	/// </summary>
+	/// <param name="scale"> スケール </param>
 	void SetScale(const Vector3& scale);
-	// 角度のSetter
-	void SetRotation(const Vector3& rotation);
-	//親子関係を結ぶ
+
+	/// <summary>
+	/// RotateSetter
+	/// </summary>
+	/// <param name="radian"> 角度 </param>
+	void SetRotation(const Vector3& radian);
+	
+	/// <summary>
+	/// 親子関係を結ぶ
+	/// </summary>
+	/// <param name="parent"></param>
 	void SetParent(const WorldTransform* parent);
 
 
-private:
+private: // メンバ変数
 
 	// モデルデータ
 	Model* model_ = nullptr;
@@ -49,5 +95,6 @@ private:
 	std::unique_ptr<Model> modelHitEffect_ = nullptr;
 	std::list<std::unique_ptr<HitEffect>> hitEffects_;
 
+	// 接触記録
 	ContactRecord contactRecord_;
 };

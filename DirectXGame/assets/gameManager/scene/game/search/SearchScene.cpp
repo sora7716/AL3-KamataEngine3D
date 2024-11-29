@@ -1,5 +1,7 @@
 #include "SearchScene.h"
 
+
+
 // デストラクタ
 SearchScene::~SearchScene() {}
 
@@ -165,7 +167,7 @@ void SearchScene::InitializeObject() {
 	player_->SetHammer(hammer_.get());
 	
 	// レールカメラ
-	railCamera_->SetTarget(player_->GetWorldTransform()[kBase]);
+	railCamera_->SetTarget(player_->GetWorldTransform()[int(Player::ObjectParts::kBase)]);
 	railCamera_->SetLockOn(lockOn_.get());
 
 	//衝突マネージャの生成

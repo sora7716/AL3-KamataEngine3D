@@ -30,6 +30,13 @@ void HitEffect::Update() {
 		return;
 	}
 
+#ifdef _DEBUG
+	Begin(std::string("hitEffect").c_str());
+	DebugText();
+	End();
+#endif // _DEBUG
+
+
 	interpolationRate += 0.05f;
 	if (interpolationRate >= 1.0f) {
 		interpolationRate = 1.0f;
@@ -58,4 +65,11 @@ void HitEffect::Draw(const ViewProjection &viewProjection) {
 	
 }
 
-
+void HitEffect::DebugText() {
+	std::string debugLabel = "scale";
+	DragFloat3(debugLabel.c_str(), &worldTransform_.scale_.x, 0.01f);
+	debugLabel = "rotation";
+	DragFloat3(debugLabel.c_str(), &worldTransform_.rotation_.x, 0.01f);
+	debugLabel = "translation";
+	DragFloat3(debugLabel.c_str(), &worldTransform_.translation_.x, 0.01f);
+}

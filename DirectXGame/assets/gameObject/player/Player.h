@@ -1,24 +1,15 @@
 #pragma once
 #include "assets/gameobject/BaseCharacter.h"
-//#include "assets/gameobject/effect/HitEffect.h"
 
 #include "assets/math/Math.h"
 #include "memory"
 #include "vector"
 #include <optional>
 
+// 各クラスの前方宣言
 class Input;
 class LockOn;
 class Hammer;
-
-// プレイヤーパーツの列挙体
-enum Parts {
-	kBase,
-	kBody,
-	kHead,
-	kLeft_arm,
-	kRight_arm,
-};
 
 /// <summary>
 /// 自キャラ
@@ -26,11 +17,35 @@ enum Parts {
 class Player : public BaseCharacter, Math {
 
 public:
+	// プレイヤーパーツの列挙体
+	enum class Parts {
+	    kBase,
+	    kBody,
+    	kHead,
+	    kLeft_arm,
+	    kRight_arm,
+	    kPartNum
+    };
+
+	using ObjectParts = Parts;
+	static inline ObjectParts typeBase = Parts::kBase;
+	static inline ObjectParts typeBody = Parts::kBody;
+	static inline ObjectParts typeHead = Parts::kHead;
+	static inline ObjectParts typeL_arm = Parts::kLeft_arm;
+	static inline ObjectParts typeR_arm = Parts::kRight_arm;
+	static constexpr int PartsNum = static_cast<int>(Parts::kPartNum);
+
 	enum class Behavior {
 		kRoot,
 		kAttack,
 		kDash,
 		kJump,
+	};
+
+	enum class AttackPhase {
+		kAticipation,
+		kCharge,
+		kSwing,
 	};
 
 	struct ConstAttack {
@@ -43,6 +58,7 @@ public:
 		float swingSpeed;
 	};
 
+	// 攻撃用ワーク
 	struct WorkAttack {
 		int32_t attackParameter_ = 0;
 		int32_t comboIndex = 0;
@@ -89,13 +105,15 @@ private:
 	/// 浮遊ギミック初期化
 	void InitializeFloatingGimmick();	
 
-	/// 各ふるまいの初期化
-	void BehaviorRootInitialize();
-	void BehaviorAttackInitialize();
-	void BehaviorDashInitialize();
-	void BehaviorJumpInitialize();
-	void InitializeBehavior();
+#pragma region 各ふるまい初期化
+	void BehaviorRootInitialize();   // 通常行動
+	void BehaviorAttackInitialize(); // 攻撃行動
+	void BehaviorDashInitialize();   // ダッシュ行動
+	void BehaviorJumpInitialize();   // ジャンプ行動
+	void InitializeBehavior();       // ふるまい初期化
+#pragma endregion
 
+#pragma region 移動処理
 
 	// ゲームパッドによるコントローラ入力
 	bool GamePadController();
@@ -103,15 +121,27 @@ private:
 	/// ジョイスティックによる座標の移動
 	void JoyStickMove(const float speed);
 
-	/// 浮遊ギミック更新
-	void UpdateFloatingGimmick();
+#pragma endregion
 
-	/// 各ふるまいの更新
-	void BehaviorRootUpdate();
-	void BehaviorAttackUpdate();
-	void BehaviorDashUpdate();
-	void BehaviorJumpUpdate();
-	void UpdateBehavior();
+#pragma region 浮遊
+
+	void UpdateFloatingGimmick(); // 浮遊ギミック更新
+	void PartAnimation(float parameter); //パーツのアニメーション
+
+#pragma endregion 
+
+#pragma region 各ふるまい更新
+	void BehaviorRootUpdate();  //通常行動
+	void BehaviorAttackUpdate();//攻撃行動
+	void BehaviorDashUpdate();  //ダッシュ行動
+	void BehaviorJumpUpdate();  //ジャンプ行動
+	void UpdateBehavior();      //ふるまい更新
+#pragma endregion
+
+	// 攻撃行動時の更新
+	void UpdateAticipation();// 振りかぶり処理
+	void UpdateCharge(); // 溜め行動
+	void UpdateSwing(); // 振り下ろし処理
 
 	/// デバッグテキスト描画
 	void DrawDebugText();
@@ -136,18 +166,30 @@ private: // メンバ変数
 	static inline float amplitube = 0.2f;
 	static inline float armAngle_ = 0.5f;
 
+	// ふるまい
 	Behavior behavior_ = Behavior::kRoot;
+	// ふるまいのリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
+	// 攻撃フェーズ
+	AttackPhase attackPhase_ = AttackPhase::kAticipation;
+
+	// 攻撃用ワーク
 	WorkAttack workAttack_;
 
+	// ダッシュ用ワーク
 	WorkDash workDash_;
+	// 補間レート
 	float destinationAngleY = 0.1f;
 
 	static void (Player::*behaviorInitializeTable[])();
+	static void (Player::*attackTable[])();
 	static void (Player::*behaviorUpdateTable[])();
 
+	// ロックオン
 	const LockOn* lockOn_ = nullptr;
 	float speed_ = {};
+
+	// ハンマー
 	Hammer* hammer_;
 };

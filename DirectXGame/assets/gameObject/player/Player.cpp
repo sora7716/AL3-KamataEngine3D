@@ -35,10 +35,10 @@ void Player::Initialize(std::vector<Model*> models, ViewProjection* viewProjecti
 	const char* groupName = "Player";
 
 	globalVariables->CreateGroup(groupName);
-	globalVariables->AddItem(groupName, "body Translate", worldTransforms_[kBody]->translation_);
-	globalVariables->AddItem(groupName, "head Translate", worldTransforms_[kHead]->translation_);
-	globalVariables->AddItem(groupName, "L_Arm Translate", worldTransforms_[kLeft_arm]->translation_);
-	globalVariables->AddItem(groupName, "R_Arm Translate", worldTransforms_[kRight_arm]->translation_);
+	globalVariables->AddItem(groupName, "body Translate", worldTransforms_[int(typeBody)]->translation_);
+	globalVariables->AddItem(groupName, "head Translate", worldTransforms_[int(typeHead)]->translation_);
+	globalVariables->AddItem(groupName, "L_Arm Translate", worldTransforms_[int(typeL_arm)]->translation_);
+	globalVariables->AddItem(groupName, "R_Arm Translate", worldTransforms_[int(typeR_arm)]->translation_);
 	globalVariables->AddItem(groupName, "FloatingCycle", cycle_);
 	globalVariables->AddItem(groupName, "FloatingAmplitube", amplitube);
 	globalVariables->AddItem(groupName, "idelArmAngleMax", armAngle_);
@@ -55,8 +55,9 @@ void Player::Update() {
 	UpdateBehavior();
 
 #ifdef _DEBUG
-	DragFloat3("player.translate", &worldTransforms_[kBase]->translation_.x, 0.01f);
-	DragFloat3("player.rotation", &worldTransforms_[kLeft_arm]->rotation_.x, 0.01f);
+	DragFloat3("player.translate", &worldTransforms_[int(typeBase)]->translation_.x, 0.01f);
+	DragFloat3("body.translate", &worldTransforms_[int(typeBody)]->translation_.x, 0.01f);
+	DragFloat3("kLeftArm.rotation", &worldTransforms_[int(typeL_arm)]->rotation_.x, 0.01f);
 	DragInt("parameter", &workAttack_.attackParameter_, 0.01f);
 	DragInt("combo", &workAttack_.comboIndex, 0.01f);
 	//Checkbox("Hit", &isHit_);
@@ -67,10 +68,10 @@ void Player::Update() {
 void Player::Draw() {
 	hammer_->Draw();
 	// 3Dモデルを描画
-	models_[kBody]->Draw(*worldTransforms_[kBody], *viewProjection_);           // 体
-	models_[kHead]->Draw(*worldTransforms_[kHead], *viewProjection_);           // 頭
-	models_[kLeft_arm]->Draw(*worldTransforms_[kLeft_arm], *viewProjection_);   // 左腕
-	models_[kRight_arm]->Draw(*worldTransforms_[kRight_arm], *viewProjection_); // 右腕
+	models_[int(typeBody)]->Draw(*worldTransforms_[int(typeBody)], *viewProjection_); // 体
+	models_[int(typeHead)]->Draw(*worldTransforms_[int(typeHead)], *viewProjection_); // 頭
+	models_[int(typeL_arm)]->Draw(*worldTransforms_[int(typeL_arm)], *viewProjection_); // 左腕
+	models_[int(typeR_arm)]->Draw(*worldTransforms_[int(typeR_arm)], *viewProjection_);  // 右腕
 }
 
 // 衝突時処理
@@ -88,7 +89,7 @@ Vector3 Player::GetCenterPosition() const {
 	// ローカル座標でのオフセット
 	const Vector3 offset = {0.f, 1.5f, 0.f};
 	// ワールド座標に変換
-	Vector3 worldPos = Transform(offset, worldTransforms_[kBase]->matWorld_);
+	Vector3 worldPos = Transform(offset, worldTransforms_[int(typeBase)]->matWorld_);
 	return worldPos;
 }
 
@@ -106,19 +107,19 @@ void Player::InitializeWorldTransform() {
 	}
 
 	// 体の親子関係
-	worldTransforms_[kBody]->parent_ = GetWorldTransform()[kBase];
+	worldTransforms_[int(typeBody)]->parent_ = GetWorldTransform()[int(typeBase)];
 
 	// 頭の親子関係
-	worldTransforms_[kHead]->parent_ = GetWorldTransform()[kBody];
-	worldTransforms_[kHead]->translation_ = {0.0f, 1.504f, 0.0f}; // 座標設定
+	worldTransforms_[int(typeHead)]->parent_ = GetWorldTransform()[int(typeBody)];
+	worldTransforms_[int(typeHead)]->translation_ = {0.0f, 1.504f, 0.0f}; // 座標設定
 
 	// 左腕の親子関係
-	worldTransforms_[kLeft_arm]->parent_ = GetWorldTransform()[kBody];
-	worldTransforms_[kLeft_arm]->translation_ = {-0.527f, 1.262f, 0.0f}; // 座標設定
+	worldTransforms_[int(typeL_arm)]->parent_ = GetWorldTransform()[int(typeBody)];
+	worldTransforms_[int(typeL_arm)]->translation_ = {-0.527f, 1.262f, 0.0f}; // 座標設定
 
 	// 右腕の親子関係
-	worldTransforms_[kRight_arm]->parent_ = GetWorldTransform()[kBody];
-	worldTransforms_[kRight_arm]->translation_ = {0.527f, 1.262f, 0.0f}; // 座標設定
+	worldTransforms_[int(typeR_arm)]->parent_ = GetWorldTransform()[int(typeBody)];
+	worldTransforms_[int(typeR_arm)]->translation_ = {0.527f, 1.262f, 0.0f}; // 座標設定
 
 }
 
@@ -133,38 +134,39 @@ void Player::BehaviorRootInitialize() {
 
 // 攻撃行動初期化
 void Player::BehaviorAttackInitialize() {
-	worldTransforms_[kBody]->translation_.y = 0;
-	worldTransforms_[kLeft_arm]->rotation_.x = -1.53f;
-	worldTransforms_[kRight_arm]->rotation_.x = -1.53f;
+	worldTransforms_[int(typeBody)]->translation_.y = 0;
+	worldTransforms_[int(typeL_arm)]->rotation_.x = -1.53f;
+	worldTransforms_[int(typeR_arm)]->rotation_.x = -1.53f;
 	hammer_->SetScale(Vector3(1, 1, 1));
 	hammer_->SetRotation({.x = 3.0f});
 
 	// 攻撃の初期化でボディと親子関係を結ぶ
 	if (hammer_) {
-		hammer_->SetParent(this->GetWorldTransform()[kBody]);
+		hammer_->SetParent(this->GetWorldTransform()[int(typeBody)]);
 	}
 
 	// ハンマーの接触履歴を抹消する
 	hammer_->ClearContactRecord();
 
 	workAttack_.attackParameter_ = 0;
+	attackPhase_ = AttackPhase::kAticipation;
 
 }
 
 // ダッシュ行動初期化
 void Player::BehaviorDashInitialize() {
 	workDash_.dashParameter_ = 0;
-	worldTransforms_[kBase]->rotation_.y = destinationAngleY;
-	worldTransforms_[kLeft_arm]->rotation_.x = 0.5f;
-	worldTransforms_[kRight_arm]->rotation_.x = 0.5f;
+	worldTransforms_[int(typeBase)]->rotation_.y = destinationAngleY;
+	worldTransforms_[int(typeL_arm)]->rotation_.x = 0.5f;
+	worldTransforms_[int(typeR_arm)]->rotation_.x = 0.5f;
 }
 
 // ジャンプ行動初期化
 void Player::BehaviorJumpInitialize() {
 
-	worldTransforms_[kBody]->translation_.y = 0;
-	worldTransforms_[kLeft_arm]->rotation_.x = 0;
-	worldTransforms_[kRight_arm]->rotation_.x = 0;
+	worldTransforms_[int(typeBody)]->translation_.y = 0;
+	worldTransforms_[int(typeL_arm)]->rotation_.x = 0;
+	worldTransforms_[int(typeR_arm)]->rotation_.x = 0;
 
 	// ジャンプ初速
 	const float kJumpFirstSpeed = 1.0f;
@@ -186,11 +188,9 @@ void Player::InitializeBehavior() {
 	}
 }
 
-
-
 #pragma endregion
 
-#pragma region 更新処理メンバ関数の定義
+#pragma region 移動処理
 
 // ゲームパッド操作
 bool Player::GamePadController() {
@@ -226,7 +226,7 @@ void Player::JoyStickMove(const float speed) {
 
 		velocity_ = TransformNormal(velocity_, rotateYMatrix);
 
-		worldTransforms_[kBase]->translation_ += velocity_;
+		worldTransforms_[int(typeBase)]->translation_ += velocity_;
 
 		targetRotate_.y = std::atan2(velocity_.x, velocity_.z);
 	} else if (lockOn_ && lockOn_->ExistTarget()) {
@@ -235,13 +235,17 @@ void Player::JoyStickMove(const float speed) {
 		// 追従対象からロックオン対象へのベクトルを求める
 		Vector3 sub = lockOnPos - this->GetCenterPosition();
 		// Y軸周り角度
-		worldTransforms_[kBase]->rotation_.y = std::atan2(sub.x, sub.z);
+		worldTransforms_[int(typeBase)]->rotation_.y = std::atan2(sub.x, sub.z);
 	}
 
-	worldTransforms_[kBase]->rotation_.y = LerpShortAngle(worldTransforms_[kBase]->rotation_.y, targetRotate_.y, destinationAngleY);
+	worldTransforms_[int(typeBase)]->rotation_.y = 
+		LerpShortAngle(worldTransforms_[int(typeBase)]->rotation_.y, targetRotate_.y, destinationAngleY);
 }
 
-// 浮遊ギミック
+#pragma endregion 
+
+#pragma region 浮遊
+
 void Player::UpdateFloatingGimmick() {
 
 	///===================================================<浮遊アニメーション>========================================================
@@ -253,10 +257,34 @@ void Player::UpdateFloatingGimmick() {
 	// 2π超えたら0に戻す
 	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * pi_f);
 	// 浮遊を座標に反映
-	worldTransforms_[kBody]->translation_.y = std::sin(floatingParameter_) * amplitube;
-	worldTransforms_[kLeft_arm]->rotation_.x = std::sin(floatingParameter_) * armAngle_;
-	worldTransforms_[kRight_arm]->rotation_.x = std::sin(floatingParameter_) * armAngle_;
+	this->PartAnimation(std::sin(floatingParameter_));
 };
+
+void Player::PartAnimation(float parameter) {
+	int32_t index = 1;
+
+	// for文をパーツ数以下であれば処理を繰り返す
+	for (index = 1; index < int(PartsNum); index++) {
+		
+		// インデックスが1なら
+		if (index == 1) {
+		
+			// ワールド変換データのトランスフォームYを動かす
+			worldTransforms_[index]->translation_.y = parameter * amplitube;
+		
+			// インデックスが3かつ4なら
+		} else if (index == 3 || index == 4) {
+
+			// ワールド変換データのX軸周りを回転させる
+			worldTransforms_[index]->rotation_.x = parameter * armAngle_;
+		
+		}
+	}
+}
+
+#pragma endregion 
+
+#pragma region ふるまい更新
 
 // 通常行動
 void Player::BehaviorRootUpdate() {
@@ -294,8 +322,7 @@ void Player::BehaviorRootUpdate() {
 // 攻撃行動
 void Player::BehaviorAttackUpdate() {
 
-
-
+	// ロックオン状態なら
 	if (lockOn_ && lockOn_->ExistTarget()) {
 		// ロックオン対象の座標取得
 		Vector3 lockOnPos = lockOn_->GetTargetPosition();
@@ -308,7 +335,7 @@ void Player::BehaviorAttackUpdate() {
 		// しきい値より離れている時のみ
 		if (distance > threshold) {
 			// Y軸周り角度
-			worldTransforms_[kBase]->rotation_.y = std::atan2(sub.x, sub.z);
+			worldTransforms_[int(typeBase)]->rotation_.y = std::atan2(sub.x, sub.z);
 
 			// しきい値を超える速さなら補正する
 			if (speed_ > distance - threshold) {
@@ -319,33 +346,13 @@ void Player::BehaviorAttackUpdate() {
 	}
 
 	workAttack_.attackParameter_++;
-
-	if (workAttack_.attackParameter_ > 0 && workAttack_.attackParameter_ < 10) {
-		worldTransforms_[kLeft_arm]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
-		worldTransforms_[kRight_arm]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
-		Vector3 hammerAngle = hammer_->GetRotation(); // ハンマーの回転
-		hammerAngle.x += kConstAttacks_[1].anticipationSpeed;
-		hammer_->SetRotation(hammerAngle);
-	}
-
-	if (workAttack_.attackParameter_ > 11 && workAttack_.attackParameter_ < 16) {
-
-		Vector3 forward = Math::TransformNormal({0, 0, 1}, worldTransforms_[kBase]->matWorld_);
-		worldTransforms_[kBase]->translation_ += forward * kConstAttacks_[1].chargeSpeed;
-	}
-
-	if (workAttack_.attackParameter_ > 17 && workAttack_.attackParameter_ < 28) {
-		worldTransforms_[kLeft_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
-		worldTransforms_[kRight_arm]->rotation_.x += kConstAttacks_[1].swingSpeed;
-		Vector3 hammerAngle = hammer_->GetRotation();
-		hammerAngle.x += kConstAttacks_[1].swingSpeed;
-		hammer_->SetRotation(hammerAngle);
-	}
+	
+	(this->*attackTable[static_cast<size_t>(attackPhase_)])();
 
 	int32_t totalAttackTime = kConstAttacks_[1].anticipationTime + kConstAttacks_[1].chargeTime + kConstAttacks_[1].swingTime + kConstAttacks_[1].recoveryTime;
 
 	if (workAttack_.attackParameter_ >= totalAttackTime) {
-		worldTransforms_[kBody]->rotation_.y = 0.0f;
+		worldTransforms_[int(typeBody)]->rotation_.y = 0.0f;
 		workAttack_.attackParameter_ = 0;
 		workAttack_.comboIndex = 0;
 		behaviorRequest_ = Behavior::kRoot;
@@ -370,7 +377,7 @@ void Player::BehaviorDashUpdate() {
 void Player::BehaviorJumpUpdate() {
 
 	// 移動
-	worldTransforms_[kBase]->translation_ += velocity_;
+	worldTransforms_[int(typeBase)]->translation_ += velocity_;
 	// 重力加速度
 	const float kGravityAcceleration = 0.075f;
 	// 加速度ベクトル
@@ -378,8 +385,8 @@ void Player::BehaviorJumpUpdate() {
 	// 加速する
 	velocity_ += accelerationVector;
 	// 着地
-	if (worldTransforms_[kBase]->translation_.y <= 0.0f) {
-		worldTransforms_[kBase]->translation_.y = 0;
+	if (worldTransforms_[int(typeBase)]->translation_.y <= 0.0f) {
+		worldTransforms_[int(typeBase)]->translation_.y = 0;
 		// ジャンプ終了
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -397,7 +404,46 @@ void Player::UpdateBehavior() {
 	}
 }
 
+#pragma endregion 
 
+#pragma region 行動が攻撃時の更新処理
+
+void Player::UpdateAticipation() {
+
+	if (workAttack_.attackParameter_ > 0 && workAttack_.attackParameter_ < 10) {
+		worldTransforms_[int(typeL_arm)]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
+		worldTransforms_[int(typeR_arm)]->rotation_.x += kConstAttacks_[1].anticipationSpeed * 1.45f;
+		Vector3 hammerAngle = hammer_->GetRotation(); // ハンマーの回転
+		hammerAngle.x += kConstAttacks_[1].anticipationSpeed;
+		hammer_->SetRotation(hammerAngle);
+	}
+
+	if (workAttack_.attackParameter_ >= 10) {
+		attackPhase_ = AttackPhase::kCharge;
+	}
+}
+
+void Player::UpdateCharge() {
+	if (workAttack_.attackParameter_ > 11 && workAttack_.attackParameter_ < 16) {
+
+		Vector3 forward = Math::TransformNormal({0, 0, 1}, worldTransforms_[int(typeBase)]->matWorld_);
+		worldTransforms_[int(typeBase)]->translation_ += forward * kConstAttacks_[1].chargeSpeed;
+	}
+
+	if (workAttack_.attackParameter_ >= 16) {
+		attackPhase_ = AttackPhase::kSwing;
+	}
+}
+
+void Player::UpdateSwing() {
+	if (workAttack_.attackParameter_ > 17 && workAttack_.attackParameter_ < 28) {
+		worldTransforms_[int(typeL_arm)]->rotation_.x += kConstAttacks_[1].swingSpeed;
+		worldTransforms_[int(typeR_arm)]->rotation_.x += kConstAttacks_[1].swingSpeed;
+		Vector3 hammerAngle = hammer_->GetRotation();
+		hammerAngle.x += kConstAttacks_[1].swingSpeed;
+		hammer_->SetRotation(hammerAngle);
+	}
+}
 
 #pragma endregion
 
@@ -405,10 +451,10 @@ void Player::UpdateBehavior() {
 void Player::DrawDebugText() {
 
 #ifdef _DEBUG
-	SliderFloat3("Body Translate", &worldTransforms_[kBody]->translation_.x, -5.0f, 5.0f);
-	SliderFloat3("Head Translate", &worldTransforms_[kHead]->translation_.x, -5.0f, 5.0f);
-	SliderFloat3("L_arm Rotation", &worldTransforms_[kLeft_arm]->rotation_.x, -5.0f, 5.0f);
-	SliderFloat3("R_arm Rotation", &worldTransforms_[kRight_arm]->rotation_.x, -5.0f, 5.0f);
+	SliderFloat3("Body Translate", &worldTransforms_[int(typeBody)]->translation_.x, -5.0f, 5.0f);
+	SliderFloat3("Head Translate", &worldTransforms_[int(typeHead)]->translation_.x, -5.0f, 5.0f);
+	SliderFloat3("L_arm Rotation", &worldTransforms_[int(typeL_arm)]->rotation_.x, -5.0f, 5.0f);
+	SliderFloat3("R_arm Rotation", &worldTransforms_[int(typeR_arm)]->rotation_.x, -5.0f, 5.0f);
 	SliderInt("FloatingCycle", &cycle_, 1, 200);
 	SliderFloat("FloaingAmplitube", &amplitube, 0, 10);
 	SliderFloat("IdelArmAngleMax", &armAngle_, 0, 3.5f);
@@ -420,27 +466,36 @@ void Player::ApplyGlobalVariables() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "Player";
 
-	worldTransforms_[kBody]->translation_ = globalVariables->GetVector3Value(groupName, "body Translate");
-	worldTransforms_[kHead]->translation_ = globalVariables->GetVector3Value(groupName, "head Translate");
-	worldTransforms_[kLeft_arm]->translation_ = globalVariables->GetVector3Value(groupName, "L_Arm Translate");
-	worldTransforms_[kRight_arm]->translation_ = globalVariables->GetVector3Value(groupName, "R_Arm Translate");
+	worldTransforms_[int(typeBody)]->translation_ = globalVariables->GetVector3Value(groupName, "body Translate");
+	worldTransforms_[int(typeHead)]->translation_ = globalVariables->GetVector3Value(groupName, "head Translate");
+	worldTransforms_[int(typeL_arm)]->translation_ = globalVariables->GetVector3Value(groupName, "L_Arm Translate");
+	worldTransforms_[int(typeR_arm)]->translation_ = globalVariables->GetVector3Value(groupName, "R_Arm Translate");
 	cycle_ = globalVariables->GetIntValue(groupName, "FloatingCycle");
 	amplitube = globalVariables->GetFloatValue(groupName, "FloatingAmplitube");
 	armAngle_ = globalVariables->GetFloatValue(groupName, "idelArmAngleMax");
 }
 
-// ふるまいの初期化メンバ関数ポインタ
+#pragma region 各メンバ関数ポインタの宣言
+
+// ふるまいの初期化
 void (Player::*Player::behaviorInitializeTable[])(){
 	&Player::BehaviorRootInitialize, 
 	&Player::BehaviorAttackInitialize, 
 	&Player::BehaviorDashInitialize, 
 	&Player::BehaviorJumpInitialize
 };
-
-// ふるまいの更新メンバ関数ポインタ
+// 攻撃フェーズ
+void (Player::*Player::attackTable[])(){
+    &Player::UpdateAticipation,
+    &Player::UpdateCharge,
+    &Player::UpdateSwing,
+};
+// ふるまいの更新
 void (Player::*Player::behaviorUpdateTable[])(){
 	&Player::BehaviorRootUpdate, 
 	&Player::BehaviorAttackUpdate, 
 	&Player::BehaviorDashUpdate, 
 	&Player::BehaviorJumpUpdate
 };
+
+#pragma endregion 
