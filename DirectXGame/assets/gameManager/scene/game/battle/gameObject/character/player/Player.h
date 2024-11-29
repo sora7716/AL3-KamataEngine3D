@@ -55,6 +55,12 @@ public: // メンバ関数
 	/// </summary>
 	void KeyboardControl();
 
+	/// <summary>
+	/// playerのposゲッター
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetPosition() { return worldTransform_.translation_; }
+
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;
 	// プレイヤーのモデル
