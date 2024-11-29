@@ -91,7 +91,7 @@ void Mimic::Idle() {
 		isSetStartAngle_ = true;
 	}
 	// 回転する
-	worldTransform_.rotation_.y = Math::AngleLerp(startAngle_ - 60.0f, startAngle_ + 60.0f, EasingMode::kInSine, 2.0f, angleTimer_);
+	worldTransform_.rotation_.y = Math::AngleLerp(startAngle_ - 120.0f, startAngle_ + 120.0f, EasingMode::kInSine, 2.0f, angleTimer_);
 }
 
 // ミミックのステータスを変更
