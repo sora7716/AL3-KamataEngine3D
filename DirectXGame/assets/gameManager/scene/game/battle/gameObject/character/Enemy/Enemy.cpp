@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 
 #pragma region ミミック
 // 初期化
@@ -48,8 +49,7 @@ void Mimic::Move() {
 }
 
 void Mimic::Attack(){
-	Vector3 targetPos = player_->GetPos();
-
+	Vector3 targetPos = player_->GetWorldTransform().translation_;
 }
 
 #pragma endregion

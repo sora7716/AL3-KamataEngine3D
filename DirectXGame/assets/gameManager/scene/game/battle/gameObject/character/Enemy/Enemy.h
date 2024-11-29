@@ -3,6 +3,9 @@
 #include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 
+//前方宣言
+class Player;
+
 /// <summary>
 /// ミミックのクラス
 /// </summary>
@@ -54,4 +57,5 @@ private: // メンバ変数
 	Vector2 circulaMoveRadius_ = {};
 	Vector3 center = {};
 	Vector3 velocity_ = {};
+	Player* player_ = nullptr;
 };
