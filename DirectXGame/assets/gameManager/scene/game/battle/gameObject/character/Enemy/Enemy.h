@@ -35,6 +35,11 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
 private://メンバ関数
 
 	/// <summary>

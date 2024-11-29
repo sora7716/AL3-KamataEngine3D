@@ -46,4 +46,10 @@ void Mimic::Move() {
 	//worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
 	worldTransform_.translation_ += velocity_;
 }
+
+void Mimic::Attack(){
+	Vector3 targetPos = player_->GetPos();
+
+}
+
 #pragma endregion
