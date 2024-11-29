@@ -104,7 +104,7 @@ private: // メンバ変数
 	//プレイヤー
 	Player* player_ = nullptr;
 	// ステータス
-	int status_ = (int)Status::kMove; 
+	int status_ = (int)Status::kIdle; 
 	//待機時間
 	float waitTime_ = 0.0f;
 	//待機時の最初のアングルを決定するフラグ
