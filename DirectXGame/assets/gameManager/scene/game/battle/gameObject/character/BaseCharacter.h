@@ -44,6 +44,12 @@ public://メンバ関数
 	/// <returns></returns>
 	const WorldTransform& GetWorldTransform();
 
+	/// <summary>
+	/// matでの行列情報を取り出す
+	/// </summary>
+	/// <returns></returns>
+	const Vector3 GetWorldPos();
+	
 protected://メンバ変数
 	//モデルデータ配列
 	std::vector<Model*> models_;

@@ -22,3 +22,12 @@ const WorldTransform& BaseCharacter::GetWorldTransform() {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
+
+const Vector3 BaseCharacter::GetWorldPos()
+{
+	return {
+		worldTransform_.matWorld_.m[3][0],
+		worldTransform_.matWorld_.m[3][1],
+		worldTransform_.matWorld_.m[3][2]
+	};
+}

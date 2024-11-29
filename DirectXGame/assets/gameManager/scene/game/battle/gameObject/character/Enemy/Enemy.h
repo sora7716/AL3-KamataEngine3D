@@ -50,12 +50,43 @@ private://メンバ関数
 	/// </summary>
 	void Move();
 
+	/// <summary>
+	/// プレイヤーのセッター
+	/// </summary>
+	/// <param name="player"></param>
+	void SetPlayer(Player*player);
+
 public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
+
 private: // メンバ変数
 	std::unique_ptr<MimicModel> mimicModel_ = nullptr;
 	Vector2 circulaMoveRadius_ = {};
 	Vector3 center = {};
 	Vector3 velocity_ = {};
+
+	//攻撃用の変数
+	bool isAttacking = false;
 	Player* player_ = nullptr;
+	float yaw_; //横回転用
+	float pitch_; //縦回転用
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="enemy"></param>
+	/// <returns></returns>
+	float CalculateDistance(const Vector3& player, const Vector3& enemy);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="target"></param>
+	void MoveToward(const Vector3& target);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	void Idle();
 };

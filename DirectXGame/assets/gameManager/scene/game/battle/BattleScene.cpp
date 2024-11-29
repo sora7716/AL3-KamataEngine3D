@@ -50,6 +50,7 @@ void BattleScene::Initialize() {
 	//ミミック
 	enemy_ = std::make_unique<Mimic>();
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
+	enemy_->SetPlayer(player_.get());
 }
 
 // 更新

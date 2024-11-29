@@ -18,6 +18,35 @@ void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 
 // 更新
 void Mimic::Update() {
+	// 円運動
+	//velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
+
+	//回転・向きの処理
+	// Y軸周りの角度(θy)
+	//終点角度に設置
+	float endAngle = atan2(velocity_.x, velocity_.z);
+	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, endAngle, 0.1f);
+	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	 //X軸周りの角度(θx)
+	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+
+	//worldTransform_.translation_ += velocity_;
+
+	float chaseRange = 20.0f;
+	float attackRange = 3.0f;
+	float distance = CalculateDistance(player_->GetPosition(), worldTransform_.translation_);
+
+	
+	if (distance <= attackRange) {
+		Attack();
+	}
+	else if (distance <= chaseRange) {
+		MoveToward(player_->GetPosition());
+	}
+	else {
+		Idle();
+	}
+
 	Move();
 	BaseCharacter::Update();
 	mimicModel_->Update();
@@ -49,7 +78,42 @@ void Mimic::Move() {
 }
 
 void Mimic::Attack(){
-	Vector3 targetPos = player_->GetWorldTransform().translation_;
+	isAttacking = true;
 }
 
+void Mimic::SetPlayer(Player* player){
+	player_ = player;
+}
+
+float Mimic::CalculateDistance(const Vector3& player, const Vector3& enemy){
+	return std::sqrt(
+		(enemy.x - player.x) * (enemy.x - player.x) +
+		(enemy.y - player.y) * (enemy.y - player.y) +
+		(enemy.z - player.z) * (enemy.z - player.z)
+	);
+}
+
+void Mimic::MoveToward(const Vector3& target){
+	//Targetはおそらくプレイヤーとなって距離を計算して
+	Vector3 dist = {
+		target.x - worldTransform_.translation_.x,
+		target.y - worldTransform_.translation_.y,
+		target.z - worldTransform_.translation_.z
+	};
+	float magnitude = std::sqrtf(powf(dist.x, 2) + powf(dist.y, 2) + powf(dist.z, 2));
+	//velocityを求める
+	velocity_ = {
+		(dist.x / magnitude) * kSpeed,
+		(dist.y / magnitude) * kSpeed,
+		(dist.z / magnitude) * kSpeed
+	};
+	//lerpで位置を更新する処理
+	Vector3 endDestination = worldTransform_.translation_ + velocity_;
+	worldTransform_.translation_.x = (float)std::lerp((double)worldTransform_.translation_.x, (double)endDestination.x, 0.2f);
+	worldTransform_.translation_.y = (float)std::lerp((double)worldTransform_.translation_.y, (double)endDestination.y, 0.2f);
+	worldTransform_.translation_.z = (float)std::lerp((double)worldTransform_.translation_.z, (double)endDestination.z, 0.2f);
+}
+void Mimic::Idle(){
+	isAttacking = false;
+}
 #pragma endregion
