@@ -29,14 +29,6 @@ void Player::Initialize(std::vector<Model*> models, ViewProjection* viewProjecti
 	InitializeWorldTransform();
 	InitializeFloatingGimmick();
 
-	
-
-	// ヒットエフェクトの生成
-	//modelEffect_.reset(Model::CreateSphere());
-	//hitEffect_ = std::make_unique<HitEffect>();
-	//hitEffect_->Initialize(modelEffect_.get(), viewProjection_);
-	//hitEffect_->SetParent(this->GetWorldTransform()[kBody]);
-
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::kPlayer));
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -58,13 +50,7 @@ void Player::Initialize(std::vector<Model*> models, ViewProjection* viewProjecti
 void Player::Update() {
 
 	ApplyGlobalVariables();
-
-	/*if (isHit_ && hitEffect_) {
-		hitEffect_->Update();
-	}*/
-
 	
-
 	InitializeBehavior();
 	UpdateBehavior();
 
@@ -135,9 +121,6 @@ void Player::InitializeWorldTransform() {
 	worldTransforms_[kRight_arm]->parent_ = GetWorldTransform()[kBody];
 	worldTransforms_[kRight_arm]->translation_ = {0.527f, 1.262f, 0.0f}; // 座標設定
 
-	if (hammer_ != nullptr) {
-		hammer_->SetParent(this->GetWorldTransform()[kBody]);
-	}
 }
 
 // 浮遊ギミック初期化
@@ -145,6 +128,7 @@ void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 // 通常行動初期化
 void Player::BehaviorRootInitialize() {
+	hammer_->ClearContactRecord();
 	hammer_->SetScale(Vector3());
 }
 
@@ -157,9 +141,9 @@ void Player::BehaviorAttackInitialize() {
 	hammer_->SetRotation({.x = 3.0f});
 
 	// 攻撃の初期化でボディと親子関係を結ぶ
-	if (hammer_ != nullptr) {
+	if (hammer_) {
 		hammer_->SetParent(this->GetWorldTransform()[kBody]);
-		hammer_->ClearContactRecord();
+		
 	}
 
 	workAttack_.attackParameter_ = 0;

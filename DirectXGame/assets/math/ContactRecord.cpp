@@ -8,9 +8,11 @@ void ContactRecord::AddRecord(int32_t number) {
 
 bool ContactRecord::CheckRecord(int32_t number) {
 
-	return std::any_of(history_.begin(), history_.end(), [number](int32_t record) {
+	bool record =  std::any_of(history_.begin(), history_.end(), [number](int32_t record) {
 		return record == number;
 	});
+
+	return record;
 }
 
 void ContactRecord::Clear() {

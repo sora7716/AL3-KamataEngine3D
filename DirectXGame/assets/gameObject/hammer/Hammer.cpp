@@ -19,8 +19,8 @@ void Hammer::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::kPlayerWeapon));
-	
 
+	modelHitEffect_.reset(Model::CreateFromOBJ("effect", true));
 	
 
 }
@@ -34,11 +34,27 @@ void Hammer::Update() {
 	End();
 #endif // DEBUG
 
+	/*衝突エフェクトの更新*/
+	for (auto& hitEffect : hitEffects_) {
+		if (hitEffect) {
+			hitEffect->Update();
+		}
+	}
+
 	/*ワールド変換データの行列更新*/
 	worldTransform_.UpdateMatrix();
 }
 
 void Hammer::Draw() { 
+
+	/*衝突エフェクトの描画*/
+	hitEffects_.reverse();
+	for (auto& hitEffect : hitEffects_) {
+		if (hitEffect) {
+			hitEffect->Draw(*viewProjection_);
+		}
+	}
+	hitEffects_.reverse();
 
 	/*モデル(ハンマー)の描画*/
 	model_->Draw(worldTransform_, *viewProjection_); 
@@ -56,6 +72,12 @@ void Hammer::OnCollision([[maybe_unused]] Collider* other) {
 		if (contactRecord_.CheckRecord(serialNumber)) {
 			return;
 		}
+
+		/*衝突エフェクトの生成*/
+		std::unique_ptr<HitEffect> hitEffect = std::make_unique<HitEffect>();
+		hitEffect = std::make_unique<HitEffect>();
+		hitEffect->Initialize(modelHitEffect_.get(), enemy->GetCenterPosition());
+		hitEffects_.push_back(std::move(hitEffect));
 	}
 }
 

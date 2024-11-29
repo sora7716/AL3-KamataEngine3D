@@ -18,35 +18,29 @@ void HitEffect::Initialize(Model* model, const Vector3& position) {
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 
-	isFinished_ = false;
+	//model_->SetAlpha(0.5f);
 
-	alphaEase_ = 0.0f;
-	model_->SetAlpha(0.5f);
+	interpolationRate = 0.0f;
 }
 
 void HitEffect::Update() {
 
-	if (!isFinished_) {
+	if (isFinished_) {
 		return;
 	}
 
-#ifdef _DEBUG
-	Begin(std::string("HitEffect").c_str());
-	DrawDebugText();
-	End();
-#endif // _DEBUG
-
-
-	alphaEase_ += 0.05f;
-
-	if (alphaEase_ >= 1.0f) {
-		alphaEase_ = 1.0f;
+	interpolationRate += 0.05f;
+	if (interpolationRate >= 1.0f) {
+		interpolationRate = 1.0f;
 		isFinished_ = true;
 	}
 
-	model_->SetAlpha(Math::Lerp(0.5f, 0.0f, alphaEase_));
-	worldTransform_.scale_ = Math::Lerp({0.5f, 0.5f, 0.5f}, Vector3(3.0f, 3.0f, 3.0f), alphaEase_);
+	model_->SetAlpha(Math::Lerp(1.0f,0.0f,interpolationRate));
 
+	Vector3 start = {0.5f, 0.5f, 0.5f};
+	Vector3 end = {2.0f, 2.0f, 2.0f};
+
+	worldTransform_.scale_ = Math::Lerp(start, end, interpolationRate);
 	worldTransform_.UpdateMatrix();
 
 }
@@ -61,16 +55,6 @@ void HitEffect::Draw(const ViewProjection &viewProjection) {
 	//モデルの描画
 	model_->Draw(worldTransform_, viewProjection);
 	
-}
-
-void HitEffect::DrawDebugText() {
-
-	std::string debugLabel = "scale";
-	DragFloat3(debugLabel.c_str(), &worldTransform_.scale_.x, 0.01f);
-	debugLabel = "rotate";
-	DragFloat3(debugLabel.c_str(), &worldTransform_.rotation_.x, 0.01f);
-	debugLabel = "translate";
-	DragFloat3(debugLabel.c_str(), &worldTransform_.translation_.x, 0.01f);
 }
 
 

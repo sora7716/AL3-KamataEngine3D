@@ -36,10 +36,18 @@ public:
 
 private:
 
+	// モデルデータ
 	Model* model_ = nullptr;
+
+	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
+	
+	// ワールド変換データ
 	WorldTransform worldTransform_;
 	
+	// 衝突エフェクト
+	std::unique_ptr<Model> modelHitEffect_ = nullptr;
+	std::list<std::unique_ptr<HitEffect>> hitEffects_;
 
 	ContactRecord contactRecord_;
 };

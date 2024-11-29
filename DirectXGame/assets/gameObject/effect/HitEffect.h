@@ -10,7 +10,7 @@
 /// </summary>
 class HitEffect : public Math{
 
-public:
+public://メンバ関数
 
 	//コンストラクタ
 	HitEffect() = default;
@@ -23,16 +23,17 @@ public:
 	//描画
 	void Draw(const ViewProjection&viewProjection);
 
-	void DrawDebugText();
-
 private://メンバ変数
 
 	//モデルデータ
 	Model* model_ = nullptr;
-
+	// ワールド変換データ
 	WorldTransform worldTransform_;
-	//終了フラグ
-	bool isFinished_;
 	
-	float alphaEase_;
+	// 補間レート
+	float interpolationRate;
+
+	// 終了フラグ
+	bool isFinished_ = false;
+	
 };
