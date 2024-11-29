@@ -115,8 +115,11 @@ private:
 
 #pragma region 移動処理
 
-	// ゲームパッドによるコントローラ入力
-	bool GamePadController();
+	// キーボード操作
+	bool KeyboradController(const float deadZone);
+
+	// ゲームパッド操作
+	bool GamePadController(const float deadZone);
 
 	/// ジョイスティックによる座標の移動
 	void JoyStickMove(const float speed);
@@ -156,6 +159,8 @@ private: // メンバ変数
 
 	Vector3 velocity_ = {};
 	bool isMoving = false;
+
+	// 目標角度
 	Vector3 targetRotate_ = {};
 
 	/// 浮遊ギミックの媒介変数

@@ -77,13 +77,14 @@ void RailCamera::JoyStickRotation() {
 		return;
 	}
 
-	const float kRotateSpeed = 1.f / 60.f;
+	const float kRotateSpeed = deltaTime;
 
 	viewProjection_->rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRotateSpeed;
 
 	if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB)) {
 		RailCamera::Reset();
 	}
+
 };
 
 Vector3 RailCamera::CalcOffset() const {

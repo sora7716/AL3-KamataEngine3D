@@ -60,7 +60,6 @@ void Player::Update() {
 	DragFloat3("kLeftArm.rotation", &worldTransforms_[int(typeL_arm)]->rotation_.x, 0.01f);
 	DragInt("parameter", &workAttack_.attackParameter_, 0.01f);
 	DragInt("combo", &workAttack_.comboIndex, 0.01f);
-	//Checkbox("Hit", &isHit_);
 #endif // _DEBUG
 }
 
@@ -192,12 +191,46 @@ void Player::InitializeBehavior() {
 
 #pragma region 移動処理
 
+bool Player::KeyboradController(const float deadZone) {
+
+	if (input_->PushKey(DIK_D)) {
+
+		velocity_ = {0.8f, 0.0f, 0.0f};
+		if (Math::Length(velocity_) > deadZone) {
+			return true;
+		}
+
+	} else if (input_->PushKey(DIK_A)) {
+
+		velocity_ = {-0.8f, 0.0f, 0.0f};
+		if (Math::Length(velocity_) > deadZone) {
+			return true;
+		}
+	}
+
+	if (input_->PushKey(DIK_W)) {
+
+		velocity_ = {0.0f, 0.0f, 0.9f};
+		if (Math::Length(velocity_) > deadZone) {
+			return true;
+		}
+
+	} else if (input_->PushKey(DIK_S)) {
+
+		velocity_ = {0.0f, 0.0f, -0.9f};
+		if (Math::Length(velocity_) > deadZone) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // ゲームパッド操作
-bool Player::GamePadController() {
+bool Player::GamePadController(const float deadZone) {
 	XINPUT_STATE joyState;
 
 	if (input_->GetJoystickState(0, joyState)) {
-		const float deadZone = 0.7f;
 
 		velocity_ = {(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.f, (float)joyState.Gamepad.sThumbLY / SHRT_MAX};
 
@@ -212,7 +245,9 @@ bool Player::GamePadController() {
 // ジョイスティックによる移動
 void Player::JoyStickMove(const float speed) {
 
-	if (this->GamePadController()) {
+	const float deadZone = 0.7f;
+
+	if (this->GamePadController(deadZone) || this->KeyboradController(deadZone)) {
 		isMoving = true;
 	} else {
 		isMoving = false;
@@ -288,17 +323,14 @@ void Player::PartAnimation(float parameter) {
 
 // 通常行動
 void Player::BehaviorRootUpdate() {
-
-	XINPUT_STATE joyState;
-
 	const float speed = 0.3f;
-
 	JoyStickMove(speed);
 	UpdateFloatingGimmick();
+	XINPUT_STATE joyState;
 
-	if (!input_->GetJoystickState(0, joyState)) {
+	// 何も押してなかったら早期リターン
+	if (!input_->GetJoystickState(0, joyState))
 		return;
-	}
 
 	// 攻撃ボタンを押したら
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
