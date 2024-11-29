@@ -3,21 +3,13 @@
 #include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 
-// 前方宣言
+//前方宣言
 class Player;
 
 /// <summary>
 /// ミミックのクラス
 /// </summary>
 class Mimic : public BaseCharacter {
-public: // 列挙型
-	enum class Status {
-		kIdle,
-		kMove,   // 移動
-		kMoveToward,  // 追跡
-		kAttack, // 攻撃
-	};
-
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -47,51 +39,25 @@ public:
 	void Draw() override;
 
 	/// <summary>
-	/// プレイヤーのセッター
-	/// </summary>
-	/// <param name="player"></param>
-	void SetPlayer(Player* player);
-
-private: // メンバ関数
-	/// <summary>
-	/// ターゲットに向かって移動
-	/// </summary>
-	/// <param name="target"></param>
-	void MoveToward();
-
-	/// <summary>
 	/// 攻撃
 	/// </summary>
 	void Attack();
+
+private://メンバ関数
 
 	/// <summary>
 	/// 移動
 	/// </summary>
 	void Move();
 
-	//待機
-	void Idle();
-
 	/// <summary>
-	/// ミミックのステータスを変更
+	/// プレイヤーのセッター
 	/// </summary>
-	void ChangeStatus();
+	/// <param name="player"></param>
+	void SetPlayer(Player*player);
 
-	//向き
-	void Direction();
-
-public: // 静的メンバ変数と関数テーブル
-
-	//敵の移動速度
+public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
-	// 敵の視界範囲
-	static inline const float kChaseRange = 20.0f;
-	// 攻撃範囲
-	static inline const float kAttackRange = 3.0f;
-	// 行動のテーブル
-	static void (Mimic::*ActionModeTable[])();
-	//待機時間のインターバル
-	static inline const float kWaitInterval = 120;
 
 private: // メンバ変数
 	std::unique_ptr<MimicModel> mimicModel_ = nullptr;
@@ -99,18 +65,28 @@ private: // メンバ変数
 	Vector3 center = {};
 	Vector3 velocity_ = {};
 
-	// 攻撃用の変数
+	//攻撃用の変数
 	bool isAttacking = false;
-	//プレイヤー
 	Player* player_ = nullptr;
-	// ステータス
-	int status_ = (int)Status::kMove; 
-	//待機時間
-	float waitTime_ = 0.0f;
-	//待機時の最初のアングルを決定するフラグ
-	bool isSetStartAngle_ = false;
-	//最初のアングル
-	float startAngle_ = 0.0f;
-	//アングルタイマー
-	float angleTimer_ = 0.0f;
+	float yaw_; //横回転用
+	float pitch_; //縦回転用
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="enemy"></param>
+	/// <returns></returns>
+	float CalculateDistance(const Vector3& player, const Vector3& enemy);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="target"></param>
+	void MoveToward(const Vector3& target);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	void Idle();
 };
