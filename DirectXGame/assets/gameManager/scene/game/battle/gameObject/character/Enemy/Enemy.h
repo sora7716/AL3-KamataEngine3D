@@ -50,14 +50,13 @@ private://メンバ関数
 	/// </summary>
 	void Move();
 
-
-public: // 静的メンバ変数
 	/// <summary>
 	/// プレイヤーのセッター
 	/// </summary>
 	/// <param name="player"></param>
 	void SetPlayer(Player*player);
 
+public: // 静的メンバ変数
 	static inline const float kSpeed = 1.0f;
 
 private: // メンバ変数
