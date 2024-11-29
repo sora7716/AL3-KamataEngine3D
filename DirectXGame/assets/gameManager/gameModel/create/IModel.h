@@ -68,17 +68,15 @@ public: // メンバ関数
 	/// サイン波と線形補間を利用したアニメーション
 	/// </summary>
 	/// <param name="mode">イージングのモード</param>
-	/// <param name="scaler">時間を何倍するか</param>
 	/// <returns>角度</returns>
-	float LerpAnimation(const EasingMode& mode, float scaler = 1.0f);
+	float LerpAnimation(const EasingMode& mode);
 
 	/// <summary>
 	/// 三角波と線形補間を利用したアニメーション
 	/// </summary>
 	/// <param name="mode">イージングモード</param>
-	/// <param name="scaler">時間を何倍するか</param>
 	/// <returns>角度</returns>
-	float TriangleLerpAnimation(const EasingMode& mode,float scaler=1.0f);
+	float TriangleLerpAnimation(const EasingMode& mode);
 
 	/// <summary>
 	/// ノコギリ波

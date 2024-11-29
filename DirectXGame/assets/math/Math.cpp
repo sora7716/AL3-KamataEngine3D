@@ -495,3 +495,20 @@ float Math::LerpShortAngle(float a, float b, float t) {
 	// 線形補間を実施
 	return a + diff * t;
 }
+
+//角度の線形補間
+float Math::AngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime) {
+	angleTime += deltaTime;                                                                                                               // 経過時間
+	float param = sin(2.0f * pi_f * angleTime / motionTime);                                                                              // 角度を計算
+	float theta = std::lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)easingMode])((param + 1.0f) / 2.0f)); // 線形補間
+	return radian(theta);
+}
+
+//三角波を使用した角度の線形補間
+float Math::TriangleAngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime) {
+	angleTime += deltaTime;                                                                                                               // 経過時間
+	float param = asin(sin(2.0f * pi_f * angleTime / motionTime));                                                                        // 角度を計算
+	float theta = std::lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)easingMode])((param + 1.0f) / 2.0f)); // 線形補間
+	return radian(theta);
+	0.0f;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "Aithmetic.h"
+#include "easing/Easing.h"
 
 class Math {
 
@@ -316,7 +317,7 @@ public:
 	/// <param name="radius">円運動の半径</param>
 	/// <param name="angularVelocity">移動スピード</param>
 	/// <returns>速度</returns>
-	static Vector3 CircularMoveVeclocityXZ(const Vector2& radius,float angularVelocity = pi_f);
+	static Vector3 CircularMoveVeclocityXZ(const Vector2& radius, float angularVelocity = pi_f);
 
 	/// <summary>
 	/// 振り子の作成
@@ -382,6 +383,29 @@ public:
 	/// <returns>最短角度</returns>
 	static float LerpShortAngle(float a, float b, float t);
 
+	/// <summary>
+	/// 角度の線形補間
+	/// </summary>
+	/// <param name="startAngle">最初のアングル</param>
+	/// <param name="endAngle">最後のアングル</param>
+	/// <param name="easingMode">シージングモード</param>
+	/// <param name="motionTime">周期</param>
+	/// <param name="angleTime">秒</param>
+	/// <returns>角度</returns>
+	static float AngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime);
+
+	/// <summary>
+	/// 三角波を使用した角度の線形補間
+	/// </summary>
+	/// <param name="startAngle">最初のアングル</param>
+	/// <param name="endAngle">最後のアングル</param>
+	/// <param name="easingMode">シージングモード</param>
+	/// <param name="motionTime">周期</param>
+	/// <param name="angleTime">秒</param>
+	/// <returns>角度</returns>
+	static float TriangleAngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime);
+
 public:                                     // 静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
+	int i;
 };

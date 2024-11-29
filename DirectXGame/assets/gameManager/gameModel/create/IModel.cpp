@@ -78,22 +78,16 @@ float IModel::UpdateTriangleGimmick() {
 }
 
 // サイン波と線形補間を利用したアニメーション
-float IModel::LerpAnimation(const EasingMode& mode, float scaler) {
-	float result{};
-	angleTimer_ += deltaTime * scaler;                                                                                                // 経過時間
-	float param = sin(2.0f * pi_f * angleTimer_ / motionTime_);                                                                       // 角度を計算
-	float theta = std::lerp(startAngle_, endAngle_, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])((param + 1.0f) / 2.0f)); // 線形補間
-	result = radian(theta);                                                                                                           // 弧度法に直す
+float IModel::LerpAnimation(const EasingMode& mode) {
+	float result = 0.0f;
+	result = Math::AngleLerp(startAngle_, endAngle_, mode, motionTime_,angleTimer_);
 	return result;
 }
 
 // 三角波と線形補間を利用したアニメーション
-float IModel::TriangleLerpAnimation(const EasingMode& mode, float scaler) {
-	float result{};
-	angleTimer_ += deltaTime * scaler;                                                                                                // 経過時間
-	float param = asin(sin(2.0f * pi_f * angleTimer_ / motionTime_));                                                                 // 角度を計算
-	float theta = std::lerp(startAngle_, endAngle_, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])((param + 1.0f) / 2.0f)); // 線形補間
-	result = radian(theta);                                                                                                           // 弧度法に直す
+float IModel::TriangleLerpAnimation(const EasingMode& mode) {
+	float result = 0.0f;
+	result = Math::TriangleAngleLerp(startAngle_, endAngle_, mode, motionTime_, angleTimer_);
 	return result;
 }
 
