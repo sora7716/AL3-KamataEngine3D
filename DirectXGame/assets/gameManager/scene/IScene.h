@@ -14,7 +14,7 @@
 
 // 自分で作ったもの
 #include "assets/create/Create.h"
-#include "assets/gameObject/camera/RailCamera.h"
+#include "assets/gameObject/camera/FollowCamera.h"
 #include "assets/math/Math.h"
 #include "assets/math/collision/Collision.h"
 

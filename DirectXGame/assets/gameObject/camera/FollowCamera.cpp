@@ -1,4 +1,4 @@
-#include "RailCamera.h"
+#include "FollowCamera.h"
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
 #include "input.h"
