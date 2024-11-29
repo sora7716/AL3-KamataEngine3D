@@ -17,8 +17,9 @@ void HitEffect::Initialize(Model* model, const Vector3& position) {
 	// ワールド変換データの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
+	worldTransform_.scale_ = {0, 0, 0};
 
-	//model_->SetAlpha(0.5f);
+	model_->SetAlpha(0.5f);
 
 	interpolationRate = 0.0f;
 }

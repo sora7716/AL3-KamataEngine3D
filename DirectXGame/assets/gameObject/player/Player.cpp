@@ -76,11 +76,10 @@ void Player::Draw() {
 // 衝突時処理
 void Player::OnCollision([[maybe_unused]] Collider* other) {
 	uint32_t typeID = other->GetTypeID();
-
+	// もし衝突相手のIDがkEnemyであるならば
 	if (typeID == static_cast<uint32_t>(CollisionTypeIdDef::KEnemy)) {
-		// 衝突していれば、ジャンプ行動をリクエストする
+		// ジャンプ行動をリクエストする
 		 behaviorRequest_ = Behavior::kJump;
-		//isHit_ = true;
 	}
 }
 
@@ -143,8 +142,10 @@ void Player::BehaviorAttackInitialize() {
 	// 攻撃の初期化でボディと親子関係を結ぶ
 	if (hammer_) {
 		hammer_->SetParent(this->GetWorldTransform()[kBody]);
-		
 	}
+
+	// ハンマーの接触履歴を抹消する
+	hammer_->ClearContactRecord();
 
 	workAttack_.attackParameter_ = 0;
 
@@ -185,12 +186,7 @@ void Player::InitializeBehavior() {
 	}
 }
 
-void (Player::*Player::behaviorInitializeTable[])(){
-	&Player::BehaviorRootInitialize, 
-	&Player::BehaviorAttackInitialize, 
-	&Player::BehaviorDashInitialize, 
-	&Player::BehaviorJumpInitialize
-};
+
 
 #pragma endregion
 
@@ -401,12 +397,7 @@ void Player::UpdateBehavior() {
 	}
 }
 
-void (Player::*Player::behaviorUpdateTable[])(){
-	&Player::BehaviorRootUpdate, 
-	&Player::BehaviorAttackUpdate, 
-	&Player::BehaviorDashUpdate, 
-	&Player::BehaviorJumpUpdate
-};
+
 
 #pragma endregion
 
@@ -437,3 +428,19 @@ void Player::ApplyGlobalVariables() {
 	amplitube = globalVariables->GetFloatValue(groupName, "FloatingAmplitube");
 	armAngle_ = globalVariables->GetFloatValue(groupName, "idelArmAngleMax");
 }
+
+// ふるまいの初期化メンバ関数ポインタ
+void (Player::*Player::behaviorInitializeTable[])(){
+	&Player::BehaviorRootInitialize, 
+	&Player::BehaviorAttackInitialize, 
+	&Player::BehaviorDashInitialize, 
+	&Player::BehaviorJumpInitialize
+};
+
+// ふるまいの更新メンバ関数ポインタ
+void (Player::*Player::behaviorUpdateTable[])(){
+	&Player::BehaviorRootUpdate, 
+	&Player::BehaviorAttackUpdate, 
+	&Player::BehaviorDashUpdate, 
+	&Player::BehaviorJumpUpdate
+};

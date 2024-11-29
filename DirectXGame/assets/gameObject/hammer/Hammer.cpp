@@ -54,7 +54,6 @@ void Hammer::Draw() {
 			hitEffect->Draw(*viewProjection_);
 		}
 	}
-	hitEffects_.reverse();
 
 	/*モデル(ハンマー)の描画*/
 	model_->Draw(worldTransform_, *viewProjection_); 
@@ -73,11 +72,16 @@ void Hammer::OnCollision([[maybe_unused]] Collider* other) {
 			return;
 		}
 
+		// 接触履歴に登録
+		contactRecord_.AddRecord(serialNumber);
+
 		/*衝突エフェクトの生成*/
 		std::unique_ptr<HitEffect> hitEffect = std::make_unique<HitEffect>();
 		hitEffect = std::make_unique<HitEffect>();
 		hitEffect->Initialize(modelHitEffect_.get(), enemy->GetCenterPosition());
 		hitEffects_.push_back(std::move(hitEffect));
+	} else {
+		return;
 	}
 }
 

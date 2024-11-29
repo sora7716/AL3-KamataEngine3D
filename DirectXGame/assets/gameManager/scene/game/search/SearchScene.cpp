@@ -1,7 +1,5 @@
 #include "SearchScene.h"
 
-
-
 // デストラクタ
 SearchScene::~SearchScene() {}
 
