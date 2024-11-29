@@ -86,6 +86,6 @@ protected: // メンバ変数
 	/// </summary>
 
 	// カメラ
-	std::unique_ptr<RailCamera> railCamera_ = nullptr;
+	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 	WorldTransform cameraWorldTransform_;
 };

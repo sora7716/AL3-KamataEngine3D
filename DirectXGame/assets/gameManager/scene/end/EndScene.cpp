@@ -12,7 +12,7 @@ void EndScene::Update() {
 	DebugCameraMove();
 
 	// カメラの更新
-	railCamera_->Update();
+	followCamera_->Update();
 }
 
 // 描画

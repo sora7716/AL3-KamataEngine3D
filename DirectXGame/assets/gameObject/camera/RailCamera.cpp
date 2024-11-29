@@ -10,13 +10,13 @@
 using namespace ImGui;
 #endif // _DEBUG
 
-void RailCamera::Initialize(ViewProjection* viewprojection) {
+void FollowCamera::Initialize(ViewProjection* viewprojection) {
 	viewProjection_ = viewprojection;
 
 	input_ = Input::GetInstance();
 }
 
-void RailCamera::Update() {
+void FollowCamera::Update() {
 
 	// カメラ補間変数
 	static float cameraLerp = 0.13f;
@@ -35,7 +35,8 @@ void RailCamera::Update() {
 		viewProjection_->rotation_.y = std::atan2(sub.x, sub.z);
 	} else {
 		// ジョイスティックによるカメラの回転
-		RailCamera::JoyStickRotation();
+		FollowCamera::JoyStickRotation();
+		FollowCamera::KeyBoradRotation();
 	}
 
 	// 追従対象からのオフセット
@@ -47,7 +48,7 @@ void RailCamera::Update() {
 	viewProjection_->UpdateViewMatrix();
 }
 
-void RailCamera::Reset() {
+void FollowCamera::Reset() {
 
 	// 追従対象がいれば
 	if (target_) {
@@ -64,12 +65,12 @@ void RailCamera::Reset() {
 	viewProjection_->translation_ = interTarget_ + offset;
 }
 
-void RailCamera::SetTarget(const WorldTransform* target) {
+void FollowCamera::SetTarget(const WorldTransform* target) {
 	target_ = target;
-	RailCamera::Reset();
+	FollowCamera::Reset();
 }
 
-void RailCamera::JoyStickRotation() {
+void FollowCamera::JoyStickRotation() {
 
 	XINPUT_STATE joyState;
 
@@ -80,14 +81,28 @@ void RailCamera::JoyStickRotation() {
 	const float kRotateSpeed = deltaTime;
 
 	viewProjection_->rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRotateSpeed;
-
+	
 	if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB)) {
-		RailCamera::Reset();
+		FollowCamera::Reset();
 	}
 
 };
 
-Vector3 RailCamera::CalcOffset() const {
+void FollowCamera::KeyBoradRotation() {
+	const float rot = 1.0f * deltaTime;
+	float move = 0.0f;
+
+	if (input_->PushKey(DIK_LEFT)) {
+		move = -1.0f;
+	} else if (input_->PushKey(DIK_RIGHT)) {
+		move = 1.0f;
+	}
+
+	move = Math::Normalize(move) * rot;
+	viewProjection_->rotation_.y += move;
+}
+
+Vector3 FollowCamera::CalcOffset() const {
 
 	Vector3 offset = {0.0f, 2.0f, -10.0f};
 

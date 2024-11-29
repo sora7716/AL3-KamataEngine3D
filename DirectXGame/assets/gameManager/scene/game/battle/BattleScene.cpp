@@ -30,7 +30,7 @@ void BattleScene::Update() {
 	DebugCameraMove();
 
 	// カメラの更新
-	railCamera_->Update();
+	followCamera_->Update();
 	//OBB
 	obb_->Update();
 	ImGui::Begin("wireFrame");

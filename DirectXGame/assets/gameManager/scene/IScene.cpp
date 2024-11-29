@@ -29,9 +29,9 @@ IScene::IScene() {
 	create_->TextureCreate();        // テクスチャの生成
 
 	// カメラ
-	railCamera_ = std::make_unique<RailCamera>(); // レールカメラクラスの生成
+	followCamera_ = std::make_unique<FollowCamera>(); // レールカメラクラスの生成
 	cameraWorldTransform_.Initialize();           // カメラのワールドトランスフォームの初期化
-	railCamera_->Initialize(&viewProjection_);    // レールカメラの初期化
+	followCamera_->Initialize(&viewProjection_);    // レールカメラの初期化
 }
 
 // デバックカメラの動き
@@ -50,8 +50,8 @@ void IScene::DebugCameraMove() {
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.matView = railCamera_->GetViewProjection()->matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection()->matProjection;
+		viewProjection_.matView = followCamera_->GetViewProjection()->matView;
+		viewProjection_.matProjection = followCamera_->GetViewProjection()->matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}

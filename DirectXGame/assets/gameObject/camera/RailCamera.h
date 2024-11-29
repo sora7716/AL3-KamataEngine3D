@@ -5,7 +5,7 @@ class Input;
 class Player;
 class LockOn;
 
-class RailCamera {
+class FollowCamera {
 
 public:
 	void Initialize(ViewProjection* viewprojection);
@@ -22,6 +22,8 @@ public:
 
 private:
 	void JoyStickRotation();
+
+	void KeyBoradRotation();
 
 	// オフセット計算
 	Vector3 CalcOffset() const;

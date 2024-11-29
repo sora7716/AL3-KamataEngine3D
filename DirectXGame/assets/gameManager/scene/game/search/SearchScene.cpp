@@ -26,7 +26,7 @@ void SearchScene::Update() {
 		enemy->Update();
 	}
 	// カメラの更新
-	railCamera_->Update();
+	followCamera_->Update();
 	//ロックオンの更新
 	lockOn_->Update(enemies_, viewProjection_);
 	//衝突マネージャの更新
@@ -167,8 +167,8 @@ void SearchScene::InitializeObject() {
 	player_->SetHammer(hammer_.get());
 	
 	// レールカメラ
-	railCamera_->SetTarget(player_->GetWorldTransform()[int(Player::ObjectParts::kBase)]);
-	railCamera_->SetLockOn(lockOn_.get());
+	followCamera_->SetTarget(player_->GetWorldTransform()[int(Player::ObjectParts::kBase)]);
+	followCamera_->SetLockOn(lockOn_.get());
 
 	//衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
