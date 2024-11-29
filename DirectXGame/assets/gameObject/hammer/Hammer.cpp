@@ -22,7 +22,6 @@ void Hammer::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	modelHitEffect_.reset(Model::CreateFromOBJ("effect", true));
 	
-
 }
 
 void Hammer::Update() {

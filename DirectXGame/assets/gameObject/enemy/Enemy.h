@@ -49,9 +49,9 @@ private:
 private: // メンバ変数
 
 	// 速度
-	Vector3 velocity_;
+	Vector3 velocity_ = {};
 
-	float floatingParameter_;
+	float floatingParameter_ = 0;
 
 	// シリアルナンバー
 	int32_t serialNumber_ = 0;
