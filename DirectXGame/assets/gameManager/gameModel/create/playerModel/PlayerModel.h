@@ -113,6 +113,17 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private: // メンバ関数
+	/// <summary>
+	/// 通常行動用
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// 打撃用
+	/// </summary>
+	void BehaviorBlowUpdate();
 };
 
 /// <summary>
@@ -151,6 +162,17 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+private: // メンバ関数
+	/// <summary>
+	/// 通常行動用
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// 打撃用
+	/// </summary>
+	void BehaviorBlowUpdate();
 };
 
 /// <summary>
@@ -164,6 +186,7 @@ public: // 列挙型と静的メンバ変数
 		kHead,
 		kRightArm,
 		kLeftArm,
+		kStaff,
 		kPartsNum,
 	};
 
@@ -183,7 +206,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="models">モデル</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	void Initialize(std::vector<Model*>&& models,ViewProjection* viewProjection);
+	void Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新

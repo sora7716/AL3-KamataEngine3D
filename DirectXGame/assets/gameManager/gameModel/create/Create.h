@@ -31,6 +31,7 @@ public: // 構造体や列挙型
 		kHead,
 		kRightArm,
 		kLeftArm,
+		kStaff,
 		kPlayerNum,
 	};
 	// プレイヤーのモデル
@@ -38,6 +39,7 @@ public: // 構造体や列挙型
 	int typeBody = (int)PlayerParts::kBody;         // 体
 	int typeRightArm = (int)PlayerParts::kRightArm; // 右腕
 	int typeLeftArm = (int)PlayerParts::kLeftArm;   // 左腕
+	int typeStaff = (int)PlayerParts::kStaff;
 	// ミミックのモデル
 	enum class MimicParts { kBox, kLid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
 	// プレイヤーのモデル

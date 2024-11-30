@@ -5,6 +5,8 @@ using namespace std;
 
 //テーブル
 float (Easing::*Easing::EasingTable[])(float frame){
+	//通常
+	&Normal,
     // サイン
     &InSine,
     &OutSine,
@@ -40,6 +42,9 @@ Easing* Easing::GetInstance() {
 	static Easing instance;
 	return &instance;
 }
+
+//通常
+float Easing::Normal(float frame) { return frame; }
 
 // インサイン
 float Easing::InSine(float frame) { return 1 - cosf((frame * float(pi_f) / 2)); }

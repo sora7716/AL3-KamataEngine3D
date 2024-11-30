@@ -9,6 +9,8 @@ class Easing final {
 public: // 列挙型
 	// イージングのモード
 	enum class Mode {
+		//通常
+		kNormal,
 		// サイン
 		kInSine,
 		kOutSine,
@@ -52,6 +54,13 @@ public: // メンバ関数
 
 	// 代入演算子を禁止
 	Easing& operator=(const Easing& easing) = delete;
+
+	/// <summary>
+	/// 通常
+	/// </summary>
+	/// <param name="frame">フレーム</param>
+	/// <returns>イージング</returns>
+	float Normal(float frame);
 
 	/// <summary>
 	/// インサイン

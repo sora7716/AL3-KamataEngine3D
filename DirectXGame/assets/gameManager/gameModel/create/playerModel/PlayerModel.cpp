@@ -1,4 +1,5 @@
 #include "PlayerModel.h"
+#include "assets/gameManager/gameModel/create/staffModel/StaffModel.h"
 
 #pragma region 頭
 // 初期化
@@ -52,8 +53,7 @@ void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void RightArm::Update() {
-	// アニメーションの更新
-	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	BehaviorBlowUpdate();
 	IModel::Update();
 }
 
@@ -62,6 +62,20 @@ void RightArm::DebugText() { IModel::DebugText("rightArm"); }
 
 // 描画
 void RightArm::Draw() { IModel::Draw(); }
+
+//通常行動用
+void RightArm::BehaviorRootUpdate() {
+	// アニメーションの更新
+	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+}
+
+//打撃用
+void RightArm::BehaviorBlowUpdate() {
+	motionTime_ = 1.0f;
+	startAngle_ = 160.0f;
+	endAngle_ = 270.0f;
+	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
+}
 
 #pragma endregion
 
@@ -76,8 +90,7 @@ void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void LeftArm::Update() {
-	// アニメーションの更新
-	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	BehaviorBlowUpdate();
 	IModel::Update();
 }
 
@@ -86,6 +99,20 @@ void LeftArm::DebugText() { IModel::DebugText("leftArm"); }
 
 // 描画
 void LeftArm::Draw() { IModel::Draw(); }
+
+//通常行動用
+void LeftArm::BehaviorRootUpdate() {
+	// アニメーションの更新
+	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+}
+
+//打撃用
+void LeftArm::BehaviorBlowUpdate() {
+	motionTime_ = 1.0f;
+	startAngle_ = 160.0f;
+	endAngle_ = 270.0f;
+	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
+}
 
 #pragma endregion
 
@@ -106,6 +133,7 @@ void PlayerModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewP
 	parts_[(int)Parts::kBody] = new Body();
 	parts_[(int)Parts::kRightArm] = new RightArm();
 	parts_[(int)Parts::kLeftArm] = new LeftArm();
+	parts_[(int)Parts::kStaff] = new StaffModel();
 	// 初期化
 	for (int i = 0; i < (int)Parts::kPartsNum; i++) {
 		assert(models[i]);
@@ -141,6 +169,7 @@ void PlayerModel::SetParent(const WorldTransform* parent) {
 	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 左腕<-体
 	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kStaff]->SetParent(&parts_[(int)Parts::kLeftArm]->GetWorldTransform());
 }
 
 #pragma endregion

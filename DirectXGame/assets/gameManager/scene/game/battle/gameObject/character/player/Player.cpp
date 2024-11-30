@@ -4,6 +4,7 @@
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
 #include "input/Input.h"
+#include "assets/math/easing/Easing.h"
 #include <cassert>
 
 // 初期化
@@ -21,19 +22,8 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-
-	// 移動量に速さを反映
-	if (isMoving_) {
-		move_ = Math::Normalize(move_) * speed_;
-		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
-		move_ = Math::TransformNormal(move_, rotMat);
-		// Y軸周りの角度(θy)
-		goalAngle_ = atan2(move_.x, move_.z);
-		// 移動
-		worldTransform_.translation_ += move_;
-	}
-	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
-	BaseCharacter::Update();//更新
+	BehaviorBlowUpdate();
+	BaseCharacter::Update(); // 更新
 }
 
 // 描画
@@ -87,5 +77,32 @@ void Player::KeyboardControl() {
 		}
 	} else {
 		isMoving_ = false; // 移動をやめた
+	}
+}
+
+// 通常行動用
+void Player::BehaviorRootUpdate() {
+	// 移動量に速さを反映
+	if (isMoving_) {
+		move_ = Math::Normalize(move_) * speed_;
+		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
+		move_ = Math::TransformNormal(move_, rotMat);
+		// Y軸周りの角度(θy)
+		goalAngle_ = atan2(move_.x, move_.z);
+		// 移動
+		worldTransform_.translation_ += move_;
+	}
+	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
+}
+
+// 打撃用
+void Player::BehaviorBlowUpdate() {
+	if (!isBlow_) {
+		isBlow_ = true;
+		blowBeginPos_ = worldTransform_.translation_.z;
+	}
+	worldTransform_.translation_.z = std::lerp(worldTransform_.translation_.z, blowBeginPos_ + 10.0f, 0.1f);
+	if (worldTransform_.translation_.z >= blowBeginPos_ + 10.0f - 0.1f) {
+		isBlow_ = false;
 	}
 }

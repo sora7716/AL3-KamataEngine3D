@@ -61,14 +61,27 @@ public: // メンバ関数
 	/// <returns></returns>
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
+private://メンバ関数
+
+	/// <summary>
+	/// 通常行動用
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// 打撃用
+	/// </summary>
+	void BehaviorBlowUpdate();
+
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;
 	// プレイヤーのモデル
-	std::unique_ptr<PlayerModel> playerModel_ = nullptr;
-
+	std::unique_ptr<PlayerModel> playerModel_ = nullptr;//プレイヤーの体
 	Vector3 move_{};           // 移動量
 	bool isMoving_ = false;    // 移動したかどうかのフラグ
 	const float speed_ = 0.3f; // 速度
 	float goalAngle_ = 0.0f;   // 目標角度
 	float rotateFrame_ = 0.5f; // 回転するフレーム
+	bool isBlow_ = false;//打撃を開始
+	float blowBeginPos_ = 0.0f;//打撃を開始した位置
 };

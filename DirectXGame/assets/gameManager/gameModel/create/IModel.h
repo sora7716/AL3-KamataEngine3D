@@ -14,6 +14,9 @@
 /// </summary>
 class IModel {
 public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	IModel() = default;
 	// 純粋仮想関数
 	virtual ~IModel() = default;
