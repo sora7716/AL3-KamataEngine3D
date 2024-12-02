@@ -3,8 +3,8 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
-#include "input/Input.h"
 #include "assets/math/easing/Easing.h"
+#include "input/Input.h"
 #include <cassert>
 
 // 初期化
@@ -57,6 +57,7 @@ void Player::KeyboardControl() {
 	bool left = Input::GetInstance()->PushKey(DIK_A);
 	bool front = Input::GetInstance()->PushKey(DIK_W);
 	bool back = Input::GetInstance()->PushKey(DIK_S);
+	bool isAttack = Input::GetInstance()->IsTriggerMouse(0);
 	if (right || left || front || back) {
 		isMoving_ = true; // 移動した
 		// 左右移動
@@ -77,6 +78,10 @@ void Player::KeyboardControl() {
 		}
 	} else {
 		isMoving_ = false; // 移動をやめた
+	}
+	if (isAttack && playerModel_->GetActionTimer() <= 0.0f) {
+		playerModel_->SetBehavior(BehaviorMode::kBlow);
+		playerModel_->ActionTimerReset();
 	}
 }
 

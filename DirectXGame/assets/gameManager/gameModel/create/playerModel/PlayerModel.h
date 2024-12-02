@@ -1,6 +1,9 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/IModel.h"
 
+/// <summary>
+/// プレイヤーモデルのインターフェース
+/// </summary>
 class IPlayerModel : public IModel {
 public: // 列挙型
 	enum class Behavior {
@@ -8,21 +11,34 @@ public: // 列挙型
 		kBlow,
 	};
 
-public: //メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// リセット
 	/// </summary>
 	void Reset();
 
 	/// <summary>
-	/// タイマーの設定
+	/// タイマーをリセット
 	/// </summary>
-	void ChangeTime();
+	void ActionTimerReset();
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update();
+	void Update();
+
+	/// <summary>
+	/// ふるまいのセッター
+	/// </summary>
+	/// <param name="behavior">ふるまい</param>
+	void SetBehavior(const Behavior& behavior);
+
+	/// <summary>
+	/// アクションタイマーのゲッター
+	/// </summary>
+	/// <returns>アクションタイマー</returns>
+	float GetActionTimer();
+
 protected: // メンバ関数
 	// 純粋仮想関数
 	virtual void BehaviorRootReset();
@@ -30,20 +46,20 @@ protected: // メンバ関数
 	virtual void BehaviorRootUpdate() = 0;
 	virtual void BehaviorBlowUpdate() = 0;
 	// 関数ポインタの配列
-	//リセット
+	// リセット
 	static void (IPlayerModel::*ResetTable[])();
-	//更新
+	// 更新
 	static void (IPlayerModel::*BehaviorTable[])();
 
-public://静的メンバ変数
-	static inline const float kMaxTimer_ = 30.0f;//時間の上限
-private: // メンバ変数
+public:                                           // 静的メンバ変数
+	static inline const float kMaxTimer_ = 60.0f; // 時間の上限
+private:                                          // メンバ変数
 	// 振る舞い
 	Behavior behavior_ = Behavior::kRoot;
 	// 次の振る舞いリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
-	//切り替えタイマー
-	float changeTimer_ = 0.0f;
+	// アクションタイマー
+	float actionTimer_ = 0.0f;
 };
 /// <summary>
 /// 頭
@@ -85,12 +101,12 @@ public: // メンバ関数
 	/// <summary>
 	/// 通常
 	/// </summary>
-	void BehaviorRootUpdate()override;
+	void BehaviorRootUpdate() override;
 
 	/// <summary>
 	/// 打撃
 	/// </summary>
-	void BehaviorBlowUpdate()override;
+	void BehaviorBlowUpdate() override;
 };
 
 /// <summary>
@@ -181,12 +197,17 @@ public: // メンバ関数
 	/// <summary>
 	/// 通常行動用
 	/// </summary>
-	void BehaviorRootUpdate();
+	void BehaviorRootUpdate() override;
 
 	/// <summary>
 	/// 打撃用
 	/// </summary>
-	void BehaviorBlowUpdate();
+	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// 打撃用の初期化
+	/// </summary>
+	void BehaviorBlowReset() override;
 };
 
 /// <summary>
@@ -235,6 +256,11 @@ public: // メンバ関数
 	/// 打撃用
 	/// </summary>
 	void BehaviorBlowUpdate();
+
+	/// <summary>
+	/// 打撃用の初期化
+	/// </summary>
+	void BehaviorBlowReset() override;
 };
 
 /// <summary>
@@ -286,8 +312,28 @@ public: // メンバ関数
 	/// <param name="worldTransform"></param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// 振る舞いのセッター
+	/// </summary>
+	/// <param name="behavior">振る舞い1</param>
+	void SetBehavior(const IPlayerModel::Behavior& behavior);
+
+	/// <summary>
+	/// モーションの継続時間のリセット
+	/// </summary>
+	void ActionTimerReset();
+
+	/// <summary>
+	/// アクションタイマーのゲッター
+	/// </summary>
+	/// <returns>actionTimer</returns>
+	float GetActionTimer();
+
 public: // メンバ変数
 	std::vector<IPlayerModel*> parts_ = {nullptr};
 
 	WorldTransform worldTransform_;
 };
+
+// Behaviorのモード用のエイリアス
+using BehaviorMode = IPlayerModel::Behavior;
