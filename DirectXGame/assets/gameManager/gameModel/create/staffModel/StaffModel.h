@@ -1,6 +1,7 @@
 #pragma once
-#include "assets/gameManager/gameModel/create/IModel.h"
-class StaffModel : public IModel {
+#include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
+
+class StaffModel : public IPlayerModel {
 public://メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -33,4 +34,14 @@ public://メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+	
+	/// <summary>
+	/// 通常
+	/// </summary>
+	void BehaviorRootUpdate() override;
+
+	/// <summary>
+	/// 打撃
+	/// </summary>
+	void BehaviorBlowUpdate() override;
 };

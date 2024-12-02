@@ -8,6 +8,7 @@
 #include "input/Input.h"
 #include <memory>
 #include <vector>
+#include <optional>
 
 /// <summary>
 /// モデルのインターフェース

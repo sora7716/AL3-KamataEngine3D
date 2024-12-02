@@ -1,10 +1,54 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/IModel.h"
 
+class IPlayerModel : public IModel {
+public: // 列挙型
+	enum class Behavior {
+		kRoot,
+		kBlow,
+	};
+
+public: //メンバ関数
+	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset();
+
+	/// <summary>
+	/// タイマーの設定
+	/// </summary>
+	void ChangeTime();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	virtual void Update();
+protected: // メンバ関数
+	// 純粋仮想関数
+	virtual void BehaviorRootReset();
+	virtual void BehaviorBlowReset();
+	virtual void BehaviorRootUpdate() = 0;
+	virtual void BehaviorBlowUpdate() = 0;
+	// 関数ポインタの配列
+	//リセット
+	static void (IPlayerModel::*ResetTable[])();
+	//更新
+	static void (IPlayerModel::*BehaviorTable[])();
+
+public://静的メンバ変数
+	static inline const float kMaxTimer_ = 30.0f;//時間の上限
+private: // メンバ変数
+	// 振る舞い
+	Behavior behavior_ = Behavior::kRoot;
+	// 次の振る舞いリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+	//切り替えタイマー
+	float changeTimer_ = 0.0f;
+};
 /// <summary>
 /// 頭
 /// </summary>
-class Head : public IModel {
+class Head : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -37,12 +81,22 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 通常
+	/// </summary>
+	void BehaviorRootUpdate()override;
+
+	/// <summary>
+	/// 打撃
+	/// </summary>
+	void BehaviorBlowUpdate()override;
 };
 
 /// <summary>
 /// 体
 /// </summary>
-class Body : public IModel {
+class Body : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -75,12 +129,22 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 通常
+	/// </summary>
+	void BehaviorRootUpdate() override;
+
+	/// <summary>
+	/// 打撃
+	/// </summary>
+	void BehaviorBlowUpdate() override;
 };
 
 /// <summary>
 /// 右腕
 /// </summary>
-class RightArm : public IModel {
+class RightArm : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -114,7 +178,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
-private: // メンバ関数
 	/// <summary>
 	/// 通常行動用
 	/// </summary>
@@ -129,7 +192,7 @@ private: // メンバ関数
 /// <summary>
 /// 左腕
 /// </summary>
-class LeftArm : public IModel {
+class LeftArm : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -163,7 +226,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
-private: // メンバ関数
 	/// <summary>
 	/// 通常行動用
 	/// </summary>
@@ -225,5 +287,7 @@ public: // メンバ関数
 	void SetParent(const WorldTransform* parent);
 
 public: // メンバ変数
-	std::vector<IModel*> parts_ = {nullptr};
+	std::vector<IPlayerModel*> parts_ = {nullptr};
+
+	WorldTransform worldTransform_;
 };

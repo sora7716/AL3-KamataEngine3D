@@ -110,4 +110,5 @@ const WorldTransform& IModel::GetWorldTransform() {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
+
 #pragma endregion
