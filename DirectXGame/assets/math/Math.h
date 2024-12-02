@@ -187,14 +187,14 @@ public:
 	/// </summary>
 	/// <param name="v">vector</param>
 	/// <returns></returns>
-	static float Length(const Vector3& v);
+	static float Norm(const Vector3& v);
 
 	/// <summary>
 	/// ノルム(float)
 	/// </summary>
 	/// <param name="num">数字</param>
 	/// <returns></returns>
-	static float Length(float num);
+	static float Norm(float num);
 
 	/// <summary>
 	/// 正規化vector

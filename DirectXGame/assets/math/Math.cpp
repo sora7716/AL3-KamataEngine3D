@@ -147,7 +147,7 @@ float Math::Dot(const Vector3& v1, const Vector3& v2) {
 }
 
 // ノルム
-float Math::Length(const Vector3& v) {
+float Math::Norm(const Vector3& v) {
 	Vector3 result = {};
 	result = v * v;
 	float length = sqrtf(result.x + result.y + result.z);
@@ -155,11 +155,11 @@ float Math::Length(const Vector3& v) {
 }
 
 // ノルム
-float Math::Length(float num) { return sqrtf((float)pow(num, 2)); }
+float Math::Norm(float num) { return sqrtf((float)pow(num, 2)); }
 
 // 単位ベクトル
 Vector3 Math::Normalize(const Vector3& v) {
-	float len = Length(v);
+	float len = Norm(v);
 	Vector3 result{};
 	result = v / len;
 	return result;
@@ -233,8 +233,8 @@ Vector3 Math::SLerp(const Vector3& v1, const Vector3& v2, float t) {
 	}
 
 	// ベクトルの長さはv1とv2の長さを線形補間
-	float length1 = Length(v1);
-	float length2 = Length(v2);
+	float length1 = Norm(v1);
+	float length2 = Norm(v2);
 	// Lerpで補間ベクトルの長さを求める
 	float length = lerp(length1, length2, t);
 
@@ -332,7 +332,7 @@ void Math::Hooklaw(const Spring& spring, Ball& ball, bool isGravityOn) {
 		ball.acceleration += kGravity;
 	}
 	Vector3 diff = ball.position - spring.anchor;
-	float length = Length(diff);
+	float length = Norm(diff);
 	if (length != 0.0f) {
 		Vector3 direction = Normalize(diff);
 		Vector3 restPosition = spring.anchor + direction * spring.naturalLength;           // 止まる位置
@@ -434,7 +434,7 @@ void Math::Reflection(Vector3& ballVelocity, const Vector3 normal, float reflect
 Vector3 Math::AirResistance(const Ball& ball, float k) {
 	Vector3 result{};
 	// 速度の大きさ（ノルム）を計算
-	float speed = Math::Length(ball.velocity);
+	float speed = Math::Norm(ball.velocity);
 
 	// 速度がゼロでない場合のみ空気抵抗を計算
 	if (speed > 0.0f) {
@@ -456,7 +456,7 @@ Vector3 Math::Friction(const Ball& ball, float miu) {
 	// 動いていたら
 	if (abs(ball.velocity.x) > 0.01f || abs(ball.velocity.y) > 0.01f || abs(ball.velocity.z) > 0.01f) {
 		// 摩擦力の大きさを計算
-		float magnitude = miu * Math::Length(-ball.mass * kGravity.y);
+		float magnitude = miu * Math::Norm(-ball.mass * kGravity.y);
 
 		// 摩擦力の向き（速度の逆方向）
 		Vector3 direction = Normalize(-ball.velocity);

@@ -97,7 +97,7 @@ void Mimic::Idle() {
 // ミミックのステータスを変更
 void Mimic::ChangeStatus() {
 	// 敵とプレイヤーの距離
-	float distance = Math::Length(player_->GetPosition() - worldTransform_.translation_);
+	float distance = Math::Norm(player_->GetPosition() - worldTransform_.translation_);
 
 	if (distance <= kAttackRange) {
 		status_ = (int)Status::kAttack;

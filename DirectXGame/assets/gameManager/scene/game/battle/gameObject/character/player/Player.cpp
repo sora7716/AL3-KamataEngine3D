@@ -43,7 +43,7 @@ void Player::GamepadControl() {
 		isMoving_ = false;                      // 移動してない
 		// 移動量
 		move_ = {(float)joyState.Gamepad.sThumbLX, 0.0f, (float)joyState.Gamepad.sThumbLY};
-		if (Math::Length(move_) > deadZone) {
+		if (Math::Norm(move_) > deadZone) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
