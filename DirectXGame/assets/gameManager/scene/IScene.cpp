@@ -63,7 +63,7 @@ void IScene::DebugCameraMove() {
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
-	if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
+	/*if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
 		isFinished_ = true;
-	}
+	}*/
 }

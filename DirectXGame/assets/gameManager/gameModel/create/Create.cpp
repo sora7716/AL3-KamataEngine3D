@@ -32,7 +32,7 @@ void Create::ModelCreate() {
 	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
 	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
 	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
-	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));//杖
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("LowerHalfStaff", true));//杖
 
 	//ミミックのモデル
 	mimicModels_.resize((int)MimicParts::kPartsNum);//サイズの設定
