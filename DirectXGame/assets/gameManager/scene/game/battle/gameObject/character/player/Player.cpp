@@ -22,7 +22,7 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-	BehaviorBlowUpdate();
+	BehaviorRootUpdate();
 	BaseCharacter::Update(); // 更新
 }
 

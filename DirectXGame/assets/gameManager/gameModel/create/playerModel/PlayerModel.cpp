@@ -53,7 +53,7 @@ void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void RightArm::Update() {
-	BehaviorBlowUpdate();
+	BehaviorRootUpdate();
 	IModel::Update();
 }
 
@@ -90,7 +90,7 @@ void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
 
 // 更新
 void LeftArm::Update() {
-	BehaviorBlowUpdate();
+	BehaviorRootUpdate();
 	IModel::Update();
 }
 
