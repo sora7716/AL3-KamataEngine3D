@@ -16,6 +16,8 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
+	// プレイヤーのセッター
+	playerModel_->SetPlayer(this);
 }
 
 // 更新
@@ -37,16 +39,25 @@ void Player::SetViewProjection(const ViewProjection* viewProjection) { direction
 
 // ゲームパッドの操作
 void Player::GamepadControl() {
-	XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	if (Input::GetInstance()->GetJoystickState(0, joyState_) && Input::GetInstance()->GetJoystickStatePrevious(0, preJoyState_)) {
+		// 移動
 		const float deadZone = 0.7f * SHRT_MAX; // デッドソーン
 		isMoving_ = false;                      // 移動してない
 		// 移動量
-		move_ = {(float)joyState.Gamepad.sThumbLX, 0.0f, (float)joyState.Gamepad.sThumbLY};
+		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
 		if (Math::Norm(move_) > deadZone) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
+		}
+		// 攻撃
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && playerModel_->GetActionTimer() <= 0.0f) {
+			playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+			playerModel_->SetActionTime((float)kBlowTime);
+		}
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			playerModel_->SetActionTime((float)kBehaviorDashTime);
+			playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
 		}
 	}
 }
@@ -80,25 +91,22 @@ void Player::KeyboardControl() {
 		isMoving_ = false; // 移動をやめた
 	}
 	if (isAttack && playerModel_->GetActionTimer() <= 0.0f) {
-		playerModel_->SetBehavior(BehaviorMode::kBlow);
-		playerModel_->ActionTimerReset();
+		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+		playerModel_->SetActionTime((float)kBlowTime);
 	}
 }
 
-// 通常行動用
-void Player::BehaviorRootUpdate() {
-	// 移動量に速さを反映
-	if (isMoving_) {
-		move_ = Math::Normalize(move_) * speed_;
-		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
-		move_ = Math::TransformNormal(move_, rotMat);
-		// Y軸周りの角度(θy)
-		goalAngle_ = atan2(move_.x, move_.z);
-		// 移動
-		worldTransform_.translation_ += move_;
-	}
-	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
+// ダッシュの初期化
+void Player::BehaviorDashInitialize() {
+	isMoving_ = true;
+	worldTransform_.rotation_.y = goalAngle_; 
 }
+
+// ダッシュの更新
+void Player::BehaviorDashUpdate() { Moving(kSpeed_ * 2.0f); }
+
+// 通常行動用
+void Player::BehaviorRootUpdate() { Moving(kSpeed_); }
 
 // 打撃用
 void Player::BehaviorBlowUpdate() {
@@ -110,4 +118,19 @@ void Player::BehaviorBlowUpdate() {
 	if (worldTransform_.translation_.z >= blowBeginPos_ + 10.0f - 0.1f) {
 		isBlow_ = false;
 	}
+}
+
+// 移動
+void Player::Moving(float speed) {
+	// 移動量に速さを反映
+	if (isMoving_) {
+		move_ = Math::Normalize(move_) * speed;
+		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
+		move_ = Math::TransformNormal(move_, rotMat);
+		// Y軸周りの角度(θy)
+		goalAngle_ = atan2(move_.x, move_.z);
+		// 移動
+		worldTransform_.translation_ += move_;
+	}
+	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 }

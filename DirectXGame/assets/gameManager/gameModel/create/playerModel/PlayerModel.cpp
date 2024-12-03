@@ -1,5 +1,6 @@
 #include "PlayerModel.h"
 #include "assets/gameManager/gameModel/create/staffModel/StaffModel.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 
 #pragma region プレイヤーのモデルインターフェース
 // メンバ関数
@@ -19,8 +20,12 @@ void IPlayerModel::Reset() {
 	if (behaviorRequest_) {
 		// 振る舞いを変更
 		behavior_ = behaviorRequest_.value();
-		// 更新
-		(this->*ResetTable[(int)behavior_])();
+		if (behavior_ != Behavior::kDash) {
+			// 更新
+			(this->*ResetTable[(int)behavior_])();
+		} else {
+			player_->BehaviorDashInitialize();
+		}
 		// 振る舞いをリセット
 		behaviorRequest_ = std::nullopt;
 	}
@@ -34,24 +39,33 @@ void IPlayerModel::Reset() {
 }
 
 // タイマーをリセット
-void IPlayerModel::ActionTimerReset() {
+void IPlayerModel::SetActionTimer(float actionTime) {
 	// 切り替えタイマーの設定
-	actionTimer_ = kMaxTimer_;
+	actionTimer_ = actionTime;
 }
 
 // 更新
 void IPlayerModel::Update() {
-	//リセット
+	// リセット
 	Reset();
 	// 更新
-	(this->*BehaviorTable[(int)behavior_])();
+	if (behavior_ != Behavior::kDash) {
+		(this->*BehaviorTable[(int)behavior_])();
+	} else {
+		player_->BehaviorDashUpdate();
+	}
 }
 
 // ふるまいのセッター
-void IPlayerModel::SetBehavior(const Behavior& behavior) { behaviorRequest_ = behavior; }
+void IPlayerModel::SetBehaviorRequest(const Behavior& behavior) { behaviorRequest_ = behavior; }
 
-//アクションタイマーのゲッター
+// ふるまいのゲッター
+BehaviorMode IPlayerModel::GetBehavior() { return behavior_; }
+
+// アクションタイマーのゲッター
 float IPlayerModel::GetActionTimer() { return actionTimer_; }
+
+void IPlayerModel::SetPlayer(Player* player) { player_ = player; }
 
 // 通常時の初期化
 void IPlayerModel::BehaviorRootReset() {
@@ -285,20 +299,27 @@ void PlayerModel::SetParent(const WorldTransform* parent) {
 }
 
 // 振る舞いのセッター
-void PlayerModel::SetBehavior(const IPlayerModel::Behavior& behavior) {
+void PlayerModel::SetBehaviorRequest(const IPlayerModel::Behavior& behavior) {
 	for (int i = 0; i < parts_.size(); i++) {
-		parts_[i]->SetBehavior(behavior);
+		parts_[i]->SetBehaviorRequest(behavior);
 	}
 }
 
 // モーションの継続時間のリセット
-void PlayerModel::ActionTimerReset() {
+void PlayerModel::SetActionTime(float actionTime) {
 	for (int i = 0; i < parts_.size(); i++) {
-		parts_[i]->ActionTimerReset();
+		parts_[i]->SetActionTimer(actionTime);
 	}
 }
 
-//アクションタイマーのゲッター
+// アクションタイマーのゲッター
 float PlayerModel::GetActionTimer() { return parts_[(int)Parts::kBody]->GetActionTimer(); }
+
+//プレイヤーのセッター
+void PlayerModel::SetPlayer(Player* player) {
+	for (int i = 0; i < parts_.size(); i++) {
+		parts_[i]->SetPlayer(player);
+	}
+}
 
 #pragma endregion

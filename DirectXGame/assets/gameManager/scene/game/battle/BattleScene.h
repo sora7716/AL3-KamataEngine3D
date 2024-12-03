@@ -1,6 +1,6 @@
 #pragma once
 // シーン
-#include "assets/gameManager/controller/Controller.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
 
 // ゲームモデル

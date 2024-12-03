@@ -1,15 +1,25 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/IModel.h"
 
+// 前方宣言
+class Player;
+
 /// <summary>
 /// プレイヤーモデルのインターフェース
 /// </summary>
 class IPlayerModel : public IModel {
 public: // 列挙型
 	enum class Behavior {
-		kRoot,
-		kBlow,
+		kRoot, // 通常
+		kBlow, // 打撃
+		kDash, // ダッシュ
 	};
+
+	// ダッシュ用ワーク
+	typedef struct WorkDash {
+		// ダッシュ用の媒介変数
+		uint32_t dashParameter_ = 0;
+	} WorkDash;
 
 public: // メンバ関数
 	/// <summary>
@@ -18,9 +28,9 @@ public: // メンバ関数
 	void Reset();
 
 	/// <summary>
-	/// タイマーをリセット
+	/// 行動タイマーのセッター
 	/// </summary>
-	void ActionTimerReset();
+	void SetActionTimer(float actionTime);
 
 	/// <summary>
 	/// 更新
@@ -31,13 +41,25 @@ public: // メンバ関数
 	/// ふるまいのセッター
 	/// </summary>
 	/// <param name="behavior">ふるまい</param>
-	void SetBehavior(const Behavior& behavior);
+	void SetBehaviorRequest(const Behavior& behavior);
+
+	/// <summary>
+	/// ふるまいのゲッター
+	/// </summary>
+	/// <returns>ふるまい</returns>
+	Behavior GetBehavior();
 
 	/// <summary>
 	/// アクションタイマーのゲッター
 	/// </summary>
 	/// <returns>アクションタイマー</returns>
 	float GetActionTimer();
+
+	/// <summary>
+	/// プレイヤーのセッター
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void SetPlayer(Player* player);
 
 protected: // メンバ関数
 	// 純粋仮想関数
@@ -50,17 +72,18 @@ protected: // メンバ関数
 	static void (IPlayerModel::*ResetTable[])();
 	// 更新
 	static void (IPlayerModel::*BehaviorTable[])();
-
-public:                                           // 静的メンバ変数
-	static inline const float kMaxTimer_ = 60.0f; // 時間の上限
-private:                                          // メンバ変数
+private: // メンバ変数
 	// 振る舞い
 	Behavior behavior_ = Behavior::kRoot;
 	// 次の振る舞いリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 	// アクションタイマー
 	float actionTimer_ = 0.0f;
+
+	//プレイヤーのセッター
+	Player* player_ = nullptr;
 };
+
 /// <summary>
 /// 頭
 /// </summary>
@@ -316,18 +339,24 @@ public: // メンバ関数
 	/// 振る舞いのセッター
 	/// </summary>
 	/// <param name="behavior">振る舞い1</param>
-	void SetBehavior(const IPlayerModel::Behavior& behavior);
+	void SetBehaviorRequest(const IPlayerModel::Behavior& behavior);
 
 	/// <summary>
 	/// モーションの継続時間のリセット
 	/// </summary>
-	void ActionTimerReset();
+	void SetActionTime(float actionTime);
 
 	/// <summary>
 	/// アクションタイマーのゲッター
 	/// </summary>
 	/// <returns>actionTimer</returns>
 	float GetActionTimer();
+
+	/// <summary>
+	/// プレイヤーのセッター
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void SetPlayer(Player* player);
 
 public: // メンバ変数
 	std::vector<IPlayerModel*> parts_ = {nullptr};
