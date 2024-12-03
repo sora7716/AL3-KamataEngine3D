@@ -99,7 +99,8 @@ void Player::KeyboardControl() {
 // ダッシュの初期化
 void Player::BehaviorDashInitialize() {
 	isMoving_ = true;
-	worldTransform_.rotation_.y = goalAngle_; 
+	move_ = {1, 0, 1};
+	worldTransform_.rotation_.y = rotateFrame_; 
 }
 
 // ダッシュの更新
