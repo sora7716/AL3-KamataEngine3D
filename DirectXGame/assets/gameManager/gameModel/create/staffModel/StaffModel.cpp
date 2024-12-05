@@ -26,3 +26,6 @@ void StaffModel::BehaviorRootUpdate() {
 
 //打撃
 void StaffModel::BehaviorBlowUpdate() { worldTransform_.scale_ = {1.0f, 1.0f, 1.0f}; }
+
+//ダッシュ
+void StaffModel::BehaviorDashUpdate() { worldTransform_.scale_ = {0.0f, 0.0f, 0.0f}; }

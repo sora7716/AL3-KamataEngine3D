@@ -1,9 +1,6 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/IModel.h"
 
-// 前方宣言
-class Player;
-
 /// <summary>
 /// プレイヤーモデルのインターフェース
 /// </summary>
@@ -14,12 +11,6 @@ public: // 列挙型
 		kBlow, // 打撃
 		kDash, // ダッシュ
 	};
-
-	// ダッシュ用ワーク
-	typedef struct WorkDash {
-		// ダッシュ用の媒介変数
-		uint32_t dashParameter_ = 0;
-	} WorkDash;
 
 public: // メンバ関数
 	/// <summary>
@@ -55,23 +46,32 @@ public: // メンバ関数
 	/// <returns>アクションタイマー</returns>
 	float GetActionTimer();
 
-	/// <summary>
-	/// プレイヤーのセッター
-	/// </summary>
-	/// <param name="player">プレイヤー</param>
-	void SetPlayer(Player* player);
-
 protected: // メンバ関数
-	// 純粋仮想関数
+	/// <summary>
+	/// 通常時の初期化
+	/// </summary>
 	virtual void BehaviorRootReset();
+
+	/// <summary>
+	/// 打撃時の初期化
+	/// </summary>
 	virtual void BehaviorBlowReset();
+
+	/// <summary>
+	/// ダッシュ時の初期化
+	/// </summary>
+	virtual void BehaviorDashReset();
+
+	// 純粋仮想関数
 	virtual void BehaviorRootUpdate() = 0;
 	virtual void BehaviorBlowUpdate() = 0;
+	virtual void BehaviorDashUpdate() = 0;
 	// 関数ポインタの配列
 	// リセット
 	static void (IPlayerModel::*ResetTable[])();
 	// 更新
 	static void (IPlayerModel::*BehaviorTable[])();
+
 private: // メンバ変数
 	// 振る舞い
 	Behavior behavior_ = Behavior::kRoot;
@@ -79,9 +79,6 @@ private: // メンバ変数
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 	// アクションタイマー
 	float actionTimer_ = 0.0f;
-
-	//プレイヤーのセッター
-	Player* player_ = nullptr;
 };
 
 /// <summary>
@@ -130,6 +127,11 @@ public: // メンバ関数
 	/// 打撃
 	/// </summary>
 	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -178,6 +180,11 @@ public: // メンバ関数
 	/// 打撃
 	/// </summary>
 	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -218,12 +225,12 @@ public: // メンバ関数
 	void Draw() override;
 
 	/// <summary>
-	/// 通常行動用
+	/// 通常行動の更新
 	/// </summary>
 	void BehaviorRootUpdate() override;
 
 	/// <summary>
-	/// 打撃用
+	/// 打撃の更新
 	/// </summary>
 	void BehaviorBlowUpdate() override;
 
@@ -231,6 +238,11 @@ public: // メンバ関数
 	/// 打撃用の初期化
 	/// </summary>
 	void BehaviorBlowReset() override;
+
+	/// <summary>
+	/// ダッシュの更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -273,17 +285,22 @@ public: // メンバ関数
 	/// <summary>
 	/// 通常行動用
 	/// </summary>
-	void BehaviorRootUpdate();
+	void BehaviorRootUpdate()override;
 
 	/// <summary>
 	/// 打撃用
 	/// </summary>
-	void BehaviorBlowUpdate();
+	void BehaviorBlowUpdate()override;
 
 	/// <summary>
 	/// 打撃用の初期化
 	/// </summary>
 	void BehaviorBlowReset() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -342,6 +359,12 @@ public: // メンバ関数
 	void SetBehaviorRequest(const IPlayerModel::Behavior& behavior);
 
 	/// <summary>
+	/// ふるまいのゲッター
+	/// </summary>
+	/// <returns></returns>
+	IPlayerModel::Behavior GetBehavior();
+
+	/// <summary>
 	/// モーションの継続時間のリセット
 	/// </summary>
 	void SetActionTime(float actionTime);
@@ -351,12 +374,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>actionTimer</returns>
 	float GetActionTimer();
-
-	/// <summary>
-	/// プレイヤーのセッター
-	/// </summary>
-	/// <param name="player">プレイヤー</param>
-	void SetPlayer(Player* player);
 
 public: // メンバ変数
 	std::vector<IPlayerModel*> parts_ = {nullptr};

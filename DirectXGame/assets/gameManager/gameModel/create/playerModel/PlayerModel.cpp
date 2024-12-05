@@ -1,18 +1,19 @@
 #include "PlayerModel.h"
 #include "assets/gameManager/gameModel/create/staffModel/StaffModel.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 
 #pragma region プレイヤーのモデルインターフェース
 // メンバ関数
 // リセット
 void (IPlayerModel::*IPlayerModel::ResetTable[])(){
-    &BehaviorRootReset,
-    &BehaviorBlowReset,
+	&BehaviorRootReset, 
+	&BehaviorBlowReset, 
+	&BehaviorDashReset
 };
 // 更新
 void (IPlayerModel::*IPlayerModel::BehaviorTable[])() = {
     &BehaviorRootUpdate,
     &BehaviorBlowUpdate,
+    &BehaviorDashUpdate,
 };
 
 // リセット
@@ -20,12 +21,8 @@ void IPlayerModel::Reset() {
 	if (behaviorRequest_) {
 		// 振る舞いを変更
 		behavior_ = behaviorRequest_.value();
-		if (behavior_ != Behavior::kDash) {
-			// 更新
-			(this->*ResetTable[(int)behavior_])();
-		} else {
-			player_->BehaviorDashInitialize();
-		}
+		// 更新
+		(this->*ResetTable[(int)behavior_])();
 		// 振る舞いをリセット
 		behaviorRequest_ = std::nullopt;
 	}
@@ -49,11 +46,7 @@ void IPlayerModel::Update() {
 	// リセット
 	Reset();
 	// 更新
-	if (behavior_ != Behavior::kDash) {
-		(this->*BehaviorTable[(int)behavior_])();
-	} else {
-		player_->BehaviorDashUpdate();
-	}
+	(this->*BehaviorTable[(int)behavior_])();
 }
 
 // ふるまいのセッター
@@ -64,8 +57,6 @@ BehaviorMode IPlayerModel::GetBehavior() { return behavior_; }
 
 // アクションタイマーのゲッター
 float IPlayerModel::GetActionTimer() { return actionTimer_; }
-
-void IPlayerModel::SetPlayer(Player* player) { player_ = player; }
 
 // 通常時の初期化
 void IPlayerModel::BehaviorRootReset() {
@@ -86,6 +77,9 @@ void IPlayerModel::BehaviorBlowReset() {
 	// サイクル(どれくらいの感覚で動くか)
 	cycle_ = 1;
 }
+//ダッシュ時の初期化
+void IPlayerModel::BehaviorDashReset() {}
+
 #pragma endregion
 
 #pragma region 頭
@@ -115,6 +109,9 @@ void Head::BehaviorRootUpdate() {}
 // 打撃
 void Head::BehaviorBlowUpdate() {}
 
+//ダッシュ
+void Head::BehaviorDashUpdate() {}
+
 #pragma endregion
 
 #pragma region 体
@@ -141,10 +138,22 @@ void Body::DebugText() { IModel::DebugText("body"); }
 void Body::Draw() { IModel::Draw(); }
 
 // 通常
-void Body::BehaviorRootUpdate() { worldTransform_.translation_.y = UpdateFloatingGimmick(); }
+void Body::BehaviorRootUpdate() {
+	worldTransform_.rotation_ = {};
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
+}
 
 // 打撃
-void Body::BehaviorBlowUpdate() { worldTransform_.translation_.y = UpdateFloatingGimmick(); }
+void Body::BehaviorBlowUpdate() {
+	worldTransform_.rotation_ = {};
+	worldTransform_.translation_.y = UpdateFloatingGimmick(); 
+}
+
+//ダッシュ
+void Body::BehaviorDashUpdate() { 
+	worldTransform_.rotation_.x = 0.4f;
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
+}
 
 #pragma endregion
 
@@ -191,6 +200,14 @@ void RightArm::BehaviorBlowReset() {
 	angleTimer_ = 0.0f;
 }
 
+//ダッシュ
+void RightArm::BehaviorDashUpdate() {
+	motionTime_ = 1.0f;
+	startAngle_ = 90.0f;
+	endAngle_ = 45.0f;
+	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
+}
+
 #pragma endregion
 
 #pragma region 左腕
@@ -234,6 +251,14 @@ void LeftArm::BehaviorBlowUpdate() {
 void LeftArm::BehaviorBlowReset() {
 	IPlayerModel::BehaviorBlowReset();
 	angleTimer_ = 0.0f;
+}
+
+//ダッシュ
+void LeftArm::BehaviorDashUpdate() {
+	motionTime_ = 1.0f;
+	startAngle_ = 90.0f;
+	endAngle_ = 45.0f;
+	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
 }
 
 #pragma endregion
@@ -305,6 +330,11 @@ void PlayerModel::SetBehaviorRequest(const IPlayerModel::Behavior& behavior) {
 	}
 }
 
+//ふるまいのゲッター
+IPlayerModel::Behavior PlayerModel::GetBehavior() {
+	return parts_[(int)Parts::kBody]->GetBehavior();
+}
+
 // モーションの継続時間のリセット
 void PlayerModel::SetActionTime(float actionTime) {
 	for (int i = 0; i < parts_.size(); i++) {
@@ -315,11 +345,5 @@ void PlayerModel::SetActionTime(float actionTime) {
 // アクションタイマーのゲッター
 float PlayerModel::GetActionTimer() { return parts_[(int)Parts::kBody]->GetActionTimer(); }
 
-//プレイヤーのセッター
-void PlayerModel::SetPlayer(Player* player) {
-	for (int i = 0; i < parts_.size(); i++) {
-		parts_[i]->SetPlayer(player);
-	}
-}
 
 #pragma endregion

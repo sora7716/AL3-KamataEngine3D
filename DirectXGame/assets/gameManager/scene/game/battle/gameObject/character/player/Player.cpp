@@ -16,15 +16,17 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
-	// プレイヤーのセッター
-	playerModel_->SetPlayer(this);
 }
 
 // 更新
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-	BehaviorRootUpdate();
+	if (playerModel_->GetBehavior() != BehaviorMode::kDash) {
+		BehaviorRootUpdate();
+	} else {
+		BehaviorDashUpdate();
+	}
 	BaseCharacter::Update(); // 更新
 }
 
@@ -56,8 +58,9 @@ void Player::GamepadControl() {
 			playerModel_->SetActionTime((float)kBlowTime);
 		}
 		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			playerModel_->SetActionTime((float)kBehaviorDashTime);
-			playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
+			BehaviorDashInitialize();
+		} else {
+			speed_ = kSpeed_;
 		}
 	}
 }
@@ -69,6 +72,7 @@ void Player::KeyboardControl() {
 	bool front = Input::GetInstance()->PushKey(DIK_W);
 	bool back = Input::GetInstance()->PushKey(DIK_S);
 	bool isAttack = Input::GetInstance()->IsTriggerMouse(0);
+	bool isDash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
 	if (right || left || front || back) {
 		isMoving_ = true; // 移動した
 		// 左右移動
@@ -94,20 +98,27 @@ void Player::KeyboardControl() {
 		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
 		playerModel_->SetActionTime((float)kBlowTime);
 	}
+	if (isDash) {
+		BehaviorDashInitialize();
+	}
 }
 
 // ダッシュの初期化
 void Player::BehaviorDashInitialize() {
 	isMoving_ = true;
-	move_ = {1, 0, 1};
-	worldTransform_.rotation_.y = rotateFrame_; 
+	worldTransform_.rotation_.y = goalAngle_;
+	playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
+	playerModel_->SetActionTime((float)kBehaviorDashTime);
+	isMoving_ = true;
+	move_ = {0, 0, 1.0f};
+	speed_ = 3.0f / speedScaler_;
 }
 
 // ダッシュの更新
-void Player::BehaviorDashUpdate() { Moving(kSpeed_ * 2.0f); }
+void Player::BehaviorDashUpdate() { Moving(speed_ * speedScaler_); }
 
 // 通常行動用
-void Player::BehaviorRootUpdate() { Moving(kSpeed_); }
+void Player::BehaviorRootUpdate() { Moving(speed_); }
 
 // 打撃用
 void Player::BehaviorBlowUpdate() {
@@ -116,9 +127,6 @@ void Player::BehaviorBlowUpdate() {
 		blowBeginPos_ = worldTransform_.translation_.z;
 	}
 	worldTransform_.translation_.z = std::lerp(worldTransform_.translation_.z, blowBeginPos_ + 10.0f, 0.1f);
-	if (worldTransform_.translation_.z >= blowBeginPos_ + 10.0f - 0.1f) {
-		isBlow_ = false;
-	}
 }
 
 // 移動

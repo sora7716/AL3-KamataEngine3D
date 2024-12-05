@@ -44,4 +44,9 @@ public://メンバ関数
 	/// 打撃
 	/// </summary>
 	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
