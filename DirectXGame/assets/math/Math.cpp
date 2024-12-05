@@ -513,9 +513,16 @@ float Math::TriangleAngleLerp(float startAngle, float endAngle, EasingMode easin
 	0.0f;
 }
 
-// 角度の線形補間(sin波)
-float Math::ThetaLerp(float startAngle, float endAngle, EasingMode mode, float motionTime, float frame) {
+//  線形補間(周期的にくり返すfloat)
+float Math::Lerp(float startAngle, float endAngle, EasingMode mode, float motionTime, float frame) {
 	float param = sin(frame / motionTime);
 	float theta = std::lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])(param));
+	return radian(theta);
+}
+
+//  線形補間(周期的にくり返すVector3)
+Vector3 Math::Lerp(Vector3 startAngle, Vector3 endAngle, EasingMode mode, float motionTime, float frame) {
+	float param = sin(frame / motionTime);
+	Vector3 theta = Lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])(param));
 	return radian(theta);
 }

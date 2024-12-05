@@ -53,15 +53,14 @@ void Player::GamepadControl() {
 		isMoving_ = false;                      // 移動してない
 		// 移動量
 		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
-		if (Math::Norm(move_) > deadZone) {
+		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
 		}
 		// 攻撃
 		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
-			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || 
-				playerModel_->GetBehavior() != BehaviorMode::kBlow) {
+			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
 				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
 				playerModel_->SetActionTime((float)kBlowTime);
 			}
@@ -80,9 +79,10 @@ void Player::KeyboardControl() {
 	bool left = Input::GetInstance()->PushKey(DIK_A);
 	bool front = Input::GetInstance()->PushKey(DIK_W);
 	bool back = Input::GetInstance()->PushKey(DIK_S);
-	bool isAttack = Input::GetInstance()->IsTriggerMouse(0);
-	bool isDash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
-	if (right || left || front || back) {
+	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
+//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
+	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
+	if ((right || left || front || back)) {
 		isMoving_ = true; // 移動した
 		// 左右移動
 		if (right) {
@@ -103,11 +103,11 @@ void Player::KeyboardControl() {
 	} else {
 		isMoving_ = false; // 移動をやめた
 	}
-	if (isAttack && playerModel_->GetActionTimer() <= 0.0f) {
+	if (attack) {
 		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
 		playerModel_->SetActionTime((float)kBlowTime);
 	}
-	if (isDash) {
+	if (dash) {
 		BehaviorDashInitialize();
 	}
 }

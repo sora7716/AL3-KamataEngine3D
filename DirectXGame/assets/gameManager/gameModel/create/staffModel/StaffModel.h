@@ -36,6 +36,11 @@ public://メンバ関数
 	void Draw() override;
 	
 	/// <summary>
+	/// 通常状態の初期化
+	/// </summary>
+	void BehaviorRootReset()override;
+
+	/// <summary>
 	/// 通常
 	/// </summary>
 	void BehaviorRootUpdate() override;

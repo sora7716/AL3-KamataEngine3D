@@ -4,11 +4,7 @@
 #pragma region プレイヤーのモデルインターフェース
 // メンバ関数
 // リセット
-void (IPlayerModel::*IPlayerModel::ResetTable[])(){
-	&BehaviorRootReset, 
-	&BehaviorBlowReset, 
-	&BehaviorDashReset
-};
+void (IPlayerModel::*IPlayerModel::ResetTable[])(){&BehaviorRootReset, &BehaviorBlowReset, &BehaviorDashReset};
 // 更新
 void (IPlayerModel::*IPlayerModel::BehaviorTable[])() = {
     &BehaviorRootUpdate,
@@ -29,8 +25,8 @@ void IPlayerModel::Reset() {
 	if (actionTimer_ > 0.0f) {
 		actionTimer_--;
 	} else {
-		if (behavior_ != IPlayerModel::Behavior::kRoot) {
-			behaviorRequest_ = IPlayerModel::Behavior::kRoot;
+		if (behavior_ != BehaviorMode::kRoot) {
+			behaviorRequest_ = BehaviorMode::kRoot;
 		}
 	}
 }
@@ -76,9 +72,61 @@ void IPlayerModel::BehaviorBlowReset() {
 	amplitude_ = 0.0f;
 	// サイクル(どれくらいの感覚で動くか)
 	cycle_ = 1;
+	// 振り上げをする時間
+	angleTimer_ = 0.0f;
+	// 加算する時間
+	second_ = deltaTime;
+	// 待機時間を開始するか
+	isStartWait_ = false;
+	// 待つ時間を計測する
+	waitTime_ = 0.0;
+	// angleTimerを加算するか
+	isAngleTimerAdd_ = true;
+	// イージングのモード
+	easingMode_ = EasingMode::kInSine;
+	// 周期
+	motionTime_ = 0.3f;
+	// 開始時のアングル
+	startAngle_ = 300.0f;
+	// 目標のアングル
+	endAngle_ = 130.0f;
 }
-//ダッシュ時の初期化
-void IPlayerModel::BehaviorDashReset() {}
+// ダッシュ時の初期化
+void IPlayerModel::BehaviorDashReset() {
+}
+
+// 打撃時の切り替えタイマー
+void IPlayerModel::BlowChangeTimer() {
+	// 振り上げきったら
+	if (angleTimer_ > motionTime_ + 0.2f && isAngleTimerAdd_) {
+		isAngleTimerAdd_ = false;
+		isStartWait_ = true;
+		second_ = 0.0f;
+		easingMode_ = EasingMode::kInExpo;
+	} else if (angleTimer_ <= 0.0f && !isAngleTimerAdd_) { // 降り下げきったら
+		isAngleTimerAdd_ = true;
+		second_ = 0.0f;
+		isStartWait_ = true;
+		easingMode_ = EasingMode::kInSine;
+	}
+
+	// 待機時間
+	if (isStartWait_) {
+		waitTime_ += deltaTime;
+		if (waitTime_ >= kMaxBlowWaitTime) {
+			isStartWait_ = false;
+			waitTime_ = 0.0f;
+			second_ = deltaTime;
+		}
+	}
+
+	// フレームを加算するかどうか
+	if (isAngleTimerAdd_) {
+		angleTimer_ += second_;
+	} else {
+		angleTimer_ -= second_;
+	}
+}
 
 #pragma endregion
 
@@ -109,7 +157,7 @@ void Head::BehaviorRootUpdate() {}
 // 打撃
 void Head::BehaviorBlowUpdate() {}
 
-//ダッシュ
+// ダッシュ
 void Head::BehaviorDashUpdate() {}
 
 #pragma endregion
@@ -146,11 +194,11 @@ void Body::BehaviorRootUpdate() {
 // 打撃
 void Body::BehaviorBlowUpdate() {
 	worldTransform_.rotation_ = {};
-	worldTransform_.translation_.y = UpdateFloatingGimmick(); 
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
 }
 
-//ダッシュ
-void Body::BehaviorDashUpdate() { 
+// ダッシュ
+void Body::BehaviorDashUpdate() {
 	worldTransform_.rotation_.x = 0.4f;
 	worldTransform_.translation_.y = UpdateFloatingGimmick();
 }
@@ -169,16 +217,14 @@ void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 // 更新
 void RightArm::Update() {
 	// 振る舞いの更新
-	//IPlayerModel::Update();
-	BehaviorBlowUpdate();
+	IPlayerModel::Update();
 	// モデルの更新
 	IModel::Update();
 }
 
 // デバックテキスト
-void RightArm::DebugText() { 
+void RightArm::DebugText() {
 	IModel::DebugText("rightArm");
-	ImGui::Text("angleTimer_:%f", angleTimer_);
 }
 
 // 描画
@@ -192,14 +238,8 @@ void RightArm::BehaviorRootUpdate() {
 
 // 打撃用
 void RightArm::BehaviorBlowUpdate() {
-	motionTime_ = 0.5f;
-	startAngle_ = 300.0f;
-	endAngle_ = 130.0f;
-	worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInSine);
-	if (angleTimer_ < motionTime_) {
-		angleTimer_ += deltaTime;
-	}
-	//worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
+	IPlayerModel::BlowChangeTimer();
+	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
 }
 
 // 打撃用の初期化
@@ -208,7 +248,7 @@ void RightArm::BehaviorBlowReset() {
 	angleTimer_ = 0.0f;
 }
 
-//ダッシュ
+// ダッシュ
 void RightArm::BehaviorDashUpdate() {
 	motionTime_ = 1.0f;
 	startAngle_ = 90.0f;
@@ -249,10 +289,8 @@ void LeftArm::BehaviorRootUpdate() {
 
 // 打撃用
 void LeftArm::BehaviorBlowUpdate() {
-	motionTime_ = 1.0f;
-	startAngle_ = 160.0f;
-	endAngle_ = 270.0f;
-	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
+	IPlayerModel::BlowChangeTimer();
+	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
 }
 
 // 打撃用の初期化
@@ -261,7 +299,7 @@ void LeftArm::BehaviorBlowReset() {
 	angleTimer_ = 0.0f;
 }
 
-//ダッシュ
+// ダッシュ
 void LeftArm::BehaviorDashUpdate() {
 	motionTime_ = 1.0f;
 	startAngle_ = 90.0f;
@@ -339,10 +377,8 @@ void PlayerModel::SetBehaviorRequest(const IPlayerModel::Behavior& behavior) {
 	}
 }
 
-//ふるまいのゲッター
-IPlayerModel::Behavior PlayerModel::GetBehavior() {
-	return parts_[(int)Parts::kBody]->GetBehavior();
-}
+// ふるまいのゲッター
+IPlayerModel::Behavior PlayerModel::GetBehavior() { return parts_[(int)Parts::kBody]->GetBehavior(); }
 
 // モーションの継続時間のリセット
 void PlayerModel::SetActionTime(float actionTime) {
@@ -353,6 +389,5 @@ void PlayerModel::SetActionTime(float actionTime) {
 
 // アクションタイマーのゲッター
 float PlayerModel::GetActionTimer() { return parts_[(int)Parts::kBody]->GetActionTimer(); }
-
 
 #pragma endregion

@@ -66,11 +66,32 @@ protected: // メンバ関数
 	virtual void BehaviorRootUpdate() = 0;
 	virtual void BehaviorBlowUpdate() = 0;
 	virtual void BehaviorDashUpdate() = 0;
+
+	/// <summary>
+	/// 打撃時の切り替えタイマー
+	/// </summary>
+	void BlowChangeTimer();
+
+public://静的メンバ変数と関数ポインタの配列
+	//打撃時の待機時間
+	static inline const float kMaxBlowWaitTime = 0.3f;
 	// 関数ポインタの配列
 	// リセット
 	static void (IPlayerModel::*ResetTable[])();
 	// 更新
 	static void (IPlayerModel::*BehaviorTable[])();
+
+protected: // メンバ変数
+	//アングルタイマーを加算させるか
+	bool isAngleTimerAdd_ = true;
+	//待機時間を計測する
+	float waitTime_ = 0.0f;
+	//待機時間を開始するかどうか
+	bool isStartWait_ = false;
+	//今何秒
+	float second_ = deltaTime;
+	//イージングモード
+	EasingMode easingMode_ = EasingMode::kInSine;
 
 private: // メンバ変数
 	// 振る舞い
