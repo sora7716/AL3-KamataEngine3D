@@ -82,5 +82,5 @@ private: // メンバ変数
 	std::unique_ptr<Mimic> enemy_ = nullptr;
 
 	//ライフバー
-	std::unique_ptr<LifeBar> lifeBar_ = nullptr;
+	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
 };

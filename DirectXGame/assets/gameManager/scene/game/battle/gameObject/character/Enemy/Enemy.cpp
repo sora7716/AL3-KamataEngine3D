@@ -56,7 +56,9 @@ void Mimic::SetPlayer(Player* player) { player_ = player; }
 // ターゲットに向かって移動
 void Mimic::MoveToward() {
 	// Targetはおそらくプレイヤーとなって距離を計算して
-	Vector3 dist = {player_->GetPosition().x - worldTransform_.translation_.x, player_->GetPosition().y - worldTransform_.translation_.y, player_->GetPosition().z - worldTransform_.translation_.z};
+	Vector3 dist = {player_->GetPosition().x - worldTransform_.translation_.x,
+		player_->GetPosition().y - worldTransform_.translation_.y,
+		player_->GetPosition().z - worldTransform_.translation_.z};
 
 	float magnitude = std::sqrtf(powf(dist.x, 2) + powf(dist.y, 2) + powf(dist.z, 2));
 
@@ -72,13 +74,13 @@ void Mimic::MoveToward() {
 void Mimic::Move() {
 	isAttacking = false;
 	// 円運動
-	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
-	// Y軸周りの角度(θy)
-	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	// float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
-	//  X軸周りの角度(θx)
-	// worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
-	worldTransform_.translation_ += velocity_;
+	//velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
+	//// Y軸周りの角度(θy)
+	//worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
+	//float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	////  X軸周りの角度(θx)
+	//worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+	//worldTransform_.translation_ += velocity_;
 	Direction();
 }
 
