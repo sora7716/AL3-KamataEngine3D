@@ -1,20 +1,20 @@
 #include "BattleScene.h"
-#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
 using namespace std;
 // デストラクタ
 BattleScene::~BattleScene() {}
 
 // 初期化
-void BattleScene::Initialize() { 
-	//OBB
-	obb_ = make_unique<OBB>();//生成
+void BattleScene::Initialize() {
+	// OBB
+	obb_ = make_unique<OBB>(); // 生成
 	obbMaterial_ = {
-	  .center{0.0f,0.0f,0.0f},
+	    .center{0.0f, 0.0f, 0.0f},
 	};
-	obb_->Initialize(&viewProjection_,move(obbMaterial_));//初期化
+	obb_->Initialize(&viewProjection_, move(obbMaterial_)); // 初期化
 
-	//六角形
+	// 六角形
 	hexagon_ = make_unique<Hexagon>();
 	hexagonMatrial_ = {
 	    .center{},
@@ -27,7 +27,7 @@ void BattleScene::Initialize() {
 
 	// スカイドーム
 	environments_[(int)Type::kSkydome] = make_unique<Skydome>();
-	environments_[(int)Type::kSkydome]->Initialize(create_->GetModel(create_->typeSkydome) ,& viewProjection_);
+	environments_[(int)Type::kSkydome]->Initialize(create_->GetModel(create_->typeSkydome), &viewProjection_);
 
 	// 地面(ハニカム)
 	environments_[(int)Type::kGround] = make_unique<Honeycomb>(mapChipField_.get());
@@ -47,10 +47,18 @@ void BattleScene::Initialize() {
 	controller_ = Controller::GetInstance();
 	controller_->Initialize(player_.get(), followCamera_.get());
 
-	//ミミック
+	// ミミック
 	enemy_ = std::make_unique<Mimic>();
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
 	enemy_->SetPlayer(player_.get());
+
+	// 光り輝くパーティクル
+	luminous_ = std::make_unique<Luminous>();
+	luminous_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
+	luminous_->SetDirectionView(&followCamera_->GetViewProjection());
+
+	particle_ = std::make_unique<Particle>();
+	particle_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
 }
 
 // 更新
@@ -61,15 +69,14 @@ void BattleScene::Update() {
 	// カメラの更新
 	railCamera_->Update();
 #ifdef _DEBUG
-	//六角形
+	// 六角形
 	hexagon_->Update();
 	hexagon_->DebugText();
 
-	//OBB
+	// OBB
 	obb_->Update();
 	obb_->DebagText();
 #endif // _DEBUG
-
 
 	// 環境の更新
 	for (auto& evbiroment : environments_) {
@@ -81,13 +88,17 @@ void BattleScene::Update() {
 
 	// プレイヤーの更新
 	player_->Update();
+	player_->DebugText("player");
 
 	// カメラの更新
 	followCamera_->Update();
 
-	//敵の更新
+	// 敵の更新
 	enemy_->Update();
 
+	luminous_->Update();
+	luminous_->DebugText();
+	particle_->Update();
 #ifdef _DEBUG
 	// デバック
 	ImGui::Begin("test");
@@ -123,10 +134,10 @@ void BattleScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	//OBB
-	//obb_->Draw();
-	//hexagon_->Draw();
+
+	// OBB
+	// obb_->Draw();
+	// hexagon_->Draw();
 
 	// 環境の描画
 	for (auto& evbiroment : environments_) {
@@ -135,9 +146,11 @@ void BattleScene::Draw() {
 	// プレイヤーの描画
 	player_->Draw();
 
-	//敵の描画
+	// 敵の描画
 	enemy_->Draw();
 
+	luminous_->Draw();
+	particle_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

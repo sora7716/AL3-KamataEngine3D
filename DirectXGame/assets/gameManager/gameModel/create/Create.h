@@ -19,12 +19,14 @@ public: // 構造体や列挙型
 		kHexagon,
 		kSkyDome,
 		kGround,
+		kParticle,
 		kModelNum,
 	};
 	// 環境のオブジェクト
 	int typeHexagon = (int)Type::kHexagon;
 	int typeSkydome = (int)Type::kSkyDome;
 	int typeGround = (int)Type::kGround;
+	int typeParticle = (int)Type::kParticle;
 	// プレイヤーのモデル
 	enum class PlayerParts {
 		kBody,
