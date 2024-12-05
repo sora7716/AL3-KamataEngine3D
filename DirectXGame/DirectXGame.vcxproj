@@ -132,6 +132,7 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\LifeBar\LifeBar.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\LifeBar\LifeBar.h" />
     <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />

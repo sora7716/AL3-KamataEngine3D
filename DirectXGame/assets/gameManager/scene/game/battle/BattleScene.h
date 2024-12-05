@@ -13,6 +13,9 @@
 #include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
 #include "assets/gameManager/scene/game/battle/gameObject/Shape/hexagon/Hexagon.h"
 
+//プレイヤーのテクスチャー
+#include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
+
 /// <summary>
 /// バトルシーン
 /// </summary>
@@ -77,4 +80,7 @@ private: // メンバ変数
 
 	//ミミック
 	std::unique_ptr<Mimic> enemy_ = nullptr;
+
+	//ライフバー
+	std::unique_ptr<LifeBar> lifeBar_ = nullptr;
 };

@@ -45,7 +45,11 @@ void Create::ModelCreate() {
 }
 
 // テクスチャをクリエイト
-void Create::TextureCreate() {}
+void Create::TextureCreate() {
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
+}
 
 // モデルのゲッター
 Model* Create::GetModel(int subscript) const { return models_[subscript].get(); }
@@ -63,4 +67,9 @@ std::vector<std::unique_ptr<Model>>& Create::GetMimicModel() {
 }
 
 // テクスチャのゲッター
-uint32_t Create::GetTextureHandle(Create::Type subscript) const { return textureHandle_[(int)subscript]; }
+uint32_t Create::GetTextureHandle(int subscript) const { return textureHandle_[subscript]; }
+
+//複数なテクスチャのゲッター
+std::vector<uint32_t> Create::GetTextureHandle(){
+	return  textureHandle_;
+}

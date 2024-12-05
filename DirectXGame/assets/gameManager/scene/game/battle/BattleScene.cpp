@@ -36,6 +36,9 @@ void BattleScene::Initialize() {
 	// プレイヤー
 	player_ = make_unique<Player>();
 	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
+	//体力
+	lifeBar_ = std::make_unique<LifeBar>();
+	lifeBar_->Initialize(create_->GetTextureHandle());
 
 	// 追従カメラのビュープロジェクションを受け取る
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
@@ -81,6 +84,7 @@ void BattleScene::Update() {
 
 	// プレイヤーの更新
 	player_->Update();
+	lifeBar_->Update();
 
 	// カメラの更新
 	followCamera_->Update();
@@ -149,6 +153,8 @@ void BattleScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	lifeBar_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

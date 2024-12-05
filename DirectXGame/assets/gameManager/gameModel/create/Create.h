@@ -90,7 +90,13 @@ public:                                                  // メンバ関数
 	/// </summary>
 	/// <param name="subscript">添え字</param>
 	/// <returns>テクスチャハンドル</returns>
-	uint32_t GetTextureHandle(Create::Type subscript) const;
+	uint32_t GetTextureHandle(int subscript) const;
+
+	/// <summary>
+	/// 複数なテクスチャのゲッター
+	/// </summary>
+	/// <returns></returns>
+	std::vector<uint32_t> GetTextureHandle();
 
 	// コピーコンストラクタを禁止
 	Create(const Create& create) = delete;

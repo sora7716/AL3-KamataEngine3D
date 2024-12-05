@@ -57,4 +57,5 @@ protected://メンバ変数
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection* viewProjection_;
+	//
 };
