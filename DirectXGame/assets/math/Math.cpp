@@ -381,7 +381,7 @@ void Math::CircularMoveZY(const Vector3& centerPos, Vector3& ballPos, const Vect
 }
 
 // 円運動XZの速度ベクトルを求める
-Vector3 Math::CircularMoveVeclocityXZ(const Vector2& radius,float angularVelocity) {
+Vector3 Math::CircularMoveVeclocityXZ(const Vector2& radius, float angularVelocity) {
 	static float angle = 0.0f;            // 角度
 	angle += angularVelocity * deltaTime; // 現在の角度の計算
 
@@ -496,7 +496,7 @@ float Math::LerpShortAngle(float a, float b, float t) {
 	return a + diff * t;
 }
 
-//角度の線形補間
+// 角度の線形補間
 float Math::AngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime) {
 	angleTime += deltaTime;                                                                                                               // 経過時間
 	float param = sin(2.0f * pi_f * angleTime / motionTime);                                                                              // 角度を計算
@@ -504,11 +504,18 @@ float Math::AngleLerp(float startAngle, float endAngle, EasingMode easingMode, f
 	return radian(theta);
 }
 
-//三角波を使用した角度の線形補間
+// 三角波を使用した角度の線形補間
 float Math::TriangleAngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime) {
 	angleTime += deltaTime;                                                                                                               // 経過時間
 	float param = asin(sin(2.0f * pi_f * angleTime / motionTime));                                                                        // 角度を計算
 	float theta = std::lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)easingMode])((param + 1.0f) / 2.0f)); // 線形補間
 	return radian(theta);
 	0.0f;
+}
+
+// 角度の線形補間(sin波)
+float Math::ThetaLerp(float startAngle, float endAngle, EasingMode mode, float motionTime, float frame) {
+	float param = sin(frame / motionTime);
+	float theta = std::lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])(param));
+	return radian(theta);
 }

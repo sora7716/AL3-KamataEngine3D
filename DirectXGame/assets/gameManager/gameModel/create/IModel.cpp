@@ -80,7 +80,7 @@ float IModel::UpdateTriangleGimmick() {
 // サイン波と線形補間を利用したアニメーション
 float IModel::LerpAnimation(const EasingMode& mode) {
 	float result = 0.0f;
-	result = Math::AngleLerp(startAngle_, endAngle_, mode, motionTime_,angleTimer_);
+	result = Math::AngleLerp(startAngle_, endAngle_, mode, motionTime_, angleTimer_);
 	return result;
 }
 
@@ -88,6 +88,13 @@ float IModel::LerpAnimation(const EasingMode& mode) {
 float IModel::TriangleLerpAnimation(const EasingMode& mode) {
 	float result = 0.0f;
 	result = Math::TriangleAngleLerp(startAngle_, endAngle_, mode, motionTime_, angleTimer_);
+	return result;
+}
+
+// 角度の線形補間
+float IModel::AngleLerpAnimation(const EasingMode& mode) {
+	float result = 0.0f;
+	result = Math::ThetaLerp(startAngle_, endAngle_, mode, motionTime_, angleTimer_);
 	return result;
 }
 

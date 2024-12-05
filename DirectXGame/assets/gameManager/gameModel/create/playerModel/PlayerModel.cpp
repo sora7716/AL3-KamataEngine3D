@@ -169,13 +169,17 @@ void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 // 更新
 void RightArm::Update() {
 	// 振る舞いの更新
-	IPlayerModel::Update();
+	//IPlayerModel::Update();
+	BehaviorBlowUpdate();
 	// モデルの更新
 	IModel::Update();
 }
 
 // デバックテキスト
-void RightArm::DebugText() { IModel::DebugText("rightArm"); }
+void RightArm::DebugText() { 
+	IModel::DebugText("rightArm");
+	ImGui::Text("angleTimer_:%f", angleTimer_);
+}
 
 // 描画
 void RightArm::Draw() { IModel::Draw(); }
@@ -188,10 +192,14 @@ void RightArm::BehaviorRootUpdate() {
 
 // 打撃用
 void RightArm::BehaviorBlowUpdate() {
-	motionTime_ = 1.0f;
-	startAngle_ = 160.0f;
-	endAngle_ = 270.0f;
-	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
+	motionTime_ = 0.5f;
+	startAngle_ = 300.0f;
+	endAngle_ = 130.0f;
+	worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInSine);
+	if (angleTimer_ < motionTime_) {
+		angleTimer_ += deltaTime;
+	}
+	//worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kInSine);
 }
 
 // 打撃用の初期化
@@ -320,6 +328,7 @@ void PlayerModel::SetParent(const WorldTransform* parent) {
 	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 左腕<-体
 	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	// 武器<-左腕
 	parts_[(int)Parts::kStaff]->SetParent(&parts_[(int)Parts::kLeftArm]->GetWorldTransform());
 }
 

@@ -405,6 +405,17 @@ public:
 	/// <returns>角度</returns>
 	static float TriangleAngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime);
 
+	/// <summary>
+	/// 角度の線形補間(sin波)
+	/// </summary>
+	/// <param name="startAngle">スタートの角度</param>
+	/// <param name="endAngle">エンドの角度</param>
+	/// <param name="mode">イージングモード</param>
+	/// /// <param name="motionTime">周期</param>
+	/// <param name="frame">フレーム</param>
+	/// <returns>θ</returns>
+	static float ThetaLerp(float startAngle, float endAngle, EasingMode mode, float motionTime, float frame);
+
 public:                                     // 静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 	int i;

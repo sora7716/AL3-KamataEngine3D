@@ -83,6 +83,13 @@ public: // メンバ関数
 	float TriangleLerpAnimation(const EasingMode& mode);
 
 	/// <summary>
+	/// 角度の線形補間
+	/// </summary>
+	/// <param name="mode">イージングモード</param>
+	/// <returns>角度</returns>
+	float AngleLerpAnimation(const EasingMode& mode);
+
+	/// <summary>
 	/// ノコギリ波
 	/// </summary>
 	/// <param name="interval">周期</param>

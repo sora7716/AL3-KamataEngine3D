@@ -92,6 +92,7 @@ public:                                                  // 静的メンバ変�
 	static inline const uint32_t kBehaviorDashTime = 60; // ダッシュの時間の上限
 	static inline const int kBlowTime = 60;              // 打撃の継続時間
 	static inline float const kSpeed_ = 0.3f;            // 速度
+	static void (Player::*ActionTable[])();//アクションテーブル
 
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;

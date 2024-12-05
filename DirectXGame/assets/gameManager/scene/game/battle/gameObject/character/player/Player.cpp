@@ -7,6 +7,12 @@
 #include "input/Input.h"
 #include <cassert>
 
+void (Player::*Player::ActionTable[])() = {
+    &BehaviorRootUpdate,
+    &BehaviorBlowUpdate,
+    &BehaviorDashUpdate,
+};
+
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
 	BaseCharacter::Initialize(std::move(models), viewProjection);
@@ -53,9 +59,12 @@ void Player::GamepadControl() {
 			isMoving_ = false; // 移動をやめた
 		}
 		// 攻撃
-		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && playerModel_->GetActionTimer() <= 0.0f) {
-			playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
-			playerModel_->SetActionTime((float)kBlowTime);
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
+			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || 
+				playerModel_->GetBehavior() != BehaviorMode::kBlow) {
+				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+				playerModel_->SetActionTime((float)kBlowTime);
+			}
 		}
 		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
 			BehaviorDashInitialize();
