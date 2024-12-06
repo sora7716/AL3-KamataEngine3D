@@ -1,6 +1,7 @@
 #include "BattleScene.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
+#include <thread>
 using namespace std;
 // デストラクタ
 BattleScene::~BattleScene() {}
