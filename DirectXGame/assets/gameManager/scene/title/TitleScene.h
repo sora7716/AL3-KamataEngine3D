@@ -33,6 +33,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
+	void Animation();
+
 private: // メンバ変数
 
 	/// <summary>

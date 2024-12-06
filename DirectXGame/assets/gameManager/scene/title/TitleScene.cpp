@@ -11,13 +11,23 @@ void TitleScene::Initialize() {
 	model_.reset(Model::Create());
 
 	worldTransform_.Initialize();
-
 }
 
 // 更新
 void TitleScene::Update() {
+
+	std::string label = "scale";
+	ImGui::DragFloat3(label.c_str(), &worldTransform_.scale_.x, 0.01f);
+	label = "rotation";
+	ImGui::DragFloat3(label.c_str(), &worldTransform_.rotation_.x, 0.01f);
+	label = "translation";
+	ImGui::DragFloat3(label.c_str(), &worldTransform_.translation_.x, 0.01f);
+	
+	
+	worldTransform_.UpdateMatrix();
+
 	// デバックカメラの更新
-	DebugCameraMove();
+	//DebugCameraMove();
 
 	// カメラの更新
 	railCamera_->Update();
@@ -51,9 +61,9 @@ void TitleScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	if (!isFollowOn) {
-		model_->Draw(cameraWorldTransform_, viewProjection_, textureHandle_);
-	}
+	
+	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -71,4 +81,7 @@ void TitleScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void TitleScene::Animation() {
 }
