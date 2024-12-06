@@ -4,7 +4,15 @@
 TitleScene::~TitleScene() {}
 
 // 初期化
-void TitleScene::Initialize() {}
+void TitleScene::Initialize() {
+
+	textureHandle_ = TextureManager::Load("uvChecker.png");
+
+	model_.reset(Model::Create());
+
+	worldTransform_.Initialize();
+
+}
 
 // 更新
 void TitleScene::Update() {
@@ -43,6 +51,9 @@ void TitleScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	if (!isFollowOn) {
+		model_->Draw(cameraWorldTransform_, viewProjection_, textureHandle_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

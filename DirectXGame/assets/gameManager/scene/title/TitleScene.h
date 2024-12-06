@@ -38,4 +38,11 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	
+	uint32_t textureHandle_ = 0;
+	
+	std::unique_ptr<Model> model_ = nullptr;
+	
+	WorldTransform worldTransform_;
+
 };
