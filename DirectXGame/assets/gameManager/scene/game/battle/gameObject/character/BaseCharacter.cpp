@@ -10,6 +10,10 @@ void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, Vie
 	}
 	viewProjection_ = viewProjection;
 	worldTransform_.Initialize();
+
+	kWidth_ = 3.0f;
+	kHeight_ = 3.0f;
+	kDepth_ = 3.0f;
 }
 
 //更新
@@ -45,4 +49,15 @@ const Vector3 BaseCharacter::GetWorldPos(){
 ViewProjection& BaseCharacter::GetViewProjection() {
 	// TODO: return ステートメントをここに挿入します
 	return *viewProjection_;
+}
+
+AABB BaseCharacter::GetAABB(){
+	Vector3 worldpos = GetWorldPos();
+
+	AABB aabb;
+
+	aabb.min = { worldpos.x - kWidth_ / 2.0f, worldpos.y - kHeight_ / 2.0f, worldpos.z - kWidth_ / 2.0f };
+	aabb.max = { worldpos.x + kWidth_ / 2.0f, worldpos.y + kHeight_ / 2.0f, worldpos.z + kWidth_ / 2.0f };
+
+	return aabb;
 }

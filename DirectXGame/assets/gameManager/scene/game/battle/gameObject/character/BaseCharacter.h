@@ -5,6 +5,7 @@
 #include "assets/math/Math.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "assets/math/collision/Collision.h"
 
 /// <summary>
 /// キャラクターの基底クラス
@@ -56,13 +57,23 @@ public://メンバ関数
 	/// <returns></returns>
 	const WorldTransform& GetWorldTransform();
 
+	/// <summary>
+	/// 当たり判定のため、matWorld_のゲッター
+	/// </summary>
+	/// <returns></returns>
 	const Vector3 GetWorldPos();
-	
+
 	/// <summary>
 	/// ビュープロジェクションのゲッター
 	/// </summary>
 	/// <returns>ビュープロジェクション</returns>
 	ViewProjection& GetViewProjection();
+
+	/// <summary>
+	/// モデルの縦幅情報をAABB型でゲッター
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB();
 
 protected://メンバ変数
 	//モデルデータ配列
@@ -73,4 +84,7 @@ protected://メンバ変数
 	ViewProjection* viewProjection_;
 	//CharacterType
 	CharType charType_;
+
+	//当たり判定
+	float kWidth_, kHeight_, kDepth_;
 };

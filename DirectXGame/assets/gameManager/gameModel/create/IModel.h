@@ -5,6 +5,7 @@
 #include "WorldTransform.h"
 #include "assets/math/Math.h"
 #include "assets/math/easing/Easing.h"
+#include "assets/math/collision/Collision.h"
 #include "input/Input.h"
 #include <memory>
 #include <vector>
@@ -102,6 +103,19 @@ public: // メンバ関数
 	/// <returns>ワールドトランスフォーム</returns>
 	const WorldTransform& GetWorldTransform();
 
+	/// <summary>
+	/// matWorldのゲッター
+	/// </summary>
+	/// <returns></returns>
+	const Vector3 GetWorldPos();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <returns></returns>
+	virtual AABB GetAABB();
+public://静的メンバ変数
+	float kWidth_ = 2.0f, kHeight_ = 2.0f, kDepth_ = 2.0f;
 protected: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;

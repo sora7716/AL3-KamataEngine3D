@@ -146,7 +146,6 @@ void Mimic::Direction() {
 }
 
 void Mimic::CoolDown(){
-	//isAttacking = false;
 	Direction();
 }
 

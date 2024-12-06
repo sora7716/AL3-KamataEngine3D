@@ -26,8 +26,8 @@ void LifeBar::Initialize(const std::vector<uint32_t>&& textures){
 }
 
 void LifeBar::Update(){
-	TookDamage();
 	AdjustHP();
+	CoolDown();
 }
 
 void LifeBar::Draw(){
@@ -37,10 +37,10 @@ void LifeBar::Draw(){
 }
 
 void LifeBar::AdjustHP(){
-	if (!isDamaged_) { return; }
 	dmgTimer_ += kDuration_;
+	//ライフバーを徐々に減る処理
 	if (sprites_[(int)Label::kDamage]->GetSize().x > sprites_[(int)Label::kHealth]->GetSize().x) {
-		currentHP_ = (float)std::lerp(currentHP_, targetHP_, Easing::GetInstance()->InSine(dmgTimer_));
+		currentHP_ = (float)std::lerp(currentHP_, targetHP_, Easing::GetInstance()->InSine(dmgTimer_));//
 
 		//Vector2型に変更
 		Vector2 adjustedHealth{
@@ -50,22 +50,13 @@ void LifeBar::AdjustHP(){
 		//体力更新
 		sprites_[(int)Label::kDamage]->SetSize(adjustedHealth);
 	}
-	if (dmgTimer_ > 1) {
-		isDamaged_ = false;
-		dmgTimer_ = 0;
-	}
-	ImGui::Text("frame.%f", dmgTimer_);
-	ImGui::Text("second.%f", kDuration_);
 }
 
 void LifeBar::TookDamage(){
-	//ダメージを喰らう結果確認
-	bool space = Input::GetInstance()->TriggerKey(DIK_SPACE);
-	
-	if (space && sprites_[(int)Label::kHealth]->GetSize().x > 14) {
+	if (sprites_[(int)Label::kHealth]->GetSize().x > 14 && !isDamaged_) { //14はピックセルサイズ、ライフバーの幅と比べてる
 		//受けたダメージの計算
 		Vector2 targetHP{
-			(float)sprites_[(int)Label::kHealth]->GetSize().x - 450,
+			(float)sprites_[(int)Label::kHealth]->GetSize().x - 50,
 			(float)sprites_[(int)Label::kHealth]->GetSize().y //変化なし
 		};
 
@@ -79,6 +70,28 @@ void LifeBar::TookDamage(){
 		sprites_[(int)Label::kHealth]->SetSize(targetHP);
 		//AdjustHP()準備
 		targetHP_ = targetHP.x;
+		//タイマー開始準備
+		coolDownTimer_ = 120;
+		dmgTimer_ = 0;
+		//ダメージを受けたフラグ
 		isDamaged_ = true;
 	}
+}
+
+void LifeBar::CoolDown(){
+	coolDownTimer_--;
+	if (coolDownTimer_ < coolDownDuration) {
+		//coolDownTimerによってダメージを受けないようにする
+		isDamaged_ = false;
+	}
+}
+
+void LifeBar::DebugWindow(){
+#ifdef _DEBUG
+	ImGui::Begin("enemy");
+	ImGui::Text("frame.%f", dmgTimer_);
+	ImGui::Text("second.%f", kDuration_);
+	ImGui::Text("coolDownTimer_.%f", coolDownTimer_);
+	ImGui::End();
+#endif // _DEBUG
 }

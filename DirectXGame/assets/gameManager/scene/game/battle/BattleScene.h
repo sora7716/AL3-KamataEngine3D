@@ -54,6 +54,15 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// プレイヤーと敵の当たり判定
+	/// </summary>
+	void CheckPlayerEnemyCollision();
+
+	/// <summary>
+	/// プレイヤー攻撃の当たり判定
+	/// </summary>
+	void CheckPlayerAttack();
 private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用

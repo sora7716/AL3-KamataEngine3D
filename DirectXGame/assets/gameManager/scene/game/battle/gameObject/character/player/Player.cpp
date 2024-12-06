@@ -22,7 +22,7 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
-
+	//キャラクタータイプの初期化
 	charType_ = CharType::kPlayer;
 }
 
@@ -127,6 +127,14 @@ void Player::BehaviorDashInitialize() {
 
 // ダッシュの更新
 void Player::BehaviorDashUpdate() { Moving(speed_ * speedScaler_); }
+
+AABB Player::GetPartsAABB(PlayerModel::Parts partsName){
+	return playerModel_->GetAABB(partsName);
+}
+
+PlayerMode Player::GetBehavior(){
+	return playerModel_->GetBehavior();
+}
 
 // 通常行動用
 void Player::BehaviorRootUpdate() { Moving(speed_); }

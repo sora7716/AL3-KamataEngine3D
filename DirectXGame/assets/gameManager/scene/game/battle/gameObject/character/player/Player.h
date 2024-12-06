@@ -76,6 +76,14 @@ public: // メンバ関数
 	/// <returns></returns>
 	int GetCharacterType() { return (int)charType_; }
 
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <param name="partsName"></param>
+	/// <returns></returns>
+	AABB GetPartsAABB(PlayerModel::Parts partsName);
+
+	PlayerMode GetBehavior();
 private://メンバ関数
 
 private: // メンバ関数

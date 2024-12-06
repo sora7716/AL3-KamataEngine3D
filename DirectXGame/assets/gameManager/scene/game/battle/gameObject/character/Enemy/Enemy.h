@@ -136,6 +136,4 @@ private: // メンバ変数
 	float angleTimer_ = 0.0f;
 
 	float frame_ = 0.0f;
-
-	CharType charType_;
 };

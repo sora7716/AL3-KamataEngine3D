@@ -390,4 +390,8 @@ void PlayerModel::SetActionTime(float actionTime) {
 // アクションタイマーのゲッター
 float PlayerModel::GetActionTimer() { return parts_[(int)Parts::kBody]->GetActionTimer(); }
 
+AABB PlayerModel::GetAABB(Parts partsName){
+	return parts_[(int)partsName]->GetAABB();
+}
+
 #pragma endregion

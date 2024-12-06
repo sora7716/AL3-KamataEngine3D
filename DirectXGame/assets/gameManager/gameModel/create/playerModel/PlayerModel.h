@@ -45,7 +45,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>アクションタイマー</returns>
 	float GetActionTimer();
-
 protected: // メンバ関数
 	/// <summary>
 	/// 通常時の初期化
@@ -395,6 +394,13 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>actionTimer</returns>
 	float GetActionTimer();
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <param name="partsName"></param>
+	/// <returns></returns>
+	AABB GetAABB(Parts partsName);
 
 public: // メンバ変数
 	std::vector<IPlayerModel*> parts_ = {nullptr};

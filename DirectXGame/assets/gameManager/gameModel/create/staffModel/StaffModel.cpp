@@ -3,7 +3,7 @@
 //初期化
 void StaffModel::Initialize(Model* model, ViewProjection* viewProjection) { 
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.5f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {0.5f, -3.0f, 0.0f};
 	worldTransform_.rotation_ = {pi_f, 0.0f, 0.0f};
 }
 
@@ -35,3 +35,8 @@ void StaffModel::BehaviorBlowUpdate() { worldTransform_.scale_ = {1.0f, 1.0f, 1.
 
 //ダッシュ
 void StaffModel::BehaviorDashUpdate() { worldTransform_.scale_ = {0.0f, 0.0f, 0.0f}; }
+
+AABB StaffModel::GetAABB(){
+	kWidth_ = 3.0f, kHeight_ = 3.0f, kDepth_ = 3.0f;
+	return IModel::GetAABB();
+}

@@ -54,4 +54,10 @@ public://メンバ関数
 	/// ダッシュ時の更新
 	/// </summary>
 	void BehaviorDashUpdate() override;
+
+	/// <summary>
+	/// AABBゲッター
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB() override;
 };

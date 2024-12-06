@@ -36,11 +36,20 @@ public:
 	/// 体力を描画する
 	/// </summary>
 	void Draw();
-
+	/// <summary>
+	/// ダメージを喰らったら更新処理
+	/// </summary>
 	void AdjustHP();
-
+	/// <summary>
+	/// isCollisionはtrueとなったら、Update()に入ってdamageを受けったとする
+	/// </summary>
 	void TookDamage();
+	/// <summary>
+	/// ダメージを受けたらcoolDownで永遠に受けないようにする
+	/// </summary>
+	void CoolDown();
 
+	void DebugWindow();
 private:
 	enum class Label {
 		kDamage,
@@ -64,5 +73,7 @@ private:
 	static inline const float kDuration_ = deltaTime * 1/2;
 
 	Vector2 pos_;
+	float coolDownTimer_ = 120;
+	static inline const float coolDownDuration = deltaTime * 1 / 2;
 };
 

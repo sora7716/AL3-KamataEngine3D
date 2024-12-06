@@ -94,9 +94,11 @@ void BattleScene::Update() {
 
 	// プレイヤーの更新
 	player_->Update();
+	player_->DebugText("player");
+
+	playerLifeBar_->DebugWindow();
 	playerLifeBar_->Update();
 	enemyLifeBar_->Update();
-	player_->DebugText("player");
 
 	// カメラの更新
 	followCamera_->Update();
@@ -108,6 +110,11 @@ void BattleScene::Update() {
 	luminous_->DebugText();
 	particle_->Update();
 	particle_->DebugText();
+
+	//当たり判定チェック
+	CheckPlayerEnemyCollision();
+	//武器の当たり判定
+	CheckPlayerAttack();
 #ifdef _DEBUG
 	// デバック
 	ImGui::Begin("test");
@@ -179,4 +186,35 @@ void BattleScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void BattleScene::CheckPlayerEnemyCollision(){
+	bool isCollision = false;
+	AABB player, enemy;
+	player = player_->GetAABB();
+	enemy = enemy_->GetAABB();
+
+	isCollision = Collision::GetInstance()->IsCollision(player, enemy);
+	if (isCollision) {
+		playerLifeBar_->TookDamage();
+	}
+	else {
+		isCollision = false;
+	}
+}
+
+void BattleScene::CheckPlayerAttack(){
+	bool isCollision = false;
+	AABB playerWeapon, enemy;
+
+	playerWeapon = player_->GetPartsAABB(PlayerModel::Parts::kStaff);
+	enemy = enemy_->GetAABB();
+
+	isCollision = Collision::GetInstance()->IsCollision(playerWeapon, enemy);
+	if (isCollision && player_->GetBehavior()== PlayerMode::kBlow) {
+		enemyLifeBar_->TookDamage();
+	}
+	else {
+		isCollision = false;
+	}
 }

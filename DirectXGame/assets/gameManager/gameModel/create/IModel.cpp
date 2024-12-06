@@ -118,4 +118,20 @@ const WorldTransform& IModel::GetWorldTransform() {
 	return worldTransform_;
 }
 
+const Vector3 IModel::GetWorldPos(){
+	return {
+		worldTransform_.matWorld_.m[3][0],
+		worldTransform_.matWorld_.m[3][1],
+		worldTransform_.matWorld_.m[3][2]
+	};
+}
+
+AABB IModel::GetAABB(){
+	Vector3 worldpos = GetWorldPos();
+	AABB aabb;
+	aabb.min = { worldpos.x - kWidth_ / 2.0f, worldpos.y - kHeight_ / 2.0f, worldpos.z - kDepth_ / 2.0f };
+	aabb.max = { worldpos.x + kWidth_ / 2.0f, worldpos.y + kHeight_ / 2.0f, worldpos.z + kDepth_ / 2.0f };
+	return aabb;
+}
+
 #pragma endregion
