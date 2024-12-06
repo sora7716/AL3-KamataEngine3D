@@ -52,7 +52,7 @@ void IMimicModel::Update() {
 void IMimicModel::SetBehaviorRequest(const Behavior& behavior) { behaviorRequest_ = behavior; }
 
 // ふるまいのゲッター
-BehaviorMode IMimicModel::GetBehavior() { return behavior_; }
+MimicMode IMimicModel::GetBehavior() { return behavior_; }
 
 // アクションタイマーのゲッター
 float IMimicModel::GetActionTimer() { return actionTimer_; }

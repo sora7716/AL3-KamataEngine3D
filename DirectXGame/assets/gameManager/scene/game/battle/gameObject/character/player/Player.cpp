@@ -30,7 +30,7 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-	if (playerModel_->GetBehavior() != BehaviorMode::kDash) {
+	if (playerModel_->GetBehavior() != PlayerMode::kDash) {
 		BehaviorRootUpdate();
 	} else {
 		BehaviorDashUpdate();
@@ -55,15 +55,15 @@ void Player::GamepadControl() {
 		isMoving_ = false;                      // 移動してない
 		// 移動量
 		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
-		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
+		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == PlayerMode::kBlow)) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
 		}
 		// 攻撃
 		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
-			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
-				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == PlayerMode::kBlow) || playerModel_->GetBehavior() != PlayerMode::kBlow) {
+				playerModel_->SetBehaviorRequest(PlayerMode::kBlow);
 				playerModel_->SetActionTime((float)kBlowTime);
 			}
 		}
@@ -106,7 +106,7 @@ void Player::KeyboardControl() {
 		isMoving_ = false; // 移動をやめた
 	}
 	if (attack) {
-		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+		playerModel_->SetBehaviorRequest(PlayerMode::kBlow);
 		playerModel_->SetActionTime((float)kBlowTime);
 	}
 	if (dash) {
@@ -118,7 +118,7 @@ void Player::KeyboardControl() {
 void Player::BehaviorDashInitialize() {
 	isMoving_ = true;
 	worldTransform_.rotation_.y = goalAngle_;
-	playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
+	playerModel_->SetBehaviorRequest(PlayerMode::kDash);
 	playerModel_->SetActionTime((float)kBehaviorDashTime);
 	isMoving_ = true;
 	move_ = {0, 0, 1.0f};

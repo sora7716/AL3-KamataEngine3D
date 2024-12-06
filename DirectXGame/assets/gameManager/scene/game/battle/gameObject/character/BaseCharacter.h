@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include "Model.h"
+#include "assets/math/Math.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 

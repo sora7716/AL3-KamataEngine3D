@@ -25,8 +25,8 @@ void IPlayerModel::Reset() {
 	if (actionTimer_ > 0.0f) {
 		actionTimer_--;
 	} else {
-		if (behavior_ != BehaviorMode::kRoot) {
-			behaviorRequest_ = BehaviorMode::kRoot;
+		if (behavior_ != PlayerMode::kRoot) {
+			behaviorRequest_ = PlayerMode::kRoot;
 		}
 	}
 }
@@ -49,7 +49,7 @@ void IPlayerModel::Update() {
 void IPlayerModel::SetBehaviorRequest(const Behavior& behavior) { behaviorRequest_ = behavior; }
 
 // ふるまいのゲッター
-BehaviorMode IPlayerModel::GetBehavior() { return behavior_; }
+PlayerMode IPlayerModel::GetBehavior() { return behavior_; }
 
 // アクションタイマーのゲッター
 float IPlayerModel::GetActionTimer() { return actionTimer_; }

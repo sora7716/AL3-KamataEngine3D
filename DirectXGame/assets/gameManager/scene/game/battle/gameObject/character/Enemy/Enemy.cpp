@@ -59,7 +59,7 @@ void Mimic::Draw() { mimicModel_->Draw(); }
 // 攻撃
 void Mimic::Attack() {
 	isAttacking = true;
-	mimicModel_->SetBehavior(BehaviorMode::kBite);
+	mimicModel_->SetBehavior(MimicMode::kBite);
 }
 
 // プレイヤーのセッター
@@ -89,7 +89,7 @@ void Mimic::Move() {
 	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
 	// Y軸周りの角度(θy)
 	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	float velocityXZ = Math::Norm({velocity_.x, 0.0f, velocity_.z});
 	//  X軸周りの角度(θx)
 	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
 	worldTransform_.translation_ += velocity_;

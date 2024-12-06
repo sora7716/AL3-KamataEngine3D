@@ -403,4 +403,4 @@ public: // メンバ変数
 };
 
 // Behaviorのモード用のエイリアス
-using BehaviorMode = IPlayerModel::Behavior;
+using PlayerMode = IPlayerModel::Behavior;

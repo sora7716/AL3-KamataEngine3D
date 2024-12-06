@@ -424,4 +424,4 @@ private: // メンバ変数
 };
 
 // Behaviorのモード用のエイリアス
-using BehaviorMode = IMimicModel::Behavior;
+using MimicMode = IMimicModel::Behavior;
