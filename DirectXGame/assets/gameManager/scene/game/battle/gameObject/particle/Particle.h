@@ -46,7 +46,7 @@ public: // メンバ関数
 
 public://静的メンバ変数
 	static inline const int kParticleNum = 1;
-	static inline const float kParticleNum = 0.3f;
+	static inline const float kParticleSize = 0.3f;
 
 private: // メンバ変数
 	Model* model_ = nullptr;

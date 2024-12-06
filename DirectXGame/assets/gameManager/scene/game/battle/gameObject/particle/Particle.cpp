@@ -15,7 +15,7 @@ void Particle::Initialize(Model* model, ViewProjection* viewProjection) {
 	for (int i = 0; i < kParticleNum; i++) {
 		WorldTransform* worldTransform = new WorldTransform;
 		worldTransform->Initialize();
-		worldTransform->scale_ = {kParticleNum, kParticleNum, kParticleNum};
+		worldTransform->scale_ = { kParticleSize, kParticleSize, kParticleSize };
 		worldTransform->translation_ = emission_.translation_;
 		particle_.push_back(worldTransform);
 	}
