@@ -56,6 +56,12 @@ public: // メンバ関数
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
 
+	/// <summary>
+	/// シーンナンバーのセッター
+	/// </summary>
+	/// <param name="sceneNo"></param>
+	void SetSceneNo(uint32_t sceneNo);
+
 protected: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -77,6 +83,7 @@ protected: // メンバ変数
 	Create* create_ = nullptr;                           // クリエイトクラス
 	bool isFinished_ = false;                            // 終了フラグ
 	bool isFollowOn = false;                             // 追従カメラオン
+	uint32_t sceneNo_ = 0;//シーンナンバー
 
 	/// <summary>
 	/// ゲームシーン用

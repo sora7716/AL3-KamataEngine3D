@@ -59,9 +59,24 @@ public:                                                  // メンバ関数
 	static Create* GetInstance();
 
 	/// <summary>
-	/// モデルをクリエイト
+	/// タイトルシーンのモデル
 	/// </summary>
-	void ModelCreate();
+	void TitleSceneModel();
+
+	/// <summary>
+	/// 探索シーンのモデル
+	/// </summary>
+	void SearchSceneModel();
+	
+	/// <summary>
+	/// 戦闘シーンのモデル
+	/// </summary>
+	void BattleSceneModel();
+
+	/// <summary>
+	/// エンドシーンのモデル
+	/// </summary>
+	void EndSceneModel();
 
 	/// <summary>
 	/// テクスチャの生成

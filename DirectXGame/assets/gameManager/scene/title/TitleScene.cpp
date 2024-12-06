@@ -4,7 +4,10 @@
 TitleScene::~TitleScene() {}
 
 // 初期化
-void TitleScene::Initialize() {}
+void TitleScene::Initialize() {
+	//モデルの生成
+	create_->BattleSceneModel();
+}
 
 // 更新
 void TitleScene::Update() {

@@ -7,6 +7,8 @@ BattleScene::~BattleScene() {}
 
 // 初期化
 void BattleScene::Initialize() {
+	//モデルの生成
+	create_->BattleSceneModel();
 	// OBB
 	obb_ = make_unique<OBB>(); // 生成
 	obbMaterial_ = {

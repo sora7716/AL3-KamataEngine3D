@@ -25,7 +25,6 @@ IScene::IScene() {
 
 	// クリエイト
 	create_ = Create::GetInstance(); // クリエイトの生成
-	create_->ModelCreate();          // モデルの生成
 	create_->TextureCreate();        // テクスチャの生成
 
 	// カメラ
@@ -63,7 +62,7 @@ void IScene::DebugCameraMove() {
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
-	/*if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
 		isFinished_ = true;
-	}*/
+	}
 }

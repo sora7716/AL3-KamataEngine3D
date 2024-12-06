@@ -4,7 +4,10 @@
 EndScene::~EndScene() {}
 
 // 初期化
-void EndScene::Initialize() {}
+void EndScene::Initialize() {
+	// モデルの生成
+	create_->BattleSceneModel();
+}
 
 // 更新
 void EndScene::Update() {

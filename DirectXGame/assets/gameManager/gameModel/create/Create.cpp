@@ -19,8 +19,11 @@ Create* Create::GetInstance() {
 	return &instance;
 }
 
-// モデルをクリエイト
-void Create::ModelCreate() {
+//タイトルシーンのモデル
+void Create::TitleSceneModel() {}
+
+//探索シーンのモデル
+void Create::SearchSceneModel() {
 	models_.resize((int)Type::kModelNum); // 配列の大きさを設定
 	models_[typeHexagon].reset(Model::CreateFromOBJ("hexagon", true));
 	models_[typeSkydome].reset(Model::CreateFromOBJ("skydome", true));
@@ -28,22 +31,51 @@ void Create::ModelCreate() {
 	models_[typeParticle].reset(Model::CreateFromOBJ("particle", true));
 
 	// プレイヤーのモデル
-	playerModels_.resize((int)PlayerParts::kPlayerNum);// サイズを設定
+	playerModels_.resize((int)PlayerParts::kPlayerNum);                           // サイズを設定
 	playerModels_[typeHead].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
 	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
 	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
 	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
-	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));//杖
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));         // 杖
 
-	//ミミックのモデル
-	mimicModels_.resize((int)MimicParts::kPartsNum);//サイズの設定
-	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));//箱
-	mimicModels_[typeLid].reset(Model::CreateFromOBJ("rid", true));//蓋
-	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));//目
-	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("toothUp", true));//上の歯
-	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("toothBottom", true));//下の歯
-	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));//舌
+	// ミミックのモデル
+	mimicModels_.resize((int)MimicParts::kPartsNum);                                // サイズの設定
+	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));                 // 箱
+	mimicModels_[typeLid].reset(Model::CreateFromOBJ("rid", true));                 // 蓋
+	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));                 // 目
+	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("toothUp", true));         // 上の歯
+	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("toothBottom", true)); // 下の歯
+	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));           // 舌
 }
+
+//バトルシーンのモデル
+void Create::BattleSceneModel() {
+	models_.resize((int)Type::kModelNum); // 配列の大きさを設定
+	models_[typeHexagon].reset(Model::CreateFromOBJ("hexagon", true));
+	models_[typeSkydome].reset(Model::CreateFromOBJ("skydome", true));
+	models_[typeGround].reset(Model::CreateFromOBJ("ground", true));
+	models_[typeParticle].reset(Model::CreateFromOBJ("particle", true));
+
+	// プレイヤーのモデル
+	playerModels_.resize((int)PlayerParts::kPlayerNum);                           // サイズを設定
+	playerModels_[typeHead].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
+	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
+	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
+	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));         // 杖
+
+	// ミミックのモデル
+	mimicModels_.resize((int)MimicParts::kPartsNum);                                // サイズの設定
+	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));                 // 箱
+	mimicModels_[typeLid].reset(Model::CreateFromOBJ("rid", true));                 // 蓋
+	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));                 // 目
+	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("toothUp", true));         // 上の歯
+	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("toothBottom", true)); // 下の歯
+	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));           // 舌
+}
+
+//エンドシーンのモデル
+void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
 void Create::TextureCreate() {}
