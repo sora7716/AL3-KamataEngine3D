@@ -23,8 +23,7 @@ const WorldTransform& BaseCharacter::GetWorldTransform() {
 	return worldTransform_;
 }
 
-const Vector3 BaseCharacter::GetWorldPos()
-{
+const Vector3 BaseCharacter::GetWorldPos(){
 	return {
 		worldTransform_.matWorld_.m[3][0],
 		worldTransform_.matWorld_.m[3][1],

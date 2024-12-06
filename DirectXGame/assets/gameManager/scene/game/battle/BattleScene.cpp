@@ -37,7 +37,7 @@ void BattleScene::Initialize() {
 	player_ = make_unique<Player>();
 	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
 	//体力
-	playerLifeBar_ = std::make_unique<LifeBar>();
+	playerLifeBar_ = std::make_unique<LifeBar>(player_->GetCharacterType());
 	playerLifeBar_->Initialize(create_->GetTextureHandle());
 
 	// 追従カメラのビュープロジェクションを受け取る
@@ -54,6 +54,9 @@ void BattleScene::Initialize() {
 	enemy_ = std::make_unique<Mimic>();
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
 	enemy_->SetPlayer(player_.get());
+	enemyLifeBar_ = std::make_unique<LifeBar>(enemy_->GetCharacterType());
+	enemyLifeBar_->Initialize(create_->GetTextureHandle());
+
 }
 
 // 更新
@@ -85,6 +88,7 @@ void BattleScene::Update() {
 	// プレイヤーの更新
 	player_->Update();
 	playerLifeBar_->Update();
+	enemyLifeBar_->Update();
 
 	// カメラの更新
 	followCamera_->Update();
@@ -155,6 +159,7 @@ void BattleScene::Draw() {
 	/// </summary>
 	
 	playerLifeBar_->Draw();
+	enemyLifeBar_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

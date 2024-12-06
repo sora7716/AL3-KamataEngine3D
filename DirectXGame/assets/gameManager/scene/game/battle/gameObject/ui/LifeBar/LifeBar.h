@@ -15,7 +15,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	LifeBar() = default;
+	LifeBar(int characterType);
 
 	/// <summary>
 	/// デストラクタ
@@ -62,5 +62,7 @@ private:
 	float maxHP_;
 	float dmgTimer_;
 	static inline const float kDuration_ = deltaTime * 1/2;
+
+	Vector2 pos_;
 };
 

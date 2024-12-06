@@ -8,6 +8,12 @@ void (Mimic::*Mimic::ActionModeTable[])(){
     &Move,
     &MoveToward,
     &Attack,
+	&CoolDown
+};
+
+void(Mimic::* Mimic::AnimationTable[])() {
+	&BehaviorRootUpdate,
+	&BehaviorBiteUpdate,
 };
 
 // 初期化
@@ -22,6 +28,8 @@ void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 	worldTransform_.translation_ = {.x = 30.0f, .y = 0.0f, .z = 40.0f};
 	worldTransform_.rotation_.x = 0.3f;
 	circulaMoveRadius_ = {0.5f, 0.3f};
+
+	charType_ = CharType::kEnemy;
 }
 
 // 更新
@@ -30,7 +38,7 @@ void Mimic::Update() {
 	ChangeStatus();
 	// 行動
 	(this->*Mimic::ActionModeTable[status_])();
-
+	(this->*Mimic::AnimationTable[(int)mimicModel_->GetBehavior()])();
 	BaseCharacter::Update();
 	mimicModel_->Update();
 #ifdef _DEBUG
@@ -40,6 +48,7 @@ void Mimic::Update() {
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat2("circularMove.radius", &circulaMoveRadius_.x, 0.1f);
 	ImGui::Text("waitTime:%f", waitTime_);
+	ImGui::Text("coolTime:%f", coolTime_);
 	ImGui::End();
 #endif // _DEBUG
 }
@@ -48,7 +57,10 @@ void Mimic::Update() {
 void Mimic::Draw() { mimicModel_->Draw(); }
 
 // 攻撃
-void Mimic::Attack() { isAttacking = true; }
+void Mimic::Attack() {
+	isAttacking = true;
+	mimicModel_->SetBehavior(BehaviorMode::kBite);
+}
 
 // プレイヤーのセッター
 void Mimic::SetPlayer(Player* player) { player_ = player; }
@@ -74,13 +86,13 @@ void Mimic::MoveToward() {
 void Mimic::Move() {
 	isAttacking = false;
 	// 円運動
-	//velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
-	//// Y軸周りの角度(θy)
-	//worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
-	//float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
-	////  X軸周りの角度(θx)
-	//worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
-	//worldTransform_.translation_ += velocity_;
+	velocity_ = Math::CircularMoveVeclocityXZ(circulaMoveRadius_, kSpeed);
+	// Y軸周りの角度(θy)
+	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
+	float velocityXZ = Math::Length({velocity_.x, 0.0f, velocity_.z});
+	//  X軸周りの角度(θx)
+	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
+	worldTransform_.translation_ += velocity_;
 	Direction();
 }
 
@@ -103,10 +115,17 @@ void Mimic::ChangeStatus() {
 
 	if (distance <= kAttackRange) {
 		status_ = (int)Status::kAttack;
+		coolTime_ = kCoolDownInterval;
 	} else if (distance <= kChaseRange) {
-		status_ = (int)Status::kMoveToward;
-		// 待機時間を設定
-		waitTime_ = kWaitInterval;
+		if (coolTime_-- > 0) {
+			status_ = (int)Status::kCoolDown;
+			return;
+		}
+		else {
+			status_ = (int)Status::kMoveToward;
+			// 待機時間を設定
+			waitTime_ = kWaitInterval;
+		}
 	} else {
 		if (waitTime_-- > 0) {
 			// 待機
@@ -125,4 +144,26 @@ void Mimic::Direction() {
 	// Y軸周りの角度(θy)
 	worldTransform_.rotation_.y = atan2(velocity_.x, velocity_.z);
 }
+
+void Mimic::CoolDown(){
+	//isAttacking = false;
+	Direction();
+}
+
+void Mimic::BehaviorRootReset(){
+
+}
+
+void Mimic::BehaviorRootUpdate(){
+	worldTransform_.rotation_.z= Math::AngleLerp(10, -10, EasingMode::kNormal, 1.0f, frame_);
+}
+
+void Mimic::BehaviorBiteReset(){
+
+}
+
+void Mimic::BehaviorBiteUpdate(){
+
+}
+
 #pragma endregion

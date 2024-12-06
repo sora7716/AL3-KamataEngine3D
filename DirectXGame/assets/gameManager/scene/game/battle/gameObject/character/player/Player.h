@@ -61,6 +61,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
+	/// <summary>
+	/// キャラクタータイプのゲッター
+	/// </summary>
+	/// <returns></returns>
+	int GetCharacterType() { return (int)charType_; }
+
 private://メンバ関数
 
 	/// <summary>

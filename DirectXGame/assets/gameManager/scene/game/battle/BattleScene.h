@@ -83,4 +83,6 @@ private: // メンバ変数
 
 	//ライフバー
 	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//エネミー
+	std::unique_ptr<LifeBar> enemyLifeBar_ = nullptr;
 };

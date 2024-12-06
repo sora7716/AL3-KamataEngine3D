@@ -16,6 +16,8 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
+
+	charType_ = CharType::kPlayer;
 }
 
 // 更新

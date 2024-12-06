@@ -4,11 +4,21 @@
 #include "WorldTransform.h"
 #include "WinApp.h" //画面のサイズを使用するため
 #include "input/Input.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
+
+LifeBar::LifeBar(int characterType){
+	if (characterType == static_cast<int>(BaseCharacter::CharType::kPlayer)) {
+		pos_ = { WinApp::kWindowWidth / 2 - (width_ + 70), 650 }; //650は画面のちょうどいいところだと思って付けました。
+	}
+	if (characterType == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
+		pos_ = { WinApp::kWindowWidth / 2 - width_, 200 }; //敵の上に付けたいけど、今は適当
+	}
+}
 
 void LifeBar::Initialize(const std::vector<uint32_t>&& textures){
 	sprites_.resize((int)Label::kNumOfLabels); 
 	for (int i = 0; i < (int)Label::kNumOfLabels; i++) {
-		sprites_[i].reset(Sprite::Create(textures[i], {(WinApp::kWindowWidth / 2) - (width_ / 2), WinApp::kWindowHeight / 2}));
+		sprites_[i].reset(Sprite::Create(textures[i], pos_));
 	}
 
 	maxHP_ = sprites_[(int)Label::kHealth]->GetSize().x;

@@ -16,6 +16,7 @@ public: // 列挙型
 		kMove,   // 移動
 		kMoveToward,  // 追跡
 		kAttack, // 攻撃
+		kCoolDown //攻撃のあと一旦止まる
 	};
 
 public:
@@ -52,6 +53,12 @@ public:
 	/// <param name="player"></param>
 	void SetPlayer(Player* player);
 
+	/// <summary>
+	/// キャラクタータイプのゲッター
+	/// </summary>
+	/// <returns></returns>
+	int GetCharacterType() { return (int)charType_; }
+
 private: // メンバ関数
 	/// <summary>
 	/// ターゲットに向かって移動
@@ -80,6 +87,15 @@ private: // メンバ関数
 	//向き
 	void Direction();
 
+	//攻撃後のクールダウン
+	void CoolDown();
+
+	void BehaviorRootReset();
+	void BehaviorRootUpdate();
+
+	void BehaviorBiteReset();
+	void BehaviorBiteUpdate();
+
 public: // 静的メンバ変数と関数テーブル
 
 	//敵の移動速度
@@ -87,11 +103,14 @@ public: // 静的メンバ変数と関数テーブル
 	// 敵の視界範囲
 	static inline const float kChaseRange = 20.0f;
 	// 攻撃範囲
-	static inline const float kAttackRange = 3.0f;
+	static inline const float kAttackRange = 2.0f;
 	// 行動のテーブル
 	static void (Mimic::*ActionModeTable[])();
+	static void (Mimic::*AnimationTable[])();
 	//待機時間のインターバル
 	static inline const float kWaitInterval = 120;
+	//クールダウン時間のインターバル
+	static inline const float kCoolDownInterval = 60;
 
 private: // メンバ変数
 	std::unique_ptr<MimicModel> mimicModel_ = nullptr;
@@ -107,10 +126,16 @@ private: // メンバ変数
 	int status_ = (int)Status::kIdle; 
 	//待機時間
 	float waitTime_ = 0.0f;
+	//クールダウン時間
+	float coolTime_ = 0.0f;
 	//待機時の最初のアングルを決定するフラグ
 	bool isSetStartAngle_ = false;
 	//最初のアングル
 	float startAngle_ = 0.0f;
 	//アングルタイマー
 	float angleTimer_ = 0.0f;
+
+	float frame_ = 0.0f;
+
+	CharType charType_;
 };
