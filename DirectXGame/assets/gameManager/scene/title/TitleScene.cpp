@@ -6,25 +6,38 @@ TitleScene::~TitleScene() {}
 // 初期化
 void TitleScene::Initialize() {
 
-	textureHandle_ = TextureManager::Load("uvChecker.png");
+	//textureHandle_ = TextureManager::Load("uvChecker.png");
 
-	model_.reset(Model::Create());
+	model_[0].reset(Model::CreateFromOBJ("ma", true));
+	model_[1].reset(Model::CreateFromOBJ("jo", true));
+	model_[2].reset(Model::CreateFromOBJ("no", true));
+	model_[3].reset(Model::CreateFromOBJ("se", true));
+	model_[4].reset(Model::CreateFromOBJ("i", true));
 
-	worldTransform_.Initialize();
+	for (int i = 0; i < 5; i++) {
+		worldTransform_[i].Initialize();
+		worldTransform_[i].scale_ = {2.0f, 2.0f, 2.0f};
+		worldTransform_[i].rotation_.y = pi_f / 2;
+		const float position[5] = {-5.0f, -2.5f, 0.0f, 2.5f, 5.0f};
+		worldTransform_[i].translation_ = {position[i], 8.0f, -32.0f};
+	}
 }
 
 // 更新
 void TitleScene::Update() {
 
-	std::string label = "scale";
-	ImGui::DragFloat3(label.c_str(), &worldTransform_.scale_.x, 0.01f);
-	label = "rotation";
-	ImGui::DragFloat3(label.c_str(), &worldTransform_.rotation_.x, 0.01f);
-	label = "translation";
-	ImGui::DragFloat3(label.c_str(), &worldTransform_.translation_.x, 0.01f);
-	
-	
-	worldTransform_.UpdateMatrix();
+	for (auto &worldTransform : worldTransform_) {
+		std::string label = "scale";
+		ImGui::DragFloat3(label.c_str(), &worldTransform.scale_.x, 0.01f);
+		label = "rotation";
+		ImGui::DragFloat3(label.c_str(), &worldTransform.rotation_.x, 0.01f);
+		label = "translation";
+		ImGui::DragFloat3(label.c_str(), &worldTransform.translation_.x, 0.01f);
+
+		worldTransform.UpdateMatrix();
+	}
+
+	Animation();
 
 	// デバックカメラの更新
 	//DebugCameraMove();
@@ -62,8 +75,11 @@ void TitleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
-	
+	model_[0]->Draw(worldTransform_[0], viewProjection_);
+	model_[1]->Draw(worldTransform_[1], viewProjection_);
+	model_[2]->Draw(worldTransform_[2], viewProjection_);
+	model_[3]->Draw(worldTransform_[3], viewProjection_);
+	model_[4]->Draw(worldTransform_[4], viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -84,4 +100,18 @@ void TitleScene::Draw() {
 }
 
 void TitleScene::Animation() {
+
+	static float frame = 0;
+	static float endFrame = 200;
+
+	if (frame <= endFrame) {
+		frame++;
+	}
+
+	for (auto& worldTransform : worldTransform_) {
+		const float begin = worldTransform.translation_.y;
+		const float end = 2.0f;
+
+		worldTransform.translation_.y = Math::Lerp(begin, end, Easing::GetInstance()->InOutExpo(frame / endFrame));
+	}
 }

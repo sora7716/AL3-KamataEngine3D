@@ -199,6 +199,11 @@ Vector3 Math::TransformNormal(const Vector3& v, const Matrix4x4& m) {
 }
 
 // 線形補間
+float Math::Lerp(float a, float b, float t) {
+	return a + t * (b - a);
+}
+
+// 線形補間
 Vector3 Math::Lerp(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 result;
 	result.x = v1.x + t * (v2.x - v1.x);

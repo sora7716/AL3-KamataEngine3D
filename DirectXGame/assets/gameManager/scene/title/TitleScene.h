@@ -33,6 +33,9 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// アニメーション
+	/// </summary>
 	void Animation();
 
 private: // メンバ変数
@@ -43,8 +46,8 @@ private: // メンバ変数
 	
 	uint32_t textureHandle_ = 0;
 	
-	std::unique_ptr<Model> model_ = nullptr;
+	std::array<std::unique_ptr<Model>, 5> model_;
 	
-	WorldTransform worldTransform_;
+	std::array<WorldTransform, 5> worldTransform_;
 
 };
