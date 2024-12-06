@@ -84,6 +84,12 @@ void Luminous::Draw() {
 // 飛んでいく方向のビュープロジェクションのセッター
 void Luminous::SetDirectionView(ViewProjection* viewProjection) { directionViewProjection_ = viewProjection; }
 
+//センターのゲッター
+WorldTransform& Luminous::GetCenter() { return center_; }
+
+//move_のゲッター
+Vector3 Luminous::GetMove() { return move_; }
+
 // エフェクト
 void Luminous::Effect() {
 	theta_[0] += deltaTime;

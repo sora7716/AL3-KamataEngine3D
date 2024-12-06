@@ -59,6 +59,8 @@ void BattleScene::Initialize() {
 
 	particle_ = std::make_unique<Particle>();
 	particle_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
+	particle_->SetParent(&luminous_->GetCenter());
+	particle_->SetDirectionView(&followCamera_->GetViewProjection());
 }
 
 // 更新
@@ -100,6 +102,7 @@ void BattleScene::Update() {
 	luminous_->DebugText();
 	particle_->Update();
 	particle_->DebugText();
+	particle_->SetMove(luminous_->GetMove());
 #ifdef _DEBUG
 	// デバック
 	ImGui::Begin("test");
@@ -150,8 +153,8 @@ void BattleScene::Draw() {
 	// 敵の描画
 	enemy_->Draw();
 
-	//luminous_->Draw();
-	particle_->Draw();
+	/*luminous_->Draw();
+	particle_->Draw();*/
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

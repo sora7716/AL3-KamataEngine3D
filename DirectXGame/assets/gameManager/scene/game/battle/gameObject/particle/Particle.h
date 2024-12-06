@@ -60,6 +60,24 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 飛ぶ方向のセッター
+	/// </summary>
+	/// <param name="move">方向</param>
+	void SetMove(Vector3 move);
+
+	/// <summary>
+	/// 親子付け
+	/// </summary>
+	/// <param name="parent">おや</param>
+	void SetParent(WorldTransform* parent);
+
+	/// <summary>
+	/// カメラの向いている方向のセッター
+	/// </summary>
+	/// <param name="viewProjection"></param>
+	void SetDirectionView(ViewProjection* viewProjection);
+
 private: // メンバ関数
 	/// <summary>
 	/// パーティクルを生成
@@ -83,14 +101,16 @@ private: // メンバ関数
 	void Blend(Sphere &particle);
 
 public: // 静的メンバ変数
-	static inline const int kParticleNum = 500;
+	static inline const int kParticleNum = 1000;
 	static inline const float kParticleSize = 0.3f;
-
+	static inline const float kParticleSpeed_ = -10.0f;
+	static inline const float kParticleLifeTime_ = 2.0f;
 private: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_ = nullptr;
+	ViewProjection* directionViewProjection_ = nullptr;
 	WorldTransform emission_;
 	std::vector<Sphere> particles_;
-	ObjectColor objectColor_ = {};
-	Vector4 color_ = RED;
+	Vector3 direction_ = {};
+	Vector3 move_;
 };

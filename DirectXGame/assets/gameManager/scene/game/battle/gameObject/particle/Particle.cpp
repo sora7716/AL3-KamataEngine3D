@@ -13,26 +13,23 @@ void Particle::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = model;
 	viewProjection_ = viewProjection;
 	emission_.Initialize();
+	emission_.translation_.z = -1.0f;
 	std::srand(uint32_t(time(nullptr)));
 	for (int i = 0; i < kParticleNum; i++) {
 		Sphere sphere = {};
 		sphere.worldTransform = new WorldTransform;
 		sphere.worldTransform->Initialize();
 		sphere.worldTransform->scale_ = {kParticleSize, kParticleSize, kParticleSize};
-		sphere.speed = 2.0f;
 		sphere.objectColor.Initialize();
 		sphere.color = Math::ColorCodeTransform("#17F598");
 		sphere.isAlive = false;
 		particles_.push_back(sphere);
 	}
-	objectColor_.Initialize();
 }
 
 // 更新
 void Particle::Update() {
 	ParticleUpdate();
-	objectColor_.SetColor(color_);
-	objectColor_.TransferMatrix();
 	emission_.UpdateMatrix();
 }
 
@@ -47,7 +44,6 @@ void Particle::DebugText() {
 
 // 描画
 void Particle::Draw() {
-	model_->Draw(emission_, *viewProjection_, &objectColor_);
 	for (auto& particle : particles_) {
 		if (particle.isAlive) {
 			model_->Draw(*particle.worldTransform, *viewProjection_, &particle.objectColor);
@@ -55,17 +51,31 @@ void Particle::Draw() {
 	}
 }
 
+// 飛ぶ方向のセッター
+void Particle::SetMove(Vector3 move) { move_ = move; }
+
+//親子付け
+void Particle::SetParent(WorldTransform* parent) { emission_.parent_ = parent; }
+
+//カメラの向いている方向のセッター
+void Particle::SetDirectionView(ViewProjection* viewProjection) { directionViewProjection_ = viewProjection; }
+
 // パーティクルの生成
 void Particle::ParticleCreate() {
 	for (auto& particle : particles_) {
 		if (!particle.isAlive) {
-			particle.color = Math::ColorCodeTransform("#17F598");
-			particle.radius = float(std::rand() % 5 + 1);
+			direction_.z = 1.0f;
+			// 移動量に速さを反映
+			direction_ = Math::Normalize(direction_) * kParticleSpeed_;
+			Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
+			direction_ = Math::TransformNormal(direction_, rotMat);
+			particle.color = BLACK;
+			particle.radius = (float)rand() / (float)RAND_MAX * 0.3f;
 			particle.angle = float(std::rand() % 360);
 			particle.worldTransform->translation_ = {
-			    emission_.translation_.x + particle.radius * std::cos(particle.angle),
-			    emission_.translation_.y + particle.radius * std::sin(particle.angle),
-			    emission_.translation_.z,
+			    particle.radius * std::cos(radian(particle.angle)),
+			    particle.radius * std::sin(radian(particle.angle)),
+			    1.0f,
 			};
 			particle.isAlive = true;
 			break;
@@ -77,8 +87,9 @@ void Particle::ParticleCreate() {
 void Particle::ParticleMove() {
 	for (auto& particle : particles_) {
 		if (particle.isAlive) {
-			particle.worldTransform->translation_.z += particle.speed * deltaTime;
+			particle.worldTransform->translation_ += Math::Normalize(move_) * kParticleSpeed_ * deltaTime;
 			Blend(particle);
+			particle.worldTransform->parent_ = &emission_;
 			particle.worldTransform->UpdateMatrix();
 			particle.objectColor.TransferMatrix();
 		}
@@ -94,8 +105,8 @@ void Particle::ParticleUpdate() {
 }
 
 // ブレンド
-void Particle::Blend(Sphere &particle) {
-	particle.color.w -= 0.5f*deltaTime;
+void Particle::Blend(Sphere& particle) {
+	particle.color.w -= deltaTime / kParticleLifeTime_;
 	particle.objectColor.SetColor(particle.color);
 	if (particle.color.w <= 0.0f) {
 		particle.isAlive = false;

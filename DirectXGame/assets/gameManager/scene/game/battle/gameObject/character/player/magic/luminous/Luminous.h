@@ -49,6 +49,18 @@ public: // メンバ関数
 	/// <param name="viewProjection"></param>
 	void SetDirectionView(ViewProjection* viewProjection);
 
+	/// <summary>
+	/// センターのゲッター
+	/// </summary>
+	/// <returns>worldTransform</returns>
+	WorldTransform& GetCenter();
+
+	/// <summary>
+	/// move_のゲッター
+	/// </summary>
+	/// <returns>move_</returns>
+	Vector3 GetMove();
+
 private: // メンバ関数
 	/// <summary>
 	/// エフェクト
