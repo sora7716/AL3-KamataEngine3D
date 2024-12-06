@@ -1,28 +1,28 @@
 #pragma once
 #include <Matrix4x4.h>
-#include <Vector4.h>
-#include <Vector3.h>
 #include <Vector2.h>
-#include <vector>
+#include <Vector3.h>
+#include <Vector4.h>
 #include <list>
+#include <vector>
 #include <cmath>
 #define _USE_MATH_DEFINES
-#include <numbers>
 #include <algorithm>
 #include <cassert>
-#define cont(theta) (1.0f / tanf(theta))
-#define deltaTime   1.0f / 60.0f
-#define kGravity    Vector3(0.0f, -9.8f, 0.0f)
-#define pi_f        std::numbers::pi_v<float>
+#include <numbers>
+#define cont(theta)    (1.0f / tanf(theta))
+#define deltaTime      1.0f / 60.0f
+#define kGravity       Vector3(0.0f, -9.8f, 0.0f)
+#define pi_f           std::numbers::pi_v<float>
 #define radian(degree) degree * (1.0f / 180.0f) * pi_f
-#define degree(radian) radian*(180.0f/pi_f)
+#define degree(radian) radian * (180.0f / pi_f)
 
 // 極座標に使用する構造体
 typedef struct Polar {
-	float radian;//弧度法での角度
-	float radius;//半径
-	float diameter;//直径
-}Polar;
+	float radian;   // 弧度法での角度
+	float radius;   // 半径
+	float diameter; // 直径
+} Polar;
 
 /// <summary>
 /// 加算
@@ -130,10 +130,6 @@ const Vector3 operator/(const Vector3& v1, const Vector3& v2);
 /// <returns></returns>
 const Vector3 operator-(const Vector3& v);
 
-//Vector3& operator=(float num) {
-//
-//}
-
 /// <summary>
 /// 加算
 /// </summary>
@@ -197,4 +193,3 @@ const Matrix4x4 operator~(const Matrix4x4& num);
 /// <param name="num">浮動小数</param>
 /// <returns>行列</returns>
 const Matrix4x4 operator*(const Matrix4x4 m, float num);
-
