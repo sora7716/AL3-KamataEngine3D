@@ -427,7 +427,14 @@ public:
 	/// <returns>θ</returns>
 	static Vector3 Lerp(Vector3 startAngle, Vector3 endAngle, EasingMode mode, float motionTime, float frame);
 
-public:                                     // 静的メンバ変数
+	/// <summary>
+	/// カラーコードをVector4に変換
+	/// </summary>
+	/// <param name="colorCode">カラーコード</param>
+	/// <returns>Vector4</returns>
+	static Vector4 ColorCodeTransform(std::string colorCode);
+
+public:// 静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 	int i;
 };

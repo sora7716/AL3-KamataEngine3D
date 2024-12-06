@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "ObjectColor.h"
 #include <vector>
 // 前方宣言
 class Model;
@@ -54,18 +55,29 @@ private: // メンバ関数
 	/// </summary>
 	void Effect();
 
+	/// <summary>
+	/// 色のブレンド
+	/// </summary>
+	void Blend();
+
 public: // 静的メンバ変数
 	static inline const float kSpeed = 0.3f;
-	static inline const float kSize = 0.3f;
+	static inline const float kEffectSize = 0.3f;
+	static inline const int kEffectNum = 6;
 
 private: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_ = nullptr;
-	std::vector<WorldTransform*> worldTransforms_;
+	WorldTransform center_;//センター
+	//エフェクト
+	std::vector<WorldTransform*> effects_;
+	std::vector<ObjectColor> effectsObjectColor_;//色
+	std::vector<Vector4> effectColors_;//色の値
+	float changeAlphaTimer_ = 0.0f;
+	std::vector<float> moitionTime_;
 	// 飛んでいく方向
 	ViewProjection* directionViewProjection_ = nullptr;
-	Vector3 move_ = {};
-	bool isMoving_ = false;
-
+	Vector3 move_ = {};//動く方向
+	//回転角度
 	float theta_[2] = {};
 };

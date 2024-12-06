@@ -99,6 +99,7 @@ void BattleScene::Update() {
 	luminous_->Update();
 	luminous_->DebugText();
 	particle_->Update();
+	particle_->DebugText();
 #ifdef _DEBUG
 	// デバック
 	ImGui::Begin("test");
@@ -149,7 +150,7 @@ void BattleScene::Draw() {
 	// 敵の描画
 	enemy_->Draw();
 
-	luminous_->Draw();
+	//luminous_->Draw();
 	particle_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -526,3 +526,16 @@ Vector3 Math::Lerp(Vector3 startAngle, Vector3 endAngle, EasingMode mode, float 
 	Vector3 theta = Lerp(startAngle, endAngle, (Easing::GetInstance()->*Easing::EasingTable[(int)mode])(param));
 	return radian(theta);
 }
+
+/// <summary>
+/// カラーコードをVector4に変換
+/// </summary>
+/// <param name="colorCode">カラーコード</param>
+/// <returns>Vector4</returns>
+Vector4 Math::ColorCodeTransform(std::string colorCode) {
+	int r = std::stoi(colorCode.substr(1, 2), nullptr, 16);
+	int g = std::stoi(colorCode.substr(3, 2), nullptr, 16);
+	int b = std::stoi(colorCode.substr(5, 2), nullptr, 16);
+	int alpha = (colorCode.size() == 9) ? std::stoi(colorCode.substr(7, 2), nullptr, 16) : 255;
+	return Vector4(r / 255.0f, g / 255.0f, b / 255.0f, alpha / 255.0f);
+}

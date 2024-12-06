@@ -130,6 +130,10 @@ const Vector3 operator/(const Vector3& v1, const Vector3& v2);
 /// <returns></returns>
 const Vector3 operator-(const Vector3& v);
 
+//Vector3& operator=(float num) {
+//
+//}
+
 /// <summary>
 /// 加算
 /// </summary>

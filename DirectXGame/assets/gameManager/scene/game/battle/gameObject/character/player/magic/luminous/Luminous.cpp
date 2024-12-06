@@ -4,21 +4,42 @@
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
 #include "cassert"
+#include "cstdlib"
+#include "ctime"
 #include "input/Input.h"
+
+//float型でもrand使えるようにした
+float RandomFloat(float min, float max) {
+	// 0.0から1.0の範囲の乱数を生成
+	float randFloat = static_cast<float>(rand()) / RAND_MAX;
+	// minからmaxの範囲にスケーリング
+	return min + randFloat * (max - min);
+}
 // 初期化
 void Luminous::Initialize(Model* model, ViewProjection* viewProjection) {
 	assert(model);
 	model_ = model;
 	viewProjection_ = viewProjection;
-	worldTransforms_.resize(7);
-	for (int i = 0; i < worldTransforms_.size(); i++) {
+	center_.Initialize();
+	center_.translation_.y = 3.0f;
+	std::srand(static_cast<uint32_t>(std::time(nullptr)));
+	center_.scale_ = {0.8f, 0.8f, 0.8f};
+	for (int i = 0; i < kEffectNum; i++) {
+		// 位置
 		WorldTransform* worldTranform = new WorldTransform;
 		worldTranform->Initialize();
 		worldTranform->translation_.y = 3.0f;
-		worldTransforms_[i] = worldTranform;
-	}
-	for (int i = 1; i < worldTransforms_.size(); i++) {
-		worldTransforms_[i]->scale_ = {kSize, kSize, kSize};
+		worldTranform->scale_ = {kEffectSize, kEffectSize, kEffectSize};
+		effects_.push_back(worldTranform);
+		// 色
+		ObjectColor* objectColor = new ObjectColor;
+		objectColor->Initialize();
+		Vector4 color = Math::ColorCodeTransform("#0FDE2B");
+		effectColors_.push_back(color);
+		objectColor->SetColor(color);
+		effectsObjectColor_.push_back(*objectColor);
+		//周期を設定
+		moitionTime_.push_back(RandomFloat(0.1f, 3.0f));
 	}
 }
 
@@ -31,28 +52,32 @@ void Luminous::Update() {
 		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
 		move_ = Math::TransformNormal(move_, rotMat);
 	}
+	//エフェクトの動き
 	Effect();
-	for (auto& worldTransform : worldTransforms_) {
-		// 移動
-		worldTransform->translation_ += move_;
+	//色のブレンド
+	Blend();
+
+	center_.translation_ += move_;
+	center_.UpdateMatrix();
+	for (auto& worldTransform : effects_) {
 		// 行列の更新
 		worldTransform->UpdateMatrix();
 	}
 }
 
 void Luminous::DebugText() {
-	ImGui::Begin("particle");
-	ImGui::DragFloat3("[0].scale", &worldTransforms_[0]->scale_.x, 0.1f);
-	ImGui::DragFloat3("[0].translation", &worldTransforms_[0]->translation_.x, 0.1f);
-	ImGui::DragFloat3("[1].scale", &worldTransforms_[1]->scale_.x, 0.1f);
-	ImGui::DragFloat3("[1].translation", &worldTransforms_[1]->translation_.x, 0.1f);
+	ImGui::Begin("luminous");
+	ImGui::DragFloat3("scale", &center_.scale_.x, 0.1f);
+	ImGui::DragFloat3("translation", &center_.translation_.x, 0.1f);
+	ImGui::Text("effectColor:%f", effectColors_[0].w);
 	ImGui::End();
 }
 
 // 描画
 void Luminous::Draw() {
-	for (auto& worldTranform : worldTransforms_) {
-		model_->Draw(*worldTranform, *viewProjection_);
+	model_->Draw(center_, *viewProjection_);
+	for (int i = 0; i < effects_.size(); i++) {
+		model_->Draw(*effects_[i], *viewProjection_, &effectsObjectColor_[i]);
 	}
 }
 
@@ -79,8 +104,19 @@ void Luminous::Effect() {
 
 		// 各要素を処理
 		for (int j = 0; j < 3; ++j) {
-			int index = 1 + i * 3 + j; // 配列のインデックスを計算
-			worldTransforms_[index]->translation_ = Math::LissajousCurve(factors[j], worldTransforms_[0]->translation_, colors[j]);
+			int index = i * 3 + j; // 配列のインデックスを計算
+			effects_[index]->translation_ = Math::LissajousCurve(factors[j], center_.translation_, colors[j]);
 		}
+	}
+}
+
+//色のブレンド
+void Luminous::Blend() {
+	changeAlphaTimer_ += deltaTime * 3.0f;
+	// 色の変更
+	for (int i = 0; i < effects_.size(); i++) {
+		effectColors_[i].w = Math::Lerp(40, 10, EasingMode::kNormal, moitionTime_[i], changeAlphaTimer_);
+		effectsObjectColor_[i].SetColor(effectColors_[i]);
+		effectsObjectColor_[i].TransferMatrix();
 	}
 }
