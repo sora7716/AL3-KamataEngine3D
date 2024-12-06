@@ -34,12 +34,14 @@ void Particle::Update() {
 }
 
 void Particle::DebugText() {
+#ifdef _DEBUG
 	ImGui::Begin("particle");
 	ImGui::DragFloat3("scale", &emission_.scale_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &emission_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("transration", &emission_.translation_.x, 0.1f);
 	ImGui::Text("colorAlpha:%f", particles_[0].color.w);
 	ImGui::End();
+#endif // _DEBUG
 }
 
 // 描画
