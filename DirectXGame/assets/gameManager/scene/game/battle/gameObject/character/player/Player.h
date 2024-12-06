@@ -27,17 +27,17 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection)override;
+	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update()override;
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw()override;
+	void Draw() override;
 
 	/// <summary>
 	/// ビュープロジェクションのセッター
@@ -62,6 +62,15 @@ public: // メンバ関数
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
 	/// <summary>
+	/// ダッシュの初期化
+	/// </summary>
+	void BehaviorDashInitialize();
+
+	/// <summary>
+	// ダッシュの更新
+	/// </summary>
+	void BehaviorDashUpdate();
+	/// <summary>
 	/// キャラクタータイプのゲッター
 	/// </summary>
 	/// <returns></returns>
@@ -69,6 +78,7 @@ public: // メンバ関数
 
 private://メンバ関数
 
+private: // メンバ関数
 	/// <summary>
 	/// 通常行動用
 	/// </summary>
@@ -79,15 +89,30 @@ private://メンバ関数
 	/// </summary>
 	void BehaviorBlowUpdate();
 
+	/// <summary>
+	/// 移動
+	/// </summary>
+	/// <param name="speed">速度</param>
+	void Moving(float speed);
+
+public:                                                  // 静的メンバ変数
+	static inline const uint32_t kBehaviorDashTime = 60; // ダッシュの時間の上限
+	static inline const int kBlowTime =90;              // 打撃の継続時間
+	static inline float const kSpeed_ = 0.3f;            // 速度
+	static void (Player::*ActionTable[])();//アクションテーブル
+
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;
 	// プレイヤーのモデル
-	std::unique_ptr<PlayerModel> playerModel_ = nullptr;//プレイヤーの体
-	Vector3 move_{};           // 移動量
-	bool isMoving_ = false;    // 移動したかどうかのフラグ
-	const float speed_ = 0.3f; // 速度
-	float goalAngle_ = 0.0f;   // 目標角度
-	float rotateFrame_ = 0.5f; // 回転するフレーム
-	bool isBlow_ = false;//打撃を開始
-	float blowBeginPos_ = 0.0f;//打撃を開始した位置
+	std::unique_ptr<PlayerModel> playerModel_ = nullptr; // プレイヤーの体
+	Vector3 move_{};                                     // 移動量
+	bool isMoving_ = false;                              // 移動したかどうかのフラグ
+	float goalAngle_ = 0.0f;                             // 目標角度
+	float rotateFrame_ = 0.5f;                           // 回転するフレーム
+	bool isBlow_ = false;                                // 打撃を開始
+	float blowBeginPos_ = 0.0f;                          // 打撃を開始した位置
+	float speed_ = kSpeed_;                              // スピード
+	float speedScaler_ = 10.0f;                          // スピードの倍率
+	// ジョイスティックの状態
+	XINPUT_STATE joyState_, preJoyState_; // 現在と過去
 };

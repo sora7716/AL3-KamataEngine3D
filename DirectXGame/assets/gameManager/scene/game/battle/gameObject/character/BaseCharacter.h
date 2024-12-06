@@ -44,12 +44,24 @@ public://メンバ関数
 	virtual void Draw();
 
 	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	/// <param name="label">ラベル</param>
+	virtual void DebugText(const char* label);
+
+	/// <summary>
 	/// ワールドトランスフォームのゲッター
 	/// </summary>
 	/// <returns></returns>
 	const WorldTransform& GetWorldTransform();
 
 	const Vector3 GetWorldPos();
+	
+	/// <summary>
+	/// ビュープロジェクションのゲッター
+	/// </summary>
+	/// <returns>ビュープロジェクション</returns>
+	ViewProjection& GetViewProjection();
 
 protected://メンバ変数
 	//モデルデータ配列

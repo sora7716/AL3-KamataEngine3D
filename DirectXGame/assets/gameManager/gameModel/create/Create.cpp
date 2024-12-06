@@ -22,9 +22,10 @@ Create* Create::GetInstance() {
 // モデルをクリエイト
 void Create::ModelCreate() {
 	models_.resize((int)Type::kModelNum); // 配列の大きさを設定
-	models_[static_cast<int>(typeHexagon)].reset(Model::CreateFromOBJ("hexagon", true));
-	models_[static_cast<int>(typeSkydome)].reset(Model::CreateFromOBJ("skydome", true));
-	models_[static_cast<int>(typeGround)].reset(Model::CreateFromOBJ("ground", true));
+	models_[typeHexagon].reset(Model::CreateFromOBJ("hexagon", true));
+	models_[typeSkydome].reset(Model::CreateFromOBJ("skydome", true));
+	models_[typeGround].reset(Model::CreateFromOBJ("ground", true));
+	models_[typeParticle].reset(Model::CreateFromOBJ("particle", true));
 
 	// プレイヤーのモデル
 	playerModels_.resize((int)PlayerParts::kPlayerNum);// サイズを設定
@@ -32,7 +33,7 @@ void Create::ModelCreate() {
 	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
 	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
 	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
-	playerModels_[typeStaff].reset(Model::CreateFromOBJ("LowerHalfStaff", true));//杖
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));//杖
 
 	//ミミックのモデル
 	mimicModels_.resize((int)MimicParts::kPartsNum);//サイズの設定

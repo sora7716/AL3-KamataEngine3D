@@ -1,6 +1,6 @@
 #pragma once
 // シーン
-#include "assets/gameManager/controller/Controller.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
 
 // ゲームモデル
@@ -8,6 +8,8 @@
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/magic/luminous/Luminous.h"
+#include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
 
 // ワイヤーフレーム
 #include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
@@ -73,6 +75,10 @@ private: // メンバ変数
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	//パーティクル
+	std::unique_ptr<Luminous> luminous_ = nullptr;
+	std::unique_ptr<Particle> particle_ = nullptr;
 
 	// コントローラーのタイプ
 	Controller* controller_ = nullptr;

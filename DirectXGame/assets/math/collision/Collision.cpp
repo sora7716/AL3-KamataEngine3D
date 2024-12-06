@@ -12,7 +12,7 @@ Collision* Collision::GetInstance() {
 
 // 球と球の衝突判定
 bool Collision::IsCollision(const Vector3& posA, const Vector3& posB, float radiusA, float radiusB) {
-	float distance = Math::Length(posA - posB);
+	float distance = Math::Norm(posA - posB);
 	float radiusSum = radiusA + radiusB;
 	if (distance * distance <= radiusSum) {
 		return true;

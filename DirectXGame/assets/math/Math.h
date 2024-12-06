@@ -187,14 +187,14 @@ public:
 	/// </summary>
 	/// <param name="v">vector</param>
 	/// <returns></returns>
-	static float Length(const Vector3& v);
+	static float Norm(const Vector3& v);
 
 	/// <summary>
 	/// ノルム(float)
 	/// </summary>
 	/// <param name="num">数字</param>
 	/// <returns></returns>
-	static float Length(float num);
+	static float Norm(float num);
 
 	/// <summary>
 	/// 正規化vector
@@ -405,7 +405,36 @@ public:
 	/// <returns>角度</returns>
 	static float TriangleAngleLerp(float startAngle, float endAngle, EasingMode easingMode, float motionTime, float& angleTime);
 
-public:                                     // 静的メンバ変数
+	/// <summary>
+	/// 線形補間(周期的にくり返すfloat)
+	/// </summary>
+	/// <param name="startAngle">スタートの角度</param>
+	/// <param name="endAngle">エンドの角度</param>
+	/// <param name="mode">イージングモード</param>
+	/// /// <param name="motionTime">周期</param>
+	/// <param name="frame">フレーム</param>
+	/// <returns>θ</returns>
+	static float Lerp(float startAngle, float endAngle, EasingMode mode, float motionTime, float frame);
+
+	/// <summary>
+	/// 線形補間(周期的にくり返すVector3)
+	/// </summary>
+	/// <param name="startAngle">スタートの角度</param>
+	/// <param name="endAngle">エンドの角度</param>
+	/// <param name="mode">イージングモード</param>
+	/// /// <param name="motionTime">周期</param>
+	/// <param name="frame">フレーム</param>
+	/// <returns>θ</returns>
+	static Vector3 Lerp(Vector3 startAngle, Vector3 endAngle, EasingMode mode, float motionTime, float frame);
+
+	/// <summary>
+	/// カラーコードをVector4に変換
+	/// </summary>
+	/// <param name="colorCode">カラーコード</param>
+	/// <returns>Vector4</returns>
+	static Vector4 ColorCodeTransform(std::string colorCode);
+
+public:// 静的メンバ変数
 	static inline const int kAABB2DNum = 2; // 2次元で見たAABBの数
 	int i;
 };

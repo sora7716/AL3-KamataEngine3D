@@ -3,9 +3,15 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "assets/math/Math.h"
-#include "input/Input.h"
 #include "assets/math/easing/Easing.h"
+#include "input/Input.h"
 #include <cassert>
+
+void (Player::*Player::ActionTable[])() = {
+    &BehaviorRootUpdate,
+    &BehaviorBlowUpdate,
+    &BehaviorDashUpdate,
+};
 
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
@@ -24,7 +30,11 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-	BehaviorRootUpdate();
+	if (playerModel_->GetBehavior() != BehaviorMode::kDash) {
+		BehaviorRootUpdate();
+	} else {
+		BehaviorDashUpdate();
+	}
 	BaseCharacter::Update(); // 更新
 }
 
@@ -39,16 +49,28 @@ void Player::SetViewProjection(const ViewProjection* viewProjection) { direction
 
 // ゲームパッドの操作
 void Player::GamepadControl() {
-	XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	if (Input::GetInstance()->GetJoystickState(0, joyState_) && Input::GetInstance()->GetJoystickStatePrevious(0, preJoyState_)) {
+		// 移動
 		const float deadZone = 0.7f * SHRT_MAX; // デッドソーン
 		isMoving_ = false;                      // 移動してない
 		// 移動量
-		move_ = {(float)joyState.Gamepad.sThumbLX, 0.0f, (float)joyState.Gamepad.sThumbLY};
-		if (Math::Length(move_) > deadZone) {
+		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
+		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
+		}
+		// 攻撃
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
+			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
+				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+				playerModel_->SetActionTime((float)kBlowTime);
+			}
+		}
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			BehaviorDashInitialize();
+		} else {
+			speed_ = kSpeed_;
 		}
 	}
 }
@@ -59,7 +81,10 @@ void Player::KeyboardControl() {
 	bool left = Input::GetInstance()->PushKey(DIK_A);
 	bool front = Input::GetInstance()->PushKey(DIK_W);
 	bool back = Input::GetInstance()->PushKey(DIK_S);
-	if (right || left || front || back) {
+	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
+//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
+	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
+	if ((right || left || front || back)) {
 		isMoving_ = true; // 移動した
 		// 左右移動
 		if (right) {
@@ -80,22 +105,31 @@ void Player::KeyboardControl() {
 	} else {
 		isMoving_ = false; // 移動をやめた
 	}
+	if (attack) {
+		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+		playerModel_->SetActionTime((float)kBlowTime);
+	}
+	if (dash) {
+		BehaviorDashInitialize();
+	}
 }
 
-// 通常行動用
-void Player::BehaviorRootUpdate() {
-	// 移動量に速さを反映
-	if (isMoving_) {
-		move_ = Math::Normalize(move_) * speed_;
-		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
-		move_ = Math::TransformNormal(move_, rotMat);
-		// Y軸周りの角度(θy)
-		goalAngle_ = atan2(move_.x, move_.z);
-		// 移動
-		worldTransform_.translation_ += move_;
-	}
-	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
+// ダッシュの初期化
+void Player::BehaviorDashInitialize() {
+	isMoving_ = true;
+	worldTransform_.rotation_.y = goalAngle_;
+	playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
+	playerModel_->SetActionTime((float)kBehaviorDashTime);
+	isMoving_ = true;
+	move_ = {0, 0, 1.0f};
+	speed_ = 3.0f / speedScaler_;
 }
+
+// ダッシュの更新
+void Player::BehaviorDashUpdate() { Moving(speed_ * speedScaler_); }
+
+// 通常行動用
+void Player::BehaviorRootUpdate() { Moving(speed_); }
 
 // 打撃用
 void Player::BehaviorBlowUpdate() {
@@ -104,7 +138,19 @@ void Player::BehaviorBlowUpdate() {
 		blowBeginPos_ = worldTransform_.translation_.z;
 	}
 	worldTransform_.translation_.z = std::lerp(worldTransform_.translation_.z, blowBeginPos_ + 10.0f, 0.1f);
-	if (worldTransform_.translation_.z >= blowBeginPos_ + 10.0f - 0.1f) {
-		isBlow_ = false;
+}
+
+// 移動
+void Player::Moving(float speed) {
+	// 移動量に速さを反映
+	if (isMoving_) {
+		move_ = Math::Normalize(move_) * speed;
+		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
+		move_ = Math::TransformNormal(move_, rotMat);
+		// Y軸周りの角度(θy)
+		goalAngle_ = atan2(move_.x, move_.z);
+		// 移動
+		worldTransform_.translation_ += move_;
 	}
+	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 }

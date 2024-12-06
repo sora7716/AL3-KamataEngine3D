@@ -36,6 +36,11 @@ public://メンバ関数
 	void Draw() override;
 	
 	/// <summary>
+	/// 通常状態の初期化
+	/// </summary>
+	void BehaviorRootReset()override;
+
+	/// <summary>
 	/// 通常
 	/// </summary>
 	void BehaviorRootUpdate() override;
@@ -44,4 +49,9 @@ public://メンバ関数
 	/// 打撃
 	/// </summary>
 	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
 };
