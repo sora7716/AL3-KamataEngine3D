@@ -1,12 +1,12 @@
 #include "GameManager.h"
-#include "scene/title/TitleScene.h"
-#include "scene/game/search/SearchScene.h"
-#include "scene/game/battle/BattleScene.h"
 #include "scene/end/EndScene.h"
+#include "scene/game/battle/BattleScene.h"
+#include "scene/game/search/SearchScene.h"
+#include "scene/title/TitleScene.h"
 
 // インスタンスのゲッター
-GameManager* GameManager::GetInstance() { 
-//関数内にstatic変数として宣言
+GameManager* GameManager::GetInstance() {
+	// 関数内にstatic変数として宣言
 	static GameManager instance;
 
 	return &instance;
@@ -14,13 +14,15 @@ GameManager* GameManager::GetInstance() {
 
 // 初期化
 void GameManager::Initialize() {
+	// モデルの生成
+	CreateModel();
 	// シーンのナンバーを検出
 	sceneNo_ = static_cast<int32_t>(currentScene_);
 	// タイトルシーン
 	if (currentScene_ == Scene::kTitle) {
 		if (scenes_[sceneNo_] == nullptr) {
 			scenes_[sceneNo_] = std::make_unique<TitleScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 		} else if (scenes_[sceneNo_]->IsFinished()) {
 			// シーンの削除
 			scenes_[sceneNo_] = nullptr;
@@ -29,7 +31,7 @@ void GameManager::Initialize() {
 			// シーンのナンバーを検出
 			sceneNo_ = static_cast<int32_t>(currentScene_);
 			scenes_[sceneNo_] = std::make_unique<SearchScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 			scenes_[sceneNo_]->SetIsFinished(false);
 		}
 	}
@@ -37,7 +39,7 @@ void GameManager::Initialize() {
 	else if (currentScene_ == Scene::kSearch) {
 		if (scenes_[sceneNo_] == nullptr) {
 			scenes_[sceneNo_] = std::make_unique<SearchScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 		} else if (scenes_[sceneNo_]->IsFinished()) {
 			// シーンの削除
 			scenes_[sceneNo_] = nullptr;
@@ -46,7 +48,7 @@ void GameManager::Initialize() {
 			// シーンのナンバーを検出
 			sceneNo_ = static_cast<int32_t>(currentScene_);
 			scenes_[sceneNo_] = std::make_unique<BattleScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 			scenes_[sceneNo_]->SetIsFinished(false);
 		}
 	}
@@ -54,7 +56,7 @@ void GameManager::Initialize() {
 	else if (currentScene_ == Scene::kBattle) {
 		if (scenes_[sceneNo_] == nullptr) {
 			scenes_[sceneNo_] = std::make_unique<BattleScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 		} else if (scenes_[sceneNo_]->IsFinished()) {
 			// シーンの削除
 			scenes_[sceneNo_] = nullptr;
@@ -63,7 +65,7 @@ void GameManager::Initialize() {
 			// シーンのナンバーを検出
 			sceneNo_ = static_cast<int32_t>(currentScene_);
 			scenes_[sceneNo_] = std::make_unique<EndScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 			scenes_[sceneNo_]->SetIsFinished(false);
 		}
 	}
@@ -71,7 +73,7 @@ void GameManager::Initialize() {
 	else if (currentScene_ == Scene::kEnd) {
 		if (scenes_[sceneNo_] == nullptr) {
 			scenes_[sceneNo_] = std::make_unique<EndScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 		} else if (scenes_[sceneNo_]->IsFinished()) {
 			// シーンの削除
 			scenes_[sceneNo_] = nullptr;
@@ -80,7 +82,7 @@ void GameManager::Initialize() {
 			// シーンのナンバーを検出
 			sceneNo_ = static_cast<int32_t>(currentScene_);
 			scenes_[sceneNo_] = std::make_unique<TitleScene>();
-			scenes_[sceneNo_]->Initialize();
+			scenes_[sceneNo_]->Initialize(create_);
 			scenes_[sceneNo_]->SetIsFinished(false);
 		}
 	}
@@ -130,4 +132,13 @@ void GameManager::Draw() {
 	else if (currentScene_ == Scene::kEnd) {
 		scenes_[sceneNo_]->Draw();
 	}
+}
+
+// モデルの生成
+void GameManager::CreateModel() {
+	create_ = Create::GetInstance();
+	create_->TitleSceneModel();
+	create_->BattleSceneModel();
+	create_->SearchSceneModel();
+	create_->EndSceneModel();
 }

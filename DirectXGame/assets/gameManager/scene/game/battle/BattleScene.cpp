@@ -6,9 +6,9 @@ using namespace std;
 BattleScene::~BattleScene() {}
 
 // 初期化
-void BattleScene::Initialize() {
+void BattleScene::Initialize(Create* create) {
 	//モデルの生成
-	create_->BattleSceneModel();
+	create_ = create;
 	// OBB
 	obb_ = make_unique<OBB>(); // 生成
 	obbMaterial_ = {

@@ -39,7 +39,7 @@ public: // 列挙型
 
 public: // 純粋仮想関数
 	virtual ~IScene() = default;
-	virtual void Initialize() = 0;
+	virtual void Initialize(Create*create) = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
@@ -55,12 +55,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
-
-	/// <summary>
-	/// シーンナンバーのセッター
-	/// </summary>
-	/// <param name="sceneNo"></param>
-	void SetSceneNo(uint32_t sceneNo);
 
 protected: // メンバ関数
 	/// <summary>

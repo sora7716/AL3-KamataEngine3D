@@ -23,10 +23,6 @@ IScene::IScene() {
 #endif // _DEBUG
 #pragma endregion
 
-	// クリエイト
-	create_ = Create::GetInstance(); // クリエイトの生成
-	create_->TextureCreate();        // テクスチャの生成
-
 	// カメラ
 	cameraWorldTransform_.Initialize(); // カメラのワールドトランスフォームの初期化
 	// レールカメラ

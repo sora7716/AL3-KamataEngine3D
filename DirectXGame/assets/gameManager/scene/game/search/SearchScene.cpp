@@ -4,9 +4,9 @@
 SearchScene::~SearchScene() {}
 
 // 初期化
-void SearchScene::Initialize() {
+void SearchScene::Initialize(Create*create) {
 	// モデルの生成
-	create_->BattleSceneModel();
+	create_=create;
 }
 
 // 更新

@@ -55,6 +55,11 @@ private://メンバ関数
 	/// </summary>
 	~GameManager() = default;
 
+	/// <summary>
+	/// モデルの生成
+	/// </summary>
+	void CreateModel();
+
 public: // 静的メンバ変数
 
 	static inline const int32_t kSceneNum = static_cast<int32_t>(Scene::SceneNum); // シーンの数
@@ -67,4 +72,6 @@ private: // メンバ変数
 	int32_t sceneNo_ = 0;
 	// シーンのインスタンス
 	std::unique_ptr<IScene> scenes_[kSceneNum] = {nullptr};
+	//クリエイトクラス
+	Create*create_ = nullptr;
 };
