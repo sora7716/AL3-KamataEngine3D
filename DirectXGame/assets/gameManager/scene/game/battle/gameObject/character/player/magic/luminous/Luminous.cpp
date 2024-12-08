@@ -66,11 +66,14 @@ void Luminous::Update() {
 }
 
 void Luminous::DebugText() {
+#ifdef DEBUG
 	ImGui::Begin("luminous");
 	ImGui::DragFloat3("scale", &center_.scale_.x, 0.1f);
 	ImGui::DragFloat3("translation", &center_.translation_.x, 0.1f);
 	ImGui::Text("effectColor:%f", effectColors_[0].w);
 	ImGui::End();
+
+#endif // DEBUG
 }
 
 // 描画

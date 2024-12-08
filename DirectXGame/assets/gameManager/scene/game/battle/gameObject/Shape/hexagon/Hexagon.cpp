@@ -1,5 +1,5 @@
 #include "Hexagon.h"
-#include "imgui.h"
+//#include "imgui.h"
 #include <cmath>
 #include <numbers>
 #include <string>
@@ -37,12 +37,15 @@ void Hexagon::Update() {
 
 // デバックテキスト
 void Hexagon::DebugText(const char* name) {
+	(void*)name;
+#ifdef DEBUG
 	std::string centerText = static_cast<std::string>(name) + ".center";
 	ImGui::DragFloat3(centerText.c_str(), &hexagon_.center.x, 0.1f);
 	std::string radiusText = static_cast<std::string>(name) + ".size";
 	ImGui::SliderFloat3(radiusText.c_str(), &hexagon_.size.x, 0.0f, 2.0f);
 	std::string rotateText = static_cast<std::string>(name) + ".rotate";
 	ImGui::DragFloat3(rotateText.c_str(), &rotate_.x, 0.1f);
+#endif // DEBUG
 }
 
 // 描画

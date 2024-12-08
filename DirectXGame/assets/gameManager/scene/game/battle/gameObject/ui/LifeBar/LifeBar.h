@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	bool Update();
 
 	/// <summary>
 	/// 体力を描画する
@@ -50,6 +50,8 @@ public:
 	void CoolDown();
 
 	void DebugWindow();
+
+	bool GetIsDead() { return isDead_; }
 private:
 	enum class Label {
 		kDamage,
@@ -65,11 +67,13 @@ private:
 	const static int height_ = 64;
 
 	bool isDamaged_ = false;
+	bool isDead_ = false;
 
 	float currentHP_;
 	float targetHP_;
 	float maxHP_;
 	float dmgTimer_;
+	int characterType_;
 	static inline const float kDuration_ = deltaTime * 1/2;
 
 	Vector2 pos_;

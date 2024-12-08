@@ -69,6 +69,12 @@ void BattleScene::Initialize() {
 
 // 更新
 void BattleScene::Update() {
+	//ループをさせる処理
+	if (isDead_ || isClear_) {
+		isDead_ = false;
+		isClear_ = false;
+		Initialize();
+	}
 	// デバックカメラの更新
 	DebugCameraMove();
 
@@ -94,22 +100,21 @@ void BattleScene::Update() {
 
 	// プレイヤーの更新
 	player_->Update();
-	player_->DebugText("player");
 
-	playerLifeBar_->DebugWindow();
-	playerLifeBar_->Update();
-	enemyLifeBar_->Update();
+	//playerLifeBar_->DebugWindow();
+	isDead_ = playerLifeBar_->Update();
 
 	// カメラの更新
 	followCamera_->Update();
 
 	// 敵の更新
 	enemy_->Update();
+	isClear_ = enemyLifeBar_->Update();
 
-	luminous_->Update();
-	luminous_->DebugText();
-	particle_->Update();
-	particle_->DebugText();
+	//luminous_->Update();
+	//luminous_->DebugText();
+	//particle_->Update();
+	//particle_->DebugText();
 
 	//当たり判定チェック
 	CheckPlayerEnemyCollision();
@@ -119,6 +124,9 @@ void BattleScene::Update() {
 	// デバック
 	ImGui::Begin("test");
 	ImGui::Checkbox("controlType", &isSelectContorol_);
+
+	player_->DebugText("player");
+
 	ImGui::End();
 #endif // _DEBUG
 }
@@ -166,7 +174,7 @@ void BattleScene::Draw() {
 	enemy_->Draw();
 
 	//luminous_->Draw();
-	particle_->Draw();
+	//particle_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

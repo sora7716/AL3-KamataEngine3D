@@ -8,10 +8,12 @@
 
 LifeBar::LifeBar(int characterType){
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kPlayer)) {
+		characterType_ = characterType;
 		pos_ = { WinApp::kWindowWidth / 2 - (width_ + 70), 650 }; //650は画面のちょうどいいところだと思って付けました。
 	}
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
-		pos_ = { WinApp::kWindowWidth / 2 - width_, 200 }; //敵の上に付けたいけど、今は適当
+		characterType_ = characterType;
+		pos_ = { WinApp::kWindowWidth / 2 - width_ / 2, 50 }; //敵の上に付けたいけど、今は適当
 	}
 }
 
@@ -20,14 +22,19 @@ void LifeBar::Initialize(const std::vector<uint32_t>&& textures){
 	for (int i = 0; i < (int)Label::kNumOfLabels; i++) {
 		sprites_[i].reset(Sprite::Create(textures[i], pos_));
 	}
-
+	if (characterType_ == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
+		sprites_[1].reset(Sprite::Create(textures[3], pos_));//ライフバー色を変える
+	}
 	maxHP_ = sprites_[(int)Label::kHealth]->GetSize().x;
 	currentHP_ = maxHP_;
 }
 
-void LifeBar::Update(){
+bool LifeBar::Update(){
 	AdjustHP();
 	CoolDown();
+
+	bool checkIfDead = GetIsDead();
+	return checkIfDead;
 }
 
 void LifeBar::Draw(){
@@ -60,10 +67,13 @@ void LifeBar::TookDamage(){
 			(float)sprites_[(int)Label::kHealth]->GetSize().y //変化なし
 		};
 
+		//14は画像のサイズなので、14だともう死んでいる。
+		//死亡確認
 		if (targetHP.x <= 14) {
 			targetHP.x = 14;
 			sprites_[(int)Label::kHealth]->SetColor({});
 			sprites_[(int)Label::kDamage]->SetColor({});
+			isDead_ = true;
 		}
 
 		//体力を更新

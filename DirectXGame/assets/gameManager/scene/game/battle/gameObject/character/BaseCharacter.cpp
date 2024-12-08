@@ -23,12 +23,15 @@ void BaseCharacter::Update() { worldTransform_.UpdateMatrix(); }
 void BaseCharacter::Draw() {}
 
 //デバックテキスト
-void BaseCharacter::DebugText(const char* label) { 
+void BaseCharacter::DebugText(const char* label) {
+	(void*)label;
+#ifdef DEBUG
 	ImGui::Begin(label);
 	ImGui::DragFloat3("scale", &worldTransform_.translation_.x, 0.1f, 0.0f, 3.0f);
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
+#endif //DEBUG
 }
 
 //ワールドトランスフォームのゲッター
