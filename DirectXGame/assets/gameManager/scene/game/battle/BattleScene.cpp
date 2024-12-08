@@ -97,6 +97,17 @@ void BattleScene::Update() {
 
 	// コントローラのタイプ
 	controller_->ControlUpdate((Controller::ControlType)isSelectContorol_);
+	//キーボードで操作を切り替え処理
+	if (!isSelectContorol_) {
+		if (Input::GetInstance()->PushKey(DIK_0)) {
+			isSelectContorol_ = true;
+		}
+	}
+	else {
+		if (Input::GetInstance()->PushKey(DIK_0)) {
+			isSelectContorol_ = false;
+		}
+	}
 
 	// プレイヤーの更新
 	player_->Update();
