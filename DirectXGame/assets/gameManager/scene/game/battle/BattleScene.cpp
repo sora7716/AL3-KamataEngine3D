@@ -36,7 +36,7 @@ void BattleScene::Initialize() {
 	// プレイヤー
 	player_ = make_unique<Player>();
 	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
-	//体力
+	// 体力
 	playerLifeBar_ = std::make_unique<LifeBar>(player_->GetCharacterType());
 	playerLifeBar_->Initialize(create_->GetTextureHandle());
 
@@ -57,7 +57,6 @@ void BattleScene::Initialize() {
 	enemyLifeBar_ = std::make_unique<LifeBar>(enemy_->GetCharacterType());
 	enemyLifeBar_->Initialize(create_->GetTextureHandle());
 
-
 	// 光り輝くパーティクル
 	luminous_ = std::make_unique<Luminous>();
 	luminous_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
@@ -69,7 +68,7 @@ void BattleScene::Initialize() {
 
 // 更新
 void BattleScene::Update() {
-	//ループをさせる処理
+	// ループをさせる処理
 	if (isDead_ || isClear_) {
 		isDead_ = false;
 		isClear_ = false;
@@ -97,22 +96,15 @@ void BattleScene::Update() {
 
 	// コントローラのタイプ
 	controller_->ControlUpdate((Controller::ControlType)isSelectContorol_);
-	//キーボードで操作を切り替え処理
-	if (!isSelectContorol_) {
-		if (Input::GetInstance()->TriggerKey(DIK_0)) {
-			isSelectContorol_ = true;
-		}
-	}
-	else {
-		if (Input::GetInstance()->TriggerKey(DIK_0)) {
-			isSelectContorol_ = false;
-		}
+	// キーボードで操作を切り替え処理
+	if (Input::GetInstance()->TriggerKey(DIK_0)) {
+		isSelectContorol_ ^= true;
 	}
 
 	// プレイヤーの更新
 	player_->Update();
 
-	//playerLifeBar_->DebugWindow();
+	// playerLifeBar_->DebugWindow();
 	isDead_ = playerLifeBar_->Update();
 
 	// カメラの更新
@@ -122,14 +114,14 @@ void BattleScene::Update() {
 	enemy_->Update();
 	isClear_ = enemyLifeBar_->Update();
 
-	//luminous_->Update();
-	//luminous_->DebugText();
-	//particle_->Update();
-	//particle_->DebugText();
+	// luminous_->Update();
+	// luminous_->DebugText();
+	// particle_->Update();
+	// particle_->DebugText();
 
-	//当たり判定チェック
+	// 当たり判定チェック
 	CheckPlayerEnemyCollision();
-	//武器の当たり判定
+	// 武器の当たり判定
 	CheckPlayerAttack();
 #ifdef _DEBUG
 	// デバック
@@ -184,9 +176,9 @@ void BattleScene::Draw() {
 	// 敵の描画
 	enemy_->Draw();
 
-	//luminous_->Draw();
-	//particle_->Draw();
-	// 3Dオブジェクト描画後処理
+	// luminous_->Draw();
+	// particle_->Draw();
+	//  3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
 
@@ -197,7 +189,7 @@ void BattleScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	
+
 	playerLifeBar_->Draw();
 	enemyLifeBar_->Draw();
 
@@ -207,7 +199,7 @@ void BattleScene::Draw() {
 #pragma endregion
 }
 
-void BattleScene::CheckPlayerEnemyCollision(){
+void BattleScene::CheckPlayerEnemyCollision() {
 	bool isCollision = false;
 	AABB player, enemy;
 	player = player_->GetAABB();
@@ -216,13 +208,12 @@ void BattleScene::CheckPlayerEnemyCollision(){
 	isCollision = Collision::GetInstance()->IsCollision(player, enemy);
 	if (isCollision) {
 		playerLifeBar_->TookDamage();
-	}
-	else {
+	} else {
 		isCollision = false;
 	}
 }
 
-void BattleScene::CheckPlayerAttack(){
+void BattleScene::CheckPlayerAttack() {
 	bool isCollision = false;
 	AABB playerWeapon, enemy;
 
@@ -230,10 +221,9 @@ void BattleScene::CheckPlayerAttack(){
 	enemy = enemy_->GetAABB();
 
 	isCollision = Collision::GetInstance()->IsCollision(playerWeapon, enemy);
-	if (isCollision && player_->GetBehavior()== PlayerMode::kBlow) {
+	if (isCollision && player_->GetBehavior() == PlayerMode::kBlow) {
 		enemyLifeBar_->TookDamage();
-	}
-	else {
+	} else {
 		isCollision = false;
 	}
 }
