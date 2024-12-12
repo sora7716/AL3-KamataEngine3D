@@ -1,10 +1,34 @@
 #include "IScene.h"
 
+//初期化
+void IScene::Initialize(Create* create) { create_ = create; }
+
+//更新
+void IScene::Update() { UpdateViewProjection(); }
+
 // 終了フラグのゲッター
 bool IScene::IsFinished() { return isFinished_; }
 
 // 終了フラグ
 void IScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
+
+//デバックカメラの切り替え
+void IScene::SwichDebugCamera() {
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_UP) && input_->PushKey(DIK_LSHIFT)) {
+		isDebugCameraActive_ ^= true;
+	}
+#endif // _DEBUG
+}
+
+//デバックカメラの更新
+void IScene::DebugCameraUpdate() {
+	debugCamera_->Update(); // デバックカメラの更新
+	viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+	// ビュープロジェクション行列の転送
+	viewProjection_.TransferMatrix();
+}
 
 // コンストラクタ
 IScene::IScene() {
@@ -23,10 +47,6 @@ IScene::IScene() {
 #endif // _DEBUG
 #pragma endregion
 
-	// クリエイト
-	create_ = Create::GetInstance(); // クリエイトの生成
-	create_->TextureCreate();        // テクスチャの生成
-
 	// カメラ
 	cameraWorldTransform_.Initialize(); // カメラのワールドトランスフォームの初期化
 	// レールカメラ
@@ -38,19 +58,12 @@ IScene::IScene() {
 }
 
 // デバックカメラの動き
-void IScene::DebugCameraMove() {
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_UP)&&input_->PushKey(DIK_LSHIFT)) {
-		isDebugCameraActive_ ^= true;
-	}
-#endif // _DEBUG
-
+void IScene::UpdateViewProjection() {
+	//デバックカメラの切り替え
+	SwichDebugCamera();
 	if (isDebugCameraActive_) {
-		debugCamera_->Update(); // デバックカメラの更新
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
+		//デバックカメラの更新
+		DebugCameraUpdate();
 	} else {
 		if (isFollowOn) {//追従
 			viewProjection_.matView = followCamera_->GetViewProjection().matView;

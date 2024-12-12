@@ -4,21 +4,20 @@
 TitleScene::~TitleScene() {}
 
 // 初期化
-void TitleScene::Initialize() {
-	//モデルの生成
-	create_->BattleSceneModel();
+void TitleScene::Initialize(Create* create) {
+	// 初期化
+	IScene::Initialize(create);
 }
 
 // 更新
 void TitleScene::Update() {
-	// デバックカメラの更新
-	DebugCameraMove();
-
+	//更新
+	IScene::Update();
 	// カメラの更新
 	railCamera_->Update();
 }
 
-//描画
+// 描画
 void TitleScene::Draw() {
 
 	// コマンドリストの取得

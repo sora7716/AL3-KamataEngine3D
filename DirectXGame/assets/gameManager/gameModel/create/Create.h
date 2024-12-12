@@ -64,14 +64,9 @@ public:                                                  // メンバ関数
 	void TitleSceneModel();
 
 	/// <summary>
-	/// 探索シーンのモデル
+	/// ゲームシーンのモデル
 	/// </summary>
-	void SearchSceneModel();
-	
-	/// <summary>
-	/// 戦闘シーンのモデル
-	/// </summary>
-	void BattleSceneModel();
+	void GameSceneModel();
 
 	/// <summary>
 	/// エンドシーンのモデル

@@ -4,15 +4,15 @@
 SearchScene::~SearchScene() {}
 
 // 初期化
-void SearchScene::Initialize() {
-	// モデルの生成
-	create_->BattleSceneModel();
+void SearchScene::Initialize(Create* create) {
+	//初期化
+	IScene::Initialize(create);
 }
 
 // 更新
 void SearchScene::Update() {
-	// デバックカメラの更新
-	DebugCameraMove();
+	//更新
+	IScene::Update(); 
 }
 
 // 描画

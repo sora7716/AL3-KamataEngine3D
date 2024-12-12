@@ -4,15 +4,15 @@
 EndScene::~EndScene() {}
 
 // 初期化
-void EndScene::Initialize() {
-	// モデルの生成
-	create_->BattleSceneModel();
+void EndScene::Initialize(Create* create) {
+	// 初期化
+	IScene::Initialize(create);
 }
 
 // 更新
 void EndScene::Update() {
-	// デバックカメラの更新
-	DebugCameraMove();
+	// 更新
+	IScene::Update();
 
 	// カメラの更新
 	railCamera_->Update();

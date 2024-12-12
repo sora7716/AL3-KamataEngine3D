@@ -6,9 +6,9 @@ using namespace std;
 BattleScene::~BattleScene() {}
 
 // 初期化
-void BattleScene::Initialize() {
-	//モデルの生成
-	create_->BattleSceneModel();
+void BattleScene::Initialize(Create* create) {
+	// 初期化
+	IScene::Initialize(create);
 	// OBB
 	obb_ = make_unique<OBB>(); // 生成
 	obbMaterial_ = {
@@ -67,8 +67,8 @@ void BattleScene::Initialize() {
 
 // 更新
 void BattleScene::Update() {
-	// デバックカメラの更新
-	DebugCameraMove();
+	//更新
+	IScene::Update();
 
 	// カメラの更新
 	railCamera_->Update();
