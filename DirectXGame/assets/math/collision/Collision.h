@@ -1,15 +1,14 @@
 #pragma once
 #include "Vector3.h"
 #include "Vector4.h"
+// ワイヤーフレーム
+#include "shape/Shape.h"
+#include "shape/hexagon/Hexagon.h"
+#include "shape/obb/OBB.h"
+#include "shape/sphere/Sphere.h"
 // 前方宣言
 class WorldTransform;
 class ViewProjection;
-
-// AABB
-typedef struct AABB {
-	Vector3 min;
-	Vector3 max;
-} AABB;
 
 /// <summary>
 /// 衝突判定
@@ -22,6 +21,24 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>インスタンス</returns>
 	static Collision* GetInstance();
+
+	/// <summary>
+	/// スフィアのインスタンスのゲッター
+	/// </summary>
+	/// <returns></returns>
+	static Sphere* GetSphereInstance();
+
+	/// <summary>
+	/// OBBのインスタンスのゲッター
+	/// </summary>
+	/// <returns></returns>
+	static OBB* GetOBBInstance();
+
+	/// <summary>
+	/// 六角柱のインスタンスのゲッター
+	/// </summary>
+	/// <returns></returns>
+	static Hexagon* GetHexagonInstance();
 
 	/// <summary>
 	///  球と球の衝突判定
@@ -39,7 +56,7 @@ public: // メンバ関数
 	/// <param name="aabb1">aabb1</param>
 	/// <param name="aabb2">aabb2</param>
 	/// <returns></returns>
-	static bool IsCollision(const AABB& aabb1, const AABB& aabb2);
+	static bool IsCollision(const Shape::AABB& aabb1, const Shape::AABB& aabb2);
 
 	//コピーコンストラクタを禁止
 	Collision(const Collision& collision) = delete;

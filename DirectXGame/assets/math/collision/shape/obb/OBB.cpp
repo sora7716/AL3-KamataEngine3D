@@ -6,7 +6,7 @@
 using namespace std;
 
 // 初期化
-void OBB::Initialize(ViewProjection* viewProjection, const OBBMaterial&& obbMaterial) {
+void OBB::Initialize(const OBBMaterial&& obbMaterial,ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
 	// OBBの値を設定
 	obb_ = obbMaterial;
@@ -36,14 +36,14 @@ void OBB::Update() {
 }
 
 // デバックテキスト
-void OBB::DebagText(const char* type) {
-	(void)type;
+void OBB::DebagText(const char* label) {
+	(void)label;
 #ifdef _DEBUG
-	string sizeMoji = string(type) + "size";
+	string sizeMoji = string(label) + "size";
 	ImGui::SliderFloat3(sizeMoji.c_str(), &obb_.size.x, 0.0f, 3.0f);
-	string rotateMoji = string(type) + ".rotation";
+	string rotateMoji = string(label) + ".rotation";
 	ImGui::DragFloat3(rotateMoji.c_str(), &rotate_.x, 0.01f);
-	string translationMoji = string(type) + ".translation";
+	string translationMoji = string(label) + ".translation";
 	ImGui::DragFloat3(translationMoji.c_str(), &obb_.center.x, 0.01f);
 #endif // _DEBUG
 }
@@ -52,15 +52,15 @@ void OBB::DebagText(const char* type) {
 void OBB::Draw() {
 	// 正面と背面の生成
 	for (int i = 0; i < Math::kAABB2DNum; i++) {
-		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].leftTop, screenVertecies_[i].rightTop, obb_.color);
-		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].rightTop, screenVertecies_[i].rightBottom, obb_.color);
-		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].rightBottom, screenVertecies_[i].leftBottom, obb_.color);
-		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].leftBottom, screenVertecies_[i].leftTop, obb_.color);
+		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].leftTop, screenVertecies_[i].rightTop, color_);
+		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].rightTop, screenVertecies_[i].rightBottom, color_);
+		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].rightBottom, screenVertecies_[i].leftBottom, color_);
+		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].leftBottom, screenVertecies_[i].leftTop, color_);
 	}
-	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].leftTop, screenVertecies_[1].leftTop, obb_.color);
-	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightTop, screenVertecies_[1].rightTop, obb_.color);
-	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].leftBottom, screenVertecies_[1].leftBottom, obb_.color);
-	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightBottom, screenVertecies_[1].rightBottom, obb_.color);
+	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].leftTop, screenVertecies_[1].leftTop, color_);
+	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightTop, screenVertecies_[1].rightTop, color_);
+	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].leftBottom, screenVertecies_[1].leftBottom, color_);
+	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightBottom, screenVertecies_[1].rightBottom, color_);
 }
 
 // ワールドマトリックス逆行列のゲッター
@@ -74,14 +74,6 @@ Vector3 OBB::GetSize() const { return obb_.size; }
 
 // OBBのマテリアルのゲッター
 Shape::OBBMaterial OBB::GetOBBMaterial() const { return obb_; }
-
-void OBB::OnCollision(bool isHit) {
-	if (isHit) {
-		obb_.color = RED;
-	} else {
-		obb_.color = WHITE;
-	}
-}
 
 // 頂点を作成
 void OBB::MakeVertecies() {

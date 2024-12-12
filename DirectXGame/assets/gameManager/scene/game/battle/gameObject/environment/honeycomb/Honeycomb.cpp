@@ -36,7 +36,7 @@ void Honeycomb::Initialize(Model* model, ViewProjection* viewProjection) {
 // 更新
 void Honeycomb::Update() {
 #ifdef _DEBUG
-	ImGui::Begin("Hexagon");
+	ImGui::Begin("Honeycomb");
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();

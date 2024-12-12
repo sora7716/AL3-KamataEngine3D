@@ -1,22 +1,28 @@
 #pragma once
-#include "assets/math/Math.h"
+#include "ImGuiManager.h"
+#include "PrimitiveDrawer.h"
 #include "Vector4.h"
 #include "ViewProjection.h"
-#include "PrimitiveDrawer.h"
+#include "WorldTransform.h"
+#include "assets/math/Math.h"
 
 /// <summary>
 /// 形のクラス
 /// </summary>
 class Shape {
 public: // 構造体
+	// AABB
+	typedef struct AABB {
+		Vector3 min;
+		Vector3 max;
+	} AABB;
+
 	// 六角形を作るときに使う素材
 	typedef struct HexagonMaterial {
+		Vector3 rotation = {};             // 回転
 		Vector3 center;                    // 中心
 		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 normal[4];                 // 法線ベクトル
-		Vector3 rotation = {};             // 回転
-		Vector4 color = WHITE;            // 色
-		bool isHit = false;                // 衝突したか
 	} HexagonMaterial;
 
 	// OBBの素材
@@ -29,7 +35,6 @@ public: // 構造体
 		}; // 座標軸。正規化・直行必須 rotation
 		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 rotation = {};             // 回転
-		Vector4 color = WHITE;             // 色
 	} OBBMaterial;
 
 	// AABBを2Dで作るときに使う
@@ -40,8 +45,49 @@ public: // 構造体
 		Vector3 rightBottom;
 	} Vertex2D;
 
-public: // メンバ関数
+	// スフィアに使う構造体
+	typedef struct SphereMaterial {
+		Vector3 center;
+		Vector3 rotation;
+		float radius;
+	} SphereMaterial;
 
+	// 直線
+	typedef struct StraightLine {
+		Vector3 origin; // 始点
+		Vector3 diff;   // 終点への差分ベクトル
+	} StraightLine;
+
+	// 半直線
+	typedef struct Ray {
+		Vector3 origin; // 始点
+		Vector3 diff;   // 終点への差分ベクトル
+	} Ray;
+
+	// 線分
+	typedef struct Segment {
+		Vector3 origin; // 始点
+		Vector3 diff;   // 終点への差分ベクトル
+	} Segment;
+
+	// 頂点
+	enum class TriangleVertex {
+		kTop,
+		kRight,
+		kLeft,
+		kVertexNum,
+	};
+
+	// 三角形の素材
+	typedef struct TriangleMaterial {
+		Vector3 kLocalVertices_[static_cast<int>(TriangleVertex::kVertexNum)];
+		Vector3 center;
+		float radian;
+		Vector3 size;
+		Vector3 normal[4];
+	} TriangleMaterial;
+
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -96,6 +142,12 @@ public: // メンバ関数
 	/// <returns>OBBのワールド行列</returns>
 	static Matrix4x4 MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center);
 
+	/// <summary>
+	/// 当たった時の判定
+	/// </summary>
+	/// <param name="isHit">衝突判定</param>
+	void OnCollision(bool isHit);
+
 	// コピーコンストラクタを禁止する
 	Shape(const Shape& shape) = delete;
 
@@ -104,6 +156,7 @@ public: // メンバ関数
 
 protected:                           // メンバ変数
 	Matrix4x4 worldMatrix_;          // ワールド行列
-	Matrix4x4 wvpMatrix_;            // ワールドビュープロジェクション行列
 	ViewProjection* viewProjection_; // ビュープロジェクション行列
+	Vector4 color_ = WHITE;          // 色
+	bool isHit_ = false;             // 衝突判定
 };

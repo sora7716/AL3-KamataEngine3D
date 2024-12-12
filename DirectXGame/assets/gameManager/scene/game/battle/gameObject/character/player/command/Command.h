@@ -70,3 +70,27 @@ public: // メンバ関数
 	/// <param name="player">プレイヤー</param>
 	void Exec(Player* player) override;
 };
+
+/// <summary>
+/// 水平移動を止める
+/// </summary>
+class KeyboardStopHorizontal : public ICommand {
+public://メンバ関数
+	/// <summary>
+	/// 実行
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void Exec(Player* player) override;
+};
+
+/// <summary>
+/// 垂直移動を止める
+/// </summary>
+class KeyboardStopVertical : public ICommand {
+public://メンバ関数
+	/// <summary>
+	/// 実行
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void Exec(Player* player) override;
+};

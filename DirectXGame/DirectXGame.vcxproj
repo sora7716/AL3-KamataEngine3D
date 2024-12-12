@@ -127,6 +127,7 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\inputHandle\InputHandle.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp" />
     <ClCompile Include="assets\math\collision\shape\Shape.cpp" />
+    <ClCompile Include="assets\math\collision\shape\sphere\Sphere.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
     <ClCompile Include="assets\math\Math.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -186,6 +188,7 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\inputHandle\InputHandle.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.h" />
@@ -203,6 +206,7 @@
     <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h" />
     <ClInclude Include="assets\math\collision\shape\obb\OBB.h" />
     <ClInclude Include="assets\math\collision\shape\Shape.h" />
+    <ClInclude Include="assets\math\collision\shape\sphere\Sphere.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
     <ClInclude Include="assets\math\Math.h" />
     <ClInclude Include="audio\Audio.h" />

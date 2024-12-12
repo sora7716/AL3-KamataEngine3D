@@ -1,7 +1,5 @@
 #pragma once
 #include "assets/math/collision/shape/Shape.h"
-#include "assets/math/collision/Collision.h"
-
 // 前方宣言
 class ViewProjection;
 
@@ -23,7 +21,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="obbMaterial">obbの素材</param>
-	void Initialize(ViewProjection* viewProjection, const OBBMaterial&& obbMaterial);
+	void Initialize(const OBBMaterial&& obbMaterial,ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新
@@ -34,7 +32,7 @@ public: // メンバ関数
 	/// デバックテキスト
 	/// </summary>
 	/// <param name="type">名前</param>
-	void DebagText(const char* type = "obb");
+	void DebagText(const char* label = "obb");
 
 	/// <summary>
 	/// 描画
@@ -58,11 +56,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	OBBMaterial GetOBBMaterial() const;
-
-	/// <summary>
-	/// 衝突したら
-	/// </summary>
-	void OnCollision(bool isHit);
 
 private: // メンバ関数
 	/// <summary>

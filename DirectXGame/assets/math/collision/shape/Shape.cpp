@@ -4,30 +4,24 @@
 Vector3 Shape::Conversion(const Vector3& scale, const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex) {
 	// ワールド行列を生成
 	worldMatrix_ = Math::MakeAffineMatrix(scale, rotate, translate);
-	//ワールドビュープロジェクション行列の生成
-	wvpMatrix_ = worldMatrix_ * (viewProjection_->matView * viewProjection_->matProjection);
 	//ローカルの頂点とくっつける
-	return Math::Transform(kLocalVertex, wvpMatrix_);
+	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
 // ローカルの頂点を変換(scale無いver)
 Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex) {
 	// ワールド行列を生成
 	worldMatrix_ = Math::MakeAffineMatrix(rotate, translate);
-	// ワールドビュープロジェクション行列の生成
-	wvpMatrix_ = worldMatrix_ * (viewProjection_->matView * viewProjection_->matProjection);
 	// ローカルの頂点とくっつける
-	return Math::Transform(kLocalVertex, wvpMatrix_);
+	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
 //OBB用ローカルの頂点を変換
 Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations) {
 	MakeOBBRotateMatrix(orientations, rotate);                   // OBB用の回転行列を抽出
 	worldMatrix_ = MakeOBBWorldMatrix(orientations, translate); // OBB用のワールド行列を作成
-	// ワールドビュープロジェクション行列の生成
-	wvpMatrix_ = worldMatrix_ * (viewProjection_->matView * viewProjection_->matProjection);
 	// ローカルの頂点とくっつける
-	return Math::Transform(kLocalVertex, wvpMatrix_);
+	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
 // OBB用の回転行列
@@ -59,4 +53,13 @@ Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 c
 	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, center.x,          center.y,          center.z,          1.0f,
 	};
 	return result;
+}
+
+// 当たった時の判定
+void Shape::OnCollision(bool isHit) {
+	if (isHit) {
+		color_ = RED;
+	} else {
+		color_ = WHITE;
+	}
 }

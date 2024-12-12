@@ -10,6 +10,23 @@ Collision* Collision::GetInstance() {
 	return &instance;
 }
 
+// スフィアのインスタンスのゲッター
+Sphere* Collision::GetSphereInstance() {
+	static Sphere instance;
+	return &instance;
+}
+// OBBのインスタンスのゲッター
+OBB* Collision::GetOBBInstance() {
+	static OBB instance;
+	return &instance;
+}
+
+// 六角柱のインスタンスのゲッター
+Hexagon* Collision::GetHexagonInstance() {
+	static Hexagon instance;
+	return &instance;
+}
+
 // 球と球の衝突判定
 bool Collision::IsCollision(const Vector3& posA, const Vector3& posB, float radiusA, float radiusB) {
 	float distance = Math::Norm(posA - posB);
@@ -20,7 +37,7 @@ bool Collision::IsCollision(const Vector3& posA, const Vector3& posB, float radi
 	return false;
 }
 
-bool Collision::IsCollision(const AABB& aabb1, const AABB& aabb2) {
+bool Collision::IsCollision(const Shape::AABB& aabb1, const Shape::AABB& aabb2) {
 
 	// X座標の当たってない判定
 	if (aabb1.min.x < aabb2.max.x && aabb1.max.x < aabb2.min.x) {

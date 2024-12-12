@@ -13,6 +13,12 @@ void (Player::*Player::ActionTable[])() = {
     &BehaviorDashUpdate,
 };
 
+// デストラクタ
+Player::~Player() {
+	delete horizontalCommand_;
+	delete verticalCommand_;
+}
+
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
 	BasePlayer::Initialize(std::move(models), viewProjection);
@@ -22,6 +28,8 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
+	// 入力キーの生成
+	CreateInputKey();
 }
 
 // 更新
@@ -86,7 +94,6 @@ void Player::Moving(float speed) {
 	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 }
 
-
 // ゲームパッドの操作
 void Player::GamepadControl() {
 	if (Input::GetInstance()->GetJoystickState(0, joyState_) && Input::GetInstance()->GetJoystickStatePrevious(0, preJoyState_)) {
@@ -118,34 +125,22 @@ void Player::GamepadControl() {
 #pragma region キーボード
 // キーボードの操作
 void Player::KeyboardControl() {
-	bool right = Input::GetInstance()->PushKey(DIK_D);
-	bool left = Input::GetInstance()->PushKey(DIK_A);
-	bool front = Input::GetInstance()->PushKey(DIK_W);
-	bool back = Input::GetInstance()->PushKey(DIK_S);
 	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
 	//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
 	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
-	if ((right || left || front || back)) {
-		isMoving_ = true; // 移動した
-		// 左右移動
-		if (right) {
-			move_.x = 1.0f;
-		} else if (left) {
-			move_.x = -1.0f;
-		} else {
-			move_.x = 0.0f;
-		}
-		// 前後移動
-		if (front) {
-			move_.z = 1.0f;
-		} else if (back) {
-			move_.z = -1.0f;
-		} else {
-			move_.z = 0.0f;
-		}
-	} else {
-		isMoving_ = false; // 移動をやめた
+	// 水平移動
+	horizontalCommand_ = inputHandle_->HorizontalMoveCommand();
+	if (horizontalCommand_) {
+		horizontalCommand_->Exec(this);
 	}
+	// 垂直移動
+	verticalCommand_ = inputHandle_->VerticalMoveCommand();
+	if (verticalCommand_) {
+		verticalCommand_->Exec(this);
+	}
+	// 移動フラグ
+	isMoving_ = isHorizontalMove_ || isVerticalMove_;
+
 	if (attack) {
 		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
 		playerModel_->SetActionTime((float)kBlowTime);
@@ -155,19 +150,47 @@ void Player::KeyboardControl() {
 	}
 }
 
-//左に進む
-void Player::MoveLeftKeyboard() { move_.x = -1.0f; }
+// 左に進む
+void Player::MoveLeftKeyboard() {
+	isHorizontalMove_ = true;
+	move_.x = -1.0f;
+}
 
-//右に進む
-void Player::MoveRightKeyboard() { move_.x = 1.0f; }
+// 右に進む
+void Player::MoveRightKeyboard() {
+	isHorizontalMove_ = true;
+	move_.x = 1.0f;
+}
 
-//前に進む
-void Player::MoveFrontKeyboard() { move_.z = 1.0f; }
+// 横移動を止める
+void Player::StopHorizontal() {
+	isHorizontalMove_ = false;
+	move_.x = 0.0f;
+}
 
-//後ろに進む
-void Player::MoveBackKeyboard() { move_.z = -1.0f; }
+// 前に進む
+void Player::MoveFrontKeyboard() {
+	isVerticalMove_ = true;
+	move_.z = 1.0f;
+}
+
+// 後ろに進む
+void Player::MoveBackKeyboard() {
+	isVerticalMove_ = true;
+	move_.z = -1.0f;
+}
+
+// 垂直移動を止める
+void Player::StopVertical() {
+	isVerticalMove_ = false;
+	move_.z = 0.0f;
+}
+
+// キーの生成
+void Player::CreateInputKey() {
+	inputHandle_ = std::make_unique<InputHandle>();
+	for (int i = 0; i < 6; i++) {
+		(inputHandle_.get()->*InputHandle::AssignCommandTable[i])();
+	}
+}
 #pragma endregion
-
-//リセット
-void Player::Reset(float axis) { axis = 0.0f; }
-

@@ -1,6 +1,7 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
 #include "assets/gameManager/scene/game/baseGameObject/baseCharacter/basePlayer/BasePlayer.h"
+#include "inputHandle/InputHandle.h"
 
 // 前方宣言
 class ViewProjection;
@@ -19,7 +20,7 @@ public: // メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Player() = default;
+	~Player();
 
 	/// <summary>
 	/// 初期化
@@ -100,6 +101,11 @@ public: // コマンド
 	void MoveRightKeyboard();
 
 	/// <summary>
+	/// 横移動していないとき
+	/// </summary>
+	void StopHorizontal();
+
+	/// <summary>
 	/// 前に進む
 	/// </summary>
 	void MoveFrontKeyboard();
@@ -108,13 +114,17 @@ public: // コマンド
 	/// 後ろに進む
 	/// </summary>
 	void MoveBackKeyboard();
-#pragma endregion
-	
+
 	/// <summary>
-	/// リセット
+	/// 垂直移動を止める
 	/// </summary>
-	/// <param name="axis">軸</param>
-	void Reset(float axis);
+	void StopVertical();
+
+	/// <summary>
+	/// キーの生成
+	/// </summary>
+	void CreateInputKey();
+#pragma endregion
 
 public:                                                  // 静的メンバ変数
 	static inline const uint32_t kBehaviorDashTime = 60; // ダッシュの時間の上限
@@ -128,12 +138,18 @@ private: // メンバ変数
 	std::unique_ptr<PlayerModel> playerModel_ = nullptr; // プレイヤーの体
 	Vector3 move_{};                                     // 移動量
 	bool isMoving_ = false;                              // 移動したかどうかのフラグ
+	bool isHorizontalMove_ = false;                      // 水平移動したかどうかのフラグ
+	bool isVerticalMove_ = false;                        // 垂直移動したかどうかのフラグ
 	float goalAngle_ = 0.0f;                             // 目標角度
 	float rotateFrame_ = 0.5f;                           // 回転するフレーム
 	bool isBlow_ = false;                                // 打撃を開始
 	float blowBeginPos_ = 0.0f;                          // 打撃を開始した位置
 	float speed_ = kSpeed_;                              // スピード
-	float speedScaler_ = 10.0f;                          // スピードの倍率
+	float speedScaler_ = 5.0f;                          // スピードの倍率
 	// ジョイスティックの状態
 	XINPUT_STATE joyState_, preJoyState_; // 現在と過去
+	// キーボードの操作
+	std::unique_ptr<InputHandle> inputHandle_ = nullptr; // インプットハンドル
+	ICommand* horizontalCommand_ = nullptr;              // 水平移動
+	ICommand* verticalCommand_ = nullptr;                // 垂直移動
 };

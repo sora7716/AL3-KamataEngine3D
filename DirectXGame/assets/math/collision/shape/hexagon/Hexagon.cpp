@@ -6,7 +6,7 @@
 #define rad pi_f / 180.0f
 
 // 初期化
-void Hexagon::Initialize(ViewProjection* viewProjection, const HexagonMaterial&& hexagonMaterial) {
+void Hexagon::Initialize(const HexagonMaterial&& hexagonMaterial,ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
 	hexagon_ = hexagonMaterial;
 }
@@ -36,14 +36,14 @@ void Hexagon::Update() {
 }
 
 // デバックテキスト
-void Hexagon::DebugText(const char* name) {
-	(void)name;
+void Hexagon::DebugText(const char* label) {
+	(void)label;
 #ifdef _DEBUG
-	std::string centerText = static_cast<std::string>(name) + ".center";
+	std::string centerText = static_cast<std::string>(label) + ".center";
 	ImGui::DragFloat3(centerText.c_str(), &hexagon_.center.x, 0.1f);
-	std::string radiusText = static_cast<std::string>(name) + ".size";
+	std::string radiusText = static_cast<std::string>(label) + ".size";
 	ImGui::SliderFloat3(radiusText.c_str(), &hexagon_.size.x, 0.0f, 2.0f);
-	std::string rotateText = static_cast<std::string>(name) + ".rotate";
+	std::string rotateText = static_cast<std::string>(label) + ".rotate";
 	ImGui::DragFloat3(rotateText.c_str(), &rotate_.x, 0.1f);
 #endif // _DEBUG
 }
@@ -52,21 +52,12 @@ void Hexagon::DebugText(const char* name) {
 void Hexagon::Draw() {
 	for (int i = 0; i < Surface; i++) {
 		for (int j = 1; j < kVertexNum; j++) {
-			PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][j - 1], screenVertex[i][j], hexagon_.color);
-			PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[0][j], screenVertex[1][j], hexagon_.color);
+			PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][j - 1], screenVertex[i][j], color_);
+			PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[0][j], screenVertex[1][j], color_);
 		}
-		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][5], screenVertex[i][0], hexagon_.color);
+		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][5], screenVertex[i][0], color_);
 	}
-	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[0][0], screenVertex[1][0], hexagon_.color);
-}
-
-// 衝突したとき
-void Hexagon::OnCollision(bool isHit) {
-	if (isHit) {
-		hexagon_.color = RED;
-	} else {
-		hexagon_.color = WHITE;
-	}
+	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[0][0], screenVertex[1][0], color_);
 }
 
 // 頂点のゲッター(local)

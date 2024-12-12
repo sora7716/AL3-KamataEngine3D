@@ -10,18 +10,12 @@ void BattleScene::Initialize(Create* create) {
 	// 初期化
 	IScene::Initialize(create);
 	// OBB
-	obb_ = make_unique<OBB>(); // 生成
-	obbMaterial_ = {
-	    .center{0.0f, 0.0f, 0.0f},
-	};
-	obb_->Initialize(&viewProjection_, move(obbMaterial_)); // 初期化
+	obb_ = Collision::GetOBBInstance(); // 生成
+	obb_->Initialize({.center = {}, .rotation = {}}, &viewProjection_); // 初期化
 
+	hexagon_ = Collision::GetHexagonInstance();
 	// 六角形
-	hexagon_ = make_unique<Hexagon>();
-	hexagonMatrial_ = {
-	    .center{},
-	};
-	hexagon_->Initialize(&viewProjection_, move(hexagonMatrial_));
+	hexagon_->Initialize({.center = {},.size = {1.0f,0.1f,1.0f}}, &viewProjection_);
 
 	// マップチップ
 	mapChipField_ = make_unique<MapChipField>();
@@ -63,11 +57,15 @@ void BattleScene::Initialize(Create* create) {
 	particle_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
 	particle_->SetParent(&luminous_->GetCenter());
 	particle_->SetDirectionView(&followCamera_->GetViewProjection());
+
+	// 球
+	sphere_ = Collision::GetSphereInstance();
+	sphere_->Initialize({.center = {}, .rotation = {},.radius=5.0f}, &viewProjection_);
 }
 
 // 更新
 void BattleScene::Update() {
-	//更新
+	// 更新
 	IScene::Update();
 
 	// カメラの更新
@@ -80,6 +78,10 @@ void BattleScene::Update() {
 	// OBB
 	obb_->Update();
 	obb_->DebagText();
+
+	//球
+	sphere_->Update();
+	sphere_->DebugText();
 #endif // _DEBUG
 
 	// 環境の更新
@@ -141,22 +143,27 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	//// 環境の描画
+	// for (auto& evbiroment : environments_) {
+	//	evbiroment->Draw();
+	// }
+	//// プレイヤーの描画
+	// player_->Draw();
+
+	//// 敵の描画
+	// enemy_->Draw();
+
+	// luminous_->Draw();
+	// particle_->Draw();
+
+#ifdef _DEBUG
 	// OBB
-	// obb_->Draw();
-	// hexagon_->Draw();
-
-	// 環境の描画
-	for (auto& evbiroment : environments_) {
-		evbiroment->Draw();
-	}
-	// プレイヤーの描画
-	player_->Draw();
-
-	// 敵の描画
-	enemy_->Draw();
-
-	luminous_->Draw();
-	particle_->Draw();
+	obb_->Draw();
+	// hexagon
+	hexagon_->Draw();
+	//球
+	sphere_->Draw();
+#endif // _DEBUG
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

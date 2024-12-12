@@ -5,15 +5,11 @@
 
 // ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
-#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/magic/luminous/Luminous.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
-
-// ワイヤーフレーム
-#include "assets/math/collision/shape/hexagon/Hexagon.h"
-#include "assets/math/collision/shape/obb/OBB.h"
 
 /// <summary>
 /// バトルシーン
@@ -39,7 +35,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Create*create) override;
+	void Initialize(Create* create) override;
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -57,12 +53,11 @@ private: // メンバ変数
 	/// </summary>
 
 	// OBB
-	Shape::OBBMaterial obbMaterial_ = {};
-	std::unique_ptr<OBB> obb_ = nullptr;
-
+	OBB* obb_ = nullptr;
 	// 六角形
-	std::unique_ptr<Hexagon> hexagon_ = nullptr;
-	Shape::HexagonMaterial hexagonMatrial_ = {};
+	Hexagon* hexagon_ = nullptr;
+	// 球
+	Sphere* sphere_ = nullptr;
 
 	// マップ
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
@@ -73,7 +68,7 @@ private: // メンバ変数
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
-	//パーティクル
+	// パーティクル
 	std::unique_ptr<Luminous> luminous_ = nullptr;
 	std::unique_ptr<Particle> particle_ = nullptr;
 
@@ -81,6 +76,6 @@ private: // メンバ変数
 	Controller* controller_ = nullptr;
 	bool isSelectContorol_ = false;
 
-	//ミミック
+	// ミミック
 	std::unique_ptr<Mimic> enemy_ = nullptr;
 };
