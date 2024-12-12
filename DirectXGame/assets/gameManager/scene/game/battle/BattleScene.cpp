@@ -155,8 +155,8 @@ void BattleScene::Draw() {
 	// 敵の描画
 	enemy_->Draw();
 
-	/*luminous_->Draw();
-	particle_->Draw();*/
+	luminous_->Draw();
+	particle_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

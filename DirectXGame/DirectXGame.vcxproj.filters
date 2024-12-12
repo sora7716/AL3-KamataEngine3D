@@ -123,9 +123,6 @@
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\controller\Controller.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -153,15 +150,6 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -175,6 +163,24 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\gameModel\create\staffModel\StaffModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\controller\Controller.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\Shape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,9 +305,6 @@
     <ClInclude Include="assets\failLoad\map\MapChipField.h">
       <Filter>assets\process</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\controller\Controller.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\gameModel\create\Create.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -332,15 +335,6 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -354,6 +348,24 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\gameModel\create\staffModel\StaffModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\controller\Controller.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\Shape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\obb\OBB.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

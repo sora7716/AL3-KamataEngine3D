@@ -1,5 +1,5 @@
 #pragma once
-#include "assets/gameManager/scene/game/battle/gameObject/Shape/Shape.h"
+#include "assets/math/collision/shape/Shape.h"
 
 /// <summary>
 /// 六角形

@@ -111,6 +111,7 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp" />
+    <ClCompile Include="assets\gameManager\controller\Controller.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
     <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp" />
     <ClCompile Include="assets\gameManager\gameModel\create\IModel.cpp" />
@@ -123,7 +124,6 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.cpp" />
@@ -131,14 +131,14 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
+    <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp" />
+    <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp" />
+    <ClCompile Include="assets\math\collision\shape\Shape.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
     <ClCompile Include="assets\math\Math.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -166,6 +166,7 @@
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
     <ClInclude Include="assets\failLoad\map\MapChipField.h" />
+    <ClInclude Include="assets\gameManager\controller\Controller.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />
     <ClInclude Include="assets\gameManager\gameModel\create\Create.h" />
     <ClInclude Include="assets\gameManager\gameModel\create\IModel.h" />
@@ -178,7 +179,6 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h" />
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.h" />
@@ -187,14 +187,14 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h" />
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\hexagon\Hexagon.h" />
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\obb\OBB.h" />
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\Shape\Shape.h" />
     <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
+    <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h" />
+    <ClInclude Include="assets\math\collision\shape\obb\OBB.h" />
+    <ClInclude Include="assets\math\collision\shape\Shape.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />
     <ClInclude Include="assets\math\Math.h" />
     <ClInclude Include="audio\Audio.h" />

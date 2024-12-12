@@ -1,6 +1,6 @@
 #pragma once
 // シーン
-#include "assets/gameManager/scene/game/battle/gameObject/character/player/controller/Controller.h"
+#include "assets/gameManager/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
 
 // ゲームモデル
@@ -12,8 +12,8 @@
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
 
 // ワイヤーフレーム
-#include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
-#include "assets/gameManager/scene/game/battle/gameObject/Shape/hexagon/Hexagon.h"
+#include "assets/math/collision/shape/hexagon/Hexagon.h"
+#include "assets/math/collision/shape/obb/OBB.h"
 
 /// <summary>
 /// バトルシーン
