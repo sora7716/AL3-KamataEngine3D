@@ -64,11 +64,12 @@ void BattleScene::Initialize(Create* create) {
 
 	//サーチライト
 	serchlight_ = new Searchlight();
-	Shape::SerchlightMaterial mat;
+	Shape::SerchlightMaterial mat = {
+	    .center{},
+	    .direction = 45.0f,
+	    .range = 90.0f,
+	};
 	mat.radius = 5.0f;
-	mat.beginAngle = 0.0f;
-	mat.endAngle = 180.0f;
-	mat.center = {};
 	serchlight_->Initialize(std::move(mat), &viewProjection_);
 }
 
@@ -93,6 +94,7 @@ void BattleScene::Update() {
 	sphere_->DebugText();
 
 	serchlight_->Update();
+	serchlight_->DebugText();
 #endif // _DEBUG
 
 	// 環境の更新

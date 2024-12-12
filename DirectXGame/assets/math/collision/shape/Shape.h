@@ -86,12 +86,12 @@ public: // 構造体
 		Vector3 normal[4];
 	} TriangleMaterial;
 
-	//サーチライトの素材
+	//サーチライトの素材(度数法で設定)
 	typedef struct SerchlightMaterial {
 		Vector3 center;
 		float radius;
-		float beginAngle;//始まりの角度
-		float endAngle;//終わりの角度
+		float direction;//向き(角度)
+		float range;//範囲(角度)
 	} SerchlightMaterial;
 
 	public: // メンバ関数

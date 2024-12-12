@@ -29,15 +29,24 @@ public://メンバ関数
 	void Update();
 
 	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	/// <param name="label">ラベル</param>
+	void DebugText(const char* label = "searchlight");
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
 
 public://静的メンバ変数
-	static inline const int kSubdivisions = 20;
+	static inline const int kSubdivisions = 200;
 
 private: // メンバ変数
 	SerchlightMaterial serchlightMaterial_ = {};
-	Vector3 beginPos_[kSubdivisions];
-	Vector3 endPos_[kSubdivisions];
+	Vector3 beginPos_[2][kSubdivisions];
+	Vector3 endPos_[2][kSubdivisions];
+	Vector3 rotation_ = {};
+	Vector3 screenBeginPos_[2][kSubdivisions];
+	Vector3 screenEndPos_[2][kSubdivisions];
 };
