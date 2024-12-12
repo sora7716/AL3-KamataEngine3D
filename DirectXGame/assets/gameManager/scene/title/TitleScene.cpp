@@ -26,15 +26,22 @@ void TitleScene::Initialize() {
 // 更新
 void TitleScene::Update() {
 
-	for (auto &worldTransform : worldTransform_) {
-		std::string label = "scale";
-		ImGui::DragFloat3(label.c_str(), &worldTransform.scale_.x, 0.01f);
-		label = "rotation";
-		ImGui::DragFloat3(label.c_str(), &worldTransform.rotation_.x, 0.01f);
-		label = "translation";
-		ImGui::DragFloat3(label.c_str(), &worldTransform.translation_.x, 0.01f);
+	for (int i = 0; i < 5; i++) {
 
-		worldTransform.UpdateMatrix();
+		// スケール
+		std::string debugLabel = "scale" + std::to_string(i);
+		ImGui::DragFloat3(debugLabel.c_str(), &worldTransform_[i].scale_.x, 0.01f);
+
+		// 回転のデバッグテキスト
+		debugLabel = "rotation" + std::to_string(i);
+		ImGui::DragFloat3(debugLabel.c_str(), &worldTransform_[i].rotation_.x, 0.01f);
+
+		// 座標のデバッグテキスト
+		debugLabel = "translation" + std::to_string(i);
+		ImGui::DragFloat3(debugLabel.c_str(), &worldTransform_[i].translation_.x ,0.01f);
+
+		// 行列の更新
+		worldTransform_[i].UpdateMatrix();
 	}
 
 	Animation();
