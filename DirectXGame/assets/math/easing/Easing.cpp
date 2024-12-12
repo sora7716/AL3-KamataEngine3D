@@ -124,6 +124,8 @@ float Easing::OutBounce(float frame) {
 	} else {
 		frame -= 2.625f / 2.75f;
 		return 7.5625f * frame * frame + 0.984375f;
+
+	
 	}
 }
 

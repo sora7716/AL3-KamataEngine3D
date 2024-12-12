@@ -229,6 +229,15 @@ public:
 	/// <summary>
 	/// 線形補間
 	/// </summary>
+	/// <param name="a">始点</param>
+	/// <param name="b">終点</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns>線形補間</returns>
+	static float Lerp(float a, float b, float t);
+
+	/// <summary>
+	/// 線形補間
+	/// </summary>
 	/// <param name="v1">ベクトル1</param>
 	/// <param name="v2">ベクトル2</param>
 	/// <param name="t">媒介変数</param>

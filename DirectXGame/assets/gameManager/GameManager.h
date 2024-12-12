@@ -67,7 +67,7 @@ public: // 静的メンバ変数
 private: // メンバ変数
 
 	// 現在のシーンナンバー
-	Scene currentScene_ = Scene::kBattle;
+	Scene currentScene_ = Scene::kTitle;
 	//現在のシーンのナンバー
 	int32_t sceneNo_ = 0;
 	// シーンのインスタンス
