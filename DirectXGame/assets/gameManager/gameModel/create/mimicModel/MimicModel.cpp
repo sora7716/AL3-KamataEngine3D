@@ -59,9 +59,43 @@ void Box::DebugText() { IModel::DebugText("box"); }
 void Box::Draw() { IModel::Draw(); }
 #pragma endregion
 
+#pragma region 南京錠
+// 初期化
+void Padlock::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	IModel::InitializeAnimation();
+}
+
+// 更新
+void Padlock::Update() { IModel::Update(); }
+
+// デバックテキスト
+void Padlock::DebugText() { IModel::DebugText("padlock"); }
+
+// 描画
+void Padlock::Draw() { IModel::Draw(); }
+#pragma endregion
+
+#pragma region 鍵穴
+// 初期化
+void KeyHole::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	IModel::InitializeAnimation();
+}
+
+// 更新
+void KeyHole::Update() { IModel::Update(); }
+
+// デバックテキスト
+void KeyHole::DebugText() { IModel::DebugText("keyHole"); }
+
+// 描画
+void KeyHole::Draw() { IModel::Draw(); }
+#pragma endregion
+
 #pragma region 舌
 // 初期化
-void Tongue::Initialize(Model* model, ViewProjection* viewProjection) { 
+void Tongue::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, -0.6f, 1.0f};
 	IModel::InitializeAnimation();
@@ -124,6 +158,8 @@ MimicModel::~MimicModel() {
 void MimicModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewProjection) {
 	parts.resize((int)Parts::kPartsNum);
 	parts[(int)Parts::kBox] = new Box();                 // 箱
+	parts[(int)Parts::kPadlock] = new Padlock();         // 南京錠
+	parts[(int)Parts::kKeyHole] = new KeyHole();         // 鍵穴
 	parts[(int)Parts::kLid] = new Lid();                 // 蓋
 	parts[(int)Parts::kEye] = new Eye();                 // 目
 	parts[(int)Parts::kToothUp] = new ToothUp();         // 上の歯
@@ -158,6 +194,10 @@ void MimicModel::Draw() {
 void MimicModel::SetParent(const WorldTransform* parent) {
 	// 箱<-親
 	parts[(int)Parts::kBox]->SetParent(parent);
+	//南京錠<-箱
+	parts[(int)Parts::kPadlock]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
+	//鍵穴<-南京錠
+	parts[(int)Parts::kKeyHole]->SetParent(&parts[(int)Parts::kPadlock]->GetWorldTransform());
 	// 下の歯<-箱
 	parts[(int)Parts::kToothBottom]->SetParent(&parts[(int)Parts::kBox]->GetWorldTransform());
 	// 舌<-箱

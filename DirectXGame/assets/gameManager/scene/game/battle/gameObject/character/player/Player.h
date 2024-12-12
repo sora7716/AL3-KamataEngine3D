@@ -1,15 +1,14 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
+#include "assets/gameManager/scene/game/baseGameObject/baseCharacter/basePlayer/BasePlayer.h"
 
 // 前方宣言
 class ViewProjection;
-class Model;
 
 /// <summary>
 /// プレイヤー
 /// </summary>
-class Player : public BaseCharacter {
+class Player : public BasePlayer {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -46,16 +45,6 @@ public: // メンバ関数
 	void SetViewProjection(const ViewProjection* viewProjection);
 
 	/// <summary>
-	/// ゲームパッドの操作
-	/// </summary>
-	void GamepadControl();
-
-	/// <summary>
-	/// キーボードの操作
-	/// </summary>
-	void KeyboardControl();
-
-	/// <summary>
 	/// playerのposゲッター
 	/// </summary>
 	/// <returns></returns>
@@ -88,11 +77,50 @@ private: // メンバ関数
 	/// <param name="speed">速度</param>
 	void Moving(float speed);
 
+public: // コマンド
+	/// <summary>
+	/// ゲームパッドの操作
+	/// </summary>
+	void GamepadControl();
+
+#pragma region キーボード
+	/// <summary>
+	/// キーボードの操作
+	/// </summary>
+	void KeyboardControl();
+
+	/// <summary>
+	/// 左に進む
+	/// </summary>
+	void MoveLeftKeyboard();
+
+	/// <summary>
+	/// 右に進む
+	/// </summary>
+	void MoveRightKeyboard();
+
+	/// <summary>
+	/// 前に進む
+	/// </summary>
+	void MoveFrontKeyboard();
+
+	/// <summary>
+	/// 後ろに進む
+	/// </summary>
+	void MoveBackKeyboard();
+#pragma endregion
+	
+	/// <summary>
+	/// リセット
+	/// </summary>
+	/// <param name="axis">軸</param>
+	void Reset(float axis);
+
 public:                                                  // 静的メンバ変数
 	static inline const uint32_t kBehaviorDashTime = 60; // ダッシュの時間の上限
-	static inline const int kBlowTime =90;              // 打撃の継続時間
+	static inline const int kBlowTime = 90;              // 打撃の継続時間
 	static inline float const kSpeed_ = 0.3f;            // 速度
-	static void (Player::*ActionTable[])();//アクションテーブル
+	static void (Player::*ActionTable[])();              // アクションテーブル
 
 private: // メンバ変数
 	const ViewProjection* directionViewProjection_ = nullptr;

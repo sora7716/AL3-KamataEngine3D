@@ -116,6 +116,82 @@ public: // メンバ関数
 };
 
 /// <summary>
+/// 南京錠
+/// </summary>
+class Padlock : public IModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Padlock() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Padlock() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
+};
+
+/// <summary>
+/// 鍵穴
+/// </summary>
+class KeyHole : public IModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	KeyHole() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~KeyHole() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
+};
+
+/// <summary>
 /// 舌
 /// </summary>
 class Tongue : public IModel {
@@ -236,6 +312,8 @@ class MimicModel {
 public: // 列挙型
 	enum class Parts { 
 		kBox, 
+		kPadlock,
+		kKeyHole,
 		kLid, 
 		kEye, 
 		kToothUp, 

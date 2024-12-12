@@ -43,32 +43,27 @@ public: // 構造体や列挙型
 	int typeLeftArm = (int)PlayerParts::kLeftArm;   // 左腕
 	int typeStaff = (int)PlayerParts::kStaff;
 	// ミミックのモデル
-	enum class MimicParts { kBox, kLid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
+	enum class MimicParts { kBox, kPadlock, kKeyHole, kLid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };
 	// プレイヤーのモデル
 	int typeBox = (int)MimicParts::kBox;                 // 箱
+	int typePadlock = (int)MimicParts::kPadlock;         // 南京錠
+	int typeKeyHole = (int)MimicParts::kKeyHole;         // 鍵穴
 	int typeLid = (int)MimicParts::kLid;                 // 蓋
 	int typeEye = (int)MimicParts::kEye;                 // 目
 	int typeToothUp = (int)MimicParts::kToothUp;         // 上の歯
 	int typeToothBottom = (int)MimicParts::kToothBottom; // 下の歯
 	int typeTongue = (int)MimicParts::kTongue;           // 舌
 
-	//タイトル名
-	enum class TitleNameType {
-		kMa,
-		kJo,
-		kNo,
-		kSe,
-		kI,
-		kTitleNameNum
-	};
-	//タイトル名のモデル
+	// タイトル名
+	enum class TitleNameType { kMa, kJo, kNo, kSe, kI, kTitleNameNum };
+	// タイトル名のモデル
 	int typeMa = (int)TitleNameType::kMa;
 	int typeJo = (int)TitleNameType::kJo;
 	int typeNo = (int)TitleNameType::kNo;
 	int typeSe = (int)TitleNameType::kSe;
 	int typeI = (int)TitleNameType::kI;
 
-public:                                                  // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// インスタンスのゲッター
 	/// </summary>
@@ -144,10 +139,10 @@ private: // メンバ関数
 	/// </summary>
 	~Create();
 
-private:                                               // メンバ変数
-	std::vector<std::unique_ptr<Model>> models_;       // モデル
-	std::vector<std::unique_ptr<Model>> playerModels_; // プレイヤーのモデル
-	std::vector<std::unique_ptr<Model>> mimicModels_;  // ミミックのモデル
-	std::vector<std::unique_ptr<Model>> titleNameModels_;//タイトル名のモデル
-	std::vector<uint32_t> textureHandle_;              // テクスチャ
+private:                                                  // メンバ変数
+	std::vector<std::unique_ptr<Model>> models_;          // モデル
+	std::vector<std::unique_ptr<Model>> playerModels_;    // プレイヤーのモデル
+	std::vector<std::unique_ptr<Model>> mimicModels_;     // ミミックのモデル
+	std::vector<std::unique_ptr<Model>> titleNameModels_; // タイトル名のモデル
+	std::vector<uint32_t> textureHandle_;                 // テクスチャ
 };

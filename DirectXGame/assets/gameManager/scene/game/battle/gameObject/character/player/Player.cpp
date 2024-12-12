@@ -15,7 +15,7 @@ void (Player::*Player::ActionTable[])() = {
 
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+	BasePlayer::Initialize(std::move(models), viewProjection);
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();
 	// プレイヤーモデルの初期化
@@ -33,7 +33,7 @@ void Player::Update() {
 	} else {
 		BehaviorDashUpdate();
 	}
-	BaseCharacter::Update(); // 更新
+	BasePlayer::Update(); // 更新
 }
 
 // 描画
@@ -44,73 +44,6 @@ void Player::Draw() {
 
 // ビュープロジェクションのセッター
 void Player::SetViewProjection(const ViewProjection* viewProjection) { directionViewProjection_ = viewProjection; }
-
-// ゲームパッドの操作
-void Player::GamepadControl() {
-	if (Input::GetInstance()->GetJoystickState(0, joyState_) && Input::GetInstance()->GetJoystickStatePrevious(0, preJoyState_)) {
-		// 移動
-		const float deadZone = 0.7f * SHRT_MAX; // デッドソーン
-		isMoving_ = false;                      // 移動してない
-		// 移動量
-		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
-		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
-			isMoving_ = true;
-		} else {
-			isMoving_ = false; // 移動をやめた
-		}
-		// 攻撃
-		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
-			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
-				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
-				playerModel_->SetActionTime((float)kBlowTime);
-			}
-		}
-		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			BehaviorDashInitialize();
-		} else {
-			speed_ = kSpeed_;
-		}
-	}
-}
-
-// キーボードの操作
-void Player::KeyboardControl() {
-	bool right = Input::GetInstance()->PushKey(DIK_D);
-	bool left = Input::GetInstance()->PushKey(DIK_A);
-	bool front = Input::GetInstance()->PushKey(DIK_W);
-	bool back = Input::GetInstance()->PushKey(DIK_S);
-	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
-//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
-	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
-	if ((right || left || front || back)) {
-		isMoving_ = true; // 移動した
-		// 左右移動
-		if (right) {
-			move_.x = 1.0f;
-		} else if (left) {
-			move_.x = -1.0f;
-		} else {
-			move_.x = 0.0f;
-		}
-		// 前後移動
-		if (front) {
-			move_.z = 1.0f;
-		} else if (back) {
-			move_.z = -1.0f;
-		} else {
-			move_.z = 0.0f;
-		}
-	} else {
-		isMoving_ = false; // 移動をやめた
-	}
-	if (attack) {
-		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
-		playerModel_->SetActionTime((float)kBlowTime);
-	}
-	if (dash) {
-		BehaviorDashInitialize();
-	}
-}
 
 // ダッシュの初期化
 void Player::BehaviorDashInitialize() {
@@ -152,3 +85,89 @@ void Player::Moving(float speed) {
 	}
 	worldTransform_.rotation_.y = Math::LerpShortAngle(worldTransform_.rotation_.y, goalAngle_, rotateFrame_);
 }
+
+
+// ゲームパッドの操作
+void Player::GamepadControl() {
+	if (Input::GetInstance()->GetJoystickState(0, joyState_) && Input::GetInstance()->GetJoystickStatePrevious(0, preJoyState_)) {
+		// 移動
+		const float deadZone = 0.7f * SHRT_MAX; // デッドソーン
+		isMoving_ = false;                      // 移動してない
+		// 移動量
+		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
+		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
+			isMoving_ = true;
+		} else {
+			isMoving_ = false; // 移動をやめた
+		}
+		// 攻撃
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
+			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
+				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+				playerModel_->SetActionTime((float)kBlowTime);
+			}
+		}
+		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			BehaviorDashInitialize();
+		} else {
+			speed_ = kSpeed_;
+		}
+	}
+}
+
+#pragma region キーボード
+// キーボードの操作
+void Player::KeyboardControl() {
+	bool right = Input::GetInstance()->PushKey(DIK_D);
+	bool left = Input::GetInstance()->PushKey(DIK_A);
+	bool front = Input::GetInstance()->PushKey(DIK_W);
+	bool back = Input::GetInstance()->PushKey(DIK_S);
+	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
+	//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
+	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
+	if ((right || left || front || back)) {
+		isMoving_ = true; // 移動した
+		// 左右移動
+		if (right) {
+			move_.x = 1.0f;
+		} else if (left) {
+			move_.x = -1.0f;
+		} else {
+			move_.x = 0.0f;
+		}
+		// 前後移動
+		if (front) {
+			move_.z = 1.0f;
+		} else if (back) {
+			move_.z = -1.0f;
+		} else {
+			move_.z = 0.0f;
+		}
+	} else {
+		isMoving_ = false; // 移動をやめた
+	}
+	if (attack) {
+		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
+		playerModel_->SetActionTime((float)kBlowTime);
+	}
+	if (dash) {
+		BehaviorDashInitialize();
+	}
+}
+
+//左に進む
+void Player::MoveLeftKeyboard() { move_.x = -1.0f; }
+
+//右に進む
+void Player::MoveRightKeyboard() { move_.x = 1.0f; }
+
+//前に進む
+void Player::MoveFrontKeyboard() { move_.z = 1.0f; }
+
+//後ろに進む
+void Player::MoveBackKeyboard() { move_.z = -1.0f; }
+#pragma endregion
+
+//リセット
+void Player::Reset(float axis) { axis = 0.0f; }
+

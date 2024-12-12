@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
+#include "assets/gameManager/scene/game/baseGameObject/baseCharacter/BaseCharacter.h"
 
 // 前方宣言
 class Player;

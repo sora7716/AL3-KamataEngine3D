@@ -19,17 +19,17 @@ Create* Create::GetInstance() {
 	return &instance;
 }
 
-//タイトルシーンのモデル
-void Create::TitleSceneModel() { 
+// タイトルシーンのモデル
+void Create::TitleSceneModel() {
 	titleNameModels_.resize((int)TitleNameType::kTitleNameNum);
-	titleNameModels_[typeMa].reset(Model::CreateFromOBJ("ma", true));//魔
-	titleNameModels_[typeJo].reset(Model::CreateFromOBJ("jo", true));//女
-	titleNameModels_[typeNo].reset(Model::CreateFromOBJ("no", true));//の
-	titleNameModels_[typeSe].reset(Model::CreateFromOBJ("se", true));//せ
-	titleNameModels_[typeI].reset(Model::CreateFromOBJ("i", true));//い
+	titleNameModels_[typeMa].reset(Model::CreateFromOBJ("ma", true)); // 魔
+	titleNameModels_[typeJo].reset(Model::CreateFromOBJ("jo", true)); // 女
+	titleNameModels_[typeNo].reset(Model::CreateFromOBJ("no", true)); // の
+	titleNameModels_[typeSe].reset(Model::CreateFromOBJ("se", true)); // せ
+	titleNameModels_[typeI].reset(Model::CreateFromOBJ("i", true));   // い
 }
 
-//探索シーンのモデル
+// 探索シーンのモデル
 void Create::GameSceneModel() {
 	models_.resize((int)Type::kModelNum); // 配列の大きさを設定
 	models_[typeHexagon].reset(Model::CreateFromOBJ("hexagon", true));
@@ -46,22 +46,22 @@ void Create::GameSceneModel() {
 	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));         // 杖
 
 	// ミミックのモデル
-	mimicModels_.resize((int)MimicParts::kPartsNum);                                // サイズの設定
-	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));                 // 箱
-	mimicModels_[typeLid].reset(Model::CreateFromOBJ("rid", true));                 // 蓋
-	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));                 // 目
-	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("toothUp", true));         // 上の歯
-	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("toothBottom", true)); // 下の歯
-	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));           // 舌
+	mimicModels_.resize((int)MimicParts::kPartsNum);                               // サイズの設定
+	mimicModels_[typeBox].reset(Model::CreateFromOBJ("box", true));                // 箱
+	mimicModels_[typePadlock].reset(Model::CreateFromOBJ("padlock", true));        // 南京錠
+	mimicModels_[typeKeyHole].reset(Model::CreateFromOBJ("keyHole", true));        // 鍵穴
+	mimicModels_[typeLid].reset(Model::CreateFromOBJ("lid", true));                // 蓋
+	mimicModels_[typeEye].reset(Model::CreateFromOBJ("eye", true));                // 目
+	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("upperTeeth", true));     // 上の歯
+	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("lowerTeeth", true)); // 下の歯
+	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));          // 舌
 }
 
-//エンドシーンのモデル
+// エンドシーンのモデル
 void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
-void Create::TextureCreate() {
-
-}
+void Create::TextureCreate() {}
 
 // モデルのゲッター
 Model* Create::GetModel(int subscript) const { return models_[subscript].get(); }
@@ -72,13 +72,13 @@ std::vector<std::unique_ptr<Model>>& Create::GetPlayerModel() {
 	return playerModels_;
 }
 
-//ミミックのモデルのゲッター
+// ミミックのモデルのゲッター
 std::vector<std::unique_ptr<Model>>& Create::GetMimicModel() {
 	// TODO: return ステートメントをここに挿入します
 	return mimicModels_;
 }
 
-//タイトル名のモデルのゲッター
+// タイトル名のモデルのゲッター
 std::vector<std::unique_ptr<Model>>& Create::GetTitleNameModel() {
 	// TODO: return ステートメントをここに挿入します
 	return titleNameModels_;

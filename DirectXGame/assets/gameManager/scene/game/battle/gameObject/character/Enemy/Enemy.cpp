@@ -29,7 +29,7 @@ void Mimic::Update() {
 	// ステータスの変更
 	ChangeStatus();
 	// 行動
-	(this->*Mimic::ActionModeTable[status_])();
+	//(this->*Mimic::ActionModeTable[status_])();
 
 	BaseCharacter::Update();
 	mimicModel_->Update();
