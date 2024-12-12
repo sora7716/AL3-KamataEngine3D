@@ -58,6 +58,8 @@ private: // メンバ変数
 	Hexagon* hexagon_ = nullptr;
 	// 球
 	Sphere* sphere_ = nullptr;
+	//サーチライト
+	Searchlight* serchlight_ = nullptr;
 
 	// マップ
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;

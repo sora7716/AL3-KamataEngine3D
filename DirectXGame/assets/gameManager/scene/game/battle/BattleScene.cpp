@@ -61,6 +61,15 @@ void BattleScene::Initialize(Create* create) {
 	// 球
 	sphere_ = Collision::GetSphereInstance();
 	sphere_->Initialize({.center = {}, .rotation = {},.radius=5.0f}, &viewProjection_);
+
+	//サーチライト
+	serchlight_ = new Searchlight();
+	Shape::SerchlightMaterial mat;
+	mat.radius = 5.0f;
+	mat.beginAngle = 0.0f;
+	mat.endAngle = 180.0f;
+	mat.center = {};
+	serchlight_->Initialize(std::move(mat), &viewProjection_);
 }
 
 // 更新
@@ -82,6 +91,8 @@ void BattleScene::Update() {
 	//球
 	sphere_->Update();
 	sphere_->DebugText();
+
+	serchlight_->Update();
 #endif // _DEBUG
 
 	// 環境の更新
@@ -157,12 +168,13 @@ void BattleScene::Draw() {
 	// particle_->Draw();
 
 #ifdef _DEBUG
-	// OBB
-	obb_->Draw();
-	// hexagon
-	hexagon_->Draw();
-	//球
-	sphere_->Draw();
+	//// OBB
+	//obb_->Draw();
+	//// hexagon
+	//hexagon_->Draw();
+	////球
+	//sphere_->Draw();
+	serchlight_->Draw();
 #endif // _DEBUG
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -143,6 +143,7 @@
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp" />
     <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp" />
+    <ClCompile Include="assets\math\collision\shape\searchlight\Searchlight.cpp" />
     <ClCompile Include="assets\math\collision\shape\Shape.cpp" />
     <ClCompile Include="assets\math\collision\shape\sphere\Sphere.cpp" />
     <ClCompile Include="assets\math\easing\Easing.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h" />
     <ClInclude Include="assets\math\collision\shape\obb\OBB.h" />
+    <ClInclude Include="assets\math\collision\shape\searchlight\Searchlight.h" />
     <ClInclude Include="assets\math\collision\shape\Shape.h" />
     <ClInclude Include="assets\math\collision\shape\sphere\Sphere.h" />
     <ClInclude Include="assets\math\easing\Easing.h" />

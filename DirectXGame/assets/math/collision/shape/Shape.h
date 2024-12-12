@@ -3,7 +3,6 @@
 #include "PrimitiveDrawer.h"
 #include "Vector4.h"
 #include "ViewProjection.h"
-#include "WorldTransform.h"
 #include "assets/math/Math.h"
 
 /// <summary>
@@ -87,7 +86,15 @@ public: // 構造体
 		Vector3 normal[4];
 	} TriangleMaterial;
 
-public: // メンバ関数
+	//サーチライトの素材
+	typedef struct SerchlightMaterial {
+		Vector3 center;
+		float radius;
+		float beginAngle;//始まりの角度
+		float endAngle;//終わりの角度
+	} SerchlightMaterial;
+
+	public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

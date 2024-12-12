@@ -6,6 +6,7 @@
 #include "shape/hexagon/Hexagon.h"
 #include "shape/obb/OBB.h"
 #include "shape/sphere/Sphere.h"
+#include "shape/searchlight/Searchlight.h"
 // 前方宣言
 class WorldTransform;
 class ViewProjection;
