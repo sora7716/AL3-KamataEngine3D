@@ -51,6 +51,23 @@ public: // 構造体や列挙型
 	int typeToothUp = (int)MimicParts::kToothUp;         // 上の歯
 	int typeToothBottom = (int)MimicParts::kToothBottom; // 下の歯
 	int typeTongue = (int)MimicParts::kTongue;           // 舌
+
+	//タイトル名
+	enum class TitleNameType {
+		kMa,
+		kJo,
+		kNo,
+		kSe,
+		kI,
+		kTitleNameNum
+	};
+	//タイトル名のモデル
+	int typeMa = (int)TitleNameType::kMa;
+	int typeJo = (int)TitleNameType::kJo;
+	int typeNo = (int)TitleNameType::kNo;
+	int typeSe = (int)TitleNameType::kSe;
+	int typeI = (int)TitleNameType::kI;
+
 public:                                                  // メンバ関数
 	/// <summary>
 	/// インスタンスのゲッター
@@ -98,6 +115,12 @@ public:                                                  // メンバ関数
 	std::vector<std::unique_ptr<Model>>& GetMimicModel();
 
 	/// <summary>
+	/// タイトル名のモデルのゲッター
+	/// </summary>
+	/// <returns>モデル</returns>
+	std::vector<std::unique_ptr<Model>>& GetTitleNameModel();
+
+	/// <summary>
 	/// テクスチャのゲッター
 	/// </summary>
 	/// <param name="subscript">添え字</param>
@@ -125,5 +148,6 @@ private:                                               // メンバ変数
 	std::vector<std::unique_ptr<Model>> models_;       // モデル
 	std::vector<std::unique_ptr<Model>> playerModels_; // プレイヤーのモデル
 	std::vector<std::unique_ptr<Model>> mimicModels_;  // ミミックのモデル
+	std::vector<std::unique_ptr<Model>> titleNameModels_;//タイトル名のモデル
 	std::vector<uint32_t> textureHandle_;              // テクスチャ
 };

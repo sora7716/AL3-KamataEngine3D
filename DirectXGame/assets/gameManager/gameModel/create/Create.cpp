@@ -20,7 +20,14 @@ Create* Create::GetInstance() {
 }
 
 //タイトルシーンのモデル
-void Create::TitleSceneModel() {}
+void Create::TitleSceneModel() { 
+	titleNameModels_.resize((int)TitleNameType::kTitleNameNum);
+	titleNameModels_[typeMa].reset(Model::CreateFromOBJ("ma", true));//魔
+	titleNameModels_[typeJo].reset(Model::CreateFromOBJ("jo", true));//女
+	titleNameModels_[typeNo].reset(Model::CreateFromOBJ("no", true));//の
+	titleNameModels_[typeSe].reset(Model::CreateFromOBJ("se", true));//せ
+	titleNameModels_[typeI].reset(Model::CreateFromOBJ("i", true));//い
+}
 
 //探索シーンのモデル
 void Create::GameSceneModel() {
@@ -52,7 +59,9 @@ void Create::GameSceneModel() {
 void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
-void Create::TextureCreate() {}
+void Create::TextureCreate() {
+
+}
 
 // モデルのゲッター
 Model* Create::GetModel(int subscript) const { return models_[subscript].get(); }
@@ -67,6 +76,12 @@ std::vector<std::unique_ptr<Model>>& Create::GetPlayerModel() {
 std::vector<std::unique_ptr<Model>>& Create::GetMimicModel() {
 	// TODO: return ステートメントをここに挿入します
 	return mimicModels_;
+}
+
+//タイトル名のモデルのゲッター
+std::vector<std::unique_ptr<Model>>& Create::GetTitleNameModel() {
+	// TODO: return ステートメントをここに挿入します
+	return titleNameModels_;
 }
 
 // テクスチャのゲッター

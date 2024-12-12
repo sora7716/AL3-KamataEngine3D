@@ -1,5 +1,6 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
+#include "assets/gameManager/scene/title/gameObject/titleName/TitleName.h"
 
 /// <summary>
 /// タイトルシーン
@@ -43,11 +44,7 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	uint32_t textureHandle_ = 0;
-	
-	std::array<std::unique_ptr<Model>, 5> model_;
-	
-	std::array<WorldTransform, 5> worldTransform_;
+
+	std::unique_ptr<TitleName> titleName_ = nullptr;
 
 };
