@@ -123,9 +123,6 @@
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\controller\Controller.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -165,7 +162,7 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp">
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Mimic.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.cpp">
@@ -178,6 +175,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\LifeBar\LifeBar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -302,9 +308,6 @@
     <ClInclude Include="assets\failLoad\map\MapChipField.h">
       <Filter>assets\process</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\controller\Controller.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\gameModel\create\Create.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -347,7 +350,7 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h">
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Mimic.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.h">
@@ -360,6 +363,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\gameModel\create\staffModel\StaffModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

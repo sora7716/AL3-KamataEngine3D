@@ -6,7 +6,7 @@
 // ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
+#include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Mimic.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/magic/luminous/Luminous.h"
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
@@ -15,8 +15,8 @@
 #include "assets/gameManager/scene/game/battle/gameObject/Shape/obb/OBB.h"
 #include "assets/gameManager/scene/game/battle/gameObject/Shape/hexagon/Hexagon.h"
 
-//プレイヤーのテクスチャー
-#include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
+////プレイヤーのテクスチャー
+//#include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
 
 /// <summary>
 /// バトルシーン
@@ -94,13 +94,6 @@ private: // メンバ変数
 	bool isSelectContorol_ = false;
 
 	//ミミック
-	std::unique_ptr<Mimic> enemy_ = nullptr;
-
-	//ライフバー
-	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
-	//エネミー
-	std::unique_ptr<LifeBar> enemyLifeBar_ = nullptr;
-
-	bool isDead_ = false;
+	std::unique_ptr<Mimic> mimic_ = nullptr;
 	bool isClear_ = false;
 };

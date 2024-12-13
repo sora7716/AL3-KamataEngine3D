@@ -67,7 +67,7 @@ protected: // メンバ関数
 
 private: // メンバ変数
 	// 振る舞い
-	Behavior behavior_ = Behavior::kRoot;
+	Behavior behavior_ = Behavior::kRoot; //idleBehavoir
 	// 次の振る舞いリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 	// アクションタイマー

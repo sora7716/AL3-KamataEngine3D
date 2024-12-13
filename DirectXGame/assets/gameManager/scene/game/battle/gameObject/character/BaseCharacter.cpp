@@ -1,12 +1,15 @@
 #include "BaseCharacter.h"
 #include "ImGuiManager.h"
 #include <cassert>
-//初期化
-void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	//モデルを入れていく
+// 初期化
+void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	// モデルを入れていく
 	for (int i = 0; i < models.size(); i++) {
 		assert(models[i]);
 		models_.push_back(models[i].get());
+	}
+	for (int i = 0; i < textures.size(); i++) {
+		textures_.push_back(textures[i]);
 	}
 	viewProjection_ = viewProjection;
 	worldTransform_.Initialize();
@@ -16,13 +19,13 @@ void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, Vie
 	kDepth_ = 3.0f;
 }
 
-//更新
+// 更新
 void BaseCharacter::Update() { worldTransform_.UpdateMatrix(); }
 
-//描画
+// 描画
 void BaseCharacter::Draw() {}
 
-//デバックテキスト
+// デバックテキスト
 void BaseCharacter::DebugText(const char* label) {
 	(void*)label;
 #ifdef DEBUG
@@ -31,36 +34,30 @@ void BaseCharacter::DebugText(const char* label) {
 	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
 	ImGui::End();
-#endif //DEBUG
+#endif // DEBUG
 }
 
-//ワールドトランスフォームのゲッター
+// ワールドトランスフォームのゲッター
 const WorldTransform& BaseCharacter::GetWorldTransform() {
 	// TODO: return ステートメントをここに挿入します
 	return worldTransform_;
 }
 
-const Vector3 BaseCharacter::GetWorldPos(){
-	return {
-		worldTransform_.matWorld_.m[3][0],
-		worldTransform_.matWorld_.m[3][1],
-		worldTransform_.matWorld_.m[3][2]
-	}; 
-}
+const Vector3 BaseCharacter::GetWorldPos() { return {worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2]}; }
 
-//ビュープロジェクションのゲッター
+// ビュープロジェクションのゲッター
 ViewProjection& BaseCharacter::GetViewProjection() {
 	// TODO: return ステートメントをここに挿入します
 	return *viewProjection_;
 }
 
-AABB BaseCharacter::GetAABB(){
+AABB BaseCharacter::GetAABB() {
 	Vector3 worldpos = GetWorldPos();
 
 	AABB aabb;
 
-	aabb.min = { worldpos.x - kWidth_ / 2.0f, worldpos.y - kHeight_ / 2.0f, worldpos.z - kWidth_ / 2.0f };
-	aabb.max = { worldpos.x + kWidth_ / 2.0f, worldpos.y + kHeight_ / 2.0f, worldpos.z + kWidth_ / 2.0f };
+	aabb.min = {worldpos.x - kWidth_ / 2.0f, worldpos.y - kHeight_ / 2.0f, worldpos.z - kWidth_ / 2.0f};
+	aabb.max = {worldpos.x + kWidth_ / 2.0f, worldpos.y + kHeight_ / 2.0f, worldpos.z + kWidth_ / 2.0f};
 
 	return aabb;
 }

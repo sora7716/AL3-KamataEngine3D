@@ -14,8 +14,8 @@ void (Player::*Player::ActionTable[])() = {
 };
 
 // 初期化
-void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	BaseCharacter::Initialize(std::move(models), viewProjection, std::move(textures));
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();
 	// プレイヤーモデルの初期化
@@ -24,6 +24,9 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	playerModel_->SetParent(&worldTransform_);
 	//キャラクタータイプの初期化
 	charType_ = CharType::kPlayer;
+	// 体力
+	playerLifeBar_ = std::make_unique<LifeBar>(GetCharacterType());
+	playerLifeBar_->Initialize(std::move(textures));
 }
 
 // 更新
@@ -35,6 +38,9 @@ void Player::Update() {
 	} else {
 		BehaviorDashUpdate();
 	}
+	// playerLifeBar_->DebugWindow();
+	//ライフバーUpdate()はすでに死亡したか否か確認する
+	isDead_ = playerLifeBar_->Update();
 	BaseCharacter::Update(); // 更新
 }
 

@@ -122,7 +122,7 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Mimic.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.cpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\BaseCharacter.h" />
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Mimic.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\controller\Controller.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.h" />

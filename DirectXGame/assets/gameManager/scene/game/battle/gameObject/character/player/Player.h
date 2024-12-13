@@ -1,10 +1,13 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
 
 // 前方宣言
 class ViewProjection;
 class Model;
+//class LifeBar;
+class Create;
 
 /// <summary>
 /// プレイヤー
@@ -27,7 +30,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) override;
+	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) override;
 
 	/// <summary>
 	/// 更新
@@ -83,7 +86,33 @@ public: // メンバ関数
 	/// <returns></returns>
 	AABB GetPartsAABB(PlayerModel::Parts partsName);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	PlayerMode GetBehavior();
+
+	/// <summary>
+	/// ダメージを受けた
+	/// </summary>
+	void TookDamage() { playerLifeBar_->TookDamage(); }
+
+	/// <summary>
+	/// 死亡ゲッター
+	/// </summary>
+	/// <returns>死亡か否か</returns>
+	bool GetIsDead() { return isDead_; }
+
+	/// <summary>
+	/// 死亡セッター
+	/// </summary>
+	/// <param name="input"></param>
+	void SetIsDead(bool input) { isDead_ = input; }
+
+	/// <summary>
+	/// 2D描画
+	/// </summary>
+	void DrawSprite(){ playerLifeBar_->Draw(); }
 private://メンバ関数
 
 private: // メンバ関数
@@ -121,6 +150,10 @@ private: // メンバ変数
 	float blowBeginPos_ = 0.0f;                          // 打撃を開始した位置
 	float speed_ = kSpeed_;                              // スピード
 	float speedScaler_ = 10.0f;                          // スピードの倍率
+	//ライフバー
+	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//死亡管理
+	bool isDead_ = false;
 	// ジョイスティックの状態
 	XINPUT_STATE joyState_, preJoyState_; // 現在と過去
 };

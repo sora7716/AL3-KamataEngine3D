@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "Mimic.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 
 #pragma region ミミック
@@ -17,8 +17,8 @@ void(Mimic::* Mimic::AnimationTable[])() {
 };
 
 // 初期化
-void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	BaseCharacter::Initialize(std::move(models), viewProjection, std::move(textures));
 	// モデルの生成
 	mimicModel_ = std::make_unique<MimicModel>();
 	// モデルの初期化
@@ -30,6 +30,9 @@ void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProject
 	circulaMoveRadius_ = {0.5f, 0.3f};
 
 	charType_ = CharType::kEnemy;
+
+	mimicLifeBar_ = std::make_unique<LifeBar>(GetCharacterType());
+	mimicLifeBar_->Initialize(std::move(textures));
 }
 
 // 更新
@@ -39,8 +42,11 @@ void Mimic::Update() {
 	// 行動
 	(this->*Mimic::ActionModeTable[status_])();
 	(this->*Mimic::AnimationTable[(int)mimicModel_->GetBehavior()])();
+	//ライフバー
+	isDead_ = mimicLifeBar_->Update();
 	BaseCharacter::Update();
 	mimicModel_->Update();
+
 #ifdef _DEBUG
 	ImGui::Begin("enemy");
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
@@ -54,7 +60,9 @@ void Mimic::Update() {
 }
 
 // 描画
-void Mimic::Draw() { mimicModel_->Draw(); }
+void Mimic::Draw() { 
+	mimicModel_->Draw(); 
+}
 
 // 攻撃
 void Mimic::Attack() {

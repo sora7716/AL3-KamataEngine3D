@@ -2,9 +2,12 @@
 #include "Vector2.h"
 #include "assets/gameManager/gameModel/create/mimicModel/MimicModel.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
 
 // 前方宣言
 class Player;
+class LifeBar;
+class Create;
 
 /// <summary>
 /// ミミックのクラス
@@ -35,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) override;
+	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) override;
 
 	/// <summary>
 	/// 更新
@@ -58,7 +61,16 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	int GetCharacterType() { return (int)charType_; }
+	
+	/// <summary>
+	/// ダメージを受けた処理
+	/// </summary>
+	void TookDamage() { mimicLifeBar_->TookDamage(); }
 
+	/// <summary>
+	/// 2D描画
+	/// </summary>
+	void DrawSprite() { mimicLifeBar_->Draw(); }
 private: // メンバ関数
 	/// <summary>
 	/// ターゲットに向かって移動
@@ -134,6 +146,10 @@ private: // メンバ変数
 	float startAngle_ = 0.0f;
 	//アングルタイマー
 	float angleTimer_ = 0.0f;
-
+	//BehaviorRootUpdate用
 	float frame_ = 0.0f;
+
+	//ライフバー
+	std::unique_ptr<LifeBar> mimicLifeBar_ = nullptr;
+	bool isDead_ = false;
 };

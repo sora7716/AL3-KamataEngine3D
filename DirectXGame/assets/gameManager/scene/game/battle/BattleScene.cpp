@@ -35,10 +35,7 @@ void BattleScene::Initialize() {
 
 	// プレイヤー
 	player_ = make_unique<Player>();
-	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
-	// 体力
-	playerLifeBar_ = std::make_unique<LifeBar>(player_->GetCharacterType());
-	playerLifeBar_->Initialize(create_->GetTextureHandle());
+	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_, create_->GetTextureHandle());
 
 	// 追従カメラのビュープロジェクションを受け取る
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
@@ -51,11 +48,9 @@ void BattleScene::Initialize() {
 	controller_->Initialize(player_.get(), followCamera_.get());
 
 	// ミミック
-	enemy_ = std::make_unique<Mimic>();
-	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
-	enemy_->SetPlayer(player_.get());
-	enemyLifeBar_ = std::make_unique<LifeBar>(enemy_->GetCharacterType());
-	enemyLifeBar_->Initialize(create_->GetTextureHandle());
+	mimic_ = std::make_unique<Mimic>();
+	mimic_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_, create_->GetTextureHandle());
+	mimic_->SetPlayer(player_.get());
 
 	// 光り輝くパーティクル
 	luminous_ = std::make_unique<Luminous>();
@@ -69,8 +64,8 @@ void BattleScene::Initialize() {
 // 更新
 void BattleScene::Update() {
 	// ループをさせる処理
-	if (isDead_ || isClear_) {
-		isDead_ = false;
+	if (player_->GetIsDead() || isClear_) {
+		player_->SetIsDead(false);
 		isClear_ = false;
 		Initialize();
 	}
@@ -104,15 +99,12 @@ void BattleScene::Update() {
 	// プレイヤーの更新
 	player_->Update();
 
-	// playerLifeBar_->DebugWindow();
-	isDead_ = playerLifeBar_->Update();
-
 	// カメラの更新
 	followCamera_->Update();
 
 	// 敵の更新
-	enemy_->Update();
-	isClear_ = enemyLifeBar_->Update();
+	mimic_->Update();
+	//isClear_ = mimicLifeBar_->Update();
 
 	// luminous_->Update();
 	// luminous_->DebugText();
@@ -147,7 +139,6 @@ void BattleScene::Draw() {
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 
-	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -174,7 +165,7 @@ void BattleScene::Draw() {
 	player_->Draw();
 
 	// 敵の描画
-	enemy_->Draw();
+	mimic_->Draw();
 
 	// luminous_->Draw();
 	// particle_->Draw();
@@ -190,8 +181,11 @@ void BattleScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	playerLifeBar_->Draw();
-	enemyLifeBar_->Draw();
+	// プレイヤーの描画
+	player_->DrawSprite();
+	// 敵の描画
+	mimic_->DrawSprite();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -203,11 +197,11 @@ void BattleScene::CheckPlayerEnemyCollision() {
 	bool isCollision = false;
 	AABB player, enemy;
 	player = player_->GetAABB();
-	enemy = enemy_->GetAABB();
+	enemy = mimic_->GetAABB();
 
 	isCollision = Collision::GetInstance()->IsCollision(player, enemy);
 	if (isCollision) {
-		playerLifeBar_->TookDamage();
+		player_->TookDamage();
 	} else {
 		isCollision = false;
 	}
@@ -218,11 +212,11 @@ void BattleScene::CheckPlayerAttack() {
 	AABB playerWeapon, enemy;
 
 	playerWeapon = player_->GetPartsAABB(PlayerModel::Parts::kStaff);
-	enemy = enemy_->GetAABB();
+	enemy = mimic_->GetAABB();
 
 	isCollision = Collision::GetInstance()->IsCollision(playerWeapon, enemy);
 	if (isCollision && player_->GetBehavior() == PlayerMode::kBlow) {
-		enemyLifeBar_->TookDamage();
+		mimic_->TookDamage();
 	} else {
 		isCollision = false;
 	}

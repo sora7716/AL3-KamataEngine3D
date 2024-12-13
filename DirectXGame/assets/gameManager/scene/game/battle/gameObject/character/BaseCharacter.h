@@ -33,7 +33,7 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="models">モデルデータ</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	virtual void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection);
+	virtual void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection,const std::vector<uint32_t>&& textures);
 
 	/// <summary>
 	/// 更新
@@ -84,6 +84,8 @@ protected://メンバ変数
 	ViewProjection* viewProjection_;
 	//CharacterType
 	CharType charType_;
+	
+	std::vector<uint32_t> textures_;
 
 	//当たり判定
 	float kWidth_, kHeight_, kDepth_;
