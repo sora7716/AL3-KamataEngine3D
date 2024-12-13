@@ -102,7 +102,7 @@ private: // メンバ変数
 	// 追従対象(プレイヤー)
 	Player* targetPlayer_ = nullptr;
 	// 追従対象とカメラの座標の差(オフセット)
-	Vector3 targetOffset_ = {0, 0, -15.0f};
+	Vector3 targetOffset_ = {0, 5, -12.0f};
 	// カメラの切り替え
 	bool isCameraExChange_ = false;
 	// カメラフェーズ(最初はカメラ制御)

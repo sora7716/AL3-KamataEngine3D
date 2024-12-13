@@ -144,7 +144,7 @@ void Player::Moving(float speed) {
 	if (isMoving_) {
 		move_ = Math::Normalize(move_) * speed;
 		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
-		move_ = Math::TransformNormal(move_, rotMat);
+		//move_ = Math::TransformNormal(move_, rotMat);
 		// Y軸周りの角度(θy)
 		goalAngle_ = atan2(move_.x, move_.z);
 		// 移動

@@ -4,9 +4,13 @@
 #include "input/Input.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 #include "assets/math/Math.h"
-
 // 初期化
-void FollowCamera::Initialize() { viewProjection_.Initialize(); }
+void FollowCamera::Initialize() { 
+	viewProjection_.Initialize(); 
+
+	viewProjection_.rotation_.x = 0.31f;
+
+}
 
 // 更新
 void FollowCamera::Update() {
@@ -14,6 +18,11 @@ void FollowCamera::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_T)) {
 		isCameraExChange_ ^= true;
 	}
+
+	ImGui::Begin("camera");
+	ImGui::DragFloat3(".offset", &targetOffset_.x, 0.01f);
+	ImGui::DragFloat3(".rotation", &viewProjection_.rotation_.x, 0.01f);
+	ImGui::End();
 
 	(this->*cameraUpdateTable[static_cast<size_t>(cameraPhase_)])();
 
