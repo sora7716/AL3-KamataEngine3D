@@ -171,12 +171,12 @@ void BattleScene::Draw() {
 
 #ifdef _DEBUG
 	//// OBB
-	//obb_->Draw();
-	//// hexagon
-	//hexagon_->Draw();
-	////球
-	//sphere_->Draw();
-	serchlight_->Draw();
+	obb_->Draw();
+	// hexagon
+	hexagon_->Draw();
+	//球
+	sphere_->Draw();
+	//serchlight_->Draw();
 #endif // _DEBUG
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
