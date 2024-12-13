@@ -10,28 +10,11 @@ Collision* Collision::GetInstance() {
 	return &instance;
 }
 
-// スフィアのインスタンスのゲッター
-Sphere* Collision::GetSphereInstance() {
-	static Sphere instance;
-	return &instance;
-}
-// OBBのインスタンスのゲッター
-OBB* Collision::GetOBBInstance() {
-	static OBB instance;
-	return &instance;
-}
-
-// 六角柱のインスタンスのゲッター
-Hexagon* Collision::GetHexagonInstance() {
-	static Hexagon instance;
-	return &instance;
-}
-
 // 球と球の衝突判定
-bool Collision::IsCollision(const Vector3& posA, const Vector3& posB, float radiusA, float radiusB) {
-	float distance = Math::Norm(posA - posB);
-	float radiusSum = radiusA + radiusB;
-	if (distance * distance <= radiusSum) {
+bool Collision::IsCollision(const Shape::SphereMaterial& sphere1, const Shape::SphereMaterial& sphere2) {
+	float distance = Math::Norm(sphere1.center - sphere2.center);
+	float radiusSum = std::fabs(sphere1.radius) + std::fabs(sphere2.radius);
+	if (distance <= radiusSum) {
 		return true;
 	}
 	return false;
@@ -65,3 +48,9 @@ bool Collision::IsCollision(const Shape::AABB& aabb1, const Shape::AABB& aabb2) 
 
 	return true;
 }
+
+// 球同士の当たり判定
+bool operator==(const Shape::SphereMaterial& sphere1, const Shape::SphereMaterial& shpere2) { return Collision::GetInstance()->IsCollision(sphere1, shpere2); }
+
+// AABB同士の当たり判定
+bool operator==(const Shape::AABB& aabb1, const Shape::AABB& aabb2) { return Collision::GetInstance()->IsCollision(aabb1, aabb2); }

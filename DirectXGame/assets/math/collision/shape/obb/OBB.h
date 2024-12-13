@@ -3,7 +3,7 @@
 // 前方宣言
 class ViewProjection;
 
-class OBB : private Shape {
+class OBB : public Shape {
 
 public: // メンバ関数
 	/// <summary>
@@ -56,6 +56,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	OBBMaterial GetOBBMaterial() const;
+
+	/// <summary>
+	/// AABBのゲッター
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB();
 
 private: // メンバ関数
 	/// <summary>

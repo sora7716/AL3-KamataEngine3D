@@ -24,32 +24,12 @@ public: // メンバ関数
 	static Collision* GetInstance();
 
 	/// <summary>
-	/// スフィアのインスタンスのゲッター
+	/// 球同士の当たり判定
 	/// </summary>
+	/// <param name="sphere1">球1</param>
+	/// <param name="sphere2">球2</param>
 	/// <returns></returns>
-	static Sphere* GetSphereInstance();
-
-	/// <summary>
-	/// OBBのインスタンスのゲッター
-	/// </summary>
-	/// <returns></returns>
-	static OBB* GetOBBInstance();
-
-	/// <summary>
-	/// 六角柱のインスタンスのゲッター
-	/// </summary>
-	/// <returns></returns>
-	static Hexagon* GetHexagonInstance();
-
-	/// <summary>
-	///  球と球の衝突判定
-	/// </summary>
-	/// <param name="posA">座標A</param>
-	/// <param name="posB">座標B</param>
-	/// <param name="radiusA">半径A</param>
-	/// <param name="radiusB">半径B</param>
-	/// <returns></returns>
-	static bool IsCollision(const Vector3& posA, const Vector3& posB, float radiusA, float radiusB);
+	static bool IsCollision(const Shape::SphereMaterial& sphere1, const Shape::SphereMaterial& sphere2);
 
 	/// <summary>
 	/// AABB
@@ -75,3 +55,9 @@ private: // メンバ関数
 	/// </summary>
 	~Collision() = default;
 };
+
+//球同士の当たり判定
+bool operator==(const Shape::SphereMaterial& sphere1, const Shape::SphereMaterial& shpere2);
+
+//AABB同士の当たり判定
+bool operator==(const Shape::AABB& aabb1, const Shape::AABB& aabb2);

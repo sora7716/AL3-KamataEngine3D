@@ -10,12 +10,19 @@ void BattleScene::Initialize(Create* create) {
 	// 初期化
 	IScene::Initialize(create);
 	// OBB
-	obb_ = Collision::GetOBBInstance(); // 生成
-	obb_->Initialize({.center = {}, .rotation = {}}, &viewProjection_); // 初期化
+	for (int i = 0; i < obbs_.size(); i++) {
+		obbs_[i] = std::make_unique<OBB>();                                     // 生成
+		obbs_[i]->Initialize({.center = {}, .rotation = {}}, &viewProjection_); // 初期化
+	}
 
-	hexagon_ = Collision::GetHexagonInstance();
-	// 六角形
-	hexagon_->Initialize({.center = {},.size = {1.0f,0.1f,1.0f}}, &viewProjection_);
+	hexagon_ = new Hexagon();
+	//  六角形
+	hexagon_->Initialize(
+	    {
+	        .center = {},
+              .size = {1.0f, 0.1f, 1.0f}
+    },
+	    &viewProjection_);
 
 	// マップチップ
 	mapChipField_ = make_unique<MapChipField>();
@@ -59,10 +66,17 @@ void BattleScene::Initialize(Create* create) {
 	particle_->SetDirectionView(&followCamera_->GetViewProjection());
 
 	// 球
-	sphere_ = Collision::GetSphereInstance();
-	sphere_->Initialize({.center = {}, .rotation = {},.radius=5.0f}, &viewProjection_);
+	for (int i = 0; i < 2; i++) {
+		spheres_[i] = std::make_unique<Sphere>();
+		spheres_[i]->Initialize(
+		    {
+		        .center = {0.0f, 0.0f, 5.0f},
+                  .radius = 2.0f, .rotation = {}
+        },
+		    &viewProjection_);
+	}
 
-	//サーチライト
+	// サーチライト
 	serchlight_ = new Searchlight();
 	Shape::SerchlightMaterial mat = {
 	    .center{},
@@ -75,6 +89,8 @@ void BattleScene::Initialize(Create* create) {
 
 // 更新
 void BattleScene::Update() {
+	// 当たり判定を計算
+	CheckCollision();
 	// 更新
 	IScene::Update();
 
@@ -83,18 +99,27 @@ void BattleScene::Update() {
 #ifdef _DEBUG
 	// 六角形
 	hexagon_->Update();
-	hexagon_->DebugText();
 
 	// OBB
-	obb_->Update();
-	obb_->DebagText();
+	for (auto& obb : obbs_) {
+		obb->Update();
+	}
 
-	//球
-	sphere_->Update();
-	sphere_->DebugText();
+	// 球
+	for (auto& sphere : spheres_) {
+		sphere->Update();
+	}
 
 	serchlight_->Update();
-	serchlight_->DebugText();
+
+	ImGui::Begin("wireFrame");
+	// spheres_[0]->DebugText("sphere[0]");
+	// spheres_[1]->DebugText("sphere[1]");
+	/*hexagon_->DebugText();*/
+	obbs_[0]->DebagText("obb[0]");
+	obbs_[1]->DebagText("obb[1]");
+	/*serchlight_->DebugText();*/
+	ImGui::End();
 #endif // _DEBUG
 
 	// 環境の更新
@@ -170,13 +195,17 @@ void BattleScene::Draw() {
 	// particle_->Draw();
 
 #ifdef _DEBUG
-	//// OBB
-	//obb_->Draw();
+	// OBB
+	for (auto& obb : obbs_) {
+		obb->Draw();
+	}
 	//// hexagon
-	//hexagon_->Draw();
+	// hexagon_->Draw();
 	////球
-	//sphere_->Draw();
-	serchlight_->Draw();
+	/*for (auto& sphere : spheres_) {
+		sphere->Draw();
+	}*/
+	// serchlight_->Draw();
 #endif // _DEBUG
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -194,4 +223,13 @@ void BattleScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+// 当たり判定を計算
+void BattleScene::CheckCollision() {
+	/*spheres_[0]->OnCollision(spheres_[0]->GetSphereMaterial() == spheres_[1]->GetSphereMaterial());
+	spheres_[1]->OnCollision(spheres_[0]->GetSphereMaterial() == spheres_[1]->GetSphereMaterial());*/
+	for (int i = 0; i < obbs_.size(); i++) {
+		obbs_[i]->OnCollision(obbs_[0]->GetAABB() == obbs_[1]->GetAABB());
+	}
 }

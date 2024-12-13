@@ -12,6 +12,9 @@ bool IScene::IsFinished() { return isFinished_; }
 // 終了フラグ
 void IScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
 
+//当たり判定の計算
+void IScene::CheckCollision() {}
+
 //デバックカメラの切り替え
 void IScene::SwichDebugCamera() {
 #ifdef _DEBUG

@@ -6,7 +6,7 @@
 using namespace std;
 
 // 初期化
-void OBB::Initialize(const OBBMaterial&& obbMaterial,ViewProjection* viewProjection) {
+void OBB::Initialize(const OBBMaterial&& obbMaterial, ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
 	// OBBの値を設定
 	obb_ = obbMaterial;
@@ -17,17 +17,17 @@ void OBB::Initialize(const OBBMaterial&& obbMaterial,ViewProjection* viewProject
 // 更新
 void OBB::Update() {
 	// サイズを設定
-	aabb_.min = -obb_.size;
-	aabb_.max = obb_.size;
-	MakeVertecies();// 頂点を作成
+	aabb_.min = obb_.center - obb_.size;
+	aabb_.max = obb_.center + obb_.size;
+	MakeVertecies(); // 頂点を作成
 	// スクリーン座標に変換
 	for (int i = 0; i < Math::kAABB2DNum; i++) {
 
 		// スクリーン座標
-		screenVertecies_[i].leftTop = Conversion(rotate_, obb_.center, localVertecies_[i].leftTop, obb_.orientations);
-		screenVertecies_[i].rightTop = Conversion(rotate_, obb_.center, localVertecies_[i].rightTop, obb_.orientations);
-		screenVertecies_[i].leftBottom = Conversion(rotate_, obb_.center, localVertecies_[i].leftBottom, obb_.orientations);
-		screenVertecies_[i].rightBottom = Conversion(rotate_, obb_.center, localVertecies_[i].rightBottom, obb_.orientations);
+		screenVertecies_[i].leftTop = Conversion(rotate_, localVertecies_[i].leftTop, obb_.orientations);
+		screenVertecies_[i].rightTop = Conversion(rotate_, localVertecies_[i].rightTop, obb_.orientations);
+		screenVertecies_[i].leftBottom = Conversion(rotate_, localVertecies_[i].leftBottom, obb_.orientations);
+		screenVertecies_[i].rightBottom = Conversion(rotate_, localVertecies_[i].rightBottom, obb_.orientations);
 	}
 	// 正規化しておく
 	for (int i = 0; i < 3; i++) {
@@ -74,6 +74,9 @@ Vector3 OBB::GetSize() const { return obb_.size; }
 
 // OBBのマテリアルのゲッター
 Shape::OBBMaterial OBB::GetOBBMaterial() const { return obb_; }
+
+// AABBのゲッター
+Shape::AABB OBB::GetAABB() { return aabb_; }
 
 // 頂点を作成
 void OBB::MakeVertecies() {

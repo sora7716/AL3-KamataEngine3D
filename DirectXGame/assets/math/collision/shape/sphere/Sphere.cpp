@@ -20,7 +20,7 @@ void Sphere::DebugText(const char* label) {
 	string rotateLabel = string(label) + ".rotate";
 	ImGui::DragFloat3(rotateLabel.c_str(), &sphere_.rotation.x, 0.1f);
 	string centerLabel = string(label) + ".center";
-	ImGui::DragFloat(centerLabel.c_str(), &sphere_.center.x, 0.01f);
+	ImGui::DragFloat3(centerLabel.c_str(), &sphere_.center.x, 0.01f);
 	string radiusLabel = string(label) + ".radius";
 	ImGui::DragFloat(radiusLabel.c_str(), &sphere_.radius, 0.01f);
 }

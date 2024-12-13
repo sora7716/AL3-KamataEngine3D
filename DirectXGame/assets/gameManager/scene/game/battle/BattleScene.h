@@ -47,18 +47,24 @@ public: // メンバ関数
 	/// </summary>
 	void Draw() override;
 
+private: // メンバ関数
+	/// <summary>
+	/// 当たり判定を計算
+	/// </summary>
+	void CheckCollision() override;
+
 private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 
 	// OBB
-	OBB* obb_ = nullptr;
+	std::array<std::unique_ptr<OBB>,2> obbs_ = {nullptr};
 	// 六角形
 	Hexagon* hexagon_ = nullptr;
 	// 球
-	Sphere* sphere_ = nullptr;
-	//サーチライト
+	std::unique_ptr<Sphere> spheres_[2] = {nullptr};
+	// サーチライト
 	Searchlight* serchlight_ = nullptr;
 
 	// マップ

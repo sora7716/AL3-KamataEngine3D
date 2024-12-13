@@ -4,7 +4,7 @@
 Vector3 Shape::Conversion(const Vector3& scale, const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex) {
 	// ワールド行列を生成
 	worldMatrix_ = Math::MakeAffineMatrix(scale, rotate, translate);
-	//ローカルの頂点とくっつける
+	// ローカルの頂点とくっつける
 	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
@@ -16,10 +16,18 @@ Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const
 	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
-//OBB用ローカルの頂点を変換
+// OBB用ローカルの頂点を変換
 Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations) {
-	MakeOBBRotateMatrix(orientations, rotate);                   // OBB用の回転行列を抽出
+	MakeOBBRotateMatrix(orientations, rotate);                  // OBB用の回転行列を抽出
 	worldMatrix_ = MakeOBBWorldMatrix(orientations, translate); // OBB用のワールド行列を作成
+	// ローカルの頂点とくっつける
+	return Math::Transform(kLocalVertex, worldMatrix_);
+}
+
+//OBB用ローカルの頂点を変換
+Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& kLocalVertex, Vector3* orientations) {
+	MakeOBBRotateMatrix(orientations, rotate);                  // OBB用の回転行列を抽出
+	worldMatrix_ = MakeOBBWorldMatrix(orientations); // OBB用のワールド行列を作成
 	// ローカルの頂点とくっつける
 	return Math::Transform(kLocalVertex, worldMatrix_);
 }
@@ -51,6 +59,29 @@ Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 c
 	Matrix4x4 result{
 	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
 	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, center.x,          center.y,          center.z,          1.0f,
+	};
+	return result;
+}
+
+// OBB用のワールド行列
+Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations) {
+	Matrix4x4 result{
+	    orientations[0].x,
+	    orientations[0].y,
+	    orientations[0].z,
+	    0.0f,
+	    orientations[1].x,
+	    orientations[1].y,
+	    orientations[1].z,
+	    0.0f,
+	    orientations[2].x,
+	    orientations[2].y,
+	    orientations[2].z,
+	    0.0f,
+	    0.0f,
+	    0.0f,
+	    0.0f,
+	    1.0f,
 	};
 	return result;
 }

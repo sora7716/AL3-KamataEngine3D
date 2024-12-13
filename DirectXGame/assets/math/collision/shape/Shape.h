@@ -47,8 +47,8 @@ public: // 構造体
 	// スフィアに使う構造体
 	typedef struct SphereMaterial {
 		Vector3 center;
-		Vector3 rotation;
 		float radius;
+		Vector3 rotation;
 	} SphereMaterial;
 
 	// 直線
@@ -135,6 +135,15 @@ public: // 構造体
 	Vector3 Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations);
 
 	/// <summary>
+	/// OBB用の変換
+	/// </summary>
+	/// <param name="rotate">回転</param>
+	/// <param name="kLocalVertex">ローカル頂点</param>
+	/// <param name="orientations">法線</param>
+	/// <returns>変換</returns>
+	Vector3 Conversion(const Vector3& rotate,const Vector3& kLocalVertex, Vector3* orientations);
+
+	/// <summary>
 	/// OBB用の回転行列
 	/// </summary>
 	/// <param name="orientations">回転行列から抽出するやつ</param>
@@ -149,6 +158,12 @@ public: // 構造体
 	/// <returns>OBBのワールド行列</returns>
 	static Matrix4x4 MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center);
 
+	/// <summary>
+	/// OBB用のワールド行列
+	/// </summary>
+	/// <param name="orientations">回転行列から抽出した法線</param>
+	/// <returns>OBBのワールド行列</returns>
+	static Matrix4x4 MakeOBBWorldMatrix(const Vector3* orientations);
 	/// <summary>
 	/// 当たった時の判定
 	/// </summary>

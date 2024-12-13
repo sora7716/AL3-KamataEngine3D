@@ -23,6 +23,7 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include <array>
 
 /// <summary>
 /// シーンのインターフェース
@@ -70,6 +71,11 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isFinished">終了フラグ</param>
 	void SetIsFinished(bool isFinished);
+
+	/// <summary>
+	/// 当たり判定を計算
+	/// </summary>
+	virtual void CheckCollision();
 
 private://メンバ関数
 
