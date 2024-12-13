@@ -43,6 +43,12 @@ void BattleScene::Initialize(Create* create) {
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 	// 追従対象をセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
+	followCamera_->SetTarget(player_.get());
+	//リセット(瞬間合わせ)
+	followCamera_->Reset();
+	// カメラ移動範囲
+	followCamera_->SetMovableArea({-30, 400, 0, 50});
+
 	isFollowOn = true; // 追従on
 
 	// コントローラーの生成
