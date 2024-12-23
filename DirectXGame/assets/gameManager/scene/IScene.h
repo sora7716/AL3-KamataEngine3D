@@ -18,6 +18,7 @@
 #include "assets/gameManager/scene/game/battle/gameObject/camera/railCamera/RailCamera.h"
 #include "assets/math/Math.h"
 #include "assets/math/collision/Collision.h"
+#include "assets/Log/Log.h"
 
 // C++のライブラリ
 #include <cassert>

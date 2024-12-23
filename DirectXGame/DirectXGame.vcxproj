@@ -139,6 +139,7 @@
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
+    <ClCompile Include="assets\Log\Log.cpp" />
     <ClCompile Include="assets\math\Aithmetic.cpp" />
     <ClCompile Include="assets\math\collision\Collision.cpp" />
     <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
+    <ClInclude Include="assets\Log\Log.h" />
     <ClInclude Include="assets\math\Aithmetic.h" />
     <ClInclude Include="assets\math\collision\Collision.h" />
     <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h" />

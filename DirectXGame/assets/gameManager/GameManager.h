@@ -16,6 +16,15 @@ public: // 列挙型
 	};
 
 public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	GameManager();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameManager();
 
 	/// <summary>
 	/// インスタンスのゲッター
@@ -44,17 +53,6 @@ public: // メンバ関数
 	GameManager& operator=(const GameManager& gameManager) = delete;
 
 private://メンバ関数
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	GameManager() = default;
-
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~GameManager() = default;
-
 	/// <summary>
 	/// モデルの生成
 	/// </summary>
