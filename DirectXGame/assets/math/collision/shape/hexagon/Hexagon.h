@@ -4,7 +4,7 @@
 /// <summary>
 /// 六角形
 /// </summary>
-class Hexagon : private Shape {
+class Hexagon : public Shape {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -21,7 +21,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="camera">カメラ</param>
 	/// <param name="hexagonMaterial">六角形を作成するときに使用する素材</param>
-	void Initialize(const HexagonMaterial&& hexagonMaterial,ViewProjection* viewProjection);
+	void Initialize(ViewProjection* viewProjection,const HexagonMaterial&& hexagonMaterial);
 
 	/// <summary>
 	/// 更新
@@ -58,12 +58,6 @@ public: // メンバ関数
 	/// </summary>
 	HexagonMaterial GetHexagonMaterial();
 
-	/// <summary>
-	/// 回転のゲッター
-	/// </summary>
-	/// <returns></returns>
-	Vector3 GetRotate();
-
 private: // メンバ関数
 	/// <summary>
 	/// 法線ベクトルを作成
@@ -78,5 +72,4 @@ private: // メンバ変数
 	HexagonMaterial hexagon_;                       // 六角形を作成の素材
 	Vector3 vertex[Surface][kVertexNum] = {};       // 頂点
 	Vector3 screenVertex[Surface][kVertexNum] = {}; // スクリーン座標の頂点
-	Vector3 rotate_ = {};
 };

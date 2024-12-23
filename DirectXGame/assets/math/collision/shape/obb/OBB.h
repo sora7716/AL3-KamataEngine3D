@@ -76,5 +76,4 @@ private:                                              // メンバ変数
 	Vertex2D localVertecies_[Math::kAABB2DNum] = {};  // ローカルの頂点
 	Vertex2D screenVertecies_[Math::kAABB2DNum] = {}; // スクリーンの頂点
 	Matrix4x4 worldViewProjection_ = {};              // ワールドビュープロジェクション
-	Vector3 rotate_ = {};                             // 回転ベクトル
 };

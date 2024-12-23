@@ -6,7 +6,7 @@
 #define rad pi_f / 180.0f
 
 // 初期化
-void Hexagon::Initialize(const HexagonMaterial&& hexagonMaterial,ViewProjection* viewProjection) {
+void Hexagon::Initialize(ViewProjection* viewProjection,const HexagonMaterial&& hexagonMaterial) {
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
 	hexagon_ = hexagonMaterial;
 }
@@ -30,7 +30,7 @@ void Hexagon::Update() {
 
 	for (int i = 0; i < Surface; i++) {
 		for (int j = 0; j < 6; j++) {
-			screenVertex[i][j] = Conversion(rotate_, hexagon_.center, vertex[i][j]);
+			screenVertex[i][j] = Conversion(hexagon_.rotation, hexagon_.center, vertex[i][j]);
 		}
 	}
 }
@@ -44,7 +44,7 @@ void Hexagon::DebugText(const char* label) {
 	std::string radiusText = static_cast<std::string>(label) + ".size";
 	ImGui::SliderFloat3(radiusText.c_str(), &hexagon_.size.x, 0.0f, 2.0f);
 	std::string rotateText = static_cast<std::string>(label) + ".rotate";
-	ImGui::DragFloat3(rotateText.c_str(), &rotate_.x, 0.1f);
+	ImGui::DragFloat3(rotateText.c_str(), &hexagon_.rotation.x, 0.1f);
 #endif // _DEBUG
 }
 
@@ -68,9 +68,6 @@ Vector3* Hexagon::GetScreenVertex(int i) { return screenVertex[i]; }
 
 // 六角形の素材のゲッター
 Shape::HexagonMaterial Hexagon::GetHexagonMaterial() { return hexagon_; }
-
-// 回転のゲッター
-Vector3 Hexagon::GetRotate() { return rotate_; }
 
 // 法線ベクトルを作成
 void Hexagon::CreateNormal() {

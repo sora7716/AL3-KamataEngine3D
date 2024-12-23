@@ -57,8 +57,10 @@ void Shape::MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate) {
 // OBB用のワールド行列
 Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center) {
 	Matrix4x4 result{
-	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
-	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, center.x,          center.y,          center.z,          1.0f,
+	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, 
+		orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
+	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, 
+		center.x,          center.y,          center.z,          1.0f,
 	};
 	return result;
 }

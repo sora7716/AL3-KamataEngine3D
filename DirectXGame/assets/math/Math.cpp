@@ -90,6 +90,9 @@ Matrix4x4 Math::MakeAffineMatrix(const Vector3& rotate, const Vector3& translate
 // STRの変換
 Matrix4x4 Math::MakeSTRMatrix(const Vector3& scale, const Vector3& radian, const Vector3& translate) { return MakeScaleMatrix(scale) * MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian); }
 
+// STRの変換
+Matrix4x4 Math::MakeSTRMatrix(const Vector3& radian, const Vector3& translate) { return MakeTranslateMatrix(translate) * MakeRotateXYZMatrix(radian); }
+
 // 正射影行列
 Matrix4x4 Math::MakeOrthographicMatrix(const float& left, const float& top, const float& right, const float& bottom, const float& nearClip, const float& farClip) {
 	Matrix4x4 result{
@@ -199,9 +202,7 @@ Vector3 Math::TransformNormal(const Vector3& v, const Matrix4x4& m) {
 }
 
 // 線形補間
-float Math::Lerp(float a, float b, float t) {
-	return a + t * (b - a);
-}
+float Math::Lerp(float a, float b, float t) { return a + t * (b - a); }
 
 // 線形補間
 Vector3 Math::Lerp(const Vector3& v1, const Vector3& v2, float t) {

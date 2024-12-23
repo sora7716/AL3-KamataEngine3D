@@ -86,15 +86,15 @@ public: // 構造体
 		Vector3 normal[4];
 	} TriangleMaterial;
 
-	//サーチライトの素材(度数法で設定)
+	// サーチライトの素材(度数法で設定)
 	typedef struct SerchlightMaterial {
 		Vector3 center;
 		float radius;
-		float direction;//向き(角度)
-		float range;//範囲(角度)
+		float direction; // 向き(角度)
+		float range;     // 範囲(角度)
 	} SerchlightMaterial;
 
-	public: // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -141,7 +141,7 @@ public: // 構造体
 	/// <param name="kLocalVertex">ローカル頂点</param>
 	/// <param name="orientations">法線</param>
 	/// <returns>変換</returns>
-	Vector3 Conversion(const Vector3& rotate,const Vector3& kLocalVertex, Vector3* orientations);
+	Vector3 Conversion(const Vector3& rotate, const Vector3& kLocalVertex, Vector3* orientations);
 
 	/// <summary>
 	/// OBB用の回転行列

@@ -18,11 +18,11 @@ void BattleScene::Initialize(Create* create) {
 	hexagon_ = new Hexagon();
 	//  六角形
 	hexagon_->Initialize(
-	    {
-	        .center = {},
-              .size = {1.0f, 0.1f, 1.0f}
-    },
-	    &viewProjection_);
+	    &viewProjection_, 
+		{
+	     .center = {},
+          .size = {1.0f, 0.1f, 1.0f}
+        });
 
 	// マップチップ
 	mapChipField_ = make_unique<MapChipField>();
@@ -115,9 +115,9 @@ void BattleScene::Update() {
 	ImGui::Begin("wireFrame");
 	// spheres_[0]->DebugText("sphere[0]");
 	// spheres_[1]->DebugText("sphere[1]");
-	/*hexagon_->DebugText();*/
+	hexagon_->DebugText();
 	obbs_[0]->DebagText("obb[0]");
-	obbs_[1]->DebagText("obb[1]");
+	// obbs_[1]->DebagText("obb[1]");
 	/*serchlight_->DebugText();*/
 	ImGui::End();
 #endif // _DEBUG
@@ -199,11 +199,11 @@ void BattleScene::Draw() {
 	for (auto& obb : obbs_) {
 		obb->Draw();
 	}
-	//// hexagon
-	// hexagon_->Draw();
+	// hexagon
+	hexagon_->Draw();
 	////球
 	/*for (auto& sphere : spheres_) {
-		sphere->Draw();
+	    sphere->Draw();
 	}*/
 	// serchlight_->Draw();
 #endif // _DEBUG
@@ -229,7 +229,8 @@ void BattleScene::Draw() {
 void BattleScene::CheckCollision() {
 	/*spheres_[0]->OnCollision(spheres_[0]->GetSphereMaterial() == spheres_[1]->GetSphereMaterial());
 	spheres_[1]->OnCollision(spheres_[0]->GetSphereMaterial() == spheres_[1]->GetSphereMaterial());*/
-	for (int i = 0; i < obbs_.size(); i++) {
-		obbs_[i]->OnCollision(obbs_[0]->GetAABB() == obbs_[1]->GetAABB());
-	}
+	/*for (int i = 0; i < obbs_.size(); i++) {
+	    obbs_[i]->OnCollision(obbs_[0]->GetOBBMaterial() == obbs_[1]->GetOBBMaterial());
+	}*/
+	hexagon_->OnCollision(hexagon_->GetHexagonMaterial() == obbs_[0]->GetOBBMaterial());
 }
