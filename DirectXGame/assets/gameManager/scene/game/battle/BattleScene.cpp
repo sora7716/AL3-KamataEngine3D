@@ -63,12 +63,12 @@ void BattleScene::Initialize(Create* create) {
 	// 光り輝くパーティクル
 	luminous_ = std::make_unique<Luminous>();
 	luminous_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
-	luminous_->SetDirectionView(&followCamera_->GetViewProjection());
+	luminous_->SetDirectionView(&player_->GetViewProjection());
 
 	particle_ = std::make_unique<Particle>();
 	particle_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
 	particle_->SetParent(&luminous_->GetCenter());
-	particle_->SetDirectionView(&followCamera_->GetViewProjection());
+	particle_->SetDirectionView(&player_->GetViewProjection());
 }
 
 // 更新
