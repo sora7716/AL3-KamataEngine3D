@@ -1,5 +1,6 @@
 #include "PlayerModel.h"
 #include "assets/gameManager/gameModel/create/staffModel/StaffModel.h"
+#include "assets/math/easing/Easing.h"
 
 #pragma region プレイヤーのモデルインターフェース
 // メンバ関数
@@ -239,7 +240,8 @@ void RightArm::BehaviorRootUpdate() {
 // 打撃用
 void RightArm::BehaviorBlowUpdate() {
 	IPlayerModel::BlowChangeTimer();
-	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
+
+	worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInExpo);
 }
 
 // 打撃用の初期化
