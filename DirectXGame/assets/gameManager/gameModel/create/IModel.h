@@ -96,6 +96,8 @@ public: // メンバ関数
 	/// <returns></returns>
 	float Sawtooth(float interval = 2.0f * pi_f);
 
+
+
 	/// <summary>
 	/// ワールドトランスフォームのゲッター
 	/// </summary>

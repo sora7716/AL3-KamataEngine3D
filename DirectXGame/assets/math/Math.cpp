@@ -414,7 +414,7 @@ void Math::MakePendulum(Pendulum& pendulum, Vector3& ballPos) {
 void Math::MakeConicalPendulum(ConicalPendulum& conicalPendulum, Vector3& ballPos) {
 	// 角度を計算
 	conicalPendulum.angularVelocity = sqrt(9.8f / (conicalPendulum.length * cos(conicalPendulum.halfApexAngle)));
-	conicalPendulum.angle += conicalPendulum.angularVelocity * deltaTime;
+	conicalPendulum.angle += conicalPendulum.angularVelocity * 1.0f / 30.0f;
 
 	// 求めた角度からボブの位置を算出
 	float radius = sin(conicalPendulum.halfApexAngle) * conicalPendulum.length;

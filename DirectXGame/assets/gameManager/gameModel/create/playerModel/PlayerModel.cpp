@@ -210,7 +210,7 @@ void Body::BehaviorDashUpdate() {
 // 初期化
 void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.5f, -1.2f, 0.0f};
+	worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -235,19 +235,31 @@ void RightArm::Draw() { IModel::Draw(); }
 void RightArm::BehaviorRootUpdate() {
 	// アニメーションの更新
 	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	worldTransform_.rotation_.z = 0.0f;
+
 }
 
 // 打撃用
 void RightArm::BehaviorBlowUpdate() {
-	IPlayerModel::BlowChangeTimer();
+	IPlayerModel::BlowChangeTimer();	
+	
+	static Math::ConicalPendulum pendulum = {
+	    .anchor{3.205f, 0.432f, 0.f},
+        .length{0.8f},
+        .halfApexAngle{1.f},
+        .angle{0.0f},
+        .angularVelocity{0.0f}
+    };
 
-	//worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInExpo);
+	Math::MakeConicalPendulum(pendulum, worldTransform_.rotation_);
+
 }
 
 // 打撃用の初期化
 void RightArm::BehaviorBlowReset() {
 	IPlayerModel::BehaviorBlowReset();
 	angleTimer_ = 0.0f;
+
 }
 
 // ダッシュ
