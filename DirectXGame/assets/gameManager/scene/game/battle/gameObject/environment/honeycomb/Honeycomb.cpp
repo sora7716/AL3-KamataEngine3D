@@ -88,20 +88,23 @@ void Honeycomb::DrawWire() {
 	for (int i = 0; i < cells_.size(); i++) {
 		for (int j = 0; j < cells_[i].size(); j++) {
 			if (cells_[i][j]) {
-				Hexagon* hexagon = new Hexagon();
-				hexagon = cells_[i][j]->GetWireModel();
-				hexagon->SetScale(collider_.scale_);
-				hexagon->SetRotate(collider_.rotation_);
-				hexagon->SetTranslate({worldTransforms_[i][j]->matWorld_.m[3][0], worldTransforms_[i][j]->matWorld_.m[3][1], worldTransforms_[i][j]->matWorld_.m[3][2]});
-				cells_[i][j]->SetWireModel(hexagon);
+				Hexagon* wireFrame = new Hexagon();
+				wireFrame = cells_[i][j]->GetWireFrame();
+				wireFrame->SetScale(collider_.scale_);
+				wireFrame->SetRotate(collider_.rotation_);
+				wireFrame->SetTranslate({worldTransforms_[i][j]->matWorld_.m[3][0], worldTransforms_[i][j]->matWorld_.m[3][1], worldTransforms_[i][j]->matWorld_.m[3][2]});
+				cells_[i][j]->SetWireModel(wireFrame);
 			}
 		}
 	}
 	for (auto piece : cells_) {
 		for (auto& cell : piece) {
 			if (cell) {
-				cell->GetWireModel()->Draw();
+				cell->GetWireFrame()->Draw();
 			}
 		}
 	}
 }
+
+// 普通のセルのゲッター
+std::vector<std::vector<BaseCell*>> Honeycomb::GetWireFrame() { return cells_; }

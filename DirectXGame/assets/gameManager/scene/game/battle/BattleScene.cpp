@@ -1,6 +1,5 @@
 #include "BattleScene.h"
-#include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
-#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/cell/NormalCell.h"
 using namespace std;
 // デストラクタ
 BattleScene::~BattleScene() {}
@@ -15,12 +14,12 @@ void BattleScene::Initialize(Create* create) {
 	mapChipField_->LoadMapChipCsv("Resources/map/map.csv");
 
 	// スカイドーム
-	environments_[(int)Type::kSkydome] = make_unique<Skydome>();
-	environments_[(int)Type::kSkydome]->Initialize(create_->GetModel(create_->typeSkydome), &viewProjection_);
+	skydome_ = make_unique<Skydome>();
+	skydome_->Initialize(create_->GetModel(create_->typeSkydome), &viewProjection_);
 
 	// 地面(ハニカム)
-	environments_[(int)Type::kGround] = make_unique<Honeycomb>(mapChipField_.get());
-	environments_[(int)Type::kGround]->Initialize(create_->GetModel(create_->typeHexagon), &viewProjection_);
+	ground_ = make_unique<Honeycomb>(mapChipField_.get());
+	ground_->Initialize(create_->GetModel(create_->typeHexagon), &viewProjection_);
 
 	// プレイヤー
 	player_ = make_unique<Player>();
@@ -31,7 +30,7 @@ void BattleScene::Initialize(Create* create) {
 	// 追従対象をセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	followCamera_->SetTarget(player_.get());
-	//リセット(瞬間合わせ)
+	// リセット(瞬間合わせ)
 	followCamera_->Reset();
 	// カメラ移動範囲
 	followCamera_->SetMovableArea({-30, 400, 0, 50});
@@ -86,9 +85,8 @@ void BattleScene::Update() {
 #endif // _DEBUG
 
 	// 環境の更新
-	for (auto& evbiroment : environments_) {
-		evbiroment->Update();
-	}
+	skydome_->Update();
+	ground_->Update();
 
 	// コントローラのタイプ
 	controller_->ControlUpdate((Controller::ControlType)isSelectContorol_);
@@ -144,24 +142,22 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	
 	// プレイヤーの描画
 	player_->Draw();
 
 	// 敵の描画
 	enemy_->Draw();
 
-	//luminous_->Draw();
-	//particle_->Draw();
+	// luminous_->Draw();
+	// particle_->Draw();
 
 	// 環境の描画
-	for (auto& envbiroment : environments_) {
-		envbiroment->Draw();
-	}
+	skydome_->Draw();
+	ground_->Draw();
 
 #pragma region ワイヤーフレームの表示
 
-	environments_[(int)Type::kGround]->DrawWire();
+	ground_->DrawWire();
 	player_->DrawWire();
 	// serchlight_->Draw();
 #pragma endregion
@@ -185,5 +181,16 @@ void BattleScene::Draw() {
 
 // 当たり判定を計算
 void BattleScene::CheckCollision() {
-	
+	for (auto row : ground_->GetWireFrame()) {
+		for (auto cell : row) {
+			if (cell) {
+				if (cell->GetWireFrame()->GetHexagonMaterial() == player_->GetWireFrame()->GetOBBMaterial()) {
+					cell->OnCollision(cell->GetWireFrame()->GetHexagonMaterial() == player_->GetWireFrame()->GetOBBMaterial());
+					break;
+				} else {
+					cell->GetWireFrame()->SetIsHit(false);
+				}
+			}
+		}
+	}
 }

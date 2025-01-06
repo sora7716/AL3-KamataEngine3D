@@ -8,19 +8,14 @@
 #include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/magic/luminous/Luminous.h"
-#include "assets/gameManager/scene/game/battle/gameObject/environment/IEnvironment.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
 
 /// <summary>
 /// バトルシーン
 /// </summary>
 class BattleScene : public IScene {
-public: // 列挙型
-	enum class Type {
-		kSkydome,
-		kGround,
-	};
-
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -65,7 +60,8 @@ private: // メンバ変数
 	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
 
 	// 環境
-	std::unique_ptr<IEnvironment> environments_[2] = {nullptr};
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+	std::unique_ptr<Honeycomb> ground_ = nullptr;
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;

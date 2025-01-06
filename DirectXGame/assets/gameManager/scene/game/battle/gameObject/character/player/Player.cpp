@@ -22,6 +22,7 @@ Player::~Player() {
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
 	BaseCharacter::Initialize(std::move(models), viewProjection);
+	worldTransform_.translation_.y = -2.9f;
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();
 	// プレイヤーモデルの初期化
@@ -80,6 +81,9 @@ void Player::BehaviorDashInitialize() {
 
 // ダッシュの更新
 void Player::BehaviorDashUpdate() { Moving(speed_ * speedScaler_); }
+
+//ワイヤーフレームのゲッター
+OBB* Player::GetWireFrame() { return wireFrame_; }
 
 // 通常行動用
 void Player::BehaviorRootUpdate() { Moving(speed_); }

@@ -14,6 +14,7 @@ void OBB::Initialize(const OBBMaterial&& obbMaterial, ViewProjection* viewProjec
 
 // 更新
 void OBB::Update() {
+	Shape::Update();
 	// サイズを設定
 	aabb_.min = -obb_.size;
 	aabb_.max = obb_.size;

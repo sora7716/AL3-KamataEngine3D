@@ -12,7 +12,7 @@ void Sphere::Initialize(const SphereMaterial&& sphereMaterial,ViewProjection* vi
 }
 
 // 更新処理
-void Sphere::Update() {}
+void Sphere::Update() { Shape::Update(); }
 
 #ifdef _DEBUG
 // デバックテキスト

@@ -41,7 +41,13 @@ public: // メンバ関数
 	/// <summary>
 	/// ワイヤーモデルの表示
 	/// </summary>
-	void DrawWire() override;
+	void DrawWire() override; 
+
+	/// <summary>
+	/// 普通のセルのゲッター
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::vector<BaseCell*>> GetWireFrame();
 
 private:                                                        // メンバ変数
 	std::vector<std::vector<WorldTransform*>> worldTransforms_; // ワールドトランスフォーム

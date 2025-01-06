@@ -66,7 +66,7 @@ public: // メンバ関数
 	/// ワイヤーモデルのゲッター
 	/// </summary>
 	/// <returns></returns>
-	Hexagon* GetWireModel();
+	Hexagon* GetWireFrame();
 
 	/// <summary>
 	/// ワイヤーモデルのセッター

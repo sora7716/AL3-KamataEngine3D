@@ -188,6 +188,16 @@ public: // メンバ関数
 	/// <param name="position">位置</param>
 	virtual void SetPosition(const Vector3 position);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 衝突判定のセッター
+	/// </summary>
+	/// <param name="isHit">衝突判定</param>
+	void SetIsHit(bool isHit);
 
 	// コピーコンストラクタを禁止する
 	Shape(const Shape& shape) = delete;

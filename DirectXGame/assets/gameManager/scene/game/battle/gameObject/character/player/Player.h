@@ -61,6 +61,12 @@ public: // メンバ関数
 	/// </summary>
 	void BehaviorDashUpdate();
 
+	/// <summary>
+	/// ワイヤーフレームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	OBB* GetWireFrame();
+
 private: // メンバ関数
 	/// <summary>
 	/// 通常行動用

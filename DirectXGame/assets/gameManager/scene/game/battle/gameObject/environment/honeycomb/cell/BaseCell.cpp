@@ -38,7 +38,7 @@ void BaseCell::SetRotate(const Vector3 rotate) { worldTransform_.rotation_ = rot
 void BaseCell::SetTranslate(const Vector3 translate) { worldTransform_.translation_ = translate; }
 
 // ワイヤーモデルゲッター
-Hexagon* BaseCell::GetWireModel() {
+Hexagon* BaseCell::GetWireFrame() {
 	return hexagon_; 
 }
 

@@ -90,10 +90,9 @@ Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations) {
 
 // 当たった時の判定
 void Shape::OnCollision(bool isHit) {
-	if (isHit) {
+	isHit_ = isHit;
+	if (isHit_) {
 		color_ = RED;
-	} else {
-		color_ = WHITE;
 	}
 }
 
@@ -105,3 +104,13 @@ void Shape::SetRotate(const Vector3 rotate) { (void)rotate; }
 
 //現在位置のセッター
 void Shape::SetPosition(const Vector3 translate) { (void)translate; }
+
+//更新処理
+void Shape::Update() {
+	if (!isHit_) {
+		color_ = WHITE;
+	}
+}
+
+//衝突判定
+void Shape::SetIsHit(bool isHit) { isHit_ = isHit; }

@@ -13,6 +13,7 @@ void Hexagon::Initialize(ViewProjection* viewProjection,const HexagonMaterial&& 
 
 // 更新
 void Hexagon::Update() {
+	Shape::Update();
 	// 法線ベクトルの作成
 	CreateNormal();
 	for (int i = 0; i < kVertexNum; i++) {
