@@ -210,7 +210,7 @@ void Body::BehaviorDashUpdate() {
 // 初期化
 void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
+	worldTransform_.translation_ = {0.5f, -3.007f, 0.0f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -241,7 +241,7 @@ void RightArm::BehaviorRootUpdate() {
 void RightArm::BehaviorBlowUpdate() {
 	IPlayerModel::BlowChangeTimer();
 
-	worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInExpo);
+	//worldTransform_.rotation_.x = AngleLerpAnimation(EasingMode::kInExpo);
 }
 
 // 打撃用の初期化
