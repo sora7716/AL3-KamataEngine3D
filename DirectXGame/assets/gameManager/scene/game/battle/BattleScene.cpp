@@ -18,11 +18,10 @@ void BattleScene::Initialize(Create* create) {
 	hexagon_ = new Hexagon();
 	//  六角形
 	hexagon_->Initialize(
-	    &viewProjection_, 
-		{
-	     .center = {},
-          .size = {1.0f, 0.1f, 1.0f}
-        });
+	    &viewProjection_, {
+	                          .center = {},
+                                .size = {1.0f, 0.1f, 1.0f}
+    });
 
 	// マップチップ
 	mapChipField_ = make_unique<MapChipField>();
@@ -112,14 +111,14 @@ void BattleScene::Update() {
 
 	serchlight_->Update();
 
-	ImGui::Begin("wireFrame");
-	// spheres_[0]->DebugText("sphere[0]");
-	// spheres_[1]->DebugText("sphere[1]");
+	/*ImGui::Begin("wireFrame");
+	spheres_[0]->DebugText("sphere[0]");
+	spheres_[1]->DebugText("sphere[1]");
 	hexagon_->DebugText();
 	obbs_[0]->DebagText("obb[0]");
-	// obbs_[1]->DebagText("obb[1]");
-	/*serchlight_->DebugText();*/
-	ImGui::End();
+	obbs_[1]->DebagText("obb[1]");
+	serchlight_->DebugText();
+	ImGui::End();*/
 #endif // _DEBUG
 
 	// 環境の更新
@@ -181,26 +180,26 @@ void BattleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	//// 環境の描画
-	// for (auto& evbiroment : environments_) {
-	//	evbiroment->Draw();
-	// }
-	//// プレイヤーの描画
-	// player_->Draw();
+	// 環境の描画
+	for (auto& evbiroment : environments_) {
+		evbiroment->Draw();
+	}
+	// プレイヤーの描画
+	player_->Draw();
 
-	//// 敵の描画
-	// enemy_->Draw();
+	// 敵の描画
+	enemy_->Draw();
 
-	// luminous_->Draw();
-	// particle_->Draw();
+	luminous_->Draw();
+	particle_->Draw();
 
 #ifdef _DEBUG
 	// OBB
-	for (auto& obb : obbs_) {
-		obb->Draw();
-	}
+	/*for (auto& obb : obbs_) {
+	    obb->Draw();
+	}*/
 	// hexagon
-	hexagon_->Draw();
+	// hexagon_->Draw();
 	////球
 	/*for (auto& sphere : spheres_) {
 	    sphere->Draw();

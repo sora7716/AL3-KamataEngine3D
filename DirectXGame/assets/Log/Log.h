@@ -27,8 +27,9 @@ public: // メンバ関数
 	/// <summary>
 	/// ログファイルにログを追加
 	/// </summary>
-	/// <param name="log">ログの内容</param>
-	void AddLog(const std::string& log);
+	/// <param name="level">レベル</param>
+	/// <param name="log">ログ</param>
+	void AddLog(Levels level,const std::string& log);
 
 	// コピーコンストラクタを禁止
 	Log(const Log& log) = delete;

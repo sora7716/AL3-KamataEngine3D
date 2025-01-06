@@ -25,15 +25,12 @@ void Log::Initialize() {
 }
 
 // ログファイルにログを追加
-void Log::AddLog(const std::string& log) {
+void Log::AddLog(LogLevels level,const std::string& log) {
 	// ログファイルを開く(アペンドモード)
 	std::ofstream outFile(filePath_, std::ios::app);
 
 	// ログを書き込む
-	if (outFile.is_open()) {
-		outFile << log << std ::endl;
-		outFile.close();
-	}
+	WriteLog(outFile, level, log);
 }
 
 // 現在の時間を知る
