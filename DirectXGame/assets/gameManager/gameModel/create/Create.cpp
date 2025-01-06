@@ -29,7 +29,7 @@ void Create::TitleSceneModel() {
 	titleNameModels_[typeI].reset(Model::CreateFromOBJ("i", true));   // い
 }
 
-// 探索シーンのモデル
+// ゲームシーンのモデル
 void Create::GameSceneModel() {
 	models_.resize((int)Type::kModelNum); // 配列の大きさを設定
 	models_[typeHexagon].reset(Model::CreateFromOBJ("hexagon", true));

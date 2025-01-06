@@ -50,6 +50,7 @@ void Hexagon::DebugText(const char* label) {
 
 // 描画
 void Hexagon::Draw() {
+#ifdef _DEBUG
 	for (int i = 0; i < Surface; i++) {
 		for (int j = 1; j < kVertexNum; j++) {
 			PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][j - 1], screenVertex[i][j], color_);
@@ -58,6 +59,7 @@ void Hexagon::Draw() {
 		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[i][5], screenVertex[i][0], color_);
 	}
 	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertex[0][0], screenVertex[1][0], color_);
+#endif // _DEBUG
 }
 
 // 頂点のゲッター(local)
@@ -68,6 +70,15 @@ Vector3* Hexagon::GetScreenVertex(int i) { return screenVertex[i]; }
 
 // 六角形の素材のゲッター
 Shape::HexagonMaterial Hexagon::GetHexagonMaterial() { return hexagon_; }
+
+//スケールのセッター
+void Hexagon::SetScale(const Vector3 scale) { hexagon_.size = scale; }
+
+//回転のセッター
+void Hexagon::SetRotate(const Vector3 rotate) { hexagon_.rotation = rotate; }
+
+//移動のセッター
+void Hexagon::SetTranslate(const Vector3 translate) { hexagon_.center = translate; }
 
 // 法線ベクトルを作成
 void Hexagon::CreateNormal() {

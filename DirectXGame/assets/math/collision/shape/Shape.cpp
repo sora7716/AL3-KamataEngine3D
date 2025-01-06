@@ -96,3 +96,12 @@ void Shape::OnCollision(bool isHit) {
 		color_ = WHITE;
 	}
 }
+
+//スケールのセッター
+void Shape::SetScale(const Vector3 scale) { (void)scale; }
+
+//回転のセッター
+void Shape::SetRotate(const Vector3 rotate) { (void)rotate; }
+
+//現在位置のセッター
+void Shape::SetPosition(const Vector3 translate) { (void)translate; }

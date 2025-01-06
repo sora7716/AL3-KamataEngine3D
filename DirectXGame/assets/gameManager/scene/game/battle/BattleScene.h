@@ -58,12 +58,6 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 
-	// OBB
-	std::array<std::unique_ptr<OBB>,2> obbs_ = {nullptr};
-	// 六角形
-	Hexagon* hexagon_ = nullptr;
-	// 球
-	std::unique_ptr<Sphere> spheres_[2] = {nullptr};
 	// サーチライト
 	Searchlight* serchlight_ = nullptr;
 

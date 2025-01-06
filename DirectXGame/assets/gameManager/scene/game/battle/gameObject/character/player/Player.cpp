@@ -21,13 +21,16 @@ Player::~Player() {
 
 // 初期化
 void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BasePlayer::Initialize(std::move(models), viewProjection);
+	BaseCharacter::Initialize(std::move(models), viewProjection);
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();
 	// プレイヤーモデルの初期化
 	playerModel_->Initialize(std::move(models_), viewProjection_);
 	// プレイヤーとの親子付け
 	playerModel_->SetParent(&worldTransform_);
+	//コライダーの設定
+	colliderScale_ = {1.0f, 1.4f, 0.6f};
+	colliderPos_ = {0.0f, 1.3f, -0.1f};
 	// 入力キーの生成
 	CreateInputKey();
 }
@@ -41,7 +44,18 @@ void Player::Update() {
 	} else {
 		BehaviorDashUpdate();
 	}
-	BasePlayer::Update(); // 更新
+	wireFrame_->SetScale(colliderScale_);
+	wireFrame_->SetRotate(worldTransform_.rotation_);
+	wireFrame_->SetPosition(
+		Vector3(worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2])+colliderPos_);
+#ifdef _DEBUG
+	ImGui::Begin("playerCollder");
+	ImGui::DragFloat3("scale", &colliderScale_.x, 0.1f, 0.0f, 5.0f);
+	ImGui::DragFloat3("translate", &colliderPos_.x, 0.1f);
+	ImGui::End();
+#endif // _DEBUG
+
+	BaseCharacter::Update(); // 更新
 }
 
 // 描画
@@ -85,8 +99,8 @@ void Player::Moving(float speed) {
 	if (isMoving_) {
 		move_ = Math::Normalize(move_) * speed;
 		Matrix4x4 rotMat = Math::MakeRotateXYZMatrix(directionViewProjection_->rotation_);
-		//move_ = Math::TransformNormal(move_, rotMat);
-		// Y軸周りの角度(θy)
+		// move_ = Math::TransformNormal(move_, rotMat);
+		//   Y軸周りの角度(θy)
 		goalAngle_ = atan2(move_.x, move_.z);
 		// 移動
 		worldTransform_.translation_ += move_;

@@ -1,6 +1,6 @@
 #pragma once
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
-#include "assets/gameManager/scene/game/baseGameObject/baseCharacter/basePlayer/BasePlayer.h"
+#include "assets/gameManager/scene/game/baseGameObject/baseCharacter/BaseCharacter.h"
 #include "inputHandle/InputHandle.h"
 
 // 前方宣言
@@ -9,7 +9,7 @@ class ViewProjection;
 /// <summary>
 /// プレイヤー
 /// </summary>
-class Player : public BasePlayer {
+class Player : public BaseCharacter {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -141,7 +141,7 @@ private: // メンバ変数
 	bool isHorizontalMove_ = false;                      // 水平移動したかどうかのフラグ
 	bool isVerticalMove_ = false;                        // 垂直移動したかどうかのフラグ
 	float goalAngle_ = 0.0f;                             // 目標角度
-	float rotateFrame_ = 0.5f;                           // 回転するフレーム
+	float rotateFrame_ = 0.3f;                           // 回転するフレーム
 	bool isBlow_ = false;                                // 打撃を開始
 	float blowBeginPos_ = 0.0f;                          // 打撃を開始した位置
 	float speed_ = kSpeed_;                              // スピード
@@ -152,4 +152,5 @@ private: // メンバ変数
 	std::unique_ptr<InputHandle> inputHandle_ = nullptr; // インプットハンドル
 	ICommand* horizontalCommand_ = nullptr;              // 水平移動
 	ICommand* verticalCommand_ = nullptr;                // 垂直移動
+	
 };

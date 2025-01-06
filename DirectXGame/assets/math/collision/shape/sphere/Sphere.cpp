@@ -28,6 +28,7 @@ void Sphere::DebugText(const char* label) {
 
 // 描画
 void Sphere::Draw() {
+#ifdef _DEBUG
 	const uint32_t kSubdivision = 10;                          // 分割数
 	const float kLatEvery = pi_f / float(kSubdivision);        // 経度分割1つ分の角度(θd)
 	const float kLonEvery = 2.0f * pi_f / float(kSubdivision); // 緯度分割1つ分の角度(φd)
@@ -53,6 +54,7 @@ void Sphere::Draw() {
 			PrimitiveDrawer::GetInstance()->DrawLine3d(screenB_, screenC_, color_);
 		}
 	}
+#endif // _DEBUG
 }
 
 // カラーのセッター

@@ -63,6 +63,24 @@ public: // メンバ関数
 	/// <returns></returns>
 	AABB GetAABB();
 
+	/// <summary>
+	/// スケールのセッター
+	/// </summary>
+	/// <param name="scale">スケール</param>
+	void SetScale(const Vector3 scale)override;
+
+	/// <summary>
+	/// 回転のセッター
+	/// </summary>
+	/// <param name="rotate">回転</param>
+	void SetRotate(const Vector3 rotate)override;
+
+	/// <summary>
+	/// 現在地のセッター
+	/// </summary>
+	/// <param name="position">位置</param>
+	void SetPosition(const Vector3 position)override;
+
 private: // メンバ関数
 	/// <summary>
 	/// 頂点を作成

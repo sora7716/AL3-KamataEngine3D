@@ -41,6 +41,7 @@ void Searchlight::Update() {
 // デバックテキスト
 void Searchlight::DebugText(const char* label) {
 	std::string serchlightLabel = std::string(label) + ".center";
+#ifdef _DEBUG
 	ImGui::DragFloat3(serchlightLabel.c_str(), &serchlightMaterial_.center.x, 0.1f);
 	serchlightLabel = std::string(label) + ".rotation";
 	ImGui::DragFloat3(serchlightLabel.c_str(), &rotation_.x, 0.1f);
@@ -50,10 +51,12 @@ void Searchlight::DebugText(const char* label) {
 	ImGui::DragFloat(serchlightLabel.c_str(), &serchlightMaterial_.direction, 0.1f, 0.0f, 2.0f * pi_f);
 	serchlightLabel = std::string(label) + ".range";
 	ImGui::DragFloat(serchlightLabel.c_str(), &serchlightMaterial_.range, 0.1f, 0.0f, 2.0 * pi_f);
+#endif // _DEBUG
 }
 
 // 描画
 void Searchlight::Draw() {
+#ifdef _DEBUG
 	for (int i = 0; i < kSubdivisions; i++) {
 		for (int j = 0; j < 2; j++) {
 			PrimitiveDrawer::GetInstance()->DrawLine3d(screenBeginPos_[j][i], screenEndPos_[j][i], WHITE);
@@ -63,4 +66,5 @@ void Searchlight::Draw() {
 		PrimitiveDrawer::GetInstance()->DrawLine3d(serchlightMaterial_.center, screenBeginPos_[i][kSubdivisions - 1], WHITE);
 		PrimitiveDrawer::GetInstance()->DrawLine3d(serchlightMaterial_.center, screenBeginPos_[i][0], WHITE);
 	}
+#endif // _DEBUG
 }

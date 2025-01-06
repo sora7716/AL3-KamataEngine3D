@@ -48,6 +48,7 @@ void OBB::DebagText(const char* label) {
 
 // 描画
 void OBB::Draw() {
+#ifdef _DEBUG
 	// 正面と背面の生成
 	for (int i = 0; i < Math::kAABB2DNum; i++) {
 		PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[i].leftTop, screenVertecies_[i].rightTop, color_);
@@ -59,6 +60,7 @@ void OBB::Draw() {
 	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightTop, screenVertecies_[1].rightTop, color_);
 	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].leftBottom, screenVertecies_[1].leftBottom, color_);
 	PrimitiveDrawer::GetInstance()->DrawLine3d(screenVertecies_[0].rightBottom, screenVertecies_[1].rightBottom, color_);
+#endif // _DEBUG
 }
 
 // ワールドマトリックス逆行列のゲッター
@@ -80,6 +82,15 @@ Shape::AABB OBB::GetAABB() {
 	    obb_.center + aabb_.max,
 	};
 }
+
+//スケールのセッター
+void OBB::SetScale(const Vector3 scale) { obb_.size = scale; }
+
+//回転のゲッター
+void OBB::SetRotate(const Vector3 rotate) { obb_.rotation = rotate; }
+
+//現在位置のセッター
+void OBB::SetPosition(const Vector3 position) { obb_.center = position; }
 
 // 頂点を作成
 void OBB::MakeVertecies() {

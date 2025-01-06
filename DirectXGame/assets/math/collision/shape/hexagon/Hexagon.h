@@ -58,6 +58,24 @@ public: // メンバ関数
 	/// </summary>
 	HexagonMaterial GetHexagonMaterial();
 
+	/// <summary>
+	/// スケールのセッター
+	/// </summary>
+	/// <param name="scale">スケール</param>
+	void SetScale(const Vector3 scale);
+
+	/// <summary>
+	/// 回転のセッター
+	/// </summary>
+	/// <param name="rotate">回転</param>
+	void SetRotate(const Vector3 rotate);
+
+	/// <summary>
+	/// 平行移動のセッター
+	/// </summary>
+	/// <param name="translate">移動</param>
+	void SetTranslate(const Vector3 translate);
+
 private: // メンバ関数
 	/// <summary>
 	/// 法線ベクトルを作成

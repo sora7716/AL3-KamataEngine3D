@@ -121,7 +121,6 @@
     <ClCompile Include="assets\gameManager\gameModel\create\staffModel\StaffModel.cpp" />
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp" />
@@ -131,7 +130,10 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp" />
@@ -184,7 +186,6 @@
     <ClInclude Include="assets\gameManager\gameModel\create\staffModel\StaffModel.h" />
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.h" />
-    <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h" />
@@ -194,6 +195,8 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.h" />

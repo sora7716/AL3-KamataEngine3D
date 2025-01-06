@@ -17,6 +17,11 @@ public: // メンバ関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// ワイヤーモデルの表示
+	/// </summary>
+	virtual void DrawWire();
+
 protected: // メンバ変数
 	ViewProjection* viewProjection_ = nullptr;
 	Model* model_ = nullptr;

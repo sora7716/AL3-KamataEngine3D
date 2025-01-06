@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "assets/math/collision/shape/obb/OBB.h"
 
 /// <summary>
 /// キャラクターの基底クラス
@@ -39,6 +40,11 @@ public://メンバ関数
 	virtual void Draw();
 
 	/// <summary>
+	/// ワイヤーフレームの表示
+	/// </summary>
+	void DrawWire();
+
+	/// <summary>
 	/// デバックテキスト
 	/// </summary>
 	/// <param name="label">ラベル</param>
@@ -69,4 +75,7 @@ protected://メンバ変数
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection* viewProjection_;
+	OBB* wireFrame_ = nullptr;
+	Vector3 colliderPos_ = {};
+	Vector3 colliderScale_ = {1.0f,1.0f,1.0f};
 };

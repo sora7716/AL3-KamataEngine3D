@@ -18,22 +18,22 @@ public: // 構造体
 
 	// 六角形を作るときに使う素材
 	typedef struct HexagonMaterial {
+		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 rotation = {};             // 回転
 		Vector3 center;                    // 中心
-		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 normal[4];                 // 法線ベクトル
 	} HexagonMaterial;
 
 	// OBBの素材
 	typedef struct ObbMaterial {
+		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
+		Vector3 rotation = {};             // 回転
 		Vector3 center; // 中心 translation
 		Vector3 orientations[3] = {
 		    {1.0f, 0.0f, 0.0f},
 		    {0.0f, 1.0f, 0.0f},
 		    {0.0f, 0.0f, 1.0f},
 		}; // 座標軸。正規化・直行必須 rotation
-		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
-		Vector3 rotation = {};             // 回転
 	} OBBMaterial;
 
 	// AABBを2Dで作るときに使う
@@ -169,6 +169,25 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="isHit">衝突判定</param>
 	void OnCollision(bool isHit);
+
+	/// <summary>
+	/// スケールのセッター
+	/// </summary>
+	/// <param name="scale">スケール</param>
+	virtual void SetScale(const Vector3 scale);
+
+	/// <summary>
+	/// 回転のセッター
+	/// </summary>
+	/// <param name="rotate">回転</param>
+	virtual void SetRotate(const Vector3 rotate);
+
+	/// <summary>
+	/// 現在地のセッター
+	/// </summary>
+	/// <param name="position">位置</param>
+	virtual void SetPosition(const Vector3 position);
+
 
 	// コピーコンストラクタを禁止する
 	Shape(const Shape& shape) = delete;

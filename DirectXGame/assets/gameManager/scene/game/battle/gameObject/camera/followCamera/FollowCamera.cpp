@@ -18,11 +18,12 @@ void FollowCamera::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_T)) {
 		isCameraExChange_ ^= true;
 	}
-
+#ifdef _DEBUG
 	ImGui::Begin("camera");
 	ImGui::DragFloat3(".offset", &targetOffset_.x, 0.01f);
 	ImGui::DragFloat3(".rotation", &viewProjection_.rotation_.x, 0.01f);
 	ImGui::End();
+#endif // _DEBUG
 
 	(this->*cameraUpdateTable[static_cast<size_t>(cameraPhase_)])();
 
