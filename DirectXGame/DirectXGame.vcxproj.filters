@@ -55,9 +55,6 @@
     <Filter Include="assets">
       <UniqueIdentifier>{ba351df9-768e-4cf1-a961-b90746bba8f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="assets\gameobject">
-      <UniqueIdentifier>{0a485096-b766-4dcd-b6c8-cc5f6b95e600}</UniqueIdentifier>
-    </Filter>
     <Filter Include="assets\process">
       <UniqueIdentifier>{e8dd6837-9abc-4fd3-8e2a-9c957ebbb83c}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,12 @@
     </Filter>
     <Filter Include="assets\process\collision">
       <UniqueIdentifier>{06ca3b6b-8078-4a53-ae5e-20dfc12984c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\shape">
+      <UniqueIdentifier>{6ee69ac8-564f-444e-a29d-51b539e5929e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\process\gameObject">
+      <UniqueIdentifier>{0d3511d3-aefa-48dd-99c8-4b106b055555}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,9 +88,6 @@
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp">
-      <Filter>assets\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp">
       <Filter>assets\scene</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp">
@@ -123,89 +123,95 @@
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp">
       <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\gameModel\create\playerModel\PlayerModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\gameModel\create\IModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\gameModel\create\staffModel\StaffModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\gameManager\controller\Controller.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\shape\Shape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\failLoad\GlobalVariables.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\process\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\process\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\gameModel\create\playerModel\PlayerModel.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\failLoad\GlobalVariables.cpp">
+      <Filter>assets\process</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\process</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="assets\gameManager\controller\Controller.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.cpp">
+      <Filter>assets\process</Filter>
     </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\inputHandle\InputHandle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\shape\sphere\Sphere.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\math\collision\shape\searchlight\Searchlight.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\process</Filter>
     </ClCompile>
     <ClCompile Include="assets\Log\Log.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\gameModel\create\IModel.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\gameModel\create\staffModel\StaffModel.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\hexagon\Hexagon.cpp">
+      <Filter>assets\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\obb\OBB.cpp">
+      <Filter>assets\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\Shape.cpp">
+      <Filter>assets\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\sphere\Sphere.cpp">
+      <Filter>assets\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\math\collision\shape\searchlight\Searchlight.cpp">
+      <Filter>assets\process\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.cpp">
+      <Filter>assets\process\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp">
+      <Filter>assets\process</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.cpp">
+      <Filter>assets\process</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,9 +311,6 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h">
       <Filter>assets\scene</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h">
-      <Filter>assets\scene</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\GameManager.h">
       <Filter>assets</Filter>
     </ClInclude>
@@ -329,92 +332,95 @@
     <ClInclude Include="assets\failLoad\map\MapChipField.h">
       <Filter>assets\process</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\gameModel\create\Create.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\gameModel\create\playerModel\PlayerModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\gameModel\create\IModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\gameModel\create\staffModel\StaffModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\gameManager\controller\Controller.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\shape\Shape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\shape\obb\OBB.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\failLoad\GlobalVariables.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\process\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\process\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\ground\Ground.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\gameModel\create\playerModel\PlayerModel.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\failLoad\GlobalVariables.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.h">
+      <Filter>assets\process</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\process</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="assets\gameManager\controller\Controller.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\gameModel\create\Create.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h">
+      <Filter>assets\process</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\inputHandle\InputHandle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\shape\sphere\Sphere.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="assets\math\collision\shape\searchlight\Searchlight.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\process</Filter>
     </ClInclude>
     <ClInclude Include="assets\Log\Log.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\Honeycomb.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\gameModel\create\IModel.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\gameModel\create\mimicModel\MimicModel.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\gameModel\create\staffModel\StaffModel.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\hexagon\Hexagon.h">
+      <Filter>assets\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\obb\OBB.h">
+      <Filter>assets\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\Shape.h">
+      <Filter>assets\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\sphere\Sphere.h">
+      <Filter>assets\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\math\collision\shape\searchlight\Searchlight.h">
+      <Filter>assets\process\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\magic\luminous\Luminous.h">
+      <Filter>assets\process\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.h">
+      <Filter>assets\process</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h">
+      <Filter>assets\process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

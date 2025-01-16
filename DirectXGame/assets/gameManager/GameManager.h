@@ -9,7 +9,6 @@ public: // 列挙型
 
 	enum class Scene {
 		kTitle,  // タイトルシーン
-		kSearch, // 探索シーン
 		kBattle, // バトルシーン
 		kEnd,    // エンドシーン
 		SceneNum // シーンの数
@@ -65,7 +64,7 @@ public: // 静的メンバ変数
 private: // メンバ変数
 
 	// 現在のシーンナンバー
-	Scene currentScene_ = Scene::kSearch;
+	Scene currentScene_ = Scene::kBattle;
 	//現在のシーンのナンバー
 	int32_t sceneNo_ = 0;
 	// シーンのインスタンス
