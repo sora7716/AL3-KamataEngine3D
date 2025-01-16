@@ -7,12 +7,13 @@
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 
 LifeBar::LifeBar(int characterType){
+	characterType_ = characterType;
+
+
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kPlayer)) {
-		characterType_ = characterType;
 		pos_ = { WinApp::kWindowWidth / 2 - (width_ + 70), 650 }; //650は画面のちょうどいいところだと思って付けました。
 	}
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
-		characterType_ = characterType;
 		pos_ = { WinApp::kWindowWidth / 2 - width_ / 2, 50 }; //敵の上に付けたいけど、今は適当
 	}
 }

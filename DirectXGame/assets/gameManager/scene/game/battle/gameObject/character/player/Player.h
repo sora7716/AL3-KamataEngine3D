@@ -2,6 +2,7 @@
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/BaseCharacter.h"
 #include "assets/gameManager/scene/game/battle/gameObject/ui/LifeBar/LifeBar.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/MpBar/MpBar.h"
 
 // 前方宣言
 class ViewProjection;
@@ -152,6 +153,8 @@ private: // メンバ変数
 	float speedScaler_ = 10.0f;                          // スピードの倍率
 	//ライフバー
 	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//MPバー
+	std::unique_ptr<MpBar> playerMpBar_ = nullptr;
 	//死亡管理
 	bool isDead_ = false;
 	// ジョイスティックの状態
