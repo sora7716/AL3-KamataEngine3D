@@ -151,7 +151,7 @@ private: // メンバ変数
 	bool isBlow_ = false;                                // 打撃を開始
 	float blowBeginPos_ = 0.0f;                          // 打撃を開始した位置
 	float speed_ = kSpeed_;                              // スピード
-	float speedScaler_ = 5.0f;                          // スピードの倍率
+	float speedScaler_ = 0.0f;                          // スピードの倍率
 	// ジョイスティックの状態
 	XINPUT_STATE joyState_, preJoyState_; // 現在と過去
 	// キーボードの操作

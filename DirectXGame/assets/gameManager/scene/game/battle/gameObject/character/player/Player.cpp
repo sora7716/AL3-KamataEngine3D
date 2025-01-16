@@ -76,7 +76,7 @@ void Player::BehaviorDashInitialize() {
 	playerModel_->SetActionTime((float)kBehaviorDashTime);
 	isMoving_ = true;
 	move_ = {0, 0, 1.0f};
-	speed_ = 3.0f / speedScaler_;
+	speed_ = 3.0f;
 }
 
 // ダッシュの更新
