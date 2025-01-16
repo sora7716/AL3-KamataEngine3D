@@ -63,17 +63,17 @@ protected: // メンバ関数
 	virtual void BehaviorDashReset();
 
 	// 純粋仮想関数
-	virtual void BehaviorRootUpdate() = 0;
-	virtual void BehaviorBlowUpdate() = 0;
-	virtual void BehaviorDashUpdate() = 0;
+	virtual void BehaviorRootUpdate();
+	virtual void BehaviorBlowUpdate();
+	virtual void BehaviorDashUpdate();
 
 	/// <summary>
 	/// 打撃時の切り替えタイマー
 	/// </summary>
 	void BlowChangeTimer();
 
-public://静的メンバ変数と関数ポインタの配列
-	//打撃時の待機時間
+public: // 静的メンバ変数と関数ポインタの配列
+	// 打撃時の待機時間
 	static inline const float kMaxBlowWaitTime = 0.3f;
 	// 関数ポインタの配列
 	// リセット
@@ -82,15 +82,15 @@ public://静的メンバ変数と関数ポインタの配列
 	static void (IPlayerModel::*BehaviorTable[])();
 
 protected: // メンバ変数
-	//アングルタイマーを加算させるか
+	// アングルタイマーを加算させるか
 	bool isAngleTimerAdd_ = true;
-	//待機時間を計測する
+	// 待機時間を計測する
 	float waitTime_ = 0.0f;
-	//待機時間を開始するかどうか
+	// 待機時間を開始するかどうか
 	bool isStartWait_ = false;
-	//今何秒
+	// 今何秒
 	float second_ = deltaTime;
-	//イージングモード
+	// イージングモード
 	EasingMode easingMode_ = EasingMode::kInSine;
 
 private: // メンバ変数
@@ -103,19 +103,19 @@ private: // メンバ変数
 };
 
 /// <summary>
-/// 頭
+/// 髪
 /// </summary>
-class Head : public IPlayerModel {
+class Hair : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Head() = default;
+	Hair() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Head() = default;
+	~Hair() = default;
 
 	/// <summary>
 	/// 初期化
@@ -156,19 +156,19 @@ public: // メンバ関数
 };
 
 /// <summary>
-/// 体
+/// 眉毛
 /// </summary>
-class Body : public IPlayerModel {
+class EyeBrows : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Body() = default;
+	EyeBrows() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Body() = default;
+	~EyeBrows() = default;
 
 	/// <summary>
 	/// 初期化
@@ -209,19 +209,19 @@ public: // メンバ関数
 };
 
 /// <summary>
-/// 右腕
+/// 顔
 /// </summary>
-class RightArm : public IPlayerModel {
+class Face : public IPlayerModel {
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	RightArm() = default;
+	Face() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~RightArm() = default;
+	~Face() = default;
 
 	/// <summary>
 	/// 初期化
@@ -267,6 +267,64 @@ public: // メンバ関数
 };
 
 /// <summary>
+/// 体
+/// </summary>
+class Body : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Body() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Body() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+
+	/// <summary>
+	/// 通常行動用
+	/// </summary>
+	void BehaviorRootUpdate() override;
+
+	/// <summary>
+	/// 打撃用
+	/// </summary>
+	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// 打撃用の初期化
+	/// </summary>
+	void BehaviorBlowReset() override;
+
+	/// <summary>
+	/// ダッシュ時の更新
+	/// </summary>
+	void BehaviorDashUpdate() override;
+};
+
+/// <summary>
 /// 左腕
 /// </summary>
 class LeftArm : public IPlayerModel {
@@ -302,26 +360,272 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+};
+
+/// <summary>
+/// 右腕
+/// </summary>
+class RightArm : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	RightArm() = default;
 
 	/// <summary>
-	/// 通常行動用
+	/// デストラクタ
 	/// </summary>
-	void BehaviorRootUpdate()override;
+	~RightArm() = default;
 
 	/// <summary>
-	/// 打撃用
+	/// 初期化
 	/// </summary>
-	void BehaviorBlowUpdate()override;
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
 
 	/// <summary>
-	/// 打撃用の初期化
+	/// 更新
 	/// </summary>
-	void BehaviorBlowReset() override;
+	void Update() override;
 
 	/// <summary>
-	/// ダッシュ時の更新
+	/// デバックテキスト
 	/// </summary>
-	void BehaviorDashUpdate() override;
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 左腿
+/// </summary>
+class LeftLeg : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	LeftLeg() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~LeftLeg() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 左脛
+/// </summary>
+class LeftThigh : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	LeftThigh() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~LeftThigh() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 右腿
+/// </summary>
+class RightLeg : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	RightLeg() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~RightLeg() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 右脛
+/// </summary>
+class RightThigh : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	RightThigh() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~RightThigh() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 服(上)
+/// </summary>
+class UpperClothing : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	UpperClothing() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~UpperClothing() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
+};
+
+/// <summary>
+/// 服(下)
+/// </summary>
+class LowerClothing : public IPlayerModel {
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	LowerClothing() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~LowerClothing() = default;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="viewProjection">ビュープロジェクション</param>
+	void Initialize(Model* model, ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
+	/// デバックテキスト
+	/// </summary>
+	void DebugText() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;
 };
 
 /// <summary>
@@ -332,9 +636,17 @@ public: // 列挙型と静的メンバ変数
 	// パーツの場所と数
 	enum class Parts {
 		kBody,
-		kHead,
-		kRightArm,
+		kFace,
+		kHair,
+		kEyeBrows,
 		kLeftArm,
+		kRightArm,
+		kLeftLeg,
+		kLeftThigh,
+		kRightLeg,
+		kRightThigh,
+		kUpperClothing,
+		kLowerClothing,
 		kStaff,
 		kPartsNum,
 	};

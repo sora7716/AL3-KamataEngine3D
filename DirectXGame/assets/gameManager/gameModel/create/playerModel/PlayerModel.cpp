@@ -92,8 +92,13 @@ void IPlayerModel::BehaviorBlowReset() {
 	endAngle_ = 130.0f;
 }
 // ダッシュ時の初期化
-void IPlayerModel::BehaviorDashReset() {
-}
+void IPlayerModel::BehaviorDashReset() {}
+
+void IPlayerModel::BehaviorRootUpdate() {}
+
+void IPlayerModel::BehaviorBlowUpdate() {}
+
+void IPlayerModel::BehaviorDashUpdate() {}
 
 // 打撃時の切り替えタイマー
 void IPlayerModel::BlowChangeTimer() {
@@ -130,15 +135,15 @@ void IPlayerModel::BlowChangeTimer() {
 
 #pragma endregion
 
-#pragma region 頭
+#pragma region 髪
 // 初期化
-void Head::Initialize(Model* model, ViewProjection* viewProjection) {
+void Hair::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
+	//worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
 }
 
 // 更新
-void Head::Update() {
+void Hair::Update() {
 	// 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -146,19 +151,112 @@ void Head::Update() {
 }
 
 // デバックテキスト
-void Head::DebugText() { IModel::DebugText("head"); }
+void Hair::DebugText() { IModel::DebugText("hair"); }
 
 // 描画
-void Head::Draw() { IModel::Draw(); }
+void Hair::Draw() { IModel::Draw(); }
 
 // 通常
-void Head::BehaviorRootUpdate() {}
+void Hair::BehaviorRootUpdate() {}
 
 // 打撃
-void Head::BehaviorBlowUpdate() {}
+void Hair::BehaviorBlowUpdate() {}
 
 // ダッシュ
-void Head::BehaviorDashUpdate() {}
+void Hair::BehaviorDashUpdate() {}
+
+#pragma endregion
+
+#pragma region 眉毛
+// 初期化
+void EyeBrows::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	//worldTransform_.translation_ = {0.0f, 0.2f, 0.0f};
+	// アニメーションの初期化
+	InitializeAnimation();
+}
+
+// 更新
+void EyeBrows::Update() {
+	// 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
+}
+// 描画
+void EyeBrows::Draw() { IModel::Draw(); }
+
+// デバックテキスト
+void EyeBrows::DebugText() { IModel::DebugText("eyeBrows"); }
+
+// 通常
+void EyeBrows::BehaviorRootUpdate() {
+	/*worldTransform_.rotation_ = {};
+	worldTransform_.translation_.y = UpdateFloatingGimmick();*/
+}
+
+// 打撃
+void EyeBrows::BehaviorBlowUpdate() {
+	worldTransform_.rotation_ = {};
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
+}
+
+// ダッシュ
+void EyeBrows::BehaviorDashUpdate() {
+	worldTransform_.rotation_.x = 0.4f;
+	worldTransform_.translation_.y = UpdateFloatingGimmick();
+}
+
+#pragma endregion
+
+#pragma region 顔
+// 初期化
+void Face::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	//worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
+	// アニメーションの初期化
+	InitializeAnimation();
+}
+
+// 更新
+void Face::Update() {
+	// 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
+}
+
+// デバックテキスト
+void Face::DebugText() { IModel::DebugText("face"); }
+
+// 描画
+void Face::Draw() { IModel::Draw(); }
+
+// 通常行動用
+void Face::BehaviorRootUpdate() {
+	// アニメーションの更新
+	//worldTransform_.rotation_.x = UpdateTriangleGimmick();
+}
+
+// 打撃用
+void Face::BehaviorBlowUpdate() {
+	IPlayerModel::BlowChangeTimer();
+	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
+}
+
+// 打撃用の初期化
+void Face::BehaviorBlowReset() {
+	IPlayerModel::BehaviorBlowReset();
+	angleTimer_ = 0.0f;
+}
+
+// ダッシュ
+void Face::BehaviorDashUpdate() {
+	motionTime_ = 1.0f;
+	startAngle_ = 90.0f;
+	endAngle_ = 45.0f;
+	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
+}
 
 #pragma endregion
 
@@ -166,7 +264,7 @@ void Head::BehaviorDashUpdate() {}
 // 初期化
 void Body::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.0f, 0.2f, 0.0f};
+	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -185,71 +283,26 @@ void Body::DebugText() { IModel::DebugText("body"); }
 // 描画
 void Body::Draw() { IModel::Draw(); }
 
-// 通常
-void Body::BehaviorRootUpdate() {
-	worldTransform_.rotation_ = {};
-	worldTransform_.translation_.y = UpdateFloatingGimmick();
-}
-
-// 打撃
-void Body::BehaviorBlowUpdate() {
-	worldTransform_.rotation_ = {};
-	worldTransform_.translation_.y = UpdateFloatingGimmick();
-}
-
-// ダッシュ
-void Body::BehaviorDashUpdate() {
-	worldTransform_.rotation_.x = 0.4f;
-	worldTransform_.translation_.y = UpdateFloatingGimmick();
-}
-
-#pragma endregion
-
-#pragma region 右腕
-// 初期化
-void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
-	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
-	// アニメーションの初期化
-	InitializeAnimation();
-}
-
-// 更新
-void RightArm::Update() {
-	// 振る舞いの更新
-	IPlayerModel::Update();
-	// モデルの更新
-	IModel::Update();
-}
-
-// デバックテキスト
-void RightArm::DebugText() {
-	IModel::DebugText("rightArm");
-}
-
-// 描画
-void RightArm::Draw() { IModel::Draw(); }
-
 // 通常行動用
-void RightArm::BehaviorRootUpdate() {
+void Body::BehaviorRootUpdate() {
 	// アニメーションの更新
-	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	//worldTransform_.rotation_.x = UpdateTriangleGimmick();
 }
 
 // 打撃用
-void RightArm::BehaviorBlowUpdate() {
+void Body::BehaviorBlowUpdate() {
 	IPlayerModel::BlowChangeTimer();
 	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
 }
 
 // 打撃用の初期化
-void RightArm::BehaviorBlowReset() {
+void Body::BehaviorBlowReset() {
 	IPlayerModel::BehaviorBlowReset();
 	angleTimer_ = 0.0f;
 }
 
 // ダッシュ
-void RightArm::BehaviorDashUpdate() {
+void Body::BehaviorDashUpdate() {
 	motionTime_ = 1.0f;
 	startAngle_ = 90.0f;
 	endAngle_ = 45.0f;
@@ -259,54 +312,91 @@ void RightArm::BehaviorDashUpdate() {
 #pragma endregion
 
 #pragma region 左腕
-// 初期化
-void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
-	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};
-	// アニメーションの初期化
-	InitializeAnimation();
-}
-
-// 更新
-void LeftArm::Update() {
-	// 振る舞いの更新
+void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LeftArm::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
 	IModel::Update();
 }
-
-// デバックテキスト
 void LeftArm::DebugText() { IModel::DebugText("leftArm"); }
-
-// 描画
 void LeftArm::Draw() { IModel::Draw(); }
+#pragma endregion
 
-// 通常行動用
-void LeftArm::BehaviorRootUpdate() {
-	// アニメーションの更新
-	worldTransform_.rotation_.x = UpdateTriangleGimmick();
+#pragma region 右腕
+void RightArm::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void RightArm::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
 }
+void RightArm::DebugText() { IModel::DebugText("rightArm"); }
+void RightArm::Draw() { IModel::Draw(); }
+#pragma endregion
 
-// 打撃用
-void LeftArm::BehaviorBlowUpdate() {
-	IPlayerModel::BlowChangeTimer();
-	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
+#pragma region 左腿
+void LeftLeg::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LeftLeg::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
 }
+void LeftLeg::DebugText() { IModel::DebugText("leftLeg"); }
+void LeftLeg::Draw() { IModel::Draw(); }
+#pragma endregion
 
-// 打撃用の初期化
-void LeftArm::BehaviorBlowReset() {
-	IPlayerModel::BehaviorBlowReset();
-	angleTimer_ = 0.0f;
+#pragma region 左脛
+void LeftThigh::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LeftThigh::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
 }
+void LeftThigh::DebugText() { IModel::DebugText("leftThigh"); }
+void LeftThigh::Draw() { IModel::Draw(); }
+#pragma endregion
 
-// ダッシュ
-void LeftArm::BehaviorDashUpdate() {
-	motionTime_ = 1.0f;
-	startAngle_ = 90.0f;
-	endAngle_ = 45.0f;
-	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
+#pragma region 右腿
+void RightLeg::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void RightLeg::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
 }
+void RightLeg::DebugText() { IModel::DebugText("rightLeg"); }
+void RightLeg::Draw() { IModel::Draw(); }
+#pragma endregion
 
+#pragma region 右脛
+void RightThigh::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void RightThigh::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
+}
+void RightThigh::DebugText() { IModel::DebugText("rightThigh"); }
+void RightThigh::Draw() { IModel::Draw(); }
+#pragma endregion
+
+#pragma region 服(上)
+void UpperClothing::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void UpperClothing::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
+}
+void UpperClothing::DebugText() { IModel::DebugText("upperClothing"); }
+void UpperClothing::Draw() { IModel::Draw(); }
+#pragma endregion
+
+#pragma region 服(下)
+void LowerClothing::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LowerClothing::Update() { // 振る舞いの更新
+	IPlayerModel::Update();
+	// モデルの更新
+	IModel::Update();
+}
+void LowerClothing::DebugText() { IModel::DebugText("lowerClothing"); }
+void LowerClothing::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region プレイヤーのモデル
@@ -322,10 +412,18 @@ void PlayerModel::Initialize(std::vector<Model*>&& models, ViewProjection* viewP
 	// 配列の大きさを設定
 	parts_.resize((int)Parts::kPartsNum);
 	// 生成
-	parts_[(int)Parts::kHead] = new Head();
+	parts_[(int)Parts::kHair] = new Hair();
+	parts_[(int)Parts::kEyeBrows] = new EyeBrows();
+	parts_[(int)Parts::kFace] = new Face();
 	parts_[(int)Parts::kBody] = new Body();
-	parts_[(int)Parts::kRightArm] = new RightArm();
 	parts_[(int)Parts::kLeftArm] = new LeftArm();
+	parts_[(int)Parts::kRightArm] = new RightArm();
+	parts_[(int)Parts::kLeftLeg] = new LeftLeg();
+	parts_[(int)Parts::kLeftThigh] = new LeftThigh();
+	parts_[(int)Parts::kRightLeg] = new RightLeg();
+	parts_[(int)Parts::kRightThigh] = new RightThigh();
+	parts_[(int)Parts::kUpperClothing] = new UpperClothing();
+	parts_[(int)Parts::kLowerClothing] = new LowerClothing();
 	parts_[(int)Parts::kStaff] = new StaffModel();
 	// 初期化
 	worldTransform_.Initialize();
@@ -358,14 +456,30 @@ void PlayerModel::Draw() {
 // 親のセッター
 void PlayerModel::SetParent(const WorldTransform* parent) {
 	worldTransform_.parent_ = parent;
-	// 体<-Parent
+	//体<-Parent
 	parts_[(int)Parts::kBody]->SetParent(&worldTransform_);
-	// 頭<-体
-	parts_[(int)Parts::kHead]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	// 右腕<-体
-	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	// 左腕<-体
+	//顔<-体
+	parts_[(int)Parts::kFace]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	//眉毛<-顔
+	parts_[(int)Parts::kEyeBrows]->SetParent(&parts_[(int)Parts::kFace]->GetWorldTransform());
+	//髪<-顔
+	parts_[(int)Parts::kHair]->SetParent(&parts_[(int)Parts::kFace]->GetWorldTransform());
+	//左腕<-体
 	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	//右腕<-体
+	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	//左腿<-体
+	parts_[(int)Parts::kLeftLeg]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	//左脛<-左腿
+	parts_[(int)Parts::kLeftThigh]->SetParent(&parts_[(int)Parts::kLeftLeg]->GetWorldTransform());
+	// 右腿<-体
+	parts_[(int)Parts::kRightLeg]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	// 右脛<-右腿
+	parts_[(int)Parts::kRightThigh]->SetParent(&parts_[(int)Parts::kRightLeg]->GetWorldTransform());
+	// 服上<-体
+	parts_[(int)Parts::kUpperClothing]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	// 服下<-服上
+	parts_[(int)Parts::kLowerClothing]->SetParent(&parts_[(int)Parts::kUpperClothing]->GetWorldTransform());
 	// 武器<-左腕
 	parts_[(int)Parts::kStaff]->SetParent(&parts_[(int)Parts::kLeftArm]->GetWorldTransform());
 }

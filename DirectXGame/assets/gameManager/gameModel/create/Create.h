@@ -30,17 +30,33 @@ public: // 構造体や列挙型
 	// プレイヤーのモデル
 	enum class PlayerParts {
 		kBody,
-		kHead,
-		kRightArm,
+		kFace,
+		kHair,
+		kEyeBrows,
 		kLeftArm,
+		kRightArm,
+		kLeftLeg,
+		kLeftThigh,
+		kRightLeg,
+		kRightThigh,
+		kUpperClothing,
+		kLowerClothing,
 		kStaff,
 		kPlayerNum,
 	};
 	// プレイヤーのモデル
-	int typeHead = (int)PlayerParts::kHead;         // 頭
-	int typeBody = (int)PlayerParts::kBody;         // 体
-	int typeRightArm = (int)PlayerParts::kRightArm; // 右腕
-	int typeLeftArm = (int)PlayerParts::kLeftArm;   // 左腕
+	int typeHair = (int)PlayerParts::kHair;                   // 髪
+	int typeEyeBrows = (int)PlayerParts::kEyeBrows;           // 眉毛
+	int typeFace = (int)PlayerParts::kFace;                   // 顔
+	int typeBody = (int)PlayerParts::kBody;                   // 体
+	int typeLeftArm = (int)PlayerParts::kLeftArm;             // 左腕
+	int typeRightArm = (int)PlayerParts::kRightArm;           // 右腕
+	int typeLeftLeg = (int)PlayerParts::kLeftLeg;             // 左腿
+	int typeLeftThigh = (int)PlayerParts::kLeftThigh;         // 左脛
+	int typeRightLeg = (int)PlayerParts::kRightLeg;           // 右腿
+	int typeRightThigh = (int)PlayerParts::kRightThigh;       // 右脛
+	int typeUpperClothing = (int)PlayerParts::kUpperClothing; // 服上
+	int typeLowerClothing = (int)PlayerParts::kLowerClothing; // 服下
 	int typeStaff = (int)PlayerParts::kStaff;
 	// ミミックのモデル
 	enum class MimicParts { kBox, kPadlock, kKeyHole, kLid, kEye, kToothUp, kToothBottom, kTongue, kPartsNum };

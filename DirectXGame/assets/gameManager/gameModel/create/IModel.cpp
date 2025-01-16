@@ -9,6 +9,7 @@ void IModel::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = model;
 	viewProjection_ = viewProjection;
 	worldTransform_.Initialize();
+	InitializeAnimation();
 }
 
 // 更新

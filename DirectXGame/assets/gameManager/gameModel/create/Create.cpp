@@ -38,12 +38,20 @@ void Create::GameSceneModel() {
 	models_[typeParticle].reset(Model::CreateFromOBJ("particle", true));
 
 	// プレイヤーのモデル
-	playerModels_.resize((int)PlayerParts::kPlayerNum);                           // サイズを設定
-	playerModels_[typeHead].reset(Model::CreateFromOBJ("float_Head", true));      // 頭
-	playerModels_[typeBody].reset(Model::CreateFromOBJ("float_Body", true));      // 体
-	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("float_R_arm", true)); // 右腕
-	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("float_L_arm", true));  // 左腕
-	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));         // 杖
+	playerModels_.resize((int)PlayerParts::kPlayerNum);                         // サイズを設定
+	playerModels_[typeHair].reset(Model::CreateFromOBJ("hair", true));          // 髪
+	playerModels_[typeFace].reset(Model::CreateFromOBJ("face", true));          // 顔
+	playerModels_[typeEyeBrows].reset(Model::CreateFromOBJ("eyeBrows", true));  // 眉毛
+	playerModels_[typeBody].reset(Model::CreateFromOBJ("body", true));          // 体
+	playerModels_[typeLeftArm].reset(Model::CreateFromOBJ("leftArm", true));       // 左腕
+	playerModels_[typeRightArm].reset(Model::CreateFromOBJ("rightArm", true));      // 右腕
+	playerModels_[typeLeftLeg].reset(Model::CreateFromOBJ("leftLeg", true));       // 左腿
+	playerModels_[typeLeftThigh].reset(Model::CreateFromOBJ("leftThigh", true));     // 左脛
+	playerModels_[typeRightLeg].reset(Model::CreateFromOBJ("rightLeg", true));      // 右腿
+	playerModels_[typeRightThigh].reset(Model::CreateFromOBJ("rightThigh", true));    // 右脛
+	playerModels_[typeUpperClothing].reset(Model::CreateFromOBJ("upperClothing", true)); // 服上
+	playerModels_[typeLowerClothing].reset(Model::CreateFromOBJ("lowerClothing", true)); // 服下
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));       // 杖
 
 	// ミミックのモデル
 	mimicModels_.resize((int)MimicParts::kPartsNum);                               // サイズの設定
