@@ -87,6 +87,8 @@ protected://メンバ変数
 	//CharacterType
 	CharType charType_;
 
+	std::vector<uint32_t> textures_;
+
 	//当たり判定
 	float kWidth_, kHeight_, kDepth_;
 };

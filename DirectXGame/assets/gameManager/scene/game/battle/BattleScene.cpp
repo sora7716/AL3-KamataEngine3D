@@ -173,6 +173,8 @@ void BattleScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	player_->DrawSprite();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

@@ -41,6 +41,11 @@ public: // メンバ関数
 	void Draw() override;
 
 	/// <summary>
+	/// 2D描画
+	/// </summary>
+	void DrawSprite() { playerLifeBar_->Draw(); }
+
+	/// <summary>
 	/// ビュープロジェクションのセッター
 	/// </summary>
 	/// <param name="viewProjection"></param>

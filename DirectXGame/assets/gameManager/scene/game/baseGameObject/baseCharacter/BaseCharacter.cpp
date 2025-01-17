@@ -9,6 +9,10 @@ void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, Vie
 		assert(models[i]);
 		models_.push_back(models[i].get());
 	}
+
+	for (int i = 0; i < textures.size(); i++) {
+		textures_.push_back(textures[i]);
+	}
 	viewProjection_ = viewProjection;
 	wireFrame_ = new OBB();
 	wireFrame_->Initialize({ .size = worldTransform_.scale_, .rotation = worldTransform_.rotation_, .center = GetWorldPos() }, viewProjection);
