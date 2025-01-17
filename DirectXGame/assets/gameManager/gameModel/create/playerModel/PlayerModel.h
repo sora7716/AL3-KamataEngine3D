@@ -153,6 +153,7 @@ public: // メンバ関数
 	/// ダッシュ時の更新
 	/// </summary>
 	void BehaviorDashUpdate() override;
+
 };
 
 /// <summary>
@@ -641,10 +642,10 @@ public: // 列挙型と静的メンバ変数
 		kEyeBrows,
 		kLeftArm,
 		kRightArm,
-		kLeftLeg,
 		kLeftThigh,
-		kRightLeg,
+		kLeftLeg,
 		kRightThigh,
+		kRightLeg,
 		kUpperClothing,
 		kLowerClothing,
 		kStaff,

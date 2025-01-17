@@ -139,7 +139,7 @@ void IPlayerModel::BlowChangeTimer() {
 // 初期化
 void Hair::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	//worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 0.026f, 0.0f};
 }
 
 // 更新
@@ -160,7 +160,9 @@ void Hair::Draw() { IModel::Draw(); }
 void Hair::BehaviorRootUpdate() {}
 
 // 打撃
-void Hair::BehaviorBlowUpdate() {}
+void Hair::BehaviorBlowUpdate() { 
+	//worldTransform_.rotation_.y = Math::AngleLerp(360, 0, EasingMode::kInBack, 10, angleTimer_); 
+}
 
 // ダッシュ
 void Hair::BehaviorDashUpdate() {}
@@ -213,7 +215,7 @@ void EyeBrows::BehaviorDashUpdate() {
 // 初期化
 void Face::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	//worldTransform_.translation_ = {0.5f, 1.2f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 0.5f, 0.0f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -264,7 +266,8 @@ void Face::BehaviorDashUpdate() {
 // 初期化
 void Body::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};
+	// worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};// 初期値
+	worldTransform_.translation_ = {0.0f, 4.2f,-9.0f};// 調整しやすくするための値
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -378,7 +381,10 @@ void RightThigh::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 服(上)
-void UpperClothing::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void UpperClothing::Initialize(Model* model, ViewProjection* viewProjection) { 
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.0f, 0.15f, 0.0f};
+}
 void UpperClothing::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -469,13 +475,13 @@ void PlayerModel::SetParent(const WorldTransform* parent) {
 	//右腕<-体
 	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	//左腿<-体
-	parts_[(int)Parts::kLeftLeg]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kLeftThigh]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	//左脛<-左腿
-	parts_[(int)Parts::kLeftThigh]->SetParent(&parts_[(int)Parts::kLeftLeg]->GetWorldTransform());
+	parts_[(int)Parts::kLeftLeg]->SetParent(&parts_[(int)Parts::kLeftThigh]->GetWorldTransform());
 	// 右腿<-体
-	parts_[(int)Parts::kRightLeg]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
+	parts_[(int)Parts::kRightThigh]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 右脛<-右腿
-	parts_[(int)Parts::kRightThigh]->SetParent(&parts_[(int)Parts::kRightLeg]->GetWorldTransform());
+	parts_[(int)Parts::kRightLeg]->SetParent(&parts_[(int)Parts::kRightThigh]->GetWorldTransform());
 	// 服上<-体
 	parts_[(int)Parts::kUpperClothing]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
 	// 服下<-服上
