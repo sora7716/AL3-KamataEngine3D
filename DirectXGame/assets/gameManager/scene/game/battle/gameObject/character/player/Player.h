@@ -2,6 +2,7 @@
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
 #include "assets/gameManager/scene/game/baseGameObject/baseCharacter/BaseCharacter.h"
 #include "inputHandle/InputHandle.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/lifebar/LifeBar.h"
 
 // 前方宣言
 class ViewProjection;
@@ -60,6 +61,12 @@ public: // メンバ関数
 	// ダッシュの更新
 	/// </summary>
 	void BehaviorDashUpdate();
+
+	/// <summary>
+	/// キャラクタータイプのゲッター
+	/// </summary>
+	/// <returns></returns>
+	int GetCharacterType() { return (int)charType_; }
 
 	/// <summary>
 	/// ワイヤーフレームのゲッター
@@ -159,4 +166,6 @@ private: // メンバ変数
 	ICommand* horizontalCommand_ = nullptr;              // 水平移動
 	ICommand* verticalCommand_ = nullptr;                // 垂直移動
 	
+	//ライフバー
+	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
 };

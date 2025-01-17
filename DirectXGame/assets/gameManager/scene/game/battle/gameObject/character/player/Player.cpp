@@ -34,6 +34,11 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	colliderPos_ = {0.0f, 1.3f, -0.1f};
 	// 入力キーの生成
 	CreateInputKey();
+
+	charType_ = CharType::kPlayer;
+	// 体力
+	playerLifeBar_ = std::make_unique<LifeBar>(GetCharacterType());
+	playerLifeBar_->Initialize(std::move(textures));
 }
 
 // 更新
