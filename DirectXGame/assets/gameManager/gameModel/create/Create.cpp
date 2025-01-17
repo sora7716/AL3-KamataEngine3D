@@ -62,16 +62,10 @@ void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
 void Create::TextureCreate() {
-	//textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
-	//textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
-	//textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
-	//textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health_Enemy.png"));//3
-
-
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar.png"));//0
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar.png"));//1
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar.png"));//2
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar.png"));//3
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
+	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health_Enemy.png"));//3
 }
 
 // モデルのゲッター
