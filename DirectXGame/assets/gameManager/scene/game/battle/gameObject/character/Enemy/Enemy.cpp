@@ -11,8 +11,8 @@ void (Mimic::*Mimic::ActionModeTable[])(){
 };
 
 // 初期化
-void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+void Mimic::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	BaseCharacter::Initialize(std::move(models), viewProjection, std::move(textures));
 	// モデルの生成
 	mimicModel_ = std::make_unique<MimicModel>();
 	// モデルの初期化

@@ -12,6 +12,11 @@
 class BaseCharacter {
 public://メンバ関数
 
+	enum class CharType {
+		kPlayer,
+		kEnemy
+	};
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -27,7 +32,7 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="models">モデルデータ</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	virtual void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection);
+	virtual void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures);
 
 	/// <summary>
 	/// 更新
@@ -78,4 +83,10 @@ protected://メンバ変数
 	OBB* wireFrame_ = nullptr;
 	Vector3 colliderPos_ = {};
 	Vector3 colliderScale_ = {1.0f,1.0f,1.0f};
+
+	//CharacterType
+	CharType charType_;
+
+	//当たり判定
+	float kWidth_, kHeight_, kDepth_;
 };

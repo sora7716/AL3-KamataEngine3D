@@ -86,3 +86,7 @@ std::vector<std::unique_ptr<Model>>& Create::GetTitleNameModel() {
 
 // テクスチャのゲッター
 uint32_t Create::GetTextureHandle(Create::Type subscript) const { return textureHandle_[(int)subscript]; }
+
+std::vector<uint32_t> Create::GetTextureHandle(){
+	return textureHandle_;
+}

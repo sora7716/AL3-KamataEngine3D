@@ -2,7 +2,8 @@
 #include "ImGuiManager.h"
 #include <cassert>
 // 初期化
-void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
+
+void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures){
 	// モデルを入れていく
 	for (int i = 0; i < models.size(); i++) {
 		assert(models[i]);
@@ -10,8 +11,12 @@ void BaseCharacter::Initialize(std::vector<std::unique_ptr<Model>>&& models, Vie
 	}
 	viewProjection_ = viewProjection;
 	wireFrame_ = new OBB();
-	wireFrame_->Initialize({.size = worldTransform_.scale_, .rotation = worldTransform_.rotation_, .center = GetWorldPos()}, viewProjection);
+	wireFrame_->Initialize({ .size = worldTransform_.scale_, .rotation = worldTransform_.rotation_, .center = GetWorldPos() }, viewProjection);
 	worldTransform_.Initialize();
+
+	kWidth_ = 3.0f;
+	kHeight_ = 3.0f;
+	kDepth_ = 3.0f;
 }
 
 // 更新

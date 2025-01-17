@@ -20,8 +20,8 @@ Player::~Player() {
 }
 
 // 初期化
-void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	BaseCharacter::Initialize(std::move(models), viewProjection, std::move(textures));
 	worldTransform_.translation_.y = -2.9f;
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();

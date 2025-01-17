@@ -23,7 +23,7 @@ void BattleScene::Initialize(Create* create) {
 
 	// プレイヤー
 	player_ = make_unique<Player>();
-	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_);
+	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_, create_->GetTextureHandle());
 
 	// 追従カメラのビュープロジェクションを受け取る
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
@@ -43,7 +43,7 @@ void BattleScene::Initialize(Create* create) {
 
 	// ミミック
 	enemy_ = std::make_unique<Mimic>();
-	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
+	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_, create_->GetTextureHandle());
 	enemy_->SetPlayer(player_.get());
 
 	// 光り輝くパーティクル
