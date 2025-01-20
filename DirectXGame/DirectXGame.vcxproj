@@ -137,6 +137,7 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\spellcard\SpellCard.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\skydome\Skydome.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\spellcard\SpellCard.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />

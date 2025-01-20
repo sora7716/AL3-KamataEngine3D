@@ -55,13 +55,21 @@ void Create::GameSceneModel() {
 	mimicModels_[typeToothUp].reset(Model::CreateFromOBJ("upperTeeth", true));     // 上の歯
 	mimicModels_[typeToothBottom].reset(Model::CreateFromOBJ("lowerTeeth", true)); // 下の歯
 	mimicModels_[typeTongue].reset(Model::CreateFromOBJ("tongue", true));          // 舌
+
+	// スペルカードのモデル
+	spellCardModel_.reset(Model::CreateFromOBJ("SpellCard", true));
 }
 
 // エンドシーンのモデル
 void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
-void Create::TextureCreate() {}
+void Create::TextureCreate() { 
+	textureHandle_.resize((int)Create::SpellCardType::kSpellCardNum); 
+	textureHandle_[typeFire] = TextureManager::Load("SpellCard/fire.png");
+	textureHandle_[typeWater] = TextureManager::Load("SpellCard/water.png");
+	textureHandle_[typeThunder] = TextureManager::Load("SpellCard/thunder.png");
+}
 
 // モデルのゲッター
 Model* Create::GetModel(int subscript) const { return models_[subscript].get(); }
@@ -85,4 +93,9 @@ std::vector<std::unique_ptr<Model>>& Create::GetTitleNameModel() {
 }
 
 // テクスチャのゲッター
-uint32_t Create::GetTextureHandle(Create::Type subscript) const { return textureHandle_[(int)subscript]; }
+std::vector<uint32_t> Create::GetTextureHandle() { return textureHandle_; }
+
+// スペルカードモデルのゲッター
+Model* Create::GetSpellCardModel() { return spellCardModel_.get(); }
+
+
