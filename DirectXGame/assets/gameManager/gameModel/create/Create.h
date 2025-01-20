@@ -98,6 +98,11 @@ public: // メンバ関数
 	void TextureCreate();
 
 	/// <summary>
+	/// Hp,Mp,テクスチャの生成
+	/// </summary>
+	void CreateHpMpTexture();
+
+	/// <summary>
 	/// モデルのゲッター
 	/// </summary>
 	/// <param name="num">添え字</param>
@@ -121,13 +126,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>モデル</returns>
 	std::vector<std::unique_ptr<Model>>& GetTitleNameModel();
-
-	/// <summary>
-	/// テクスチャのゲッター
-	/// </summary>
-	/// <param name="subscript">添え字</param>
-	/// <returns>テクスチャハンドル</returns>
-	std::vector<uint32_t> GetTextureHandle();
 
 	/// <summary>
 	/// スペルカードモデルのゲッター

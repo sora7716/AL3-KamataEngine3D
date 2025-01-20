@@ -64,7 +64,14 @@ void Create::GameSceneModel() {
 void Create::EndSceneModel() {}
 
 // テクスチャをクリエイト
-void Create::TextureCreate() {
+void Create::TextureCreate() { 
+	textureHandle_.resize((int)Create::SpellCardType::kSpellCardNum); 
+	textureHandle_[typeFire] = TextureManager::Load("SpellCard/fire.png");
+	textureHandle_[typeWater] = TextureManager::Load("SpellCard/water.png");
+	textureHandle_[typeThunder] = TextureManager::Load("SpellCard/thunder.png");
+}
+
+void Create::CreateHpMpTexture(){
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
@@ -73,12 +80,6 @@ void Create::TextureCreate() {
 	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Cost.png"));//4
 	textureHandle_.push_back(TextureManager::Load("ui/MpBar_MP.png"));//5
 	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Waku.png"));//6
-}
-void Create::TextureCreate() { 
-	textureHandle_.resize((int)Create::SpellCardType::kSpellCardNum); 
-	textureHandle_[typeFire] = TextureManager::Load("SpellCard/fire.png");
-	textureHandle_[typeWater] = TextureManager::Load("SpellCard/water.png");
-	textureHandle_[typeThunder] = TextureManager::Load("SpellCard/thunder.png");
 }
 
 // モデルのゲッター
@@ -107,10 +108,3 @@ std::vector<uint32_t> Create::GetTextureHandle() { return textureHandle_; }
 
 // スペルカードモデルのゲッター
 Model* Create::GetSpellCardModel() { return spellCardModel_.get(); }
-
-
-uint32_t Create::GetTextureHandle(Create::Type subscript) const { return textureHandle_[(int)subscript]; }
-
-std::vector<uint32_t> Create::GetTextureHandle(){
-	return textureHandle_;
-}
