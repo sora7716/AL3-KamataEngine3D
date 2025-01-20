@@ -23,8 +23,6 @@ LifeBar::LifeBar(int characterType) {
 	}
 }
 
-
-
 void LifeBar::Initialize(const std::vector<uint32_t>&& textures){
 	sprites_.resize((int)Label::kNumOfLabels);
 	for (int i = 0; i < (int)Label::kNumOfLabels; i++) {
@@ -106,7 +104,7 @@ void LifeBar::CoolDown() {
 
 void LifeBar::DebugWindow() {
 #ifdef _DEBUG
-	ImGui::Begin("enemy");
+	ImGui::Begin("LifeBar");
 	ImGui::Text("frame.%f", dmgTimer_);
 	ImGui::Text("second.%f", kDuration_);
 	ImGui::Text("coolDownTimer_.%f", coolDownTimer_);

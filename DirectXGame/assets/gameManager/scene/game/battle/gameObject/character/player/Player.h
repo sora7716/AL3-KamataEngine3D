@@ -58,6 +58,18 @@ public: // メンバ関数
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
 	/// <summary>
+	/// 死亡ゲッター
+	/// </summary>
+	/// <returns>死亡か否か</returns>
+	bool GetIsDead() { return isDead_; }
+
+	/// <summary>
+	/// 死亡セッター
+	/// </summary>
+	/// <param name="input"></param>
+	void SetIsDead(bool input) { isDead_ = input; }
+
+	/// <summary>
 	/// ダッシュの初期化
 	/// </summary>
 	void BehaviorDashInitialize();
@@ -173,4 +185,6 @@ private: // メンバ変数
 	
 	//ライフバー
 	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//死亡管理
+	bool isDead_ = false;
 };

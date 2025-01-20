@@ -66,6 +66,10 @@ void Create::TextureCreate() {
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
 	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health_Enemy.png"));//3
+
+	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Cost.png"));//4
+	textureHandle_.push_back(TextureManager::Load("ui/MpBar_MP.png"));//5
+	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Waku.png"));//6
 }
 
 // モデルのゲッター

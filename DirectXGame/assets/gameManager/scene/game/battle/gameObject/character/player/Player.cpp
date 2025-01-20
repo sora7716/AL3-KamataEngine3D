@@ -61,6 +61,8 @@ void Player::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	isDead_ = playerLifeBar_->Update();
+
 	BaseCharacter::Update(); // 更新
 }
 

@@ -186,9 +186,6 @@
     <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -205,6 +202,21 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="assets\Log\Log.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -395,9 +407,6 @@
     <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\basePlayer\BasePlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\player\command\Command.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -414,6 +423,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\Log\Log.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
