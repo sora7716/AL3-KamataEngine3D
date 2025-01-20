@@ -72,14 +72,14 @@ void Create::TextureCreate() {
 }
 
 void Create::CreateHpMpTexture(){
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
-	textureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health_Enemy.png"));//3
+	UiTextureHandle_.push_back(TextureManager::Load("ui/LifeBar_Damage.png"));//0
+	UiTextureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health.png"));//1
+	UiTextureHandle_.push_back(TextureManager::Load("ui/LifeBar_Waku.png"));//2
+	UiTextureHandle_.push_back(TextureManager::Load("ui/LifeBar_Health_Enemy.png"));//3
 
-	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Cost.png"));//4
-	textureHandle_.push_back(TextureManager::Load("ui/MpBar_MP.png"));//5
-	textureHandle_.push_back(TextureManager::Load("ui/MpBar_Waku.png"));//6
+	UiTextureHandle_.push_back(TextureManager::Load("ui/MpBar_Cost.png"));//4
+	UiTextureHandle_.push_back(TextureManager::Load("ui/MpBar_MP.png"));//5
+	UiTextureHandle_.push_back(TextureManager::Load("ui/MpBar_Waku.png"));//6
 }
 
 // モデルのゲッター
@@ -105,6 +105,10 @@ std::vector<std::unique_ptr<Model>>& Create::GetTitleNameModel() {
 
 // テクスチャのゲッター
 std::vector<uint32_t> Create::GetTextureHandle() { return textureHandle_; }
+
+std::vector<uint32_t> Create::GetUiTextureHandle(){
+	return UiTextureHandle_;
+}
 
 // スペルカードモデルのゲッター
 Model* Create::GetSpellCardModel() { return spellCardModel_.get(); }

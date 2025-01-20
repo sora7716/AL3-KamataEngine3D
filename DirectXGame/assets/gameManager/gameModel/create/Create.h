@@ -139,6 +139,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	std::vector<uint32_t> GetTextureHandle();
 
+	/// <summary>
+	/// UI用の複数なテクスチャのゲッター
+	/// </summary>
+	/// <returns></returns>
+	std::vector<uint32_t> GetUiTextureHandle();
+
 	// コピーコンストラクタを禁止
 	Create(const Create& create) = delete;
 
@@ -163,4 +169,5 @@ private:                                                  // メンバ変数
 	std::vector<std::unique_ptr<Model>> titleNameModels_; // タイトル名のモデル
 	std::vector<uint32_t> textureHandle_;                 // テクスチャ
 	std::unique_ptr<Model> spellCardModel_ = nullptr;
+	std::vector<uint32_t> UiTextureHandle_;
 };
