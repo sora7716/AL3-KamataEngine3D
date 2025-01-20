@@ -219,6 +219,9 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -435,6 +438,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
