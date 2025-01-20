@@ -1,7 +1,6 @@
 #include "GameManager.h"
 #include "scene/end/EndScene.h"
 #include "scene/game/battle/BattleScene.h"
-#include "scene/game/search/SearchScene.h"
 #include "scene/title/TitleScene.h"
 
 //コンストラクタ
@@ -37,22 +36,6 @@ void GameManager::Initialize() {
 	if (currentScene_ == Scene::kTitle) {
 		if (scenes_[sceneNo_] == nullptr) {
 			scenes_[sceneNo_] = std::make_unique<TitleScene>();
-			scenes_[sceneNo_]->Initialize(create_);
-		} else if (scenes_[sceneNo_]->IsFinished()) {
-			// シーンの削除
-			scenes_[sceneNo_] = nullptr;
-			// シーンの切り替え
-			currentScene_ = Scene::kSearch;
-			// シーンのナンバーを検出
-			sceneNo_ = static_cast<int32_t>(currentScene_);
-			scenes_[sceneNo_] = std::make_unique<SearchScene>();
-			scenes_[sceneNo_]->Initialize(create_);
-		}
-	}
-	// 探索シーン
-	else if (currentScene_ == Scene::kSearch) {
-		if (scenes_[sceneNo_] == nullptr) {
-			scenes_[sceneNo_] = std::make_unique<SearchScene>();
 			scenes_[sceneNo_]->Initialize(create_);
 		} else if (scenes_[sceneNo_]->IsFinished()) {
 			// シーンの削除
@@ -109,11 +92,6 @@ void GameManager::Update() {
 	if (currentScene_ == Scene::kTitle) {
 		scenes_[sceneNo_]->Update();
 	}
-	// 探索シーン
-	else if (currentScene_ == Scene::kSearch) {
-		scenes_[sceneNo_]->Update();
-
-	}
 	// バトルシーン
 	else if (currentScene_ == Scene::kBattle) {
 		scenes_[sceneNo_]->Update();
@@ -129,10 +107,6 @@ void GameManager::Update() {
 void GameManager::Draw() {
 	// タイトルシーン
 	if (currentScene_ == Scene::kTitle) {
-		scenes_[sceneNo_]->Draw();
-	}
-	// 探索シーン
-	else if (currentScene_ == Scene::kSearch) {
 		scenes_[sceneNo_]->Draw();
 	}
 	// バトルシーン

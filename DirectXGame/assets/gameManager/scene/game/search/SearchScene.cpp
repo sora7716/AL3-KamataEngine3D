@@ -7,12 +7,22 @@ SearchScene::~SearchScene() {}
 void SearchScene::Initialize(Create* create) {
 	//初期化
 	IScene::Initialize(create);
+
+	// 天球の生成&初期化
+	skyDome_ = std::make_unique<Skydome>();
+	skyDome_->Initialize(create_->GetModel(create_->typeSkydome), &viewProjection_);
+
+	// 地面の生成&初期化
+	ground_ = std::make_unique<Ground>();
+	ground_->Initialize(create_->GetModel(create_->typeGround),&viewProjection_);
 }
 
 // 更新
 void SearchScene::Update() {
 	//更新
 	IScene::Update(); 
+	skyDome_->Update();
+	ground_->Update();
 }
 
 // 描画
@@ -43,6 +53,9 @@ void SearchScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	skyDome_->Draw();
+	ground_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

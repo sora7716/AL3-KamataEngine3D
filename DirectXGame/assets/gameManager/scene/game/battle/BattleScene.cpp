@@ -46,6 +46,10 @@ void BattleScene::Initialize(Create* create) {
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_, create_->GetTextureHandle());
 	enemy_->SetPlayer(player_.get());
 
+	// スペルカード
+	spellCard_ = std::make_unique<SpellCard>();
+	spellCard_->Initialize(create_->GetSpellCardModel(), &viewProjection_);
+
 	// 光り輝くパーティクル
 	luminous_ = std::make_unique<Luminous>();
 	luminous_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
@@ -101,6 +105,9 @@ void BattleScene::Update() {
 	// 敵の更新
 	enemy_->Update();
 
+	// スペルカードの更新
+	spellCard_->Update();
+
 	luminous_->Update();
 	luminous_->DebugText();
 	particle_->Update();
@@ -147,6 +154,9 @@ void BattleScene::Draw() {
 
 	// 敵の描画
 	enemy_->Draw();
+
+	// スペルカードの描画
+	spellCard_->Draw(create_->GetTextureHandle()[create_->typeThunder]);
 
 	// luminous_->Draw();
 	// particle_->Draw();

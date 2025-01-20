@@ -1,5 +1,7 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
+#include "assets/gameManager/scene/game/battle/gameObject/environment/ground/Ground.h"
 
 /// <summary>
 /// 探索シーン
@@ -34,5 +36,10 @@ public: // メンバ関数
 private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
-	/// </summary>]
+	/// </summary>
+	
+	// 天球
+	std::unique_ptr<IEnvironment> skyDome_ = nullptr;
+	// 地面
+	std::unique_ptr<IEnvironment> ground_ = nullptr;
 };

@@ -11,6 +11,7 @@
 #include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
+#include "assets/gameManager/scene/game/battle/gameObject/spellcard/SpellCard.h"
 
 /// <summary>
 /// バトルシーン
@@ -76,4 +77,8 @@ private: // メンバ変数
 
 	// ミミック
 	std::unique_ptr<Mimic> enemy_ = nullptr;
+
+	// スペルカード
+	std::unique_ptr<SpellCard> spellCard_ = nullptr;
+
 };

@@ -9,7 +9,6 @@ public: // 列挙型
 
 	enum class Scene {
 		kTitle,  // タイトルシーン
-		kSearch, // 探索シーン
 		kBattle, // バトルシーン
 		kEnd,    // エンドシーン
 		SceneNum // シーンの数

@@ -63,6 +63,13 @@ public: // 構造体や列挙型
 	int typeSe = (int)TitleNameType::kSe;
 	int typeI = (int)TitleNameType::kI;
 
+	// スペルカード
+	enum class SpellCardType { kFire, kWater, kThunder, kSpellCardNum };
+	// スペルカードのテクスチャ
+	int typeFire = (int)SpellCardType::kFire;
+	int typeWater = (int)SpellCardType::kWater;
+	int typeThunder = (int)SpellCardType::kThunder;
+
 public: // メンバ関数
 	/// <summary>
 	/// インスタンスのゲッター
@@ -120,7 +127,13 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="subscript">添え字</param>
 	/// <returns>テクスチャハンドル</returns>
-	uint32_t GetTextureHandle(Create::Type subscript) const;
+	std::vector<uint32_t> GetTextureHandle();
+
+	/// <summary>
+	/// スペルカードモデルのゲッター
+	/// </summary>
+	/// <returns></returns>
+	Model* GetSpellCardModel();
 
 	/// <summary>
 	/// 複数なテクスチャのゲッター
@@ -151,4 +164,5 @@ private:                                                  // メンバ変数
 	std::vector<std::unique_ptr<Model>> mimicModels_;     // ミミックのモデル
 	std::vector<std::unique_ptr<Model>> titleNameModels_; // タイトル名のモデル
 	std::vector<uint32_t> textureHandle_;                 // テクスチャ
+	std::unique_ptr<Model> spellCardModel_ = nullptr;
 };
