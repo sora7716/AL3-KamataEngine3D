@@ -39,6 +39,9 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	// 体力
 	playerLifeBar_ = std::make_unique<LifeBar>(GetCharacterType());
 	playerLifeBar_->Initialize(std::move(textures));
+
+	playerMpBar_ = std::make_unique<MpBar>(GetCharacterType());
+	playerMpBar_->Initialize(std::move(textures));
 }
 
 // 更新
@@ -70,6 +73,11 @@ void Player::Update() {
 void Player::Draw() {
 	// プレイヤーモデルの描画
 	playerModel_->Draw();
+}
+
+void Player::DrawSprite(){
+	playerLifeBar_->Draw();
+	playerMpBar_->Draw();
 }
 
 // ビュープロジェクションのセッター

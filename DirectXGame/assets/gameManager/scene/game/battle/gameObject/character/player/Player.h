@@ -3,6 +3,7 @@
 #include "assets/gameManager/scene/game/baseGameObject/baseCharacter/BaseCharacter.h"
 #include "inputHandle/InputHandle.h"
 #include "assets/gameManager/scene/game/battle/gameObject/ui/lifebar/LifeBar.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/mpbar/MpBar.h"
 
 // 前方宣言
 class ViewProjection;
@@ -43,7 +44,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 2D描画
 	/// </summary>
-	void DrawSprite() { playerLifeBar_->Draw(); }
+	void DrawSprite();
 
 	/// <summary>
 	/// ビュープロジェクションのセッター
@@ -185,6 +186,8 @@ private: // メンバ変数
 	
 	//ライフバー
 	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//MPバー
+	std::unique_ptr<MpBar> playerMpBar_ = nullptr;
 	//死亡管理
 	bool isDead_ = false;
 };

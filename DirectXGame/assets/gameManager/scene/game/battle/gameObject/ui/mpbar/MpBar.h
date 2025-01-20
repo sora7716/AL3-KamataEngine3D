@@ -55,7 +55,7 @@ public:
 private:
 	enum class MpLabel {
 		placeHolder0,
-		placeHolder1,
+		placeHolder1,//placeHolderはHPバーの画像です
 		placeHolder2,
 		placeHolder3,
 		kCost,

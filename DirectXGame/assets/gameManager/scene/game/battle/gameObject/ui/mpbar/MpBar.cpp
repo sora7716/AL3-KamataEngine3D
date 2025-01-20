@@ -24,11 +24,8 @@ MpBar::MpBar(int characterType){
 
 void MpBar::Initialize(const std::vector<uint32_t>&& textures){
 	sprites_.resize((int)MpLabel::kNumOfLabels);
-	for (int i = 4; i < (int)MpLabel::kNumOfLabels; i++) {
+	for (int i = 4; i < (int)MpLabel::kNumOfLabels; i++) { //int=4	からはMPの画像です。
 		sprites_[i].reset(Sprite::Create(textures[i],pos_));
-	}
-	if (characterType_ == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
-		sprites_[1].reset(Sprite::Create(textures[3], pos_));//ライフバー色を変える
 	}
 	maxMp_ = sprites_[(int)MpLabel::kMp]->GetSize().x;
 	currentMp_ = maxMp_;
@@ -39,8 +36,8 @@ bool MpBar::Update(){
 }
 
 void MpBar::Draw(){
-	for (const auto& sprit : sprites_) {
-		sprit->Draw();
+	for (int i = 4; i < (int)MpLabel::kNumOfLabels; i++) {
+		sprites_[i]->Draw();
 	}
 }
 

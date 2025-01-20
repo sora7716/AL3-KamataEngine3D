@@ -16,7 +16,7 @@ LifeBar::LifeBar(int characterType) {
 	characterType_ = 0;
 
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kPlayer)) {
-		pos_ = { WinApp::kWindowWidth / 2 - (width_ + 70), 650 }; //650は画面のちょうどいいところだと思って付けました。
+		pos_ = { WinApp::kWindowWidth / 2 - (width_ + 70), 620 }; //650は画面のちょうどいいところだと思って付けました。
 	}
 	if (characterType == static_cast<int>(BaseCharacter::CharType::kEnemy)) {
 		pos_ = { WinApp::kWindowWidth / 2 - width_ / 2, 50 }; //敵の上に付けたいけど、今は適当
