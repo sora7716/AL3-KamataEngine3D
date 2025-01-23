@@ -141,7 +141,6 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.cpp" />
-    <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
@@ -210,7 +209,6 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.h" />
-    <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
