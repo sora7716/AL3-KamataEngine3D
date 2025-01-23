@@ -1,9 +1,11 @@
 #pragma once
 #include "WorldTransform.h"
+#include "memory"
 
 // 前方宣言
 class Model;
 class ViewProjection;
+class OBB;
 
 /// <summary>
 /// スペルカード
@@ -40,14 +42,64 @@ public:// メンバ関数
 	void Draw(uint32_t textureHandle);
 
 	/// <summary>
+	/// ワイヤーの描画
+	/// </summary>
+	void DrawWire();
+
+	/// <summary>
+	/// 取得時処理
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// デバッグテキスト
 	/// </summary>
 	/// <param name="label">ラベル</param>
 	void DebugText(const char* label);
 
+	/// <summary>
+	/// ワールド座標の取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPos();
+
+	/// <summary>
+	/// ワイヤーフレームのGetter
+	/// </summary>
+	/// <returns></returns>
+	OBB* GetWireFrame();
+
+	/// <summary>
+	/// スペルカード取得のSetter
+	/// </summary>
+	/// <param name="isRetrieve"></param>
+	void SetIsSpellCardGet(bool isSpellCardGet);
+
+private://メンバ関数
+
+	/// <summary>
+	/// アニメーションの初期化
+	/// </summary>
+	void InitializeAnimation();
+
+	/// <summary>
+	/// 浮遊ギミックの更新
+	/// </summary>
+	float UpdateFloatingGimmick();
+
+	/// <summary>
+	/// スペルカード未取得時の処理
+	/// </summary>
+	void Idol();
+
 private: // メンバ変数
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_ = nullptr;
 	WorldTransform worldTransform_;
-
+	std::unique_ptr<OBB> wireFrame_ = nullptr;
+	bool isSpellCardGet_ = false; // スペルカードが取得されたかどうか
+	float floatingParameter_ = {};
+	float amplitube = {};
+	int cycle_ = {};
+	float angleTimer_ = {};
 };

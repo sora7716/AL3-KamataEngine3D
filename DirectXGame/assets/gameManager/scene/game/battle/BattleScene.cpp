@@ -169,6 +169,7 @@ void BattleScene::Draw() {
 
 	ground_->DrawWire();
 	player_->DrawWire();
+	spellCard_->DrawWire();
 	// serchlight_->Draw();
 #pragma endregion
 	// 3Dオブジェクト描画後処理
@@ -202,5 +203,10 @@ void BattleScene::CheckCollision() {
 				}
 			}
 		}
+	}
+
+	spellCard_->GetWireFrame()->OnCollision(player_->GetWireFrame()->GetOBBMaterial() == spellCard_->GetWireFrame()->GetOBBMaterial());
+	if (player_->GetWireFrame()->GetOBBMaterial() == spellCard_->GetWireFrame()->GetOBBMaterial()) {
+		spellCard_->OnCollision();
 	}
 }

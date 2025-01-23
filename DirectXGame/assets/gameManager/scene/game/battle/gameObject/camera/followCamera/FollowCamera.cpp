@@ -72,9 +72,11 @@ void FollowCamera::FollowCameraUpdate() {
 			// 追従対象からカメラまでのオフセット
 			Vector3 offset = {0.0f, 2.0f, -10.0f};
 			Matrix4x4 rotateMat = Math::MakeRotateXYZMatrix(viewProjection_.rotation_);
+			
 			offset = Math::TransformNormal(offset, rotateMat);
 			// 座標をコピーしてオフセット分ずらす
 			viewProjection_.translation_ = target_->translation_ + offset;
+			
 		}
 	}
 }
