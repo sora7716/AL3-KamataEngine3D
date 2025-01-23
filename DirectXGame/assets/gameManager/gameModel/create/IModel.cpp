@@ -23,7 +23,7 @@ void IModel::DebugText(const char* label) {
 	(void)label;
 #ifdef _DEBUG
 	std::string imGuiLabel = (std::string)label + ".size";
-	//ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.scale_.x, 0.1f, 0.0f, 3.0f);
+	ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.scale_.x, 0.1f, 0.0f, 3.0f);
 	imGuiLabel = (std::string)label + ".rotate";
 	ImGui::DragFloat3(imGuiLabel.c_str(), &worldTransform_.rotation_.x, 0.1f);
 	imGuiLabel = (std::string)label + ".translate";

@@ -160,8 +160,8 @@ void Hair::Draw() { IModel::Draw(); }
 void Hair::BehaviorRootUpdate() {}
 
 // 打撃
-void Hair::BehaviorBlowUpdate() { 
-	//worldTransform_.rotation_.y = Math::AngleLerp(360, 0, EasingMode::kInBack, 10, angleTimer_); 
+void Hair::BehaviorBlowUpdate() {
+	// worldTransform_.rotation_.y = Math::AngleLerp(360, 0, EasingMode::kInBack, 10, angleTimer_);
 }
 
 // ダッシュ
@@ -173,7 +173,7 @@ void Hair::BehaviorDashUpdate() {}
 // 初期化
 void EyeBrows::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	//worldTransform_.translation_ = {0.0f, 0.2f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 0.0f, -0.005f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -237,13 +237,13 @@ void Face::Draw() { IModel::Draw(); }
 // 通常行動用
 void Face::BehaviorRootUpdate() {
 	// アニメーションの更新
-	//worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	// worldTransform_.rotation_.x = UpdateTriangleGimmick();
 }
 
 // 打撃用
 void Face::BehaviorBlowUpdate() {
 	IPlayerModel::BlowChangeTimer();
-	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
+	//worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
 }
 
 // 打撃用の初期化
@@ -260,14 +260,20 @@ void Face::BehaviorDashUpdate() {
 	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
 }
 
+// 通常時の初期化
+void Face::BehaviorRootReset() {
+	IPlayerModel::BehaviorRootReset();
+	worldTransform_.rotation_ = {};
+}
+
 #pragma endregion
 
 #pragma region 体
 // 初期化
 void Body::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
-	// worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f};// 初期値
-	worldTransform_.translation_ = {0.0f, 4.2f,-9.0f};// 調整しやすくするための値
+	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f}; // 初期値
+	worldTransform_.scale_ = {1.5f, 1.5f, 1.5f};
 	// アニメーションの初期化
 	InitializeAnimation();
 }
@@ -289,13 +295,13 @@ void Body::Draw() { IModel::Draw(); }
 // 通常行動用
 void Body::BehaviorRootUpdate() {
 	// アニメーションの更新
-	//worldTransform_.rotation_.x = UpdateTriangleGimmick();
+	// worldTransform_.rotation_.x = UpdateTriangleGimmick();
 }
 
 // 打撃用
 void Body::BehaviorBlowUpdate() {
 	IPlayerModel::BlowChangeTimer();
-	worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
+	//worldTransform_.rotation_.x = AngleLerpAnimation(easingMode_);
 }
 
 // 打撃用の初期化
@@ -312,10 +318,19 @@ void Body::BehaviorDashUpdate() {
 	worldTransform_.rotation_.x = TriangleLerpAnimation(EasingMode::kNormal);
 }
 
+// 通常時の初期化
+void Body::BehaviorRootReset() {
+	IPlayerModel::BehaviorRootReset();
+	//worldTransform_.rotation_ = {};
+}
+
 #pragma endregion
 
 #pragma region 左腕
-void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LeftArm::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.25f, 0.0f, 0.0f};
+}
 void LeftArm::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -326,18 +341,42 @@ void LeftArm::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 右腕
-void RightArm::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void RightArm::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {-0.25f, 0.1f, 0.0f};
+}
 void RightArm::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
 	IModel::Update();
 }
 void RightArm::DebugText() { IModel::DebugText("rightArm"); }
+
 void RightArm::Draw() { IModel::Draw(); }
+
+void RightArm::BehaviorBlowUpdate() { 
+	IPlayerModel::BlowChangeTimer();
+	worldTransform_.translation_.y = 0.15f;
+	worldTransform_.translation_.z = -0.1f;
+	worldTransform_.rotation_.x = -LerpAnimation(easingMode_);
+	//worldTransform_.rotation_.y = -LerpAnimation(easingMode_);
+}
+
+void RightArm::BehaviorBlowReset() { 
+	IPlayerModel::BehaviorBlowReset();
+	angleTimer_ = 0.0f;
+	startAngle_ = 0.0f;
+	endAngle_ = -90.0f;
+	motionTime_ = 2.0f;
+}
+
 #pragma endregion
 
-#pragma region 左腿
-void LeftLeg::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+#pragma region 左すね
+void LeftLeg::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.0f, -0.14f, 0.0f};
+}
 void LeftLeg::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -347,8 +386,11 @@ void LeftLeg::DebugText() { IModel::DebugText("leftLeg"); }
 void LeftLeg::Draw() { IModel::Draw(); }
 #pragma endregion
 
-#pragma region 左脛
-void LeftThigh::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+#pragma region 左もも
+void LeftThigh::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.1f, -0.27f, 0.0f};
+}
 void LeftThigh::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -358,8 +400,11 @@ void LeftThigh::DebugText() { IModel::DebugText("leftThigh"); }
 void LeftThigh::Draw() { IModel::Draw(); }
 #pragma endregion
 
-#pragma region 右腿
-void RightLeg::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+#pragma region 右すね
+void RightLeg::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.02f, -0.14f, 0.0f};
+}
 void RightLeg::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -369,8 +414,11 @@ void RightLeg::DebugText() { IModel::DebugText("rightLeg"); }
 void RightLeg::Draw() { IModel::Draw(); }
 #pragma endregion
 
-#pragma region 右脛
-void RightThigh::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+#pragma region 右もも
+void RightThigh::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {-0.1f, -0.27f, 0.0f};
+}
 void RightThigh::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -381,7 +429,7 @@ void RightThigh::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 服(上)
-void UpperClothing::Initialize(Model* model, ViewProjection* viewProjection) { 
+void UpperClothing::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {0.0f, 0.15f, 0.0f};
 }
@@ -395,7 +443,10 @@ void UpperClothing::Draw() { IModel::Draw(); }
 #pragma endregion
 
 #pragma region 服(下)
-void LowerClothing::Initialize(Model* model, ViewProjection* viewProjection) { IModel::Initialize(model, viewProjection); }
+void LowerClothing::Initialize(Model* model, ViewProjection* viewProjection) {
+	IModel::Initialize(model, viewProjection);
+	worldTransform_.translation_ = {0.0f, -0.25, 0.0f};
+}
 void LowerClothing::Update() { // 振る舞いの更新
 	IPlayerModel::Update();
 	// モデルの更新
@@ -462,21 +513,21 @@ void PlayerModel::Draw() {
 // 親のセッター
 void PlayerModel::SetParent(const WorldTransform* parent) {
 	worldTransform_.parent_ = parent;
-	//体<-Parent
+	// 体<-Parent
 	parts_[(int)Parts::kBody]->SetParent(&worldTransform_);
-	//顔<-体
+	// 顔<-体
 	parts_[(int)Parts::kFace]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	//眉毛<-顔
+	// 眉毛<-顔
 	parts_[(int)Parts::kEyeBrows]->SetParent(&parts_[(int)Parts::kFace]->GetWorldTransform());
-	//髪<-顔
+	// 髪<-顔
 	parts_[(int)Parts::kHair]->SetParent(&parts_[(int)Parts::kFace]->GetWorldTransform());
-	//左腕<-体
+	// 左腕<-体
 	parts_[(int)Parts::kLeftArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	//右腕<-体
+	// 右腕<-体
 	parts_[(int)Parts::kRightArm]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	//左腿<-体
+	// 左腿<-体
 	parts_[(int)Parts::kLeftThigh]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
-	//左脛<-左腿
+	// 左脛<-左腿
 	parts_[(int)Parts::kLeftLeg]->SetParent(&parts_[(int)Parts::kLeftThigh]->GetWorldTransform());
 	// 右腿<-体
 	parts_[(int)Parts::kRightThigh]->SetParent(&parts_[(int)Parts::kBody]->GetWorldTransform());
@@ -487,7 +538,7 @@ void PlayerModel::SetParent(const WorldTransform* parent) {
 	// 服下<-服上
 	parts_[(int)Parts::kLowerClothing]->SetParent(&parts_[(int)Parts::kUpperClothing]->GetWorldTransform());
 	// 武器<-左腕
-	parts_[(int)Parts::kStaff]->SetParent(&parts_[(int)Parts::kLeftArm]->GetWorldTransform());
+	parts_[(int)Parts::kStaff]->SetParent(&parts_[(int)Parts::kRightArm]->GetWorldTransform());
 }
 
 // 振る舞いのセッター

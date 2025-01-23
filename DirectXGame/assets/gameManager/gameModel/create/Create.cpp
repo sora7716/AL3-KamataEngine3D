@@ -51,7 +51,7 @@ void Create::GameSceneModel() {
 	playerModels_[typeRightThigh].reset(Model::CreateFromOBJ("rightThigh", true));    // 右脛
 	playerModels_[typeUpperClothing].reset(Model::CreateFromOBJ("upperClothing", true)); // 服上
 	playerModels_[typeLowerClothing].reset(Model::CreateFromOBJ("lowerClothing", true)); // 服下
-	playerModels_[typeStaff].reset(Model::CreateFromOBJ("hammer", true));       // 杖
+	playerModels_[typeStaff].reset(Model::CreateFromOBJ("staff", true));       // 杖
 
 	// ミミックのモデル
 	mimicModels_.resize((int)MimicParts::kPartsNum);                               // サイズの設定

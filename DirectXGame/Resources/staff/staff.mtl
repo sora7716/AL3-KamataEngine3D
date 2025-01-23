@@ -1,4 +1,4 @@
-# Blender 4.2.0 MTL File: 'None'
+# Blender 4.2.2 LTS MTL File: '杖2.blend'
 # www.blender.org
 
 newmtl Material.001
@@ -9,7 +9,17 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd staffBase_UV.png
+map_Kd C:/Users/伊藤　駿冶/Downloads/Staff_まとめ/StaffBase_UV.png
+
+newmtl Material.002
+Ns 505.533997
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/伊藤　駿冶/Downloads/Staff_まとめ/StaffBase_UV.png
 
 newmtl Material.006
 Ns 250.000000
@@ -19,7 +29,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd staff_UV.png
+map_Kd C:/Users/伊藤　駿冶/Downloads/Staff_まとめ/Staff_UV.png
 
 newmtl Material.007
 Ns 250.000000
@@ -29,4 +39,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd leatherStraps_UV.png
+map_Kd C:/Users/伊藤　駿冶/Downloads/Staff_まとめ/leatherStraps_UV.png

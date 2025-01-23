@@ -265,6 +265,12 @@ public: // メンバ関数
 	/// ダッシュの更新
 	/// </summary>
 	void BehaviorDashUpdate() override;
+
+	/// <summary>
+	/// 通常時の初期化
+	/// </summary>
+	void BehaviorRootReset() override;
+
 };
 
 /// <summary>
@@ -323,6 +329,11 @@ public: // メンバ関数
 	/// ダッシュ時の更新
 	/// </summary>
 	void BehaviorDashUpdate() override;
+
+	/// <summary>
+	/// 通常時の初期化
+	/// </summary>
+	void BehaviorRootReset() override;
 };
 
 /// <summary>
@@ -399,6 +410,16 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 打撃の更新
+	/// </summary>
+	void BehaviorBlowUpdate() override;
+
+	/// <summary>
+	/// 打撃用の初期化
+	/// </summary>
+	void BehaviorBlowReset() override;
 };
 
 /// <summary>
