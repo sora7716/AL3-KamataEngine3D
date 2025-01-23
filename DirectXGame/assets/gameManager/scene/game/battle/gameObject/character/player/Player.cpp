@@ -20,8 +20,8 @@ Player::~Player() {
 }
 
 // 初期化
-void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) {
-	BaseCharacter::Initialize(std::move(models), viewProjection);
+void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) {
+	BaseCharacter::Initialize(std::move(models), viewProjection, std::move(textures));
 	worldTransform_.translation_.y = -2.9f;
 	// プレイヤーモデルの生成
 	playerModel_ = std::make_unique<PlayerModel>();
@@ -34,6 +34,14 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 	colliderPos_ = {0.0f, 1.3f, -0.1f};
 	// 入力キーの生成
 	CreateInputKey();
+
+	charType_ = CharType::kPlayer;
+	// 体力
+	playerLifeBar_ = std::make_unique<LifeBar>(GetCharacterType());
+	playerLifeBar_->Initialize(std::move(textures));
+
+	playerMpBar_ = std::make_unique<MpBar>(GetCharacterType());
+	playerMpBar_->Initialize(std::move(textures));
 }
 
 // 更新
@@ -56,6 +64,9 @@ void Player::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	isDead_ = playerLifeBar_->Update();
+	isEmpty_ = playerMpBar_->Update();
+
 	BaseCharacter::Update(); // 更新
 }
 
@@ -63,6 +74,11 @@ void Player::Update() {
 void Player::Draw() {
 	// プレイヤーモデルの描画
 	playerModel_->Draw();
+}
+
+void Player::DrawSprite(){
+	playerLifeBar_->Draw();
+	playerMpBar_->Draw();
 }
 
 // ビュープロジェクションのセッター

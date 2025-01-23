@@ -123,6 +123,7 @@ void GameManager::Draw() {
 void GameManager::CreateModel() {
 	create_ = Create::GetInstance();
 	create_->TextureCreate();
+	create_->CreateHpMpTexture();
 	create_->TitleSceneModel();
 	create_->GameSceneModel();
 	create_->EndSceneModel();

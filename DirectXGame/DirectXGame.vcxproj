@@ -59,7 +59,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -138,6 +138,10 @@
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\spellcard\SpellCard.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\search\SearchScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
@@ -203,6 +207,10 @@
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\fade\Fade.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\particle\Particle.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\spellcard\SpellCard.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.h" />
+    <ClInclude Include="assets\gameManager\scene\game\search\SearchScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />

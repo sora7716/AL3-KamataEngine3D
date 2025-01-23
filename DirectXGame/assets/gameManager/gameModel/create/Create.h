@@ -98,6 +98,11 @@ public: // メンバ関数
 	void TextureCreate();
 
 	/// <summary>
+	/// Hp,Mp,テクスチャの生成
+	/// </summary>
+	void CreateHpMpTexture();
+
+	/// <summary>
 	/// モデルのゲッター
 	/// </summary>
 	/// <param name="num">添え字</param>
@@ -123,17 +128,22 @@ public: // メンバ関数
 	std::vector<std::unique_ptr<Model>>& GetTitleNameModel();
 
 	/// <summary>
-	/// テクスチャのゲッター
-	/// </summary>
-	/// <param name="subscript">添え字</param>
-	/// <returns>テクスチャハンドル</returns>
-	std::vector<uint32_t> GetTextureHandle();
-
-	/// <summary>
 	/// スペルカードモデルのゲッター
 	/// </summary>
 	/// <returns></returns>
 	Model* GetSpellCardModel();
+
+	/// <summary>
+	/// 複数なテクスチャのゲッター
+	/// </summary>
+	/// <returns></returns>
+	std::vector<uint32_t> GetTextureHandle();
+
+	/// <summary>
+	/// UI用の複数なテクスチャのゲッター
+	/// </summary>
+	/// <returns></returns>
+	std::vector<uint32_t> GetUiTextureHandle();
 
 	// コピーコンストラクタを禁止
 	Create(const Create& create) = delete;
@@ -159,4 +169,5 @@ private:                                                  // メンバ変数
 	std::vector<std::unique_ptr<Model>> titleNameModels_; // タイトル名のモデル
 	std::vector<uint32_t> textureHandle_;                 // テクスチャ
 	std::unique_ptr<Model> spellCardModel_ = nullptr;
+	std::vector<uint32_t> UiTextureHandle_;
 };

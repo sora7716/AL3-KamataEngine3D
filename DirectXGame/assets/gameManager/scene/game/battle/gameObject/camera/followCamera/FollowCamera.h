@@ -1,9 +1,8 @@
 #pragma once
 #include "ViewProjection.h"
-
+#include "WorldTransform.h"
 
 // 前方宣言
-class WorldTransform;
 class Player;
 
 /// <summary>
@@ -50,7 +49,7 @@ public: // メンバ関数
 	/// 追従対処のセッター
 	/// </summary>
 	/// <param name="target">ターゲット</param>
-	void SetTarget(const WorldTransform* target);
+	void SetTarget(const WorldTransform* target){target_ = target;}
 
 	/// <summary>
 	/// 追従対象のセッタ－
@@ -63,6 +62,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	ViewProjection& GetViewProjection();
+
+	WorldTransform& GetWorldTransform();
 
 	/// <summary>
 	/// ゲームパッドの操作
@@ -115,4 +116,6 @@ private: // メンバ変数
 	Vector3 targetPos_ = {};
 	// 座標補間割合
 	static inline const float kInterpokationRate_ = 0.35f;
+
+	WorldTransform worldTransform_;
 };

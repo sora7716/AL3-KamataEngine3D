@@ -2,9 +2,13 @@
 #include "assets/gameManager/gameModel/create/playerModel/PlayerModel.h"
 #include "assets/gameManager/scene/game/baseGameObject/baseCharacter/BaseCharacter.h"
 #include "inputHandle/InputHandle.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/lifebar/LifeBar.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/mpbar/MpBar.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/spellcardui/SpellCardUI.h"
 
 // 前方宣言
 class ViewProjection;
+class Model;
 
 /// <summary>
 /// プレイヤー
@@ -27,7 +31,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection) override;
+	void Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjection* viewProjection, const std::vector<uint32_t>&& textures) override;
 
 	/// <summary>
 	/// 更新
@@ -38,6 +42,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 2D描画
+	/// </summary>
+	void DrawSprite();
 
 	/// <summary>
 	/// ビュープロジェクションのセッター
@@ -52,6 +61,18 @@ public: // メンバ関数
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
 	/// <summary>
+	/// 死亡ゲッター
+	/// </summary>
+	/// <returns>死亡か否か</returns>
+	bool GetIsDead() { return isDead_; }
+
+	/// <summary>
+	/// 死亡セッター
+	/// </summary>
+	/// <param name="input"></param>
+	void SetIsDead(bool input) { isDead_ = input; }
+
+	/// <summary>
 	/// ダッシュの初期化
 	/// </summary>
 	void BehaviorDashInitialize();
@@ -60,6 +81,12 @@ public: // メンバ関数
 	// ダッシュの更新
 	/// </summary>
 	void BehaviorDashUpdate();
+
+	/// <summary>
+	/// キャラクタータイプのゲッター
+	/// </summary>
+	/// <returns></returns>
+	int GetCharacterType() { return (int)charType_; }
 
 	/// <summary>
 	/// ワイヤーフレームのゲッター
@@ -159,4 +186,12 @@ private: // メンバ変数
 	ICommand* horizontalCommand_ = nullptr;              // 水平移動
 	ICommand* verticalCommand_ = nullptr;                // 垂直移動
 	
+	//ライフバー
+	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
+	//MPバー
+	std::unique_ptr<MpBar> playerMpBar_ = nullptr;
+
+	//死亡管理
+	bool isDead_ = false;
+	bool isEmpty_ = false;
 };

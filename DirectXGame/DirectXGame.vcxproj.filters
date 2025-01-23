@@ -231,6 +231,24 @@
     <ClCompile Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.cpp">
       <Filter>assets\process\System</Filter>
     </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\environment\IEnvironment.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -439,6 +457,21 @@
     </ClInclude>
     <ClInclude Include="assets\gameManager\scene\title\gameObject\titleName\TitleName.h">
       <Filter>assets\process\System</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\BaseCell.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\environment\honeycomb\cell\NormalCell.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\lifebar\LifeBar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\mpbar\MpBar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\ui\spellcardui\SpellCardUI.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
