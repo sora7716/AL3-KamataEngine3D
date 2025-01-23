@@ -1,5 +1,4 @@
 #include "FollowCamera.h"
-#include "WorldTransform.h"
 #include "assets/math/Math.h"
 #include "input/Input.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
@@ -10,6 +9,7 @@ void FollowCamera::Initialize() {
 
 	viewProjection_.rotation_.x = 0.31f;
 
+	worldTransform_.Initialize();
 }
 
 // 更新
@@ -28,13 +28,17 @@ void FollowCamera::Update() {
 	(this->*cameraUpdateTable[static_cast<size_t>(cameraPhase_)])();
 
 	viewProjection_.UpdateMatrix();
+	worldTransform_.UpdateMatrix();
+	viewProjection_.matView = ~worldTransform_.matWorld_;
 }
-
-// 追従対象のセッター
-void FollowCamera::SetTarget(const WorldTransform* target) { target_ = target; }
 
 // ビュープロジェクションのゲッター
 ViewProjection& FollowCamera::GetViewProjection() { return viewProjection_; }
+
+WorldTransform& FollowCamera::GetWorldTransform(){
+	// TODO: return ステートメントをここに挿入します
+	return worldTransform_;
+}
 
 // ゲームパッドの操作
 void FollowCamera::GamepadControl() {
@@ -91,12 +95,12 @@ void FollowCamera::CameraControllerUpdate() {
 		// 追従対象とオフセットからカメラの目標座標を計算
 		targetPos_ = targetWorldTransform.translation_ + targetOffset_;
 		// 座標補間によりゆったり追従
-		viewProjection_.translation_ = Math::Lerp(viewProjection_.translation_, targetPos_, kInterpokationRate_);
-		float viewProjectionX = viewProjection_.translation_.x;
-		float viewProjectionY = viewProjection_.translation_.y;
+		worldTransform_.translation_ = Math::Lerp(worldTransform_.translation_, targetPos_, kInterpokationRate_);
+		float viewProjectionX = worldTransform_.translation_.x;
+		float viewProjectionY = worldTransform_.translation_.y;
 		// カメラの移動範囲を制限する
-		viewProjection_.translation_.x = std::clamp(viewProjectionX, movableArea_.left, movableArea_.right);
-		viewProjection_.translation_.y = std::clamp(viewProjectionY, movableArea_.bottom, movableArea_.top);
+		worldTransform_.translation_.x = std::clamp(viewProjectionX, movableArea_.left, movableArea_.right);
+		worldTransform_.translation_.y = std::clamp(viewProjectionY, movableArea_.bottom, movableArea_.top);
 	}
 }
 

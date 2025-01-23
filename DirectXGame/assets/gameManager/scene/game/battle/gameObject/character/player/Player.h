@@ -4,9 +4,11 @@
 #include "inputHandle/InputHandle.h"
 #include "assets/gameManager/scene/game/battle/gameObject/ui/lifebar/LifeBar.h"
 #include "assets/gameManager/scene/game/battle/gameObject/ui/mpbar/MpBar.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/spellcardui/SpellCardUI.h"
 
 // 前方宣言
 class ViewProjection;
+class Model;
 
 /// <summary>
 /// プレイヤー
@@ -188,6 +190,8 @@ private: // メンバ変数
 	std::unique_ptr<LifeBar> playerLifeBar_ = nullptr;
 	//MPバー
 	std::unique_ptr<MpBar> playerMpBar_ = nullptr;
+
 	//死亡管理
 	bool isDead_ = false;
+	bool isEmpty_ = false;
 };

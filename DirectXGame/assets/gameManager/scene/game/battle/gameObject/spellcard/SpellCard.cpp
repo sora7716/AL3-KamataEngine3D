@@ -14,8 +14,6 @@ void SpellCard::Initialize(Model* model, ViewProjection* viewProjection) {
 	model_ = model;
 	viewProjection_ = viewProjection;
 	worldTransform_.Initialize();
-
-
 }
 
 // 更新処理

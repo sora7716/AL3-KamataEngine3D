@@ -12,6 +12,7 @@
 #include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
 #include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
 #include "assets/gameManager/scene/game/battle/gameObject/spellcard/SpellCard.h"
+#include "assets/gameManager/scene/game/battle/gameObject/ui/spellcardui/SpellCardUI.h"
 
 /// <summary>
 /// バトルシーン
@@ -81,4 +82,5 @@ private: // メンバ変数
 	// スペルカード
 	std::unique_ptr<SpellCard> spellCard_ = nullptr;
 
+	std::unique_ptr<SpellCardUI> spellCardUi_ = nullptr;
 };

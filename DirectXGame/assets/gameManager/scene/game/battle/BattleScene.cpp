@@ -25,11 +25,17 @@ void BattleScene::Initialize(Create* create) {
 	player_ = make_unique<Player>();
 	player_->Initialize(std::move(create_->GetPlayerModel()), &viewProjection_, create_->GetUiTextureHandle());
 
+	//スペルカード
+	spellCardUi_ = make_unique<SpellCardUI>();
+	spellCardUi_->Initialize(create_->GetSpellCardModel(), &viewProjection_);
+	spellCardUi_->SetParent(&followCamera_->GetWorldTransform());
+
 	// 追従カメラのビュープロジェクションを受け取る
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 	// 追従対象をセット
-	followCamera_->SetTarget(&player_->GetWorldTransform());
+	//followCamera_->SetTarget(&player_->GetWorldTransform());
 	followCamera_->SetTarget(player_.get());
+
 	// リセット(瞬間合わせ)
 	followCamera_->Reset();
 	// カメラ移動範囲
@@ -107,6 +113,7 @@ void BattleScene::Update() {
 
 	// スペルカードの更新
 	spellCard_->Update();
+	spellCardUi_->Update();
 
 	luminous_->Update();
 	luminous_->DebugText();
@@ -157,6 +164,7 @@ void BattleScene::Draw() {
 
 	// スペルカードの描画
 	spellCard_->Draw(create_->GetTextureHandle()[create_->typeThunder]);
+	spellCardUi_->Draw(create_->GetTextureHandle()[create_->typeFire]);
 
 	// luminous_->Draw();
 	// particle_->Draw();

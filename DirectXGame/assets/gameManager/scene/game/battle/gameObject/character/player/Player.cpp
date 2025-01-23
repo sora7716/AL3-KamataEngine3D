@@ -65,6 +65,7 @@ void Player::Update() {
 #endif // _DEBUG
 
 	isDead_ = playerLifeBar_->Update();
+	isEmpty_ = playerMpBar_->Update();
 
 	BaseCharacter::Update(); // 更新
 }
