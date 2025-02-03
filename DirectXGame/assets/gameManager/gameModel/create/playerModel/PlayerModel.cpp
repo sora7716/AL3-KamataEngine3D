@@ -273,6 +273,7 @@ void Face::BehaviorRootReset() {
 void Body::Initialize(Model* model, ViewProjection* viewProjection) {
 	IModel::Initialize(model, viewProjection);
 	worldTransform_.translation_ = {-0.5f, 1.2f, 0.0f}; // 初期値
+	worldTransform_.rotation_.y =pi_f;
 	worldTransform_.scale_ = {1.5f, 1.5f, 1.5f};
 	// アニメーションの初期化
 	InitializeAnimation();
