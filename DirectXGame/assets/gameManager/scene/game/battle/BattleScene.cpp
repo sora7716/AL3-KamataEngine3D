@@ -46,16 +46,6 @@ void BattleScene::Initialize(Create* create) {
 	enemy_->Initialize(std::move(create_->GetMimicModel()), &viewProjection_);
 	enemy_->SetPlayer(player_.get());
 
-	// 光り輝くパーティクル
-	luminous_ = std::make_unique<Luminous>();
-	luminous_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
-	luminous_->SetDirectionView(&followCamera_->GetViewProjection());
-
-	particle_ = std::make_unique<Particle>();
-	particle_->Initialize(create_->GetModel(create_->typeParticle), &viewProjection_);
-	particle_->SetParent(&luminous_->GetCenter());
-	particle_->SetDirectionView(&followCamera_->GetViewProjection());
-
 	// サーチライト
 	serchlight_ = new Searchlight();
 	Shape::SerchlightMaterial mat = {
@@ -100,12 +90,6 @@ void BattleScene::Update() {
 
 	// 敵の更新
 	enemy_->Update();
-
-	luminous_->Update();
-	luminous_->DebugText();
-	particle_->Update();
-	particle_->DebugText();
-	particle_->SetMove(luminous_->GetMove());
 #ifdef _DEBUG
 	// デバック
 	ImGui::Begin("test");

@@ -1,16 +1,14 @@
 #pragma once
 // シーン
-#include "assets/gameManager/controller/Controller.h"
+#include "assets/gameManager/scene/game/battle/controller/Controller.h"
 #include "assets/gameManager/scene/IScene.h"
 
 // ゲームモデル
 #include "assets/failLoad/map/MapChipField.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/Enemy/Enemy.h"
 #include "assets/gameManager/scene/game/battle/gameObject/character/player/Player.h"
-#include "assets/gameManager/scene/game/battle/gameObject/character/player/magic/luminous/Luminous.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/honeycomb/Honeycomb.h"
 #include "assets/gameManager/scene/game/battle/gameObject/environment/skydome/Skydome.h"
-#include "assets/gameManager/scene/game/battle/gameObject/particle/Particle.h"
 
 /// <summary>
 /// バトルシーン
@@ -65,10 +63,6 @@ private: // メンバ変数
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
-
-	// パーティクル
-	std::unique_ptr<Luminous> luminous_ = nullptr;
-	std::unique_ptr<Particle> particle_ = nullptr;
 
 	// コントローラーのタイプ
 	Controller* controller_ = nullptr;

@@ -40,11 +40,7 @@ void Player::Initialize(std::vector<std::unique_ptr<Model>>&& models, ViewProjec
 void Player::Update() {
 	// プレイヤーモデルの更新
 	playerModel_->Update();
-	if (playerModel_->GetBehavior() != BehaviorMode::kDash) {
-		BehaviorRootUpdate();
-	} else {
-		BehaviorDashUpdate();
-	}
+	Moving(speed_);
 	wireFrame_->SetScale(colliderScale_);
 	wireFrame_->SetRotate(worldTransform_.rotation_);
 	wireFrame_->SetPosition(
@@ -72,8 +68,6 @@ void Player::SetViewProjection(const ViewProjection* viewProjection) { direction
 void Player::BehaviorDashInitialize() {
 	isMoving_ = true;
 	worldTransform_.rotation_.y = goalAngle_;
-	playerModel_->SetBehaviorRequest(BehaviorMode::kDash);
-	playerModel_->SetActionTime((float)kBehaviorDashTime);
 	isMoving_ = true;
 	move_ = {0, 0, 1.0f};
 	speed_ = 3.0f;
@@ -120,22 +114,10 @@ void Player::GamepadControl() {
 		isMoving_ = false;                      // 移動してない
 		// 移動量
 		move_ = {(float)joyState_.Gamepad.sThumbLX, 0.0f, (float)joyState_.Gamepad.sThumbLY};
-		if (Math::Norm(move_) > deadZone && !(playerModel_->GetBehavior() == BehaviorMode::kBlow)) {
+		if (Math::Norm(move_) > deadZone) {
 			isMoving_ = true;
 		} else {
 			isMoving_ = false; // 移動をやめた
-		}
-		// 攻撃
-		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_B)) {
-			if ((playerModel_->GetActionTimer() <= 0.0f && playerModel_->GetBehavior() == BehaviorMode::kBlow) || playerModel_->GetBehavior() != BehaviorMode::kBlow) {
-				playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
-				playerModel_->SetActionTime((float)kBlowTime);
-			}
-		}
-		if ((joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) && !(preJoyState_.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			BehaviorDashInitialize();
-		} else {
-			speed_ = kSpeed_;
 		}
 	}
 }
@@ -143,9 +125,6 @@ void Player::GamepadControl() {
 #pragma region キーボード
 // キーボードの操作
 void Player::KeyboardControl() {
-	bool attack = Input::GetInstance()->IsTriggerMouse(0) && playerModel_->GetActionTimer() <= 0.0f;
-	//	bool isBlowNow = playerModel_->GetBehavior() == BehaviorMode::kBlow;
-	bool dash = Input::GetInstance()->TriggerKey(DIK_LSHIFT);
 	// 水平移動
 	horizontalCommand_ = inputHandle_->HorizontalMoveCommand();
 	if (horizontalCommand_) {
@@ -158,14 +137,6 @@ void Player::KeyboardControl() {
 	}
 	// 移動フラグ
 	isMoving_ = isHorizontalMove_ || isVerticalMove_;
-
-	if (attack) {
-		playerModel_->SetBehaviorRequest(BehaviorMode::kBlow);
-		playerModel_->SetActionTime((float)kBlowTime);
-	}
-	if (dash) {
-		BehaviorDashInitialize();
-	}
 }
 
 // 左に進む

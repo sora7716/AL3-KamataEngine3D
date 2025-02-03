@@ -13,93 +13,12 @@ public: // 列挙型
 	};
 
 public: // メンバ関数
-	/// <summary>
-	/// リセット
-	/// </summary>
-	void Reset();
-
-	/// <summary>
-	/// 行動タイマーのセッター
-	/// </summary>
-	void SetActionTimer(float actionTime);
-
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// ふるまいのセッター
-	/// </summary>
-	/// <param name="behavior">ふるまい</param>
-	void SetBehaviorRequest(const Behavior& behavior);
-
-	/// <summary>
-	/// ふるまいのゲッター
-	/// </summary>
-	/// <returns>ふるまい</returns>
-	Behavior GetBehavior();
-
-	/// <summary>
-	/// アクションタイマーのゲッター
-	/// </summary>
-	/// <returns>アクションタイマー</returns>
-	float GetActionTimer();
-
-protected: // メンバ関数
-	/// <summary>
-	/// 通常時の初期化
-	/// </summary>
-	virtual void BehaviorRootReset();
-
-	/// <summary>
-	/// 打撃時の初期化
-	/// </summary>
-	virtual void BehaviorBlowReset();
-
-	/// <summary>
-	/// ダッシュ時の初期化
-	/// </summary>
-	virtual void BehaviorDashReset();
-
-	// 純粋仮想関数
-	virtual void BehaviorRootUpdate();
-	virtual void BehaviorBlowUpdate();
-	virtual void BehaviorDashUpdate();
-
-	/// <summary>
-	/// 打撃時の切り替えタイマー
-	/// </summary>
-	void BlowChangeTimer();
 
 public: // 静的メンバ変数と関数ポインタの配列
-	// 打撃時の待機時間
-	static inline const float kMaxBlowWaitTime = 0.3f;
-	// 関数ポインタの配列
-	// リセット
-	static void (IPlayerModel::*ResetTable[])();
-	// 更新
-	static void (IPlayerModel::*BehaviorTable[])();
 
 protected: // メンバ変数
-	// アングルタイマーを加算させるか
-	bool isAngleTimerAdd_ = true;
-	// 待機時間を計測する
-	float waitTime_ = 0.0f;
-	// 待機時間を開始するかどうか
-	bool isStartWait_ = false;
-	// 今何秒
-	float second_ = deltaTime;
-	// イージングモード
-	EasingMode easingMode_ = EasingMode::kInSine;
 
 private: // メンバ変数
-	// 振る舞い
-	Behavior behavior_ = Behavior::kRoot;
-	// 次の振る舞いリクエスト
-	std::optional<Behavior> behaviorRequest_ = std::nullopt;
-	// アクションタイマー
-	float actionTimer_ = 0.0f;
 };
 
 /// <summary>
@@ -138,21 +57,6 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
-
-	/// <summary>
-	/// 通常
-	/// </summary>
-	void BehaviorRootUpdate() override;
-
-	/// <summary>
-	/// 打撃
-	/// </summary>
-	void BehaviorBlowUpdate() override;
-
-	/// <summary>
-	/// ダッシュ時の更新
-	/// </summary>
-	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -191,21 +95,6 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
-
-	/// <summary>
-	/// 通常
-	/// </summary>
-	void BehaviorRootUpdate() override;
-
-	/// <summary>
-	/// 打撃
-	/// </summary>
-	void BehaviorBlowUpdate() override;
-
-	/// <summary>
-	/// ダッシュ時の更新
-	/// </summary>
-	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -244,26 +133,6 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
-
-	/// <summary>
-	/// 通常行動の更新
-	/// </summary>
-	void BehaviorRootUpdate() override;
-
-	/// <summary>
-	/// 打撃の更新
-	/// </summary>
-	void BehaviorBlowUpdate() override;
-
-	/// <summary>
-	/// 打撃用の初期化
-	/// </summary>
-	void BehaviorBlowReset() override;
-
-	/// <summary>
-	/// ダッシュの更新
-	/// </summary>
-	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -302,26 +171,6 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
-
-	/// <summary>
-	/// 通常行動用
-	/// </summary>
-	void BehaviorRootUpdate() override;
-
-	/// <summary>
-	/// 打撃用
-	/// </summary>
-	void BehaviorBlowUpdate() override;
-
-	/// <summary>
-	/// 打撃用の初期化
-	/// </summary>
-	void BehaviorBlowReset() override;
-
-	/// <summary>
-	/// ダッシュ時の更新
-	/// </summary>
-	void BehaviorDashUpdate() override;
 };
 
 /// <summary>
@@ -684,29 +533,6 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	void SetParent(const WorldTransform* parent);
-
-	/// <summary>
-	/// 振る舞いのセッター
-	/// </summary>
-	/// <param name="behavior">振る舞い1</param>
-	void SetBehaviorRequest(const IPlayerModel::Behavior& behavior);
-
-	/// <summary>
-	/// ふるまいのゲッター
-	/// </summary>
-	/// <returns></returns>
-	IPlayerModel::Behavior GetBehavior();
-
-	/// <summary>
-	/// モーションの継続時間のリセット
-	/// </summary>
-	void SetActionTime(float actionTime);
-
-	/// <summary>
-	/// アクションタイマーのゲッター
-	/// </summary>
-	/// <returns>actionTimer</returns>
-	float GetActionTimer();
 
 public: // メンバ変数
 	std::vector<IPlayerModel*> parts_ = {nullptr};

@@ -85,7 +85,7 @@ void Honeycomb::Draw() {
 
 // ワイヤーモデルの表示
 void Honeycomb::DrawWire() {
-	for (int i = 0; i < cells_.size(); i++) {
+	/*for (int i = 0; i < cells_.size(); i++) {
 		for (int j = 0; j < cells_[i].size(); j++) {
 			if (cells_[i][j]) {
 				Hexagon* wireFrame = new Hexagon();
@@ -103,7 +103,7 @@ void Honeycomb::DrawWire() {
 				cell->GetWireFrame()->Draw();
 			}
 		}
-	}
+	}*/
 }
 
 // 普通のセルのゲッター

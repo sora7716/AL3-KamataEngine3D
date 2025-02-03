@@ -78,7 +78,9 @@ void IScene::UpdateViewProjection() {
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
-	if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
+#ifdef _DEBUG
+	if (input_->GetInstance()->TriggerKey(DIK_SPACE)&&input_->GetInstance()->PushKey(DIK_LSHIFT)) {
 		isFinished_ = true;
 	}
+#endif // _DEBUG
 }

@@ -112,7 +112,6 @@
     <ClCompile Include="assets\failLoad\CSVFailLoading.cpp" />
     <ClCompile Include="assets\failLoad\GlobalVariables.cpp" />
     <ClCompile Include="assets\failLoad\map\MapChipField.cpp" />
-    <ClCompile Include="assets\gameManager\controller\Controller.cpp" />
     <ClCompile Include="assets\gameManager\GameManager.cpp" />
     <ClCompile Include="assets\gameManager\gameModel\create\Create.cpp" />
     <ClCompile Include="assets\gameManager\gameModel\create\IModel.cpp" />
@@ -122,6 +121,7 @@
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\BattleScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\battle\controller\Controller.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.cpp" />
@@ -177,7 +177,6 @@
     <ClInclude Include="assets\failLoad\CSVFailLoading.h" />
     <ClInclude Include="assets\failLoad\GlobalVariables.h" />
     <ClInclude Include="assets\failLoad\map\MapChipField.h" />
-    <ClInclude Include="assets\gameManager\controller\Controller.h" />
     <ClInclude Include="assets\gameManager\GameManager.h" />
     <ClInclude Include="assets\gameManager\gameModel\create\Create.h" />
     <ClInclude Include="assets\gameManager\gameModel\create\IModel.h" />
@@ -187,6 +186,7 @@
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
     <ClInclude Include="assets\gameManager\scene\game\baseGameObject\baseCharacter\BaseCharacter.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\BattleScene.h" />
+    <ClInclude Include="assets\gameManager\scene\game\battle\controller\Controller.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\followCamera\FollowCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\camera\railCamera\RailCamera.h" />
     <ClInclude Include="assets\gameManager\scene\game\battle\gameObject\character\Enemy\Enemy.h" />

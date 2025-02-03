@@ -50,10 +50,10 @@ public: // メンバ関数
 
 public: // 静的メンバ変数
 	// 1ブロックのサイズ
-	static inline const Vector3 kHexagonRadius = {30.0f,3.0f,30.0f};
+	static inline const Vector3 kHexagonRadius = {10.0f,3.0f,10.0f};
 	// ブロックのサイズ
-	static inline const uint32_t kNumBlockVertical = 8;
-	static inline const uint32_t kNumBlockHorizontal = 8;
+	static inline const uint32_t kNumBlockVertical = 10;
+	static inline const uint32_t kNumBlockHorizontal = 10;
 
 private: // メンバ変数
 	// マップチップのデータ
