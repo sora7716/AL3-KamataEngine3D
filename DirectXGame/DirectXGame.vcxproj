@@ -107,10 +107,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="2d\ImGuiManager.cpp" />
+    <ClCompile Include="assets\gameManager\camera\FollowCamera.cpp" />
+    <ClCompile Include="assets\gameManager\camera\RailCamera.cpp" />
+    <ClCompile Include="assets\gameManager\GameManager.cpp" />
+    <ClCompile Include="assets\gameManager\log\Log.cpp" />
+    <ClCompile Include="assets\gameManager\math\Aithmetic.cpp" />
+    <ClCompile Include="assets\gameManager\math\collison\Collision.cpp" />
+    <ClCompile Include="assets\gameManager\math\collison\wireFrame\hexagon\Hexagon.cpp" />
+    <ClCompile Include="assets\gameManager\math\collison\wireFrame\obb\OBB.cpp" />
+    <ClCompile Include="assets\gameManager\math\collison\wireFrame\Shape.cpp" />
+    <ClCompile Include="assets\gameManager\math\collison\wireFrame\sphere\Sphere.cpp" />
+    <ClCompile Include="assets\gameManager\math\easing\Easing.cpp" />
+    <ClCompile Include="assets\gameManager\math\Math.cpp" />
+    <ClCompile Include="assets\gameManager\modelCreate\Create.cpp" />
+    <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\GameScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -131,6 +147,23 @@
     <ClInclude Include="3d\TerrainCommon.h" />
     <ClInclude Include="3d\ViewProjection.h" />
     <ClInclude Include="3d\WorldTransform.h" />
+    <ClInclude Include="assets\gameManager\camera\FollowCamera.h" />
+    <ClInclude Include="assets\gameManager\camera\RailCamera.h" />
+    <ClInclude Include="assets\gameManager\GameManager.h" />
+    <ClInclude Include="assets\gameManager\log\Log.h" />
+    <ClInclude Include="assets\gameManager\math\Aithmetic.h" />
+    <ClInclude Include="assets\gameManager\math\collison\Collision.h" />
+    <ClInclude Include="assets\gameManager\math\collison\wireFrame\hexagon\Hexagon.h" />
+    <ClInclude Include="assets\gameManager\math\collison\wireFrame\obb\OBB.h" />
+    <ClInclude Include="assets\gameManager\math\collison\wireFrame\Shape.h" />
+    <ClInclude Include="assets\gameManager\math\collison\wireFrame\sphere\Sphere.h" />
+    <ClInclude Include="assets\gameManager\math\easing\Easing.h" />
+    <ClInclude Include="assets\gameManager\math\Math.h" />
+    <ClInclude Include="assets\gameManager\modelCreate\Create.h" />
+    <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
+    <ClInclude Include="assets\gameManager\scene\game\GameScene.h" />
+    <ClInclude Include="assets\gameManager\scene\IScene.h" />
+    <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\StringUtility.h" />
@@ -141,7 +174,6 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
-    <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
