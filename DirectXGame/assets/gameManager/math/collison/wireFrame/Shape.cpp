@@ -24,9 +24,9 @@ Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const
 	return Math::Transform(kLocalVertex, worldMatrix_);
 }
 
-//OBB用ローカルの頂点を変換
+// OBB用ローカルの頂点を変換
 Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& kLocalVertex, Vector3* orientations) {
-	MakeOBBRotateMatrix(orientations, rotate);                  // OBB用の回転行列を抽出
+	MakeOBBRotateMatrix(orientations, rotate);       // OBB用の回転行列を抽出
 	worldMatrix_ = MakeOBBWorldMatrix(orientations); // OBB用のワールド行列を作成
 	// ローカルの頂点とくっつける
 	return Math::Transform(kLocalVertex, worldMatrix_);
@@ -57,10 +57,8 @@ void Shape::MakeOBBRotateMatrix(Vector3* orientations, const Vector3& rotate) {
 // OBB用のワールド行列
 Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations, const Vector3 center) {
 	Matrix4x4 result{
-	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, 
-		orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
-	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, 
-		center.x,          center.y,          center.z,          1.0f,
+	    orientations[0].x, orientations[0].y, orientations[0].z, 0.0f, orientations[1].x, orientations[1].y, orientations[1].z, 0.0f,
+	    orientations[2].x, orientations[2].y, orientations[2].z, 0.0f, center.x,          center.y,          center.z,          1.0f,
 	};
 	return result;
 }
@@ -92,25 +90,25 @@ Matrix4x4 Shape::MakeOBBWorldMatrix(const Vector3* orientations) {
 void Shape::OnCollision(bool isHit) {
 	isHit_ = isHit;
 	if (isHit_) {
-		color_ = RED;
+		color_ = Math::ColorCodeTransform("#FF181C");
 	}
 }
 
-//スケールのセッター
+// スケールのセッター
 void Shape::SetScale(const Vector3 scale) { (void)scale; }
 
-//回転のセッター
+// 回転のセッター
 void Shape::SetRotate(const Vector3 rotate) { (void)rotate; }
 
-//現在位置のセッター
+// 現在位置のセッター
 void Shape::SetPosition(const Vector3 translate) { (void)translate; }
 
-//更新処理
+// 更新処理
 void Shape::Update() {
 	if (!isHit_) {
-		color_ = WHITE;
+		color_ = Math::ColorCodeTransform("#FFFFFF");
 	}
 }
 
-//衝突判定
+// 衝突判定
 void Shape::SetIsHit(bool isHit) { isHit_ = isHit; }

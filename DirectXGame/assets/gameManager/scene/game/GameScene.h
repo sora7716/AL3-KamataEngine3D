@@ -1,5 +1,6 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
+#include "gameObject/environment/honeycomb/Honeycomb.h"
 
 /// <summary>
 /// ゲームシーン
@@ -9,12 +10,12 @@ public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
-	SearchScene() = default;
+	GameScene() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~SearchScene();
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -34,5 +35,8 @@ public: // メンバ関数
 private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
-	/// </summary>]
+	/// </summary>
+	
+	//地面
+	std::unique_ptr<Honeycomb> honeycomb_ = nullptr;
 };

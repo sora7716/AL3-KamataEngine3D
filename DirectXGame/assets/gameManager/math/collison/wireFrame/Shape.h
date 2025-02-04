@@ -28,7 +28,7 @@ public: // 構造体
 	typedef struct ObbMaterial {
 		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 rotation = {};             // 回転
-		Vector3 center; // 中心 translation
+		Vector3 center;                    // 中心 translation
 		Vector3 orientations[3] = {
 		    {1.0f, 0.0f, 0.0f},
 		    {0.0f, 1.0f, 0.0f},
@@ -205,9 +205,9 @@ public: // メンバ関数
 	// 代入演算を禁止する
 	const Shape operator=(const Shape& shape) = delete;
 
-protected:                           // メンバ変数
-	Matrix4x4 worldMatrix_;          // ワールド行列
-	ViewProjection* viewProjection_; // ビュープロジェクション行列
-	Vector4 color_ = WHITE;          // 色
-	bool isHit_ = false;             // 衝突判定
+protected:                                                // メンバ変数
+	Matrix4x4 worldMatrix_;                               // ワールド行列
+	ViewProjection* viewProjection_;                      // ビュープロジェクション行列
+	Vector4 color_ = {1.0f,1.0f,1.0f,1.0f};               // 色
+	bool isHit_ = false;                                  // 衝突判定
 };

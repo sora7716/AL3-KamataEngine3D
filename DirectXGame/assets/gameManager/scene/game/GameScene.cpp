@@ -7,12 +7,19 @@ GameScene::~GameScene() {}
 void GameScene::Initialize(Create* create) {
 	//初期化
 	IScene::Initialize(create);
+	//ハニカム
+	honeycomb_ = std::make_unique<Honeycomb>();
+	honeycomb_->Initialize(&viewProjection_, create->GetEnvModel()[(int)Create::Env::kGround]);
 }
 
 // 更新
 void GameScene::Update() {
+	// カメラの更新
+	(camera_.get()->*Camera::updateTable[cameraMode_])();
 	//更新
 	IScene::Update(); 
+	//ハニカム
+	honeycomb_->Update();
 }
 
 // 描画
@@ -43,6 +50,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	//ハニカム
+	honeycomb_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

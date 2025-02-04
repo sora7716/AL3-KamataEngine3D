@@ -13,18 +13,23 @@
 #include "WorldTransform.h"
 
 // 自分で作ったもの
-#include "assets/gameManager/modelCreate/Create.h"
-#include "assets/gameManager/camera/FollowCamera.h"
-#include "assets/gameManager/camera/RailCamera.h"
+#include "assets/gameManager/Log/Log.h"
+#include "assets/gameManager/camera/Camera.h"
 #include "assets/gameManager/math/Math.h"
 #include "assets/gameManager/math/collison/Collision.h"
-#include "assets/gameManager/Log/Log.h"
+#include "assets/gameManager/modelCreate/Create.h"
 
 // C++のライブラリ
+#include <array>
 #include <cassert>
 #include <memory>
 #include <vector>
-#include <array>
+
+typedef struct Transform {
+	Vector3 scale;
+	Vector3 rotate;
+	Vector3 translate;
+}Transform;
 
 /// <summary>
 /// シーンのインターフェース
@@ -44,7 +49,6 @@ public: // 純粋仮想関数
 	virtual void Draw() = 0;
 
 public: // メンバ関数
-
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -78,12 +82,11 @@ public: // メンバ関数
 	/// </summary>
 	virtual void CheckCollision();
 
-private://メンバ関数
-
+private: // メンバ関数
 	/// <summary>
 	/// デバックカメラの切り替え
 	/// </summary>
-	void SwichDebugCamera(); 
+	void SwichDebugCamera();
 
 	/// <summary>
 	/// デバックカメラの更新
@@ -104,17 +107,14 @@ protected: // メンバ変数
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr; // デバックカメラ
 	Create* create_ = nullptr;                           // クリエイトクラス
 	bool isFinished_ = false;                            // 終了フラグ
-	bool isFollowOn = false;                             // 追従カメラオン
-	uint32_t sceneNo_ = 0;//シーンナンバー
-
+	uint32_t sceneNo_ = 0;                               // シーンナンバー
+	int cameraMode_ = (int)CameraMode::kRail;            // カメラモード
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 
 	// カメラ
-	// レールカメラ
-	std::unique_ptr<RailCamera> railCamera_ = nullptr;
-	// 追従カメラ
-	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
-	WorldTransform cameraWorldTransform_;
+	std::unique_ptr<Camera> camera_ = nullptr;
+	Transform cameraTransform_ = {};
+	Matrix4x4 cameraMatWorld_ = {};
 };

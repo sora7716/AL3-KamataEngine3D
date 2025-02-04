@@ -15,7 +15,7 @@ void EndScene::Update() {
 	IScene::Update();
 
 	// カメラの更新
-	railCamera_->Update();
+	(camera_.get()->*Camera::updateTable[cameraMode_])();
 }
 
 // 描画

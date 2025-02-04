@@ -1,10 +1,16 @@
 #include "IScene.h"
 
-//初期化
+// 初期化
 void IScene::Initialize(Create* create) { create_ = create; }
 
-//更新
-void IScene::Update() { UpdateViewProjection(); }
+// 更新
+void IScene::Update() {
+	UpdateViewProjection();
+#ifdef _DEBUG
+	ImGui::Text("LShift & UP : debugMode");
+	ImGui::Text("LShift & Space : SceneChange");
+#endif // _DEBUG
+}
 
 // 終了フラグのゲッター
 bool IScene::IsFinished() { return isFinished_; }
@@ -12,10 +18,10 @@ bool IScene::IsFinished() { return isFinished_; }
 // 終了フラグ
 void IScene::SetIsFinished(bool isFinished) { isFinished_ = isFinished; }
 
-//当たり判定の計算
+// 当たり判定の計算
 void IScene::CheckCollision() {}
 
-//デバックカメラの切り替え
+// デバックカメラの切り替え
 void IScene::SwichDebugCamera() {
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_UP) && input_->PushKey(DIK_LSHIFT)) {
@@ -24,7 +30,7 @@ void IScene::SwichDebugCamera() {
 #endif // _DEBUG
 }
 
-//デバックカメラの更新
+// デバックカメラの更新
 void IScene::DebugCameraUpdate() {
 	debugCamera_->Update(); // デバックカメラの更新
 	viewProjection_.matView = debugCamera_->GetViewProjection().matView;
@@ -51,34 +57,43 @@ IScene::IScene() {
 #pragma endregion
 
 	// カメラ
-	cameraWorldTransform_.Initialize(); // カメラのワールドトランスフォームの初期化
-	// レールカメラ
-	railCamera_ = std::make_unique<RailCamera>();                                                                // レールカメラの生成
-	railCamera_->Initialize(cameraWorldTransform_.matWorld_, cameraWorldTransform_.rotation_, &viewProjection_); // レールカメラの初期化
-	// 追従カメラ
-	followCamera_ = std::make_unique<FollowCamera>(); // 追従カメラの生成
-	followCamera_->Initialize();                      // 追従カメラの初期化
+	camera_ = std::make_unique<Camera>();
+	cameraTransform_ = {
+	    .scale = {1.0f, 1.0f, 1.0f},
+          .rotate = {},
+          .translate = {}
+    };
+	cameraMatWorld_ = Math::MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
+	camera_->Initialize(&cameraMatWorld_,&cameraTransform_.rotate);
+	camera_->SetTarget(nullptr);
 }
 
 // デバックカメラの動き
 void IScene::UpdateViewProjection() {
-	//デバックカメラの切り替え
+	// デバックカメラの切り替え
 	SwichDebugCamera();
 	if (isDebugCameraActive_) {
-		//デバックカメラの更新
+		// デバックカメラの更新
 		DebugCameraUpdate();
 	} else {
-		if (isFollowOn) {//追従
-			viewProjection_.matView = followCamera_->GetViewProjection().matView;
-			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-		} else {//レイルカメラ
-			viewProjection_.matView = railCamera_->GetViewProjection().matView;
-			viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
-		}
+		viewProjection_.matView = camera_->GetViewProjection().matView;
+		viewProjection_.matProjection = camera_->GetViewProjection().matProjection;
 		// 行列の更新
 		viewProjection_.TransferMatrix();
 	}
-	if (input_->GetInstance()->TriggerKey(DIK_SPACE)) {
+#ifdef _DEBUG
+	if (input_->GetInstance()->TriggerKey(DIK_SPACE) && input_->GetInstance()->PushKey(DIK_LSHIFT)) {
 		isFinished_ = true;
 	}
+	if (input_->GetInstance()->TriggerKey(DIK_F) && input_->GetInstance()->PushKey(DIK_LSHIFT)) {
+		cameraMode_ = (int)CameraMode::kFollow;
+	}
+	else if (input_->GetInstance()->TriggerKey(DIK_R) && input_->GetInstance()->PushKey(DIK_LSHIFT)) {
+		cameraMode_ = (int)CameraMode::kRail;
+	}
+	camera_->DebugText();
+	ImGui::Begin("Camera");
+	ImGui::Text("CameraMode : %d\n0 = rail , 1 = follow", cameraMode_);
+	ImGui::End();
+#endif // _DEBUG
 }
