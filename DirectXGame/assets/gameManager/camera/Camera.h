@@ -38,6 +38,12 @@ public: // メンバ関数
 	void FollowUpdate();
 
 	/// <summary>
+	/// フォローカメラの動き
+	/// </summary>
+	/// <param name="rotSpeed">カメラが回転するスピード</param>
+	void FollowMove(float rotSpeed);
+
+	/// <summary>
 	/// 追従対処のセッター
 	/// </summary>
 	/// <param name="target">ターゲット</param>
@@ -61,7 +67,6 @@ public: // メンバ関数ポインタの配列
 
 private:                            // メンバ変数
 	WorldTransform worldTransform_; // ワールド変換データ
-
 	ViewProjection viewProjection_; // ビュープロジェクション
 	// 追従対象
 	const WorldTransform* target_ = nullptr;

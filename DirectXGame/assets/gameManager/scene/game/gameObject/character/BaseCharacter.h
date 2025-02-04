@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "ImGuiManager.h"
 #include <cassert>
 #include <memory>
 #include <vector>

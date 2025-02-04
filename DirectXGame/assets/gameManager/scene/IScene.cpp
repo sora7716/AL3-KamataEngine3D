@@ -61,7 +61,7 @@ IScene::IScene() {
 	cameraTransform_ = {
 	    .scale = {1.0f, 1.0f, 1.0f},
           .rotate = {},
-          .translate = {}
+          .translate = {0.0f,2.0f,-5.0f}
     };
 	cameraMatWorld_ = Math::MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
 	camera_->Initialize(&cameraMatWorld_,&cameraTransform_.rotate);

@@ -1,4 +1,5 @@
 #include "PlayerParts.h"
+#include "assets/gameManager/math/Math.h"
 #pragma region 髪
 // 初期化
 void Hair::Initialize(ViewProjection* viewProjection, Model* model) { BaseModel::Initialize(viewProjection, model); }
@@ -34,7 +35,10 @@ void EyeBrows::Draw() { BaseModel::Draw(); }
 
 #pragma region 体
 // 初期化
-void Body::Initialize(ViewProjection* viewProjection, Model* model) { BaseModel::Initialize(viewProjection, model); }
+void Body::Initialize(ViewProjection* viewProjection, Model* model) { 
+	BaseModel::Initialize(viewProjection, model); 
+	worldTransform_.rotation_ = {0.0f, pi_f, 0.0f};
+}
 
 // 更新
 void Body::Update() { BaseModel::Update(); }

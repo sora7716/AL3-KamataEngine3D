@@ -128,6 +128,7 @@
     <ClCompile Include="assets\gameManager\scene\game\gameObject\character\player\Player.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\BaseEnvironment.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\honeycomb\Honeycomb.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\skydome\Skydome.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\GameScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\IScene.cpp" />
     <ClCompile Include="assets\gameManager\scene\title\TitleScene.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="assets\gameManager\scene\game\gameObject\character\player\Player.h" />
     <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\BaseEnvironment.h" />
     <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\honeycomb\Honeycomb.h" />
+    <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\skydome\Skydome.h" />
     <ClInclude Include="assets\gameManager\scene\game\GameScene.h" />
     <ClInclude Include="assets\gameManager\scene\IScene.h" />
     <ClInclude Include="assets\gameManager\scene\title\TitleScene.h" />

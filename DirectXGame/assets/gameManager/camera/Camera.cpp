@@ -8,6 +8,7 @@ void Camera::Initialize(const Matrix4x4* matWorld,const Vector3* rotate) {
 	worldTransform_.Initialize();
 	worldTransform_.rotation_ = *rotate;
 	worldTransform_.matWorld_ = *matWorld;
+	worldTransform_.translation_ = {0.0f, 2.0f, -5.0f};
 	// ビュープロジェクションの初期化
 	viewProjection_.farZ = 20000;
 	viewProjection_.Initialize();
@@ -44,6 +45,11 @@ void Camera::FollowUpdate() {
 	ImGui::DragFloat3("rotation", &viewProjection_.rotation_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
+}
+
+//フォローカメラの動き
+void Camera::FollowMove(float rotSpeed) { 
+	viewProjection_.rotation_.y += rotSpeed; 
 }
 
 // 追従対処のセッター

@@ -138,6 +138,9 @@
     <ClCompile Include="assets\gameManager\modelCreate\player\PlayerParts.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\skydome\Skydome.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -291,6 +294,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="assets\gameManager\modelCreate\player\PlayerParts.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\skydome\Skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
