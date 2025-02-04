@@ -16,6 +16,7 @@ void GameScene::Initialize(Create* create) {
 	playerModel_ = std::make_shared<PlayerModel>();                             // モデルを生成
 	player_->SetPlayerModel(std::move(playerModel_));                           // モデルを設定
 	player_->Initialize(&viewProjection_, std::move(create->GetPlayerModel())); // プレイヤーの初期化
+	player_->SetViewProjection(&viewProjection_);
 }
 
 // 更新

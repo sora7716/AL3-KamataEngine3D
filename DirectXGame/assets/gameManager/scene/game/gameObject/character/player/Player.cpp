@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "assets/gameManager/modelCreate/player/PlayerModel.h"
+#include "assets/gameManager/math/Math.h"
+#include "input/Input.h"
 
 // 初期化
 void Player::Initialize(ViewProjection* viewProjection, std::vector<std::shared_ptr<Model>>&& models) { 
@@ -61,3 +63,5 @@ void Player::Draw() { playerModel_->Draw(); }
 
 //プレイヤーモデルのセッター
 void Player::SetPlayerModel(std::shared_ptr<PlayerModel>&& playerModel) { playerModel_ = playerModel.get(); }
+
+void Player::SetViewProjection(const ViewProjection* viewProjection) { directionViewProjection_ = viewProjection; }
