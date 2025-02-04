@@ -38,11 +38,6 @@ public: // メンバ関数
 	void FollowUpdate();
 
 	/// <summary>
-	/// デバックテキスト
-	/// </summary>
-	void DebugText();
-
-	/// <summary>
 	/// 追従対処のセッター
 	/// </summary>
 	/// <param name="target">ターゲット</param>
@@ -68,7 +63,6 @@ private:                            // メンバ変数
 	WorldTransform worldTransform_; // ワールド変換データ
 
 	ViewProjection viewProjection_; // ビュープロジェクション
-
 	// 追従対象
 	const WorldTransform* target_ = nullptr;
 };

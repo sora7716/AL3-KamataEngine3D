@@ -19,6 +19,11 @@ public: // 構造体や列挙型
 	/// </summary>
 	enum class Env { kSkaydome, kGround, kEnvNum };
 
+	/// <summary>
+	/// プレイヤー
+	/// </summary>
+	enum class PlayerParts { kBody, kFace, kEyeBrows, kHair, kLeftArm, kRightArm, kLeftThigh, kLeftLeg, kRightThigh, kRightLeg, kUpperCloth, kLowerCloth, kPartsNum };
+
 public: // メンバ関数
 	/// <summary>
 	/// インスタンスのゲッター
@@ -47,10 +52,16 @@ public: // メンバ関数
 	void TextureCreate();
 
 	/// <summary>
-	/// モデルのゲッター
+	/// 環境モデルのゲッター
 	/// </summary>
-	/// <returns>モデル</returns>
+	/// <returns>環境モデル</returns>
 	std::vector<std::shared_ptr<Model>>& GetEnvModel();
+
+	/// <summary>
+	/// プレイヤーパーツのゲッター
+	/// </summary>
+	/// <returns>プレイヤーモデル</returns>
+	std::vector<std::shared_ptr<Model>>& GetPlayerModel();
 
 	/// <summary>
 	/// テクスチャのゲッター
@@ -75,7 +86,8 @@ private: // メンバ関数
 	/// </summary>
 	~Create();
 
-private:// メンバ変数
-	std::vector<std::shared_ptr<Model>> envModels_; // モデル
-	std::vector<uint32_t> textureHandles_;          // テクスチャ
+private:                                               // メンバ変数
+	std::vector<std::shared_ptr<Model>> envModels_;    // 環境モデル
+	std::vector<std::shared_ptr<Model>> playerModels_; // プレイヤーモデル
+	std::vector<uint32_t> textureHandles_;             // テクスチャ
 };

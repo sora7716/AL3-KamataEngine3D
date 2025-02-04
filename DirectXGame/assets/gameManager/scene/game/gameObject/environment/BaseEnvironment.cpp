@@ -1,7 +1,7 @@
 #include "BaseEnvironment.h"
 
 //初期化
-void BaseEnvironment::Initialize(ViewProjection* viewProjection, std::shared_ptr<Model> model) { 
+void BaseEnvironment::Initialize(ViewProjection* viewProjection, std::shared_ptr<Model>&& model) { 
 	assert(model.get());
 	model_ = model;
 	viewProjection_ = viewProjection;

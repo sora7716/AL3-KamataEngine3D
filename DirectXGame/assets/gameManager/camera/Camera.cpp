@@ -19,13 +19,19 @@ void Camera::RailUpdate() {
 	worldTransform_.UpdateMatrix();
 	// カメラのオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = ~worldTransform_.matWorld_;
+#ifdef _DEBUG
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 // フォローカメラの更新
 void Camera::FollowUpdate() {
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
-		Vector3 offset = {0.0f, 2.0f, -10.0f};
+		Vector3 offset = {0.0f, 2.0f, -5.0f};
 		Matrix4x4 rotateMat = Math::MakeRotateXYZMatrix(viewProjection_.rotation_);
 		offset = Math::TransformNormal(offset, rotateMat);
 		// 座標をコピーしてオフセット分ずらす
@@ -33,15 +39,9 @@ void Camera::FollowUpdate() {
 	}
 
 	viewProjection_.UpdateMatrix();
-}
-
-//デバックテキスト
-void Camera::DebugText() {
 #ifdef _DEBUG
-	// カメラの座標を画面に表示する処理
 	ImGui::Begin("Camera");
-	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &viewProjection_.rotation_.x, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
 }

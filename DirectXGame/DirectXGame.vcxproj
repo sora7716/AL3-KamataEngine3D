@@ -86,7 +86,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)base;$(ProjectDir)input;$(ProjectDir)scene;$(ProjectDir)math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)audio;$(ProjectDir)base;$(ProjectDir)input;$(ProjectDir)scene;$(ProjectDir)math;C:\Users\PC_User\Documents\GitHub\FG1\DirectXGame;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -119,8 +119,13 @@
     <ClCompile Include="assets\gameManager\math\collison\wireFrame\sphere\Sphere.cpp" />
     <ClCompile Include="assets\gameManager\math\easing\Easing.cpp" />
     <ClCompile Include="assets\gameManager\math\Math.cpp" />
+    <ClCompile Include="assets\gameManager\modelCreate\BaseModel.cpp" />
     <ClCompile Include="assets\gameManager\modelCreate\Create.cpp" />
+    <ClCompile Include="assets\gameManager\modelCreate\player\PlayerModel.cpp" />
+    <ClCompile Include="assets\gameManager\modelCreate\player\PlayerParts.cpp" />
     <ClCompile Include="assets\gameManager\scene\end\EndScene.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\gameObject\character\BaseCharacter.cpp" />
+    <ClCompile Include="assets\gameManager\scene\game\gameObject\character\player\Player.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\BaseEnvironment.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\gameObject\environment\honeycomb\Honeycomb.cpp" />
     <ClCompile Include="assets\gameManager\scene\game\GameScene.cpp" />
@@ -160,8 +165,13 @@
     <ClInclude Include="assets\gameManager\math\collison\wireFrame\sphere\Sphere.h" />
     <ClInclude Include="assets\gameManager\math\easing\Easing.h" />
     <ClInclude Include="assets\gameManager\math\Math.h" />
+    <ClInclude Include="assets\gameManager\modelCreate\BaseModel.h" />
     <ClInclude Include="assets\gameManager\modelCreate\Create.h" />
+    <ClInclude Include="assets\gameManager\modelCreate\player\PlayerModel.h" />
+    <ClInclude Include="assets\gameManager\modelCreate\player\PlayerParts.h" />
     <ClInclude Include="assets\gameManager\scene\end\EndScene.h" />
+    <ClInclude Include="assets\gameManager\scene\game\gameObject\character\BaseCharacter.h" />
+    <ClInclude Include="assets\gameManager\scene\game\gameObject\character\player\Player.h" />
     <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\BaseEnvironment.h" />
     <ClInclude Include="assets\gameManager\scene\game\gameObject\environment\honeycomb\Honeycomb.h" />
     <ClInclude Include="assets\gameManager\scene\game\GameScene.h" />

@@ -1,9 +1,9 @@
 #include "Honeycomb.h"
 
 // 初期化
-void Honeycomb::Initialize(ViewProjection* viewProjection, std::shared_ptr<Model> model) {
+void Honeycomb::Initialize(ViewProjection* viewProjection, std::shared_ptr<Model>&& model) {
 	// ベースの初期化
-	BaseEnvironment::Initialize(viewProjection, model);
+	BaseEnvironment::Initialize(viewProjection, std::move(model));
 	worldTransforms_.resize(kHorizontal);
 	// 六角形の初期化
 	for (int i = 0; i < kHorizontal; i++) {

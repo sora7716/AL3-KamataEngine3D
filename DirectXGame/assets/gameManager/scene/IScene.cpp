@@ -91,7 +91,6 @@ void IScene::UpdateViewProjection() {
 	else if (input_->GetInstance()->TriggerKey(DIK_R) && input_->GetInstance()->PushKey(DIK_LSHIFT)) {
 		cameraMode_ = (int)CameraMode::kRail;
 	}
-	camera_->DebugText();
 	ImGui::Begin("Camera");
 	ImGui::Text("CameraMode : %d\n0 = rail , 1 = follow", cameraMode_);
 	ImGui::End();

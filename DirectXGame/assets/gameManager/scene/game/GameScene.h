@@ -1,5 +1,8 @@
 #pragma once
 #include "assets/gameManager/scene/IScene.h"
+#include "assets/gameManager/modelCreate/player/PlayerModel.h"
+
+#include "gameObject/character/player/Player.h"
 #include "gameObject/environment/honeycomb/Honeycomb.h"
 
 /// <summary>
@@ -39,4 +42,8 @@ private: // メンバ変数
 	
 	//地面
 	std::unique_ptr<Honeycomb> honeycomb_ = nullptr;
+
+	//プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+	std::shared_ptr<PlayerModel> playerModel_ = nullptr;
 };

@@ -21,7 +21,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="model">モデル</param>
-	void Initialize(ViewProjection* viewProjection, std::shared_ptr<Model> model) override;
+	void Initialize(ViewProjection* viewProjection, std::shared_ptr<Model>&& model) override;
 
 	/// <summary>
 	/// 更新

@@ -2,30 +2,31 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include <memory>
 #include <cassert>
+#include <memory>
+#include <vector>
 
 /// <summary>
-/// 環境のベース
+/// ベースキャラクター
 /// </summary>
-class BaseEnvironment {
-public://メンバ関数
+class BaseCharacter {
+public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	BaseEnvironment() = default;
+	BaseCharacter() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~BaseEnvironment() = default;
+	virtual ~BaseCharacter() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
-	/// <param name="model">モデル</param>
-	virtual void Initialize(ViewProjection* viewProjection, std::shared_ptr<Model>&& model);
+	/// <param name="models">モデル</param>
+	virtual void Initialize(ViewProjection* viewProjection, std::vector<std::shared_ptr<Model>>&& models);
 
 	/// <summary>
 	/// 更新
@@ -36,8 +37,15 @@ public://メンバ関数
 	/// 描画
 	/// </summary>
 	virtual void Draw();
+
+	/// <summary>
+	/// ワールドトランスフォームのゲッター
+	/// </summary>
+	/// <returns></returns>
+	const WorldTransform* GetWorldTransform();
+
 protected: // メンバ変数
-	std::shared_ptr<Model> model_;
 	ViewProjection* viewProjection_;
 	WorldTransform worldTransform_;
+	std::vector<std::shared_ptr<Model>> models_;
 };
