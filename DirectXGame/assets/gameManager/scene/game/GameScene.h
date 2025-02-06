@@ -4,6 +4,7 @@
 
 #include "gameObject/character/player/Player.h"
 #include "gameObject/environment/honeycomb/Honeycomb.h"
+#include "gameObject/environment/skydome/Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -42,7 +43,8 @@ private: // メンバ変数
 	
 	//地面
 	std::unique_ptr<Honeycomb> honeycomb_ = nullptr;
-
+	//スカイドーム
+	std::unique_ptr<Skydome> skydome_ = nullptr;
 	//プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 	std::shared_ptr<PlayerModel> playerModel_ = nullptr;

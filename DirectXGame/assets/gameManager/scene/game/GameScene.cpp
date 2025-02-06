@@ -10,13 +10,15 @@ void GameScene::Initialize(Create* create) {
 	// ハニカム
 	honeycomb_ = std::make_unique<Honeycomb>();
 	honeycomb_->Initialize(&viewProjection_, std::move(create->GetEnvModel()[(int)Create::Env::kGround]));
-
+	//スカイドーム
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(&viewProjection_, std::move(create->GetEnvModel()[(int)Create::Env::kSkaydome]));
 	// プレイヤー
 	player_ = std::make_unique<Player>();                                       // プレイヤーを生成
 	playerModel_ = std::make_shared<PlayerModel>();                             // モデルを生成
 	player_->SetPlayerModel(std::move(playerModel_));                           // モデルを設定
 	player_->Initialize(&viewProjection_, std::move(create->GetPlayerModel())); // プレイヤーの初期化
-	player_->SetViewProjection(&viewProjection_);
+	player_->SetCamera(camera_.get());                                          // カメラのセッター
 }
 
 // 更新
@@ -28,6 +30,8 @@ void GameScene::Update() {
 	IScene::Update();
 	// ハニカム
 	honeycomb_->Update();
+	//スカイドーム
+	skydome_->Update();
 	// プレイヤー
 	player_->Update();
 }
@@ -63,6 +67,8 @@ void GameScene::Draw() {
 
 	// ハニカム
 	honeycomb_->Draw();
+	//スカイドーム
+	skydome_->Draw();
 	// プレイヤー
 	player_->Draw();
 

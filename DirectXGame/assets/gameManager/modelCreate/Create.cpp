@@ -24,6 +24,7 @@ void Create::TitleSceneModel() {
 // ゲームシーンのモデル
 void Create::GameSceneModel() { 
 	envModels_.resize((int)Env::kEnvNum);
+	envModels_[(int)Env::kSkaydome].reset(Model::CreateFromOBJ("skydome", true));
 	envModels_[(int)Env::kGround].reset(Model::CreateFromOBJ("hexagon", true));
 	playerModels_.resize((int)PlayerParts::kPartsNum);
 	playerModels_[(int)PlayerParts::kBody].reset(Model::CreateFromOBJ("body", true));

@@ -1,7 +1,9 @@
 #pragma once
+#include "ImGuiManager.h"
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "assets/gameManager/math/collison/wireFrame/obb/OBB.h"
 #include <cassert>
 #include <memory>
 #include <vector>

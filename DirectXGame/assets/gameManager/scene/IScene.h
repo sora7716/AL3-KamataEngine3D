@@ -108,7 +108,7 @@ protected: // メンバ変数
 	Create* create_ = nullptr;                           // クリエイトクラス
 	bool isFinished_ = false;                            // 終了フラグ
 	uint32_t sceneNo_ = 0;                               // シーンナンバー
-	int cameraMode_ = (int)CameraMode::kRail;            // カメラモード
+	int cameraMode_ = (int)CameraMode::kFollow;            // カメラモード
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
