@@ -1,7 +1,5 @@
 #pragma once
 #include "assets/gameManager/math/collison/wireFrame/Shape.h"
-// 前方宣言
-class ViewProjection;
 
 class OBB : public Shape {
 
@@ -81,6 +79,12 @@ public: // メンバ関数
 	/// <param name="position">位置</param>
 	void SetPosition(const Vector3 position)override;
 
+	/// <summary>
+	/// 親のワールド行列のセッター
+	/// </summary>
+	/// <param name="parentMatWorld">親のワールド行列</param>
+	void SetWorldMatWorld(const Matrix4x4 * parentMatWorld);
+
 private: // メンバ関数
 	/// <summary>
 	/// 頂点を作成
@@ -94,4 +98,5 @@ private:                                              // メンバ変数
 	Vertex2D localVertecies_[Math::kAABB2DNum] = {};  // ローカルの頂点
 	Vertex2D screenVertecies_[Math::kAABB2DNum] = {}; // スクリーンの頂点
 	Matrix4x4 worldViewProjection_ = {};              // ワールドビュープロジェクション
+	Matrix4x4 *parentMatWorld_ = nullptr;//親のワールド行列
 };

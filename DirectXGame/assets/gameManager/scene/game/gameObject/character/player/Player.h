@@ -1,9 +1,11 @@
 #pragma once
 #include "assets/gameManager/scene/game/gameObject/character/BaseCharacter.h"
+#include "assets/gameManager/math/collison/wireFrame/obb/OBB.h"
 
 // 前方宣言
 class PlayerModel;
 class Camera;
+class OBB;
 
 /// <summary>
 /// プレイヤー
@@ -36,6 +38,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// ワイヤーフレームの生成
+	/// </summary>
+	void DrawWireFrame();
 
 	/// <summary>
 	/// プレイヤーモデルのセッター
@@ -71,4 +78,7 @@ private: // メンバ変数
 	float goalAngle_ = 0.0f;   // 目標角度
 	float rotateFrame_ = 0.3f; // 回転するフレーム
 	Camera* camera_ = nullptr; // カメラ
+	//ワイヤーフレーム
+	std::shared_ptr<OBB> wireFrame_ = nullptr;
+	Shape::OBBMaterial obbMaterial_ = {};
 };

@@ -72,6 +72,7 @@ void GameScene::Draw() {
 	// プレイヤー
 	player_->Draw();
 
+	player_->DrawWireFrame();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

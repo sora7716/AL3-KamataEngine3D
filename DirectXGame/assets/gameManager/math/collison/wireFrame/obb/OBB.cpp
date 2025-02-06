@@ -1,8 +1,6 @@
 #include "OBB.h"
+#include "ImGuiManager.h"
 #include <string>
-#ifdef _DEBUG
-#include "imgui.h"
-#endif // _DEBUG
 using namespace std;
 
 // 初期化
@@ -10,6 +8,7 @@ void OBB::Initialize(const OBBMaterial&& obbMaterial, ViewProjection* viewProjec
 	viewProjection_ = viewProjection; // ビュープロジェクションを受け取る
 	// OBBの値を設定
 	obb_ = obbMaterial;
+	PrimitiveDrawer::GetInstance()->SetViewProjection(viewProjection_);
 }
 
 // 更新
@@ -23,10 +22,10 @@ void OBB::Update() {
 	for (int i = 0; i < Math::kAABB2DNum; i++) {
 
 		// スクリーン座標
-		screenVertecies_[i].leftTop = Conversion(obb_.rotation, obb_.center, localVertecies_[i].leftTop, obb_.orientations);
-		screenVertecies_[i].rightTop = Conversion(obb_.rotation, obb_.center, localVertecies_[i].rightTop, obb_.orientations);
-		screenVertecies_[i].leftBottom = Conversion(obb_.rotation, obb_.center, localVertecies_[i].leftBottom, obb_.orientations);
-		screenVertecies_[i].rightBottom = Conversion(obb_.rotation, obb_.center, localVertecies_[i].rightBottom, obb_.orientations);
+		screenVertecies_[i].leftTop = Conversion(obb_.rotation, obb_.center, localVertecies_[i].leftTop, obb_.orientations, parentMatWorld_);
+		screenVertecies_[i].rightTop = Conversion(obb_.rotation, obb_.center, localVertecies_[i].rightTop, obb_.orientations, parentMatWorld_);
+		screenVertecies_[i].leftBottom = Conversion(obb_.rotation, obb_.center, localVertecies_[i].leftBottom, obb_.orientations, parentMatWorld_);
+		screenVertecies_[i].rightBottom = Conversion(obb_.rotation, obb_.center, localVertecies_[i].rightBottom, obb_.orientations, parentMatWorld_);
 	}
 	// 正規化しておく
 	for (int i = 0; i < 3; i++) {
@@ -84,14 +83,22 @@ Shape::AABB OBB::GetAABB() {
 	};
 }
 
-//スケールのセッター
+// スケールのセッター
 void OBB::SetScale(const Vector3 scale) { obb_.size = scale; }
 
-//回転のゲッター
+// 回転のゲッター
 void OBB::SetRotate(const Vector3 rotate) { obb_.rotation = rotate; }
 
-//現在位置のセッター
+// 現在位置のセッター
 void OBB::SetPosition(const Vector3 position) { obb_.center = position; }
+
+// 親のワールド行列のセッター
+void OBB::SetWorldMatWorld(const Matrix4x4* parentMatWorld) {
+	if (parentMatWorld_ == nullptr) {
+		parentMatWorld_ = new Matrix4x4();
+	}
+	*parentMatWorld_ = *parentMatWorld;
+}
 
 // 頂点を作成
 void OBB::MakeVertecies() {

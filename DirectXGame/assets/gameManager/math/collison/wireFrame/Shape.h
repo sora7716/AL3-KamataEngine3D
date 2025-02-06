@@ -25,7 +25,7 @@ public: // 構造体
 	} HexagonMaterial;
 
 	// OBBの素材
-	typedef struct ObbMaterial {
+	typedef struct OBBMaterial {
 		Vector3 size = {1.0f, 1.0f, 1.0f}; // 座標軸方向の長さの半分。中心から面までの距離 scale
 		Vector3 rotation = {};             // 回転
 		Vector3 center;                    // 中心 translation
@@ -124,6 +124,7 @@ public: // メンバ関数
 	/// <returns>変換</returns>
 	Vector3 Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex);
 
+
 	/// <summary>
 	/// OBB用の変換
 	/// </summary>
@@ -131,8 +132,9 @@ public: // メンバ関数
 	/// <param name="translate">移動</param>
 	/// <param name="kLocalVertex">ローカル頂点</param>
 	/// <param name="orientations">法線</param>
+	/// <param name="parentoMatWorld">親のワールド座標</param>
 	/// <returns>変換</returns>
-	Vector3 Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations);
+	Vector3 Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations, const Matrix4x4* parentoMatWorld = nullptr);
 
 	/// <summary>
 	/// OBB用の変換
@@ -205,9 +207,9 @@ public: // メンバ関数
 	// 代入演算を禁止する
 	const Shape operator=(const Shape& shape) = delete;
 
-protected:                                                // メンバ変数
-	Matrix4x4 worldMatrix_;                               // ワールド行列
-	ViewProjection* viewProjection_;                      // ビュープロジェクション行列
-	Vector4 color_ = {1.0f,1.0f,1.0f,1.0f};               // 色
-	bool isHit_ = false;                                  // 衝突判定
+protected:                                     // メンバ変数
+	Matrix4x4 worldMatrix_;                    // ワールド行列
+	ViewProjection* viewProjection_;           // ビュープロジェクション行列
+	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f}; // 色
+	bool isHit_ = false;                       // 衝突判定
 };

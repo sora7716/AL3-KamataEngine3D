@@ -17,9 +17,12 @@ Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const
 }
 
 // OBB用ローカルの頂点を変換
-Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations) {
+Vector3 Shape::Conversion(const Vector3& rotate, const Vector3& translate, const Vector3& kLocalVertex, Vector3* orientations, const Matrix4x4* parentoMatWorld) {
 	MakeOBBRotateMatrix(orientations, rotate);                  // OBB用の回転行列を抽出
 	worldMatrix_ = MakeOBBWorldMatrix(orientations, translate); // OBB用のワールド行列を作成
+	if (parentoMatWorld) {
+		worldMatrix_ = *parentoMatWorld * worldMatrix_;
+	}
 	// ローカルの頂点とくっつける
 	return Math::Transform(kLocalVertex, worldMatrix_);
 }
