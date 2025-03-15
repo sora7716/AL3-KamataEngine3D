@@ -1,0 +1,66 @@
+#pragma once
+#include "ViewProjection.h"
+#include "Sprite.h"
+#include <memory>
+#include "assets/math/Math.h"
+
+//前方宣言
+class WorldTransfrom;
+
+/// <summary>
+/// プレイヤーの体力を表示する
+/// </summary>
+class LifeBar {
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	LifeBar() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~LifeBar() {}
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(const std::vector<uint32_t>&& textures);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 体力を描画する
+	/// </summary>
+	void Draw();
+
+	void AdjustHP();
+
+	void TookDamage();
+
+private:
+	enum class Label {
+		kDamage,
+		kHealth,
+		kBorder,
+		kNumOfLabels
+	};
+
+	std::vector<std::unique_ptr<Sprite>> sprites_;
+	std::vector<uint32_t> textureHandle_;
+
+	const static int width_ = 480;
+	const static int height_ = 64;
+
+	bool isDamaged_ = false;
+
+	float currentHP_;
+	float targetHP_;
+	float maxHP_;
+	float dmgTimer_;
+	static inline const float kDuration_ = deltaTime * 1/2;
+};
+
